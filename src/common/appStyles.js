@@ -126,7 +126,7 @@ export const textStyle = StyleSheet.create(
     gpaDisplay:
     {
         color: colors.primaryTextColor,
-        fontSize: 172,
+        fontSize: 208,
         fontFamily: 'Lato-Black'
     },
     tileTitle:

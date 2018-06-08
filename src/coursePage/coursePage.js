@@ -22,6 +22,14 @@ var assessments = [
     {name: "Assignment 5", grade: 65}
 ]
 
+var courses = [
+    {name: "COMP 1405", average: 90},
+    {name: "MATH 1007", average: 78},
+    {name: "MATH 1004", average: 85},
+    {name: "CGSC 1001", average: 67},
+    {name: "MUSI 1701", average: 72}
+]
+
 export default class CoursePage extends Component
 {
     render()
@@ -32,11 +40,11 @@ export default class CoursePage extends Component
                     leftButton = 
                     {
                         <ActionButton
-                            type = "chevron-left"
+                            type = "menu"
                             size = {30}
                         />
                     }
-                    title = "COMP 1405"
+                    title = "Fall 2017"
                     rightButton = 
                     {
                         <ActionButton
@@ -46,20 +54,16 @@ export default class CoursePage extends Component
                     }
                 />
                 <ScrollView style = {containerStyle.page}>
-                    <Tile title = "Average" 
+                    <Tile title = "Semester Average" 
                         content = 
                         {
-                            // <Text style = {textStyle.gpaDisplay}>9.6</Text>
-                            // <AssessmentList assessments = {assessments}/>
-                            <ProgressCircle
-                                diameter = {275}
-                                borderWidth = {15}
-                                ringColor = {colors.accentColor}
-                                emptyRingColor = 'rgb(150, 150, 150)'
-                                backgroundColor = {colors.spaceColor}
-                                percentage = {78}
-                                animationDelay = {0}
-                            />
+                            <Text style = {textStyle.gpaDisplay}>9.6</Text>
+                        }
+                    />
+                    <Tile title = "Courses" 
+                        content = 
+                        {
+                            <CourseList courses = {courses}/>
                         }
                     />
                     <View style = {{height: 10}}/>

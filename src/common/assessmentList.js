@@ -24,11 +24,11 @@ export default class AssessmentList extends Component
         this.state = {length: 0};
     }
 
-    createAssessment(assessmentTitle, grade, id)
+    createAssessment(assessmentTitle, grade, animationID)
     {
         return(
             <View 
-                key = {id}
+                key = {animationID}
                 style = {containerStyle.assessmentCard}
             >
                 <View style = {containerStyle.assessmentCardTitle}>
@@ -38,7 +38,7 @@ export default class AssessmentList extends Component
                     <View style = {containerStyle.assessmentGradeBar}>
                         <ProgressBar 
                             percentage = {grade}
-                            listOrder = {id}
+                            listOrder = {animationID}
                             animationDelay = {500}
                         />
                     </View>
@@ -57,7 +57,7 @@ export default class AssessmentList extends Component
         for (var i in this.props.assessments)
         {
             assessmentComponents.push(
-                this.createAssessment  (this.props.assessments[i].name, this.props.assessments[i].grade, i)
+                this.createAssessment(this.props.assessments[i].name, this.props.assessments[i].grade, i)
             );
         }
 
