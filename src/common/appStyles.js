@@ -148,7 +148,7 @@ export const textStyle = StyleSheet.create(
     gpaDisplay:
     {
         color: colors.primaryTextColor,
-        fontSize: 208,
+        fontSize: 187,
         fontFamily: 'Lato-Black'
     },
     textFieldText:

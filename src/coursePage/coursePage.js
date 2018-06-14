@@ -22,14 +22,6 @@ var assessments = [
     {name: "Assignment 5", grade: 65}
 ]
 
-var courses = [
-    {name: "COMP 1405", average: 90},
-    {name: "MATH 1007", average: 78},
-    {name: "MATH 1004", average: 85},
-    {name: "CGSC 1001", average: 67},
-    {name: "MUSI 1701", average: 72}
-]
-
 export default class CoursePage extends Component
 {
     render()
@@ -40,12 +32,12 @@ export default class CoursePage extends Component
                     leftButton = 
                     {
                         <ActionButton
-                            type = "menu"
+                            type = "arrow-back"
                             size = {30}
                             color = {colors.titleAndIconColor}
                         />
                     }
-                    title = "Fall 2017"
+                    title = "MATH 1007"
                     rightButton = 
                     {
                         <ActionButton
@@ -56,18 +48,6 @@ export default class CoursePage extends Component
                     }
                 />
                 <ScrollView style = {containerStyle.tileList}>
-                    <Tile title = "Semester Average" 
-                        content = 
-                        {
-                            <Text style = {textStyle.gpaDisplay}>9.6</Text>
-                        }
-                    />
-                    <Tile title = "Courses" 
-                        content = 
-                        {
-                            <CourseList courses = {courses}/>
-                        }
-                    />
                     <Tile title = "Average" 
                         content = 
                         {
@@ -77,7 +57,6 @@ export default class CoursePage extends Component
                                 diameter = {275}
                                 borderWidth = {15}
                                 ringColor = {colors.accentColor}
-                                // emptyRingColor = 'rgb(150, 150, 150)'
                                 emptyRingColor = {colors.darkPrimaryColor}
                                 backgroundColor = {colors.spaceColor}
                                 percentage = {78}
@@ -108,51 +87,3 @@ export default class CoursePage extends Component
         );
     }
 }
-// TIles for the Semester Page
-{/* <Tile title = "Semester Average" 
-    content = 
-    {
-        <Text style = {textStyle.gpaDisplay}>9.6</Text>
-    }
-/>
-<Tile title = "Courses" 
-    content = 
-    {
-        <CourseList courses = {courses}/>
-    }
-/> */}
-
-// Tiles for the course page
-{/* <Tile title = "Average" 
-    content = 
-    {
-        // <Text style = {textStyle.gpaDisplay}>9.6</Text>
-        // <AssessmentList assessments = {assessments}/>
-        <ProgressCircle
-            diameter = {275}
-            borderWidth = {15}
-            ringColor = {colors.accentColor}
-            emptyRingColor = 'rgb(150, 150, 150)'
-            backgroundColor = {colors.spaceColor}
-            percentage = {78}
-            animationDelay = {0}
-        />
-    }
-/>
-<Tile
-    title = "Insights"
-    content = 
-    {
-        <Text style = {{paddingHorizontal: 10, fontSize: 16, fontFamily: 'Lato-Italic', color: colors.secondaryTextColor, textAlign: 'center'}}>
-            Here I'll include information to do with the goals that the user may have set, or other relevant calculated information.
-            {"\n"}~{"\n"}The above average isn't actually the calculated average, it's just a placeholder.
-        </Text>
-    }
-/>
-<Tile
-    title = "Overview"
-    content = 
-    {
-        <AssessmentList assessments = {assessments}/>
-    }
-/> */}

@@ -22,7 +22,6 @@ export default class CourseList extends Component
 {
     createCourseCard(courseName, grade, animationID)
     {
-        console.log(animationID * 1000)
         return(
             <TouchableNativeFeedback 
                 key = {courseName}
@@ -37,7 +36,7 @@ export default class CourseList extends Component
                         emptyRingColor = {colors.darkPrimaryColor}
                         backgroundColor = {colors.spaceColor}
                         percentage = {grade}
-                        animationDelay = {500 + (parseInt(animationID) * 1500)}
+                        animationDelay = {500 + (parseInt(animationID) * 750)}
                     />
                     <View style = {styles.courseName}>
                         <Text 

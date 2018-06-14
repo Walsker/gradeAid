@@ -6,7 +6,8 @@ import {StatusBar, Text, View} from 'react-native';
 import {containerStyle} from 'easyGrades/src/common/appStyles';
 import AndroidBar from 'easyGrades/src/common/androidBar';
 import {CoursePage} from 'easyGrades/src/coursePage';
-import {AddCoursePage} from 'easyGrades/src/addCoursePage';
+import {SemesterPage} from 'easyGrades/src/semesterPage';
+//import {AddCoursePage} from 'easyGrades/src/addCoursePage';
 
 export default class App extends Component
 {
@@ -20,7 +21,7 @@ export default class App extends Component
 					animated
 					backgroundColor = "rgba(0, 0, 0, 0.2)"
 				/>
-				<AddCoursePage/>
+				<CoursePage/>
 			</View>
 		);
 	}
