@@ -64,17 +64,32 @@ export const containerStyle = StyleSheet.create(
     },
     assessmentList:
     {
-        // alignItems: 'center',
         alignSelf: 'stretch',
         marginVertical: 5
     },
-    page: // This is essentially a list of tiles
+    buttonBox:
+    {
+        margin: 10,
+        flexDirection: 'row',
+        justifyContent: 'space-evenly'
+    },
+    form:
+    {
+        flex: 1,
+        margin: 20
+    },
+    page:
+    {
+        flex: 1,
+        backgroundColor: colors.spaceColor,
+        padding: 5
+    },
+    section: {marginBottom: 20},
+    tileList: // This is essentially a list of tiles
     {
         flex: 1,
         backgroundColor: colors.darkSpaceColor,
         paddingVertical: 5
-        // alignItems: 'center',
-        // justifyContent: 'flex-start'
     },
     tile:
     {
@@ -111,6 +126,13 @@ export const textStyle = StyleSheet.create(
         fontSize: 24,
         fontFamily: 'Lato-Bold'
     },
+    addCourseText:
+    {
+        color: colors.primaryTextColor,
+        fontSize: 22,
+        fontFamily:'Lato-Regular',
+        textAlign: 'center'
+    },
     assessmentTitle:
     {
         color: colors.primaryTextColor,
@@ -119,7 +141,7 @@ export const textStyle = StyleSheet.create(
     },
     assessmentGrade:
     {
-        color: colors.secondaryTextColor,
+        color: colors.primaryTextColor,
         fontSize: 22,
         fontFamily: 'Lato-Bold'
     },
@@ -128,6 +150,19 @@ export const textStyle = StyleSheet.create(
         color: colors.primaryTextColor,
         fontSize: 208,
         fontFamily: 'Lato-Black'
+    },
+    textFieldText:
+    {
+        fontSize: 24,
+        fontFamily: 'Lato-Regular',
+        color: colors.primaryTextColor
+    },
+    textFieldLabel:
+    {
+        fontSize: 14,
+        fontFamily: 'Lato-Regular',
+        color: colors.primaryTextColor,
+        paddingLeft: 3.5
     },
     tileTitle:
     {

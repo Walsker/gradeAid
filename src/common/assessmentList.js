@@ -10,7 +10,7 @@
 
 // React Native imports
 import React, {Component} from 'react';
-import {FlatList, Text, View} from 'react-native';
+import {Text, View} from 'react-native';
 
 // Custom Imports
 import {containerStyle, textStyle} from './appStyles';

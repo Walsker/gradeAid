@@ -7,8 +7,8 @@ import {colors, containerStyle, textStyle} from 'easyGrades/src/common/appStyles
 import AssessmentList from 'easyGrades/src/common/assessmentList';
 import ProgressCircle from 'easyGrades/src/common/progressCircle';
 import ActionBar from 'easyGrades/src/common/actionBar';
-import Tile from 'easyGrades/src/common/tile';
 import ActionButton from 'easyGrades/src/common/actionButton';
+import Tile from 'easyGrades/src/common/tile';
 import CourseList from 'easyGrades/src/common/courseList';
 
 var assessments = [
@@ -42,6 +42,7 @@ export default class CoursePage extends Component
                         <ActionButton
                             type = "menu"
                             size = {30}
+                            color = {colors.titleAndIconColor}
                         />
                     }
                     title = "Fall 2017"
@@ -50,10 +51,11 @@ export default class CoursePage extends Component
                         <ActionButton
                             type = "more-vert"
                             size = {30}
+                            color = {colors.titleAndIconColor}
                         />
                     }
                 />
-                <ScrollView style = {containerStyle.page}>
+                <ScrollView style = {containerStyle.tileList}>
                     <Tile title = "Semester Average" 
                         content = 
                         {
@@ -66,14 +68,61 @@ export default class CoursePage extends Component
                             <CourseList courses = {courses}/>
                         }
                     />
+                    <Tile title = "Average" 
+                        content = 
+                        {
+                            // <Text style = {textStyle.gpaDisplay}>9.6</Text>
+                            // <AssessmentList assessments = {assessments}/>
+                            <ProgressCircle
+                                diameter = {275}
+                                borderWidth = {15}
+                                ringColor = {colors.accentColor}
+                                // emptyRingColor = 'rgb(150, 150, 150)'
+                                emptyRingColor = {colors.darkPrimaryColor}
+                                backgroundColor = {colors.spaceColor}
+                                percentage = {78}
+                                animationDelay = {0}
+                            />
+                        }
+                    />
+                    <Tile
+                        title = "Insights"
+                        content = 
+                        {
+                            <Text style = {{paddingHorizontal: 10, fontSize: 16, fontFamily: 'Lato-Italic', color: colors.secondaryTextColor, textAlign: 'center'}}>
+                                Here I'll include information to do with the goals that the user may have set, or other relevant calculated information.
+                                {"\n"}~{"\n"}The above average isn't actually the calculated average, it's just a placeholder.
+                            </Text>
+                        }
+                    />
+                    <Tile
+                        title = "Overview"
+                        content = 
+                        {
+                            <AssessmentList assessments = {assessments}/>
+                        }
+                    />
                     <View style = {{height: 10}}/>
                 </ScrollView>
             </View>
         );
     }
 }
+// TIles for the Semester Page
+{/* <Tile title = "Semester Average" 
+    content = 
+    {
+        <Text style = {textStyle.gpaDisplay}>9.6</Text>
+    }
+/>
+<Tile title = "Courses" 
+    content = 
+    {
+        <CourseList courses = {courses}/>
+    }
+/> */}
 
-
+// Tiles for the course page
 {/* <Tile title = "Average" 
     content = 
     {
