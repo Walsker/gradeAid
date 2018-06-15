@@ -12,6 +12,10 @@ import Tile from 'easyGrades/src/common/tile';
 import CourseList from 'easyGrades/src/common/courseList';
 import CoursePage from 'easyGrades/src/coursePage/coursePage';
 
+// ----------------------------------------------------------------------------------
+// MOCK REDUX STATE
+// ----------------------------------------------------------------------------------
+
 var assessments = [
     {name: "Assignment 1", grade: 80},
     {name: "Assignment 2", grade: 55},
@@ -30,6 +34,11 @@ var courses = [
     {name: "CGSC 1001", average: 67, assessments},
     {name: "MUSI 1701", average: 72, assessments}
 ]
+
+var currentGPA = 9.6;
+var maxGPA = 12;
+
+// ----------------------------------------------------------------------------------
 
 class SemesterScreen extends Component
 {
@@ -60,7 +69,12 @@ class SemesterScreen extends Component
                     <Tile title = "Semester Average" 
                         content = 
                         {
-                            <Text style = {textStyle.gpaDisplay}>9.6</Text>
+                            <View>
+                                <View style = {{marginVertical: -25}}>
+                                    <Text style = {textStyle.gpaDisplay}>{currentGPA}</Text>
+                                </View>
+                                <Text style = {textStyle.gpaMax}>out of {maxGPA}</Text>
+                            </View>
                         }
                     />
                     <Tile title = "Courses" 
