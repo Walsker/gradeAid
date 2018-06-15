@@ -2,24 +2,36 @@
 import React, {Component} from 'react';
 import {ScrollView, Text, View} from 'react-native';
 
+import {createStackNavigator} from 'react-navigation';
+
 // Custom imports
 import {colors, containerStyle, textStyle} from 'easyGrades/src/common/appStyles';
-import AssessmentList from 'easyGrades/src/common/assessmentList';
-import ProgressCircle from 'easyGrades/src/common/progressCircle';
 import ActionBar from 'easyGrades/src/common/actionBar';
 import ActionButton from 'easyGrades/src/common/actionButton';
 import Tile from 'easyGrades/src/common/tile';
 import CourseList from 'easyGrades/src/common/courseList';
+import CoursePage from 'easyGrades/src/coursePage/coursePage';
 
-var courses = [
-    {name: "COMP 1405", average: 90},
-    {name: "MATH 1007", average: 78},
-    {name: "MATH 1004", average: 85},
-    {name: "CGSC 1001", average: 67},
-    {name: "MUSI 1701", average: 72}
+var assessments = [
+    {name: "Assignment 1", grade: 80},
+    {name: "Assignment 2", grade: 55},
+    {name: "Midterm 1", grade: 92.2},
+    {name: "Assignment 3", grade: 56},
+    {name: "Lab 1", grade: 66},
+    {name: "Assignment 4", grade: 100},
+    {name: "Midterm 2", grade: 70},
+    {name: "Assignment 5", grade: 65}
 ]
 
-export default class SemesterPage extends Component
+var courses = [
+    {name: "COMP 1405", average: 90, assessments},
+    {name: "MATH 1007", average: 78, assessments},
+    {name: "MATH 1004", average: 85, assessments},
+    {name: "CGSC 1001", average: 67, assessments},
+    {name: "MUSI 1701", average: 72, assessments}
+]
+
+class SemesterScreen extends Component
 {
     render()
     {
@@ -54,7 +66,10 @@ export default class SemesterPage extends Component
                     <Tile title = "Courses" 
                         content = 
                         {
-                            <CourseList courses = {courses}/>
+                            <CourseList
+                                courses = {courses}
+                                navProp = {this.props.navigation}
+                            />
                         }
                     />
                     <View style = {{height: 10}}/>
@@ -63,3 +78,23 @@ export default class SemesterPage extends Component
         );
     }
 }
+
+// TODO: Turn this into an action when you add redux
+const generateRouteConfigs = (courseList) =>
+{
+    var output = {'Semester': {screen: SemesterScreen}}
+
+    for (i in courses)
+    {
+        output[courseList[i].name] = {screen: CoursePage}
+    }
+
+    console.log(output);
+    return output;
+}
+
+export default SemesterPage = createStackNavigator(generateRouteConfigs(courses),
+{
+    headerMode: 'none',
+    initialRouteName: 'Semester'
+});

@@ -9,7 +9,7 @@ export default class ActionButton extends Component
     {
         return(
             <TouchableOpacity 
-                onPress = {() => {this.props.action}}
+                onPress = {() => this.props.action()}
             >
                 <View style = {styles.button}>
                     <Icon

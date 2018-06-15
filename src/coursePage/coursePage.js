@@ -9,23 +9,13 @@ import ProgressCircle from 'easyGrades/src/common/progressCircle';
 import ActionBar from 'easyGrades/src/common/actionBar';
 import ActionButton from 'easyGrades/src/common/actionButton';
 import Tile from 'easyGrades/src/common/tile';
-import CourseList from 'easyGrades/src/common/courseList';
-
-var assessments = [
-    {name: "Assignment 1", grade: 80},
-    {name: "Assignment 2", grade: 55},
-    {name: "Midterm 1", grade: 92.2},
-    {name: "Assignment 3", grade: 56},
-    {name: "Lab 1", grade: 66},
-    {name: "Assignment 4", grade: 100},
-    {name: "Midterm 2", grade: 70},
-    {name: "Assignment 5", grade: 65}
-]
 
 export default class CoursePage extends Component
 {
     render()
     {
+        var course = this.props.navigation.getParam('course', {name: 'NULL 0000', average: 0, assessments: {}});
+
         return(
             <View style = {containerStyle.default}>
                 <ActionBar
@@ -35,9 +25,10 @@ export default class CoursePage extends Component
                             type = "arrow-back"
                             size = {30}
                             color = {colors.titleAndIconColor}
+                            action = {this.props.navigation.goBack}
                         />
                     }
-                    title = "MATH 1007"
+                    title = {course.name}
                     rightButton = 
                     {
                         <ActionButton
@@ -51,20 +42,18 @@ export default class CoursePage extends Component
                     <Tile title = "Average" 
                         content = 
                         {
-                            // <Text style = {textStyle.gpaDisplay}>9.6</Text>
-                            // <AssessmentList assessments = {assessments}/>
                             <ProgressCircle
                                 diameter = {275}
                                 borderWidth = {15}
                                 ringColor = {colors.accentColor}
                                 emptyRingColor = {colors.darkPrimaryColor}
                                 backgroundColor = {colors.spaceColor}
-                                percentage = {78}
+                                percentage = {course.average}
                                 animationDelay = {0}
                             />
                         }
                     />
-                    <Tile
+                    {/* <Tile
                         title = "Insights"
                         content = 
                         {
@@ -73,12 +62,12 @@ export default class CoursePage extends Component
                                 {"\n"}~{"\n"}The above average isn't actually the calculated average, it's just a placeholder.
                             </Text>
                         }
-                    />
+                    /> */}
                     <Tile
                         title = "Overview"
                         content = 
                         {
-                            <AssessmentList assessments = {assessments}/>
+                            <AssessmentList assessments = {course.assessments}/>
                         }
                     />
                     <View style = {{height: 10}}/>

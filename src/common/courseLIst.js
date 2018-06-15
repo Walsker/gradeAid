@@ -20,13 +20,15 @@ import ProgressCircle from './progressCircle';
 
 export default class CourseList extends Component
 {
-    createCourseCard(courseName, grade, animationID)
+    createCourseCard(course, animationID)
     {
         return(
             <TouchableNativeFeedback 
-                key = {courseName}
-                onPress = {() => {}}
+                key = {course.name}
                 background = {TouchableNativeFeedback.Ripple(colors.lightPrimaryColor, false)}
+                onPress = {() => {
+                    this.props.navProp.navigate(course.name, {course})
+                }}
             >
                 <View style = {styles.courseCard}>
                     <ProgressCircle
@@ -35,7 +37,7 @@ export default class CourseList extends Component
                         ringColor = {colors.accentColor}
                         emptyRingColor = {colors.darkPrimaryColor}
                         backgroundColor = {colors.spaceColor}
-                        percentage = {grade}
+                        percentage = {course.average}
                         animationDelay = {500 + (parseInt(animationID) * 750)}
                     />
                     <View style = {styles.courseName}>
@@ -43,7 +45,7 @@ export default class CourseList extends Component
                             style = {styles.courseNameText}
                             numberOfLines = {2}
                         >
-                            {courseName}
+                            {course.name}
                         </Text>
                     </View>
                 </View>
@@ -53,15 +55,15 @@ export default class CourseList extends Component
 
     render()
     {
-        var courses = [];
+        var courseTiles = [];
         var animationIDs = 0;
         var rowCounter = 0;
         var tilesPerRow = 3;
 
         for (var i in this.props.courses)
         {
-            courses.push(
-                this.createCourseCard(this.props.courses[i].name, this.props.courses[i].average, animationIDs)
+            courseTiles.push(
+                this.createCourseCard(this.props.courses[i], animationIDs)
             );
 
             rowCounter++;
@@ -73,7 +75,7 @@ export default class CourseList extends Component
         }
         return(
             <View style = {styles.list}>
-                {courses}
+                {courseTiles}
             </View>
         );
     }
