@@ -14,8 +14,8 @@ import {StyleSheet, Text, TouchableNativeFeedback, View} from 'react-native';
 // TouchableNativeFeedback only works with Android
 
 // Custom imports
-import {colors} from './appStyles';
-import ProgressCircle from './progressCircle';
+import {colors} from 'easyGrades/src/common/appStyles';
+import ProgressCircle from 'easyGrades/src/common/progressCircle';
 
 export default class CourseList extends Component
 {

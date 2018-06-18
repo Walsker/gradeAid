@@ -3,7 +3,7 @@ import React, {Component} from 'react';
 import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 
 // Custom imports
-import {colors} from './appStyles';
+import {colors} from 'easyGrades/src/common/appStyles';
 
 export default class CheckList extends Component
 {

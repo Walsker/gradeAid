@@ -2,13 +2,14 @@
 import React, {Component} from 'react';
 import {ScrollView, Text, View} from 'react-native';
 
-import {createStackNavigator} from 'react-navigation';
+// Redux imports
+import {connect} from 'react-redux';
 
 // Custom imports
 import {colors, containerStyle, textStyle} from 'easyGrades/src/common/appStyles';
 import ActionBar from 'easyGrades/src/common/actionBar';
 import IconButton from 'easyGrades/src/common/iconButton';
-import CourseList from 'easyGrades/src/common/courseList';
+import CourseList from './components/courseList';
 import CoursePage from 'easyGrades/src/coursePage/coursePage';
 import Tile from 'easyGrades/src/common/tile';
 
@@ -40,7 +41,7 @@ var maxGPA = 12;
 
 // ----------------------------------------------------------------------------------
 
-export default class SemesterPage extends Component
+class SemesterPage extends Component
 {
     newCourse()
     {
@@ -53,12 +54,6 @@ export default class SemesterPage extends Component
     
     render()
     {
-        const nullCourses = [{name: 'NULL 0000', average: 0, assessments: {}}];
-        const nullSemester = {name: 'Fall 1970', nullCourses, gpa: 0.0};
-
-        console.log(this.props.navigation.state)
-        var semester = this.props.navigation.getParam('semester', nullSemester);
-
         return(
             <View style = {containerStyle.default}>
                 <ActionBar
@@ -71,7 +66,7 @@ export default class SemesterPage extends Component
                             action = {this.props.navigation.openDrawer}
                         />
                     }
-                    title = {semester.name}
+                    title = {this.props.semester.name}
                     rightButton = 
                     {
                         <IconButton
@@ -88,7 +83,7 @@ export default class SemesterPage extends Component
                         {
                             <View>
                                 <View style = {{marginVertical: -25}}>
-                                    <Text style = {textStyle.gpaDisplay}>{currentGPA}</Text>
+                                    <Text style = {textStyle.gpaDisplay}>{this.props.semester.gpa}</Text>
                                 </View>
                                 <Text style = {textStyle.gpaMax}>out of {maxGPA}.0</Text>
                             </View>
@@ -107,7 +102,7 @@ export default class SemesterPage extends Component
                         content = 
                         {
                             <CourseList
-                                courses = {courses}
+                                courses = {this.props.semester.courses}
                                 navProp = {this.props.navigation}
                             />
                         }
@@ -118,3 +113,28 @@ export default class SemesterPage extends Component
         );
     }
 }
+
+const mapStateToProps = (state, regularProps) =>
+{   
+    const nullCourses = [{name: 'NULL 0000', average: 0, assessments: {}}];
+    const nullSemester = {name: 'Fall 1970', nullCourses, gpa: 0.0};
+    
+    var semesterName = regularProps.navigation.state.routeName;
+    var semesterObject = nullSemester;
+
+    for (i in state.semesters)
+    {
+        if (state.semesters[i].name == semesterName)
+        {
+            semesterObject = state.semesters[i];
+            break;
+        }
+    }
+
+    return {
+        maxGPA: state.maxGPA,
+        semester: semesterObject
+    };
+}
+
+export default connect(mapStateToProps)(SemesterPage);

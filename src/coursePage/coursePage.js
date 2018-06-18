@@ -4,7 +4,7 @@ import {ScrollView, Text, View} from 'react-native';
 
 // Custom imports
 import {colors, containerStyle, textStyle} from 'easyGrades/src/common/appStyles';
-import AssessmentList from 'easyGrades/src/common/assessmentList';
+import AssessmentList from './components/assessmentList';
 import ProgressCircle from 'easyGrades/src/common/progressCircle';
 import ActionBar from 'easyGrades/src/common/actionBar';
 import IconButton from 'easyGrades/src/common/iconButton';

@@ -13,7 +13,7 @@ import React, {Component} from 'react';
 import {Text, View} from 'react-native';
 
 // Custom Imports
-import {containerStyle, textStyle} from './appStyles';
+import {containerStyle, textStyle} from 'easyGrades/src/common/appStyles';
 import ProgressBar from 'easyGrades/src/common/progressBar';
 
 export default class AssessmentList extends Component

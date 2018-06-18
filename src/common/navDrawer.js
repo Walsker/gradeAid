@@ -2,7 +2,10 @@
 import React, {Component} from 'react';
 import {Button, Text, TouchableHighlight, View} from 'react-native';
 
-export default class NavDrawer extends Component
+// Redux imports
+import {connect} from 'react-redux';
+
+class NavDrawer extends Component
 {
     createSemesterLink(semester)
     {
@@ -27,3 +30,13 @@ export default class NavDrawer extends Component
         );
     }
 }
+
+const mapStateToProps = (state, regularProps) =>
+{
+    return {
+        ...regularProps,
+        semesters: state.semesters
+    };
+}
+
+export default connect(mapStateToProps)(NavDrawer);

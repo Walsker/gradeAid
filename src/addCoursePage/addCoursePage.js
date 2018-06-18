@@ -5,7 +5,7 @@ import {Button, StyleSheet, Text, TextInput, View} from 'react-native';
 // Custom imports
 import {colors, containerStyle, textStyle} from 'easyGrades/src/common/appStyles';
 import IconButton from 'easyGrades/src/common/iconButton';
-import CheckList from 'easyGrades/src/common/checkList';
+import CheckList from './components/checkList';
 
 export default class AddCoursePage extends Component
 {
