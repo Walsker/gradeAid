@@ -104,6 +104,7 @@ export const containerStyle = StyleSheet.create(
     tileTitle:
     {
         padding: 5,
+        flexDirection: 'row'
     },
     tileContent:
     {

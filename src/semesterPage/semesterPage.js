@@ -7,10 +7,10 @@ import {createStackNavigator} from 'react-navigation';
 // Custom imports
 import {colors, containerStyle, textStyle} from 'easyGrades/src/common/appStyles';
 import ActionBar from 'easyGrades/src/common/actionBar';
-import ActionButton from 'easyGrades/src/common/actionButton';
-import Tile from 'easyGrades/src/common/tile';
+import IconButton from 'easyGrades/src/common/iconButton';
 import CourseList from 'easyGrades/src/common/courseList';
 import CoursePage from 'easyGrades/src/coursePage/coursePage';
+import Tile from 'easyGrades/src/common/tile';
 
 // ----------------------------------------------------------------------------------
 // MOCK REDUX STATE
@@ -40,28 +40,45 @@ var maxGPA = 12;
 
 // ----------------------------------------------------------------------------------
 
-class SemesterScreen extends Component
+export default class SemesterPage extends Component
 {
+    newCourse()
+    {
+        alert("New Course");
+    }
+    editSemester()
+    {
+        alert("Edit Semester");
+    }
+    
     render()
     {
+        const nullCourses = [{name: 'NULL 0000', average: 0, assessments: {}}];
+        const nullSemester = {name: 'Fall 1970', nullCourses, gpa: 0.0};
+
+        console.log(this.props.navigation.state)
+        var semester = this.props.navigation.getParam('semester', nullSemester);
+
         return(
             <View style = {containerStyle.default}>
                 <ActionBar
                     leftButton = 
                     {
-                        <ActionButton
-                            type = "menu"
+                        <IconButton
+                            type = 'menu'
                             size = {30}
                             color = {colors.titleAndIconColor}
+                            action = {this.props.navigation.openDrawer}
                         />
                     }
-                    title = "Fall 2017"
+                    title = {semester.name}
                     rightButton = 
                     {
-                        <ActionButton
-                            type = "more-vert"
+                        <IconButton
+                            type = 'add'
                             size = {30}
                             color = {colors.titleAndIconColor}
+                            action = {this.newCourse}
                         />
                     }
                 />
@@ -73,11 +90,20 @@ class SemesterScreen extends Component
                                 <View style = {{marginVertical: -25}}>
                                     <Text style = {textStyle.gpaDisplay}>{currentGPA}</Text>
                                 </View>
-                                <Text style = {textStyle.gpaMax}>out of {maxGPA}</Text>
+                                <Text style = {textStyle.gpaMax}>out of {maxGPA}.0</Text>
                             </View>
                         }
                     />
-                    <Tile title = "Courses" 
+                    <Tile title = "Courses"
+                        button = 
+                        {
+                            <IconButton
+                                type = 'edit'
+                                size = {25}
+                                color = {colors.primaryTextColor}
+                                action = {this.editSemester}
+                            />
+                        }
                         content = 
                         {
                             <CourseList
@@ -92,23 +118,3 @@ class SemesterScreen extends Component
         );
     }
 }
-
-// TODO: Turn this into an action when you add redux
-const generateRouteConfigs = (courseList) =>
-{
-    var output = {'Semester': {screen: SemesterScreen}}
-
-    for (i in courses)
-    {
-        output[courseList[i].name] = {screen: CoursePage}
-    }
-
-    console.log(output);
-    return output;
-}
-
-export default SemesterPage = createStackNavigator(generateRouteConfigs(courses),
-{
-    headerMode: 'none',
-    initialRouteName: 'Semester'
-});

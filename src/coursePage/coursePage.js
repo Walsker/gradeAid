@@ -7,22 +7,33 @@ import {colors, containerStyle, textStyle} from 'easyGrades/src/common/appStyles
 import AssessmentList from 'easyGrades/src/common/assessmentList';
 import ProgressCircle from 'easyGrades/src/common/progressCircle';
 import ActionBar from 'easyGrades/src/common/actionBar';
-import ActionButton from 'easyGrades/src/common/actionButton';
+import IconButton from 'easyGrades/src/common/iconButton';
 import Tile from 'easyGrades/src/common/tile';
 
 export default class CoursePage extends Component
 {
+    newAssessment()
+    {
+        alert("New Assessment");
+    }
+    editCourse()
+    {
+        alert("Edit Course");
+    }
+
     render()
     {
-        var course = this.props.navigation.getParam('course', {name: 'NULL 0000', average: 0, assessments: {}});
+        const nullCourse = {name: 'NULL 0000', average: 0, assessments: {}};
+        console.log(this.props.navigation.state)
+        var course = this.props.navigation.getParam('course', nullCourse);
 
         return(
             <View style = {containerStyle.default}>
                 <ActionBar
                     leftButton = 
                     {
-                        <ActionButton
-                            type = "arrow-back"
+                        <IconButton
+                            type = 'arrow-back'
                             size = {30}
                             color = {colors.titleAndIconColor}
                             action = {this.props.navigation.goBack}
@@ -31,10 +42,11 @@ export default class CoursePage extends Component
                     title = {course.name}
                     rightButton = 
                     {
-                        <ActionButton
-                            type = "more-vert"
+                        <IconButton
+                            type = 'add'
                             size = {30}
                             color = {colors.titleAndIconColor}
+                            action = {this.newAssessment}
                         />
                     }
                 />
@@ -65,6 +77,15 @@ export default class CoursePage extends Component
                     /> */}
                     <Tile
                         title = "Overview"
+                        button = 
+                        {
+                            <IconButton
+                                type = 'edit'
+                                size = {25}
+                                color = {colors.primaryTextColor}
+                                action = {this.editCourse}
+                            />
+                        }
                         content = 
                         {
                             <AssessmentList assessments = {course.assessments}/>

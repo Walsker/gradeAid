@@ -10,7 +10,6 @@ export default class CheckList extends Component
     constructor(props)
     {
         super(props);
-
         this.state = {value: false};
     }
 

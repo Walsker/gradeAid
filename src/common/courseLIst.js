@@ -8,7 +8,6 @@
 //  ]
 // -----------------------------------------------------------------------------------
 
-
 // React Native imports
 import React, {Component} from 'react';
 import {StyleSheet, Text, TouchableNativeFeedback, View} from 'react-native';
@@ -26,9 +25,7 @@ export default class CourseList extends Component
             <TouchableNativeFeedback 
                 key = {course.name}
                 background = {TouchableNativeFeedback.Ripple(colors.lightPrimaryColor, false)}
-                onPress = {() => {
-                    this.props.navProp.navigate(course.name, {course})
-                }}
+                onPress = {() => this.props.navProp.navigate(course.name, {course})}
             >
                 <View style = {styles.courseCard}>
                     <ProgressCircle
@@ -73,6 +70,7 @@ export default class CourseList extends Component
                 animationIDs++;
             }
         }
+
         return(
             <View style = {styles.list}>
                 {courseTiles}
@@ -88,8 +86,7 @@ const styles = StyleSheet.create(
         flex: 1,
         flexDirection: 'row',
         flexWrap: 'wrap',
-        justifyContent: 'center',
-        marginVertical: -5
+        justifyContent: 'center'
     },
     courseCard:
     {

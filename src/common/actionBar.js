@@ -32,12 +32,16 @@ const styles = StyleSheet.create(
         alignItems: 'flex-start',
         flexDirection: 'row',
         backgroundColor: colors.primaryColor,
-        elevation: 3
+        elevation: 3,
+        height: 56
     },
     title:
     {
         flex: 1,
-        margin: 16
+        marginHorizontal: 12,
+        marginTop: 14,
+        marginBottom: 10,
+        justifyContent: 'center'
     }
 });
 

@@ -14,6 +14,9 @@ export default class Tile extends Component
             <View style = {containerStyle.tile}>
                 <View style = {containerStyle.tileTitle}>
                     <Text style = {textStyle.tileTitle}>{title}</Text>
+                    <View style = {{position: 'absolute', left: 215, top: -9}}>
+                        {this.props.button ? this.props.button : <View/>}
+                    </View>
                 </View>
                 <View style = {containerStyle.tileContent}>
                     {this.props.content}

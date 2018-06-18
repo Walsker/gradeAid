@@ -4,7 +4,7 @@ import {Button, StyleSheet, Text, TextInput, View} from 'react-native';
 
 // Custom imports
 import {colors, containerStyle, textStyle} from 'easyGrades/src/common/appStyles';
-import ActionButton from 'easyGrades/src/common/actionButton';
+import IconButton from 'easyGrades/src/common/iconButton';
 import CheckList from 'easyGrades/src/common/checkList';
 
 export default class AddCoursePage extends Component
@@ -132,7 +132,7 @@ export default class AddCoursePage extends Component
         return(
             <View style = {containerStyle.default}>
                 <View style = {containerStyle.page}>
-                    <ActionButton
+                    <IconButton
                         type = 'close'
                         size = {30}
                         color = {colors.secondaryTextColor}
