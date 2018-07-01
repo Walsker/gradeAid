@@ -14,7 +14,7 @@ import {StyleSheet, Text, TouchableNativeFeedback, View} from 'react-native';
 // TouchableNativeFeedback only works with Android
 
 // Custom imports
-import {colors} from 'easyGrades/src/common/appStyles';
+import {colors, containerStyle} from 'easyGrades/src/common/appStyles';
 import ProgressCircle from 'easyGrades/src/common/progressCircle';
 
 export default class CourseList extends Component
@@ -27,7 +27,7 @@ export default class CourseList extends Component
                 background = {TouchableNativeFeedback.Ripple(colors.lightPrimaryColor, false)}
                 onPress = {() => this.props.navProp.navigate(course.name, {course})}
             >
-                <View style = {styles.courseCard}>
+                <View style = {containerStyle.card}>
                     <ProgressCircle
                         diameter = {100}
                         borderWidth = {10}
@@ -88,13 +88,6 @@ const styles = StyleSheet.create(
         flexWrap: 'wrap',
         justifyContent: 'center'
     },
-    courseCard:
-    {
-        padding: 10,
-        margin: 5,
-        borderRadius: 2,
-        elevation: 1
-    },
     courseName:
     {
         flex: 1,
@@ -104,7 +97,7 @@ const styles = StyleSheet.create(
     {
         color: colors.primaryTextColor,
         fontFamily: 'Lato-Black',
-        fontSize: 18,
+        fontSize: 17,
         textAlign: 'center',
         width: 100
     }

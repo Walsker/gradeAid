@@ -1,11 +1,11 @@
 // React// React Native imports
 import React, {Component} from 'react';
-import {Button, StyleSheet, Text, TextInput, View} from 'react-native';
+import {Button, ScrollView, Text, TextInput, TouchableOpacity, View} from 'react-native';
 
 // Custom imports
 import {colors, containerStyle, textStyle} from 'easyGrades/src/common/appStyles';
-import IconButton from 'easyGrades/src/common/iconButton';
 import CheckList from './components/checkList';
+import AssessmentDetails from './components/assessmentDetails';
 
 export default class AddCoursePage extends Component
 {
@@ -16,21 +16,34 @@ export default class AddCoursePage extends Component
         var types = ["Assignments", "Projects", "Essays", "Quizzes", 
             "Tests", "Midterms", "Labs", "Tutorials", "Discussion Groups", "Final Exam"];
         var emptyList = [];
+        var emptyDetails = {};
 
-        for (i in types) { emptyList.push(false); }
+        for (i in types) 
+        {
+            emptyList.push(false);
+            if (types[i] != "Final Exam")
+            {
+                emptyDetails[types[i]] = {quantity: 1, weight: 0.0};
+            }
+            else
+            {
+                emptyDetails[types[i]] = {weight: 0.0};
+            }
+        }
 
         this.state = 
         {
             currentScene: 0,
             assessmentTypes: types,
-            checkList: emptyList
+            selectedTypes: emptyList,
+            assessmentDetails: emptyDetails
         };
     }
 
     blankScene()
     {
         return(
-            <Text>HI</Text>
+            <View/>
         );
     }
 
@@ -38,7 +51,7 @@ export default class AddCoursePage extends Component
     {
         return(
             <View style = {containerStyle.form}>
-                <View style = {containerStyle.section}>
+                <View style = {containerStyle.formSection}>
                     <TextInput
                         autoCapitalize = 'characters'
                         maxLength = {6}
@@ -53,7 +66,7 @@ export default class AddCoursePage extends Component
                         Course Type
                     </Text>
                 </View>
-                <View style = {containerStyle.section}>
+                <View style = {containerStyle.formSection}>
                     <TextInput
                         ref = {input => this.nextTextInput = input}
                         keyboardType = 'numeric'
@@ -68,7 +81,7 @@ export default class AddCoursePage extends Component
                         Course Code
                     </Text>
                 </View>
-                <View style = {containerStyle.buttonBox}>
+                <View style = {containerStyle.rowBox}>
                     <Button
                         color = {colors.primaryColor}
                         title = "    Next    "
@@ -86,24 +99,65 @@ export default class AddCoursePage extends Component
     {
         return(
             <View style = {containerStyle.form}>
-                <View style = {containerStyle.section}>
+                <View style = {containerStyle.formSection}>
                     <Text style = {textStyle.addCourseText}>What kind of assessments are in your course?{'\n\n'}Select all that apply.</Text>
                 </View>
-                <View style = {containerStyle.section}>
+                <View style = {containerStyle.formSection}>
                     <CheckList 
                         color = {colors.accentColor}
                         fontSize = {22}
                         labels = {this.state.assessmentTypes}
-                        values = {this.state.checkList}
+                        values = {this.state.selectedTypes}
                         onItemToggle = {(id) =>
                         {
-                            var newArray = this.state.checkList;
+                            var newArray = this.state.selectedTypes;
                             newArray[id] = !newArray[id];
-                            this.setState({checkList: newArray});
+                            this.setState({selectedTypes: newArray});
                         }}
                     />
                 </View>
-                <View style = {containerStyle.buttonBox}>
+                <View style = {containerStyle.rowBox}>
+                    <Button
+                        color = {colors.primaryColor}
+                        title = "    Back    "
+                        onPress = {() => this.setState(prevState =>
+                        {
+                            return({currentScene: prevState.currentScene - 1});
+                        })}
+                    />
+                    <Button
+                        color = {colors.primaryColor}
+                        title = "    Next    "
+                        onPress = {() => this.setState(prevState =>
+                        {
+                            return({currentScene: prevState.currentScene + 1});
+                        })}
+                    />
+                </View>
+            </View>
+        );
+    }
+
+    assessmentDetails_SCENE()
+    {
+        return(
+            <View style = {containerStyle.form}>
+                <View style = {containerStyle.formSection}>
+                    <Text style = {textStyle.addCourseText}>Specify the quantity and weight of each type of assessment below.{'\n\n'}You can get more specific on the next page.</Text>
+                </View>
+                <View style = {containerStyle.formSection}>
+                    <AssessmentDetails
+                        assessmentTypes = {this.state.assessmentTypes}
+                        selectedTypes = {this.state.selectedTypes}
+                        initialInfo = {this.state.assessmentDetails}
+                        onInfoChange = {(newData) =>
+                        {
+                            this.setState({assessmentDetails: newData})
+                            console.log(newData);
+                        }}
+                    />
+                </View>
+                <View style = {containerStyle.rowBox}>
                     <Button
                         color = {colors.primaryColor}
                         title = "    Back    "
@@ -127,17 +181,24 @@ export default class AddCoursePage extends Component
 
     render()
     {
-        var scenes = [this.courseTitle_SCENE(), this.assessmentTypes_SCENE()];
+        var scenes = [this.courseTitle_SCENE(), this.assessmentTypes_SCENE(), this.assessmentDetails_SCENE()];
 
         return(
             <View style = {containerStyle.default}>
                 <View style = {containerStyle.page}>
-                    <IconButton
-                        type = 'close'
-                        size = {30}
-                        color = {colors.secondaryTextColor}
-                    />
-                    {scenes[this.state.currentScene]}
+                    <ScrollView>
+                        <View style = {containerStyle.rowBox}>
+                            <TouchableOpacity 
+                                onPress = {() => this.props.navigation.goBack()}
+                                style = {{paddingVertical: 5, paddingHorizontal: 70, marginBottom: -5}}
+                            >
+                                <Text style = {{fontFamily: 'Lato-Regular', color: colors.secondaryTextColor}}>
+                                    I don't want to add a course.
+                                </Text>
+                            </TouchableOpacity>
+                        </View>
+                        {scenes[this.state.currentScene]}
+                    </ScrollView>
                 </View>
             </View>
         );

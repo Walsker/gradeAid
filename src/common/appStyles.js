@@ -67,24 +67,31 @@ export const containerStyle = StyleSheet.create(
         alignSelf: 'stretch',
         marginVertical: 5
     },
-    buttonBox:
+    card:
     {
-        margin: 10,
-        flexDirection: 'row',
-        justifyContent: 'space-evenly'
+        padding: 10,
+        margin: 5,
+        borderRadius: 2,
+        elevation: 1
     },
     form:
     {
         flex: 1,
         margin: 20
     },
+    formSection: {marginBottom: 20},    
     page:
     {
         flex: 1,
         backgroundColor: colors.spaceColor,
         padding: 5
     },
-    section: {marginBottom: 20},
+    rowBox:
+    {
+        margin: 10,
+        flexDirection: 'row',
+        justifyContent: 'space-evenly'
+    },
     tileList: // This is essentially a list of tiles
     {
         flex: 1,
@@ -119,7 +126,8 @@ export const textStyle = StyleSheet.create(
 {
     default:
     {
-        color: colors.primaryTextColor
+        color: colors.primaryTextColor,
+        fontFamily: 'Lato-Regular'
     },
     actionBarTitle:
     {

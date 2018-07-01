@@ -24,7 +24,6 @@ export default class CoursePage extends Component
     render()
     {
         const nullCourse = {name: 'NULL 0000', average: 0, assessments: {}};
-        console.log(this.props.navigation.state)
         var course = this.props.navigation.getParam('course', nullCourse);
 
         return(
