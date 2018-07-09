@@ -1,6 +1,6 @@
 // React// React Native imports
 import React, {Component} from 'react';
-import {Button, ScrollView, Text, TextInput, TouchableOpacity, View} from 'react-native';
+import {Button, Picker, ScrollView, Text, TextInput, TouchableOpacity, View} from 'react-native';
 
 // Custom imports
 import {colors, containerStyle, textStyle} from 'easyGrades/src/common/appStyles';
@@ -36,14 +36,49 @@ export default class AddCoursePage extends Component
             currentScene: 0,
             assessmentTypes: types,
             selectedTypes: emptyList,
-            assessmentDetails: emptyDetails
+            assessmentDetails: emptyDetails,
+            language: ''
         };
     }
 
-    blankScene()
+    renderBackButton()
     {
         return(
-            <View/>
+            <Button
+                color = {colors.primaryColor}
+                title = "    Back    "
+                onPress = {() => this.setState(prevState =>
+                {
+                    return({currentScene: prevState.currentScene - 1});
+                })}
+            />
+        );
+    }
+
+    renderForwardButton()
+    {
+        return(
+            <View>
+                <Button
+                    color = {colors.primaryColor}
+                    title = "    Next    "
+                    onPress = {() => this.setState(prevState =>
+                    {
+                        return({currentScene: prevState.currentScene + 1});
+                    })}
+                />
+            </View>
+        );
+    }
+
+    renderFinishButton()
+    {
+        return(
+            <Button
+                color = {colors.primaryColor}
+                title = "    Finish    "
+                onPress = {() => {this.props.navigation.goBack(); alert("done")}}
+            />
         );
     }
 
@@ -82,14 +117,7 @@ export default class AddCoursePage extends Component
                     </Text>
                 </View>
                 <View style = {containerStyle.rowBox}>
-                    <Button
-                        color = {colors.primaryColor}
-                        title = "    Next    "
-                        onPress = {() => this.setState(prevState =>
-                        {
-                            return({currentScene: prevState.currentScene + 1});
-                        })}
-                    />
+                    {this.renderForwardButton()}
                 </View>
             </View>
         );
@@ -117,22 +145,8 @@ export default class AddCoursePage extends Component
                     />
                 </View>
                 <View style = {containerStyle.rowBox}>
-                    <Button
-                        color = {colors.primaryColor}
-                        title = "    Back    "
-                        onPress = {() => this.setState(prevState =>
-                        {
-                            return({currentScene: prevState.currentScene - 1});
-                        })}
-                    />
-                    <Button
-                        color = {colors.primaryColor}
-                        title = "    Next    "
-                        onPress = {() => this.setState(prevState =>
-                        {
-                            return({currentScene: prevState.currentScene + 1});
-                        })}
-                    />
+                    {this.renderBackButton()}
+                    {this.renderForwardButton()}
                 </View>
             </View>
         );
@@ -143,7 +157,7 @@ export default class AddCoursePage extends Component
         return(
             <View style = {containerStyle.form}>
                 <View style = {containerStyle.formSection}>
-                    <Text style = {textStyle.addCourseText}>Specify the quantity and weight of each type of assessment below.{'\n\n'}You can get more specific on the next page.</Text>
+                    <Text style = {textStyle.addCourseText}>Specify the quantity and total weight of each type of assessment below.{/*{'\n\n'}You can get more specific on the next page.*/}</Text>
                 </View>
                 <View style = {containerStyle.formSection}>
                     <AssessmentDetails
@@ -158,22 +172,52 @@ export default class AddCoursePage extends Component
                     />
                 </View>
                 <View style = {containerStyle.rowBox}>
-                    <Button
-                        color = {colors.primaryColor}
-                        title = "    Back    "
-                        onPress = {() => this.setState(prevState =>
-                        {
-                            return({currentScene: prevState.currentScene - 1});
-                        })}
-                    />
-                    <Button
-                        color = {colors.primaryColor}
-                        title = "    Next    "
-                        onPress = {() => this.setState(prevState =>
-                        {
-                            return({currentScene: prevState.currentScene + 1});
-                        })}
-                    />
+                    {this.renderBackButton()}
+                    {this.renderForwardButton()}
+                </View>
+            </View>
+        );
+    }
+
+    // setGoal_SCENE()
+    // {
+    //     return(
+    //         <View style = {containerStyle.form}>
+    //             <View style = {containerStyle.formSection}>
+    //                 <Text style = {textStyle.addCourseText}>What grade would you like to achieve?</Text>
+    //             </View>
+    //             <View style = {containerStyle.rowBox}>
+    //                 <SelectionGrid
+    //                     width = {3}
+    //                     height = {4}
+    //                 />
+    //             </View>
+    //             <View style = {containerStyle.rowBox}>
+    //                 {this.renderBackButton()}
+    //                 {this.renderForwardButton()}
+    //             </View>
+    //         </View>
+    //     );
+    // }
+
+    confirmCourse_SCENE()
+    {
+        return(
+            <View style = {containerStyle.form}>
+                <View style = {containerStyle.formSection}>
+                    <Text style = {textStyle.addCourseText}>Confirm your course information below.</Text>
+                </View>
+                <View style = {containerStyle.formSection}>
+                    <View style = {containerStyle.card}>
+                        <Text style = {textStyle.assessmentGrade}>COMP 1405</Text>
+                        <Text style = {textStyle.tileTitle}>Assessments</Text>
+                        <Text style = {textStyle.tileTitle}>5 Assignments - 25%</Text>
+                        <Text style = {textStyle.tileTitle}>4 Projects - 40%</Text>
+                        <Text style = {textStyle.tileTitle}>Final Exam - 35%</Text>
+                    </View>
+                </View>
+                <View style = {containerStyle.formSection}>
+                    {this.renderFinishButton()}
                 </View>
             </View>
         );
@@ -181,7 +225,7 @@ export default class AddCoursePage extends Component
 
     render()
     {
-        var scenes = [this.courseTitle_SCENE(), this.assessmentTypes_SCENE(), this.assessmentDetails_SCENE()];
+        var scenes = [this.courseTitle_SCENE(), this.assessmentTypes_SCENE(), this.assessmentDetails_SCENE(), this.confirmCourse_SCENE()];
 
         return(
             <View style = {containerStyle.default}>

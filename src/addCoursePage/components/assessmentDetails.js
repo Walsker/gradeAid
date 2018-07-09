@@ -85,7 +85,6 @@ export default class AssessmentDetails extends Component
                 key = {type}
             >
                 <Text style = {styles.cardTitle}>{type}</Text>
-                <View style = {styles.cardContent}>
                     {quantityText()}
                     <View style = {styles.item}>
                         <Text style = {styles.itemLabel}>Weight</Text>
@@ -113,10 +112,8 @@ export default class AssessmentDetails extends Component
                                 }}
                             />
                             <Text style = {styles.numberText}>%</Text>
-                        </View>
-                        
+                        </View>     
                     </View>
-                </View>
             </View>
         );
     }
@@ -156,7 +153,7 @@ const styles = StyleSheet.create(
     },
     cardContent:
     {
-        alignItems: 'center'
+        // alignItems: 'center'
     },
     detailsList:
     {
