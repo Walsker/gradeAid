@@ -16,7 +16,8 @@ export default class AssessmentDetails extends Component
 
     renderAssessmentCard(type)
     {
-        var quantityText = () => 
+        console.log(this.state.details, type);
+        var quantityDisplay = () => 
         {
             return(
                 <View style = {styles.item}>
@@ -53,10 +54,10 @@ export default class AssessmentDetails extends Component
             );
         };  
             
-        // There is only one final exam, so I'm making sure it doesn't ask for quantity
+        // There can only be one final exam; don't ask for quantity
         if (type == "Final Exam")
         {
-            quantityText = () => {return(<View/>);};
+            quantityDisplay = () => {return(<View/>);};
         }
         
         const convertToPercentage = (objectToConvert, fallback) =>
@@ -78,42 +79,61 @@ export default class AssessmentDetails extends Component
                 return fallback;
             }
         }
+
         var currentText = "";
+        var significanceDisplay;
+
+        if (type == "Final Exam")
+        {
+            significanceDisplay = <View/>
+        }
+        else
+        {
+            significanceDisplay = 
+                <View style = {styles.item}>
+                        <Text style = {{fontFamily: 'Lato-Regular', color: colors.secondaryTextColor}}>
+                            Percentage of course: {this.state.details[type].quantity * this.state.details[type].weight}%
+                        </Text>
+                </View>
+        }
+
         return(
             <View
                 style = {[styles.card, containerStyle.card]}
                 key = {type}
             >
                 <Text style = {styles.cardTitle}>{type}</Text>
-                    {quantityText()}
+                {quantityDisplay()}
+                <View style = {styles.item}>
+                    <Text style = {styles.itemLabel}>Weight</Text>
                     <View style = {styles.item}>
-                        <Text style = {styles.itemLabel}>Weight</Text>
-                        <View style = {styles.item}>
-                            <TextInput
-                                keyboardType = 'numeric'
-                                defaultValue = {this.state.details[type].weight.toString()}
-                                placeholderTextColor = 'rgba(0, 0, 0, 0.2)'
-                                underlineColorAndroid = {colors.primaryTextColor}
-                                returnKeyType = 'done'
-                                style = {[styles.numberText, {width: 75, textAlign: 'right'}]}
-                                onChangeText = {(newText) => currentText = newText}
-                                onEndEditing = {() =>
+                        <TextInput
+                            keyboardType = 'numeric'
+                            clearTextOnFocus = {true}
+                            defaultValue = {this.state.details[type].weight.toString()}
+                            placeholderTextColor = 'rgba(0, 0, 0, 0.2)'
+                            underlineColorAndroid = {colors.primaryTextColor}
+                            returnKeyType = 'done'
+                            style = {[styles.numberText, {width: 75, textAlign: 'right'}]}
+                            onChangeText = {(newText) => currentText = newText}
+                            onEndEditing = {() =>
+                            {
+                                var newDetails = this.state.details;
+                                var newWeight =  convertToPercentage(currentText, newDetails[type].weight);
+                                newDetails[type] = 
                                 {
-                                    var newDetails = this.state.details;
-                                    var newWeight =  convertToPercentage(currentText, newDetails[type].weight);
-                                    newDetails[type] = 
-                                    {
-                                        quantity: newDetails[type].quantity,
-                                        weight: newWeight
-                                    }
-                                    console.log(newWeight);
-                                    this.setState({details: newDetails});
-                                    this.props.onInfoChange(this.state.details);
-                                }}
-                            />
-                            <Text style = {styles.numberText}>%</Text>
-                        </View>     
-                    </View>
+                                    quantity: newDetails[type].quantity,
+                                    weight: newWeight
+                                }
+                                console.log(newWeight);
+                                this.setState({details: newDetails});
+                                this.props.onInfoChange(this.state.details);
+                            }}
+                        />
+                        <Text style = {styles.numberText}>%</Text>
+                    </View>     
+                </View>
+                {significanceDisplay}
             </View>
         );
     }
@@ -150,10 +170,6 @@ const styles = StyleSheet.create(
         color: colors.primaryTextColor,
         fontSize: 22,
         fontFamily: 'Lato-Bold'
-    },
-    cardContent:
-    {
-        // alignItems: 'center'
     },
     detailsList:
     {

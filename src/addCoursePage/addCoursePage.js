@@ -37,7 +37,9 @@ export default class AddCoursePage extends Component
             assessmentTypes: types,
             selectedTypes: emptyList,
             assessmentDetails: emptyDetails,
-            language: ''
+            _courseType: "",
+            _courseCode: "",
+            courseName: ""
         };
     }
 
@@ -55,17 +57,14 @@ export default class AddCoursePage extends Component
         );
     }
 
-    renderForwardButton()
+    renderForwardButton(action)
     {
         return(
             <View>
                 <Button
                     color = {colors.primaryColor}
                     title = "    Next    "
-                    onPress = {() => this.setState(prevState =>
-                    {
-                        return({currentScene: prevState.currentScene + 1});
-                    })}
+                    onPress = {() => action()}
                 />
             </View>
         );
@@ -75,7 +74,7 @@ export default class AddCoursePage extends Component
     {
         return(
             <Button
-                color = {colors.primaryColor}
+                color = {colors.accentColor}
                 title = "    Finish    "
                 onPress = {() => {this.props.navigation.goBack(); alert("done")}}
             />
@@ -90,6 +89,8 @@ export default class AddCoursePage extends Component
                     <TextInput
                         autoCapitalize = 'characters'
                         maxLength = {6}
+                        defaultValue = {this.state._courseType}
+                        onChangeText = {(newText) => this.setState({_courseType: newText})}
                         onSubmitEditing = {() => this.nextTextInput.focus()}
                         placeholder = "i.e. COMP"
                         placeholderTextColor = 'rgba(0, 0, 0, 0.2)'
@@ -106,6 +107,8 @@ export default class AddCoursePage extends Component
                         ref = {input => this.nextTextInput = input}
                         keyboardType = 'numeric'
                         maxLength = {6}
+                        defaultValue = {this.state._courseCode}
+                        onChangeText = {(newText) => this.setState({_courseCode: newText})}
                         placeholder = "i.e. 1405"
                         placeholderTextColor = 'rgba(0, 0, 0, 0.2)'
                         underlineColorAndroid = {colors.primaryTextColor}
@@ -117,7 +120,25 @@ export default class AddCoursePage extends Component
                     </Text>
                 </View>
                 <View style = {containerStyle.rowBox}>
-                    {this.renderForwardButton()}
+                    {this.renderForwardButton(() =>
+                    {
+                        if (this.state._courseType == "" || this.state._courseCode == "")
+                        {
+                            alert("Incomplete");   
+                        }
+                        else
+                        {   
+                            console.log(this.state._courseType.toUpperCase() + " " + this.state._courseCode);
+                            this.setState(prevState =>
+                            {
+                                return(
+                                {
+                                    courseName: this.state._courseType.toUpperCase() + " " + this.state._courseCode,
+                                    currentScene: prevState.currentScene + 1
+                                });
+                            });
+                        }
+                    })}
                 </View>
             </View>
         );
@@ -146,7 +167,29 @@ export default class AddCoursePage extends Component
                 </View>
                 <View style = {containerStyle.rowBox}>
                     {this.renderBackButton()}
-                    {this.renderForwardButton()}
+                    {this.renderForwardButton(() =>
+                    {
+                        var selectedCheck = false;
+                        for (i in this.state.selectedTypes)
+                        {
+                            if (this.state.selectedTypes[i])
+                            {
+                                selectedCheck = true;
+                                break;
+                            }
+                        }
+                        if (!selectedCheck)
+                        {
+                            alert("Choose at least one type");   
+                        }
+                        else
+                        {   
+                            this.setState(prevState =>
+                            {
+                                return({currentScene: prevState.currentScene + 1});
+                            });
+                        }
+                    })}
                 </View>
             </View>
         );
@@ -173,7 +216,43 @@ export default class AddCoursePage extends Component
                 </View>
                 <View style = {containerStyle.rowBox}>
                     {this.renderBackButton()}
-                    {this.renderForwardButton()}
+                    {this.renderForwardButton(() =>
+                    {
+                        var percentageTotal = 0;
+                        var {selectedTypes, assessmentTypes, assessmentDetails} = this.state;
+
+                        for (i in assessmentTypes)
+                        {
+                            if (selectedTypes[i])
+                            {
+                                if (assessmentDetails[assessmentTypes[i]].weight == 0)
+                                {
+                                    alert(assessmentTypes[i] + " has a weight of 0.");
+                                    return;
+                                }
+                                else if (assessmentTypes[i] == "Final Exam")
+                                {
+                                    percentageTotal += assessmentDetails[assessmentTypes[i]].weight;
+                                }
+                                else
+                                {
+                                    percentageTotal += assessmentDetails[assessmentTypes[i]].weight * assessmentDetails[assessmentTypes[i]].quantity;
+                                }   
+                            }
+                        }
+                        
+                        if (percentageTotal != 100)
+                        {
+                            alert("Oh no! All the weights and quantities don't add to 100%")
+                        }
+                        else
+                        {
+                            this.setState(prevState =>
+                            {
+                                return({currentScene: prevState.currentScene + 1});
+                            });
+                        }
+                    })}
                 </View>
             </View>
         );
@@ -202,22 +281,99 @@ export default class AddCoursePage extends Component
 
     confirmCourse_SCENE()
     {
+        var {assessmentDetails, assessmentTypes, selectedTypes} = this.state;
+        var displayStyle = 
+        {
+            color: colors.primaryTextColor,
+            fontSize: 18,
+            fontFamily: 'Lato-Regular'
+        };
+
+        var assessmentDisplay = (assessmentType) =>
+        {
+            var name = assessmentType;
+            var quantity = assessmentDetails[assessmentType].quantity + " ";
+            var weight = assessmentDetails[assessmentType].weight;
+            
+            if (name == "Final Exam")
+            {
+                quantity = "";
+
+                return(
+                    <View 
+                        key = {assessmentType}
+                        style = {{paddingVertical: 5}}>
+                        <Text style = {{color: colors.primaryTextColor, fontSize: 20, fontFamily: 'Lato-Bold'}}>
+                            {quantity + name + " - " + weight + "%"}
+                        </Text>
+                    </View>
+                );
+            }
+
+            if (quantity == 1)
+            {
+                if (name == "Quizzes")
+                {
+                    name = "Quiz"
+                }
+                else
+                {
+                    name = name.slice(0, -1);
+                }
+            }
+
+            return(
+                <Text 
+                    key = {assessmentType}
+                    style = {displayStyle}
+                >
+                    {quantity + name + " - " + (quantity * weight) + "%"}
+                </Text>
+            );
+        };
+
+        var displayList = [];
+        for (i in assessmentTypes)
+        {
+            if (selectedTypes[i])
+            {
+                displayList.push(assessmentDisplay(assessmentTypes[i]));
+            }
+        }
+
         return(
             <View style = {containerStyle.form}>
                 <View style = {containerStyle.formSection}>
                     <Text style = {textStyle.addCourseText}>Confirm your course information below.</Text>
                 </View>
                 <View style = {containerStyle.formSection}>
-                    <View style = {containerStyle.card}>
-                        <Text style = {textStyle.assessmentGrade}>COMP 1405</Text>
-                        <Text style = {textStyle.tileTitle}>Assessments</Text>
-                        <Text style = {textStyle.tileTitle}>5 Assignments - 25%</Text>
-                        <Text style = {textStyle.tileTitle}>4 Projects - 40%</Text>
-                        <Text style = {textStyle.tileTitle}>Final Exam - 35%</Text>
+                    <View style = {[containerStyle.card, {alignItems: 'center'}]}>
+                        <Text style = {textStyle.assessmentGrade}>{this.state.courseName}</Text>
+                        <View style = {{paddingVertical: 10}}>
+                            <Text 
+                                style = {{color: colors.primaryTextColor, fontSize: 18, fontFamily: 'Lato-Light'}}
+                            >
+                                Your Assessments
+                            </Text>
+                        </View>
+                        {displayList}
                     </View>
                 </View>
                 <View style = {containerStyle.formSection}>
                     {this.renderFinishButton()}
+                    <View style = {containerStyle.rowBox}>
+                        <TouchableOpacity 
+                            onPress = {() => this.setState(prevState =>
+                            {
+                                return({currentScene: prevState.currentScene - 1});
+                            })}
+                            style = {{paddingVertical: 15, paddingHorizontal: 70}}
+                        >
+                            <Text style = {{fontFamily: 'Lato-Regular', color: colors.accentColor}}>
+                                Wait I need to change something!
+                            </Text>
+                        </TouchableOpacity>
+                    </View>
                 </View>
             </View>
         );
