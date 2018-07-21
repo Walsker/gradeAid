@@ -1,6 +1,6 @@
 // React Native imports
 import React, {Component} from 'react';
-import {StatusBar, Text, View} from 'react-native';
+import {StatusBar, View} from 'react-native';
 
 // Redux imports
 import {Provider} from 'react-redux';

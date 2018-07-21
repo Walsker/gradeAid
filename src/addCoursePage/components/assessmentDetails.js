@@ -99,7 +99,7 @@ export default class AssessmentDetails extends Component
 
         return(
             <View
-                style = {[styles.card, containerStyle.card]}
+                style = {[styles.card, containerStyle.courseCard]}
                 key = {type}
             >
                 <Text style = {styles.cardTitle}>{type}</Text>

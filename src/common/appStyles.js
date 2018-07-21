@@ -10,7 +10,7 @@ export const colors =
     lightPrimaryColor: '#C5CAE9',
     primaryTextColor: '#212121',
     secondaryTextColor: '#757575',
-    dividerColor: '#BDBDBD',
+    dividerColor: 'rgba(0, 0, 0, 0.1)',
     titleAndIconColor: '#FFFFFF'
 }
 
@@ -67,12 +67,21 @@ export const containerStyle = StyleSheet.create(
         alignSelf: 'stretch',
         marginVertical: 5
     },
-    card:
+    courseCard:
     {
         padding: 10,
         margin: 5,
-        borderRadius: 2,
-        elevation: 1
+        borderRadius: 5,
+        borderColor: colors.dividerColor,
+        borderWidth: 1
+        // elevation: 1
+    },
+    drawerHeader:
+    {
+        flex: 0.25,
+        backgroundColor: colors.primaryColor,
+        justifyContent: 'center',
+        paddingLeft: 10
     },
     form:
     {
@@ -92,7 +101,7 @@ export const containerStyle = StyleSheet.create(
         flexDirection: 'row',
         justifyContent: 'space-evenly'
     },
-    tileList: // This is essentially a list of tiles
+    tileList:
     {
         flex: 1,
         backgroundColor: colors.darkSpaceColor,

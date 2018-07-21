@@ -347,7 +347,7 @@ export default class AddCoursePage extends Component
                     <Text style = {textStyle.addCourseText}>Confirm your course information below.</Text>
                 </View>
                 <View style = {containerStyle.formSection}>
-                    <View style = {[containerStyle.card, {alignItems: 'center'}]}>
+                    <View style = {[containerStyle.courseCard, {alignItems: 'center'}]}>
                         <Text style = {textStyle.assessmentGrade}>{this.state.courseName}</Text>
                         <View style = {{paddingVertical: 10}}>
                             <Text 
