@@ -59,9 +59,9 @@ class SemesterPage extends Component
                         {
                             <View>
                                 <View style = {{marginVertical: -25}}>
-                                    <Text style = {textStyle.gpaDisplay}>{GPAString}</Text>
+                                    <Text style = {textStyle.bold(212)}>{GPAString}</Text>
                                 </View>
-                                <Text style = {textStyle.gpaMax}>out of {maxGPAString}</Text>
+                                <Text style = {[textStyle.italic(14, 'center'), {color: colors.secondaryTextColor}]}>out of {maxGPAString}</Text>
                             </View>
                         }
                     />

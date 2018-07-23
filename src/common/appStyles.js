@@ -131,68 +131,40 @@ export const containerStyle = StyleSheet.create(
     }
 });
 
-export const textStyle = StyleSheet.create(
+const createFont = (size, alignment) =>
 {
-    default:
+    var style = {color: colors.primaryTextColor};
+
+    if (size)
     {
-        color: colors.primaryTextColor,
-        fontFamily: 'Lato-Regular'
+        style["fontSize"] = size;
+    }
+    if (alignment)
+    {
+        style["textAlign"] = alignment;
+    }
+    
+    return style;
+};
+
+export const textStyle = 
+{
+    regular: (size, alignment) => 
+    {
+        return Object.assign({fontFamily: 'Lato-Regular'}, createFont(size, alignment));
+    },
+    bold: (size, alignment) => 
+    {
+        return Object.assign({fontFamily: 'Lato-Black'}, createFont(size, alignment));
+    },
+    italic: (size, alignment) => 
+    {
+        return Object.assign({fontFamily: 'Lato-Italic'}, createFont(size, alignment));
     },
     actionBarTitle:
     {
         color: colors.titleAndIconColor,
         fontSize: 24,
         fontFamily: 'Lato-Bold'
-    },
-    addCourseText:
-    {
-        color: colors.primaryTextColor,
-        fontSize: 22,
-        fontFamily:'Lato-Regular',
-        textAlign: 'center'
-    },
-    assessmentTitle:
-    {
-        color: colors.primaryTextColor,
-        fontSize: 20,
-        fontFamily: 'Lato-Regular'
-    },
-    assessmentGrade:
-    {
-        color: colors.primaryTextColor,
-        fontSize: 22,
-        fontFamily: 'Lato-Bold'
-    },
-    gpaDisplay:
-    {
-        color: colors.primaryTextColor,
-        fontSize: 212,
-        fontFamily: 'Lato-Black'
-    },
-    gpaMax:
-    {
-        color: colors.secondaryTextColor,
-        fontSize: 14,
-        fontFamily: 'Lato-Italic',
-        textAlign: 'center'
-    },
-    textFieldText:
-    {
-        fontSize: 24,
-        fontFamily: 'Lato-Regular',
-        color: colors.primaryTextColor
-    },
-    textFieldLabel:
-    {
-        fontSize: 14,
-        fontFamily: 'Lato-Regular',
-        color: colors.primaryTextColor,
-        paddingLeft: 3.5
-    },
-    tileTitle:
-    {
-        color: colors.primaryTextColor,
-        fontSize: 18,
-        fontFamily: 'Lato-Regular'
     }
-});
+}

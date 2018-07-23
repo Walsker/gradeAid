@@ -40,10 +40,7 @@ export default (prevState = [nullSemester], action) =>
             return action.payload;
         case NEW_SEMESTER:
             var newList = prevState.slice();
-            console.log("OLD LIST: ", newList)
             newList.push(action.payload);
-            console.log("NEW LIST: ", newList)
-            // semesters.push(action.payload);
             return newList;
         default:
             return prevState

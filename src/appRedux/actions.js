@@ -37,7 +37,7 @@ var courses = [
 ];
 
 var semesters = [
-    {name: 'Fall 2016', courses, gpa: 9.6},
+    // {name: 'Fall 2016', courses, gpa: 9.6},
     // {name: 'Winter 2017', courses, gpa: 8.0},
     // {name: 'Fall 2017', courses, gpa: 10.2},
     // {name: 'Winter 2018', courses, gpa: 6.4},
@@ -45,6 +45,7 @@ var semesters = [
 ]
 
 var newSemesters = [
+    {name: 'Fall 2016', courses, gpa: 9.6},
     {name: 'Winter 2017', courses, gpa: 8.0},
     {name: 'Fall 2017', courses, gpa: 10.2},
     {name: 'Winter 2018', courses, gpa: 6.4},

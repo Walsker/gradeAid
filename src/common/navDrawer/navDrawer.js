@@ -1,13 +1,13 @@
 // React Native imports
 import React, {Component} from 'react';
-import {Button, Text, TouchableHighlight, View} from 'react-native';
+import {Text, View} from 'react-native';
 
 // Redux imports
 import {connect} from 'react-redux';
 import {newSemester} from 'easyGrades/src/appRedux/actions';
 
 // Custom imports
-import {containerStyle} from '../appStyles';
+import {containerStyle, textStyle} from '../appStyles';
 import Divider from './divider';
 import DrawerItem from './drawerItem';
 
@@ -27,6 +27,11 @@ class NavDrawer extends Component
     render()
     {
         var semesterLinks = this.props.semesters.map(semester => this.createSemesterLink(semester));
+        if (semesterLinks.length != 0)
+        {
+            semesterLinks.push(<Divider key = "Divider"/>);
+        }
+        
         var newSemester = () =>
         {
             this.props.newSemester();
@@ -35,11 +40,12 @@ class NavDrawer extends Component
         return(
             <View style = {containerStyle.default}>
                 <View style = {containerStyle.drawerHeader}>
-                    <Text style = {{fontFamily: 'Lato-Black', fontSize: 56, color: 'white'}}>Easy Grades</Text>
+                    <Text style = {[textStyle.bold(56), {color: 'white'}]}>Easy Grades</Text>
                 </View>
                 <View style = {containerStyle.default}>
+                    <View style = {{marginVertical: 5}}/>
                     {semesterLinks}
-                    <Divider/>
+                    {/* <Divider/> */}
                     <DrawerItem title = "New Semester" action = {() => newSemester()}/>
                     <Divider/>
                     <DrawerItem title = "Settings" action = {() => {}}/>
@@ -58,5 +64,5 @@ const mapStateToProps = (state, regularProps) =>
         semesters: state.semesters
     };
 }
-
+                    
 export default connect(mapStateToProps, {newSemester})(NavDrawer);

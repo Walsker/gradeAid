@@ -32,7 +32,7 @@ export default class AssessmentList extends Component
                 style = {containerStyle.assessmentCard}
             >
                 <View style = {containerStyle.assessmentCardTitle}>
-                    <Text style = {textStyle.assessmentTitle}>{assessmentTitle}</Text>
+                    <Text style = {textStyle.regular(20)}>{assessmentTitle}</Text>
                 </View>
                 <View style = {{flexDirection: 'row'}}>
                     <View style = {containerStyle.assessmentGradeBar}>
@@ -43,7 +43,7 @@ export default class AssessmentList extends Component
                         />
                     </View>
                     <View style = {containerStyle.assessmentGradePercent}>
-                        <Text style = {textStyle.assessmentGrade}>{grade + "%"}</Text>
+                        <Text style = {textStyle.regular(22)}>{grade + "%"}</Text>
                     </View>
                 </View>
             </View>

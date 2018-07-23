@@ -96,9 +96,9 @@ export default class AddCoursePage extends Component
                         placeholderTextColor = 'rgba(0, 0, 0, 0.2)'
                         underlineColorAndroid = {colors.primaryTextColor}
                         returnKeyType = 'next'
-                        style = {textStyle.textFieldText}
+                        style = {textStyle.regular(24)}
                     />
-                    <Text style = {textStyle.textFieldLabel}>
+                    <Text style = {[textStyle.regular(14), {paddingLeft: 3.5}]}>
                         Course Type
                     </Text>
                 </View>
@@ -113,9 +113,9 @@ export default class AddCoursePage extends Component
                         placeholderTextColor = 'rgba(0, 0, 0, 0.2)'
                         underlineColorAndroid = {colors.primaryTextColor}
                         returnKeyType = 'done'
-                        style = {textStyle.textFieldText}
+                        style = {textStyle.regular(24)}
                     />
-                    <Text style = {textStyle.textFieldLabel}>
+                    <Text style = {[textStyle.regular(14), {paddingLeft: 3.5}]}>
                         Course Code
                     </Text>
                 </View>
@@ -149,7 +149,7 @@ export default class AddCoursePage extends Component
         return(
             <View style = {containerStyle.form}>
                 <View style = {containerStyle.formSection}>
-                    <Text style = {textStyle.addCourseText}>What kind of assessments are in your course?{'\n\n'}Select all that apply.</Text>
+                    <Text style = {textStyle.regular(22, 'center')}>What kind of assessments are in your course?{'\n\n'}Select all that apply.</Text>
                 </View>
                 <View style = {containerStyle.formSection}>
                     <CheckList 
@@ -200,7 +200,7 @@ export default class AddCoursePage extends Component
         return(
             <View style = {containerStyle.form}>
                 <View style = {containerStyle.formSection}>
-                    <Text style = {textStyle.addCourseText}>Specify the quantity and total weight of each type of assessment below.{/*{'\n\n'}You can get more specific on the next page.*/}</Text>
+                    <Text style = {textStyle.regular(22, 'center')}>Specify the quantity and total weight of each type of assessment below.{/*{'\n\n'}You can get more specific on the next page.*/}</Text>
                 </View>
                 <View style = {containerStyle.formSection}>
                     <AssessmentDetails
@@ -263,7 +263,7 @@ export default class AddCoursePage extends Component
     //     return(
     //         <View style = {containerStyle.form}>
     //             <View style = {containerStyle.formSection}>
-    //                 <Text style = {textStyle.addCourseText}>What grade would you like to achieve?</Text>
+    //                 <Text style = {textStyle.regular(22, 'center')}>What grade would you like to achieve?</Text>
     //             </View>
     //             <View style = {containerStyle.rowBox}>
     //                 <SelectionGrid
@@ -344,11 +344,11 @@ export default class AddCoursePage extends Component
         return(
             <View style = {containerStyle.form}>
                 <View style = {containerStyle.formSection}>
-                    <Text style = {textStyle.addCourseText}>Confirm your course information below.</Text>
+                    <Text style = {textStyle.regular(22, 'center')}>Confirm your course information below.</Text>
                 </View>
                 <View style = {containerStyle.formSection}>
                     <View style = {[containerStyle.courseCard, {alignItems: 'center'}]}>
-                        <Text style = {textStyle.assessmentGrade}>{this.state.courseName}</Text>
+                        <Text style = {textStyle.bold(22)}>{this.state.courseName}</Text>
                         <View style = {{paddingVertical: 10}}>
                             <Text 
                                 style = {{color: colors.primaryTextColor, fontSize: 18, fontFamily: 'Lato-Light'}}
@@ -384,22 +384,20 @@ export default class AddCoursePage extends Component
         var scenes = [this.courseTitle_SCENE(), this.assessmentTypes_SCENE(), this.assessmentDetails_SCENE(), this.confirmCourse_SCENE()];
 
         return(
-            <View style = {containerStyle.default}>
-                <View style = {containerStyle.page}>
-                    <ScrollView>
-                        <View style = {containerStyle.rowBox}>
-                            <TouchableOpacity 
-                                onPress = {() => this.props.navigation.goBack()}
-                                style = {{paddingVertical: 5, paddingHorizontal: 70, marginBottom: -5}}
-                            >
-                                <Text style = {{fontFamily: 'Lato-Regular', color: colors.secondaryTextColor}}>
-                                    I don't want to add a course.
-                                </Text>
-                            </TouchableOpacity>
-                        </View>
-                        {scenes[this.state.currentScene]}
-                    </ScrollView>
-                </View>
+            <View style = {containerStyle.page}>
+                <ScrollView>
+                    <View style = {containerStyle.rowBox}>
+                        <TouchableOpacity 
+                            onPress = {() => this.props.navigation.goBack()}
+                            style = {{paddingVertical: 5, paddingHorizontal: 70, marginBottom: -5}}
+                        >
+                            <Text style = {{fontFamily: 'Lato-Regular', color: colors.secondaryTextColor}}>
+                                I don't want to add a course.
+                            </Text>
+                        </TouchableOpacity>
+                    </View>
+                    {scenes[this.state.currentScene]}
+                </ScrollView>
             </View>
         );
     }

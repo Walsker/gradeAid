@@ -48,6 +48,7 @@ class RootNavigator extends Component
 import CoursePage from 'easyGrades/src/coursePage/coursePage';
 import SemesterPage from 'easyGrades/src/semesterPage/semesterPage';
 import AddCoursePage from 'easyGrades/src/addCoursePage/addCoursePage';
+import NoSemestersPage from 'easyGrades/src/noSemestersPage/noSemestersPage';
 
 const createSemesterPage = (semester) =>
 {
@@ -67,13 +68,19 @@ const createSemesterPage = (semester) =>
 
 const generateRouteConfigs = (semesterList) =>
 {
-    console.log("CHECK");
     var routes = {};
 
-    // Creating a screen for each of the semesters
-    for (i in semesterList)
+    if (semesterList.length == 0)
     {
-        routes[semesterList[i].name] = {screen: createSemesterPage(semesterList[i])};
+        routes["No Semesters"] = {screen: NoSemestersPage};
+    }
+    else
+    {
+        // Creating a screen for each of the semesters
+        for (i in semesterList)
+        {
+            routes[semesterList[i].name] = {screen: createSemesterPage(semesterList[i])};
+        }
     }
 
     return routes;
