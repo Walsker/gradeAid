@@ -74,7 +74,6 @@ export const containerStyle = StyleSheet.create(
         borderRadius: 5,
         borderColor: colors.dividerColor,
         borderWidth: 1
-        // elevation: 1
     },
     drawerHeader:
     {

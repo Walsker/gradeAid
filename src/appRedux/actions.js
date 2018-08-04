@@ -53,14 +53,26 @@ var newSemesters = [
 ]
 var counter = -1;
 
-export const newSemester = (semester) =>
+export const newSemester = (semesterName) =>
 {
     counter++;
     return {
         type: actionTypes.NEW_SEMESTER,
-        payload: newSemesters[counter]
+        payload: {name: semesterName, courses: [], gpa: 0}
+        // payload: newSemesters[counter]
     };
 }
+
+export const newCourse = (semester, newCourse) =>
+{
+    semester.courses.push(newCourse);
+    console.log("HI");
+    
+    return {
+        type: actionTypes.NEW_COURSE,
+        payload: semester
+    };
+};
 
 export const loadSemesterList = () =>
 {

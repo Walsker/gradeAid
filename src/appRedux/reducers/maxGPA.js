@@ -9,4 +9,4 @@ export default (prevState = 12, action) =>
         default:
             return prevState;
     }
-}
+};

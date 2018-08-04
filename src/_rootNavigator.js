@@ -16,7 +16,7 @@ class RootNavigator extends Component
     constructor(props)
     {
         super(props);
-        this.props.loadSemesterList();        
+        // this.props.loadSemesterList();        
     }
 
     render()
@@ -49,6 +49,8 @@ import CoursePage from 'easyGrades/src/coursePage/coursePage';
 import SemesterPage from 'easyGrades/src/semesterPage/semesterPage';
 import AddCoursePage from 'easyGrades/src/addCoursePage/addCoursePage';
 import NoSemestersPage from 'easyGrades/src/noSemestersPage/noSemestersPage';
+import NewSemsterPage from 'easyGrades/src/newSemesterPage/newSemesterPage';
+import AboutPage from 'easyGrades/src/aboutPage/aboutPage';
 
 const createSemesterPage = (semester) =>
 {
@@ -68,19 +70,33 @@ const createSemesterPage = (semester) =>
 
 const generateRouteConfigs = (semesterList) =>
 {
-    var routes = {};
-
-    if (semesterList.length == 0)
+    var routes = 
     {
-        routes["No Semesters"] = {screen: NoSemestersPage};
-    }
-    else
-    {
-        // Creating a screen for each of the semesters
-        for (i in semesterList)
+        "About":
         {
-            routes[semesterList[i].name] = {screen: createSemesterPage(semesterList[i])};
+            screen: AboutPage
+        },
+        "Settings":
+        {
+            screen: AboutPage
+        },
+        "New Semester": 
+        {
+            screen: createStackNavigator(
+            {
+                "Add Semester": NewSemsterPage,
+                "No Semesters": NoSemestersPage
+            },
+            {
+                headerMode: 'none',
+                initialRouteName: "No Semesters"
+            })
         }
+    };
+
+    for (i in semesterList)
+    {
+        routes[semesterList[i].name] = {screen: createSemesterPage(semesterList[i])};
     }
 
     return routes;
@@ -94,5 +110,4 @@ const mapStateToProps = (state) =>
         semesters: state.semesters
     };
 };
-
 export default connect(mapStateToProps, {loadSemesterList})(RootNavigator);

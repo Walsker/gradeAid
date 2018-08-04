@@ -1,6 +1,6 @@
 // React Native imports
 import React, {Component} from 'react';
-import {ScrollView, Text, View} from 'react-native';
+import {ScrollView, Text, TouchableOpacity, View} from 'react-native';
 
 // Redux imports
 import {connect} from 'react-redux';
@@ -16,7 +16,7 @@ class SemesterPage extends Component
 {
     newCourse()
     {
-        this.props.navigation.navigate("Add Course");
+        this.props.navigation.navigate("Add Course", {semester: this.props.semester});
     }
 
     editSemester()
@@ -24,35 +24,15 @@ class SemesterPage extends Component
         alert("Edit Semester");
     }
     
-    render()
+    renderContent()
     {
-        // Formatting the GPA numbers
-        var maxGPAString = parseFloat(this.props.maxGPA).toFixed(1);
-        var GPAString = parseFloat(this.props.semester.gpa).toFixed(1);
-
-        return(
-            <View style = {containerStyle.default}>
-                <ActionBar
-                    leftButton = 
-                    {
-                        <IconButton
-                            type = 'menu'
-                            size = {30}
-                            color = {colors.titleAndIconColor}
-                            action = {this.props.navigation.openDrawer}
-                        />
-                    }
-                    title = {this.props.semester.name}
-                    rightButton = 
-                    {
-                        <IconButton
-                            type = 'add'
-                            size = {30}
-                            color = {colors.titleAndIconColor}
-                            action = {this.newCourse.bind(this)}
-                        />
-                    }
-                />
+        if (!this.props.newSemester)
+        {
+            // Formatting the GPA numbers
+            var maxGPAString = parseFloat(this.props.maxGPA).toFixed(1);
+            var GPAString = parseFloat(this.props.semester.gpa).toFixed(1);
+            
+            return(
                 <ScrollView style = {containerStyle.tileList}>
                     <Tile title = "Semester Average" 
                         content = 
@@ -85,31 +65,107 @@ class SemesterPage extends Component
                     />
                     <View style = {{height: 10}}/>
                 </ScrollView>
+            );
+        }
+        else
+        {
+            return(
+                <View style = {containerStyle.tileList}>
+                    <Tile
+                        title = "No Courses"
+                        content = 
+                        {
+                            <View>
+                                <View style = {{marginVertical: 5}}/>
+                                <Text style = {textStyle.regular(16, 'center')}>
+                                    You have no courses in this semester!
+                                </Text>
+                                <View style = {{marginVertical: 5}}/>
+                                <View style = {containerStyle.rowBox}>
+                                    <TouchableOpacity
+                                        style = {{alignItems: 'center', alignSelf: 'stretch', flex: 1, paddingVertical: 5}}
+                                        onPress = {this.newCourse.bind(this)}
+                                    >
+                                        <View style = {{
+                                            backgroundColor: colors.darkPrimaryColor,
+                                            paddingVertical: 15,
+                                            paddingHorizontal: 50,
+                                            borderRadius: 30
+                                        }}>
+                                            <Text 
+                                                style = {[textStyle.bold(20), {color: 'white'}]}
+                                            >
+                                                Add Course
+                                            </Text>
+                                        </View>
+                                    </TouchableOpacity>
+                                </View>
+                            </View>
+                        }
+                    />
+                </View>
+            );
+        }
+    }
+
+    render()
+    {
+        var rightButton = this.props.newSemester ? [<View key = "addButton"/>] :
+        [
+            <IconButton
+                key = "addButton"
+                type = 'add'
+                size = {30}
+                color = {colors.titleAndIconColor}
+                action = {this.newCourse.bind(this)}
+            />
+        ];
+
+        return(
+            <View style = {containerStyle.default}>
+                <ActionBar
+                    leftButton = 
+                    {
+                        <IconButton
+                            type = 'menu'
+                            size = {30}
+                            color = {colors.titleAndIconColor}
+                            action = {this.props.navigation.openDrawer}
+                        />
+                    }
+                    title = {this.props.semester.name}
+                    rightButton = {rightButton}
+                />
+                {this.renderContent()}
             </View>
         );
     }
 }
 
 const mapStateToProps = (state, regularProps) =>
-{   
-    const nullCourses = [{name: 'NULL 0000', average: 0, assessments: {}}];
-    const nullSemester = {name: 'Fall 1970', nullCourses, gpa: 0.0};
-    
+{       
     var semesterName = regularProps.navigation.state.routeName;
-    var semesterObject = nullSemester;
+    var semesterObject = {name: semesterName, courses: [], gpa: null};
+    var newSemester = true;
 
     for (i in state.semesters)
     {
         if (state.semesters[i].name == semesterName)
         {
             semesterObject = state.semesters[i];
+
+            if (semesterObject.courses.length != 0)
+            {
+                newSemester = false;
+            }
             break;
         }
     }
 
     return {
         maxGPA: state.maxGPA,
-        semester: semesterObject
+        semester: semesterObject,
+        newSemester
     };
 }
 

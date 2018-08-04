@@ -2,6 +2,9 @@
 import React, {Component} from 'react';
 import {Text, View} from 'react-native';
 
+// React Navigation imports
+import {NavigationActions} from 'react-navigation';
+
 // Redux imports
 import {connect} from 'react-redux';
 import {newSemester} from 'easyGrades/src/appRedux/actions';
@@ -37,6 +40,12 @@ class NavDrawer extends Component
             this.props.newSemester();
         }
 
+        var linkToAddSemester = NavigationActions.navigate(
+        {
+            routeName: 'New Semester',          
+            action: NavigationActions.navigate({routeName: 'Add Semester', params: {showNoSemesters: this.props.semesters.length == 0}}),
+        });
+
         return(
             <View style = {containerStyle.default}>
                 <View style = {containerStyle.drawerHeader}>
@@ -45,12 +54,13 @@ class NavDrawer extends Component
                 <View style = {containerStyle.default}>
                     <View style = {{marginVertical: 5}}/>
                     {semesterLinks}
-                    {/* <Divider/> */}
-                    <DrawerItem title = "New Semester" action = {() => newSemester()}/>
+                    <DrawerItem 
+                        title = "New Semester"
+                        action = {() => this.props.navProp.dispatch(linkToAddSemester)}
+                    />
                     <Divider/>
-                    <DrawerItem title = "Settings" action = {() => {}}/>
-                    <DrawerItem title = "Send Feedback" action = {() => {}}/>
-                    <DrawerItem title = "About" action = {() => {}}/>
+                    <DrawerItem title = "Settings" action = {() => this.props.navProp.navigate("Settings")}/>
+                    <DrawerItem title = "About" action = {() => this.props.navProp.navigate("About")}/>
                 </View>
             </View>
         );

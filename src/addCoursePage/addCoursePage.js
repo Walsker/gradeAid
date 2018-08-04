@@ -1,18 +1,22 @@
-// React// React Native imports
+// React Native imports
 import React, {Component} from 'react';
-import {Button, Picker, ScrollView, Text, TextInput, TouchableOpacity, View} from 'react-native';
+import {Button, ScrollView, Text, TextInput, TouchableOpacity, View} from 'react-native';
+
+// Redux imports
+import {connect} from 'react-redux';
+import {newCourse} from 'easyGrades/src/appRedux/actions';
 
 // Custom imports
 import {colors, containerStyle, textStyle} from 'easyGrades/src/common/appStyles';
 import CheckList from './components/checkList';
 import AssessmentDetails from './components/assessmentDetails';
 
-export default class AddCoursePage extends Component
+class AddCoursePage extends Component
 {
     constructor(props)
     {
         super(props);
-        
+
         var types = ["Assignments", "Projects", "Essays", "Quizzes", 
             "Tests", "Midterms", "Labs", "Tutorials", "Discussion Groups", "Final Exam"];
         var emptyList = [];
@@ -33,6 +37,7 @@ export default class AddCoursePage extends Component
 
         this.state = 
         {
+            semester: this.props.navigation.getParam('semester', {}),
             currentScene: 0,
             assessmentTypes: types,
             selectedTypes: emptyList,
@@ -72,11 +77,22 @@ export default class AddCoursePage extends Component
 
     renderFinishButton()
     {
+        var finishedCourse = {
+            name: this.state.courseName,
+            average: 0,
+            assessments: []
+        };
+
+        // TODO: Make incomplete assessments according to the types they've declared
+
         return(
             <Button
                 color = {colors.accentColor}
                 title = "    Finish    "
-                onPress = {() => {this.props.navigation.goBack(); alert("done")}}
+                onPress = {() => {
+                    this.props.newCourse(this.state.semester, finishedCourse)
+                    this.props.navigation.goBack();
+                }}
             />
         );
     }
@@ -382,7 +398,7 @@ export default class AddCoursePage extends Component
     render()
     {
         var scenes = [this.courseTitle_SCENE(), this.assessmentTypes_SCENE(), this.assessmentDetails_SCENE(), this.confirmCourse_SCENE()];
-
+        
         return(
             <View style = {containerStyle.page}>
                 <ScrollView>
@@ -402,3 +418,5 @@ export default class AddCoursePage extends Component
         );
     }
 }
+
+export default connect(null, {newCourse})(AddCoursePage);
