@@ -77,22 +77,65 @@ class AddCoursePage extends Component
 
     renderFinishButton()
     {
-        var finishedCourse = {
-            name: this.state.courseName,
-            assessments: [],
-            average: 0,
-            isEmpty: true
-        };
+        var createCourseObject = () =>
+        {
+            var types = this.state.assessmentTypes;
+            var assessments = [];
+            for (i in types)
+            {
+                if (this.state.selectedTypes[i] == true)
+                {
+                    var assessmentName = types[i];
+                    var assessmentInfo = this.state.assessmentDetails[types[i]];
+                    
+                    if (assessmentName != "Final Exam")
+                    {
+                        if (assessmentName == "Quizzes")
+                        {
+                            var assessmentName = "Quiz";
+                        }
+                        else
+                        {
+                            var assessmentName = assessmentName.slice(0, -1);
+                        }
 
-        // console.log(this.state.selectedTypes);
-        // console.log(this.state.assessmentDetails);
-
+                        for (var j = 0; j < assessmentInfo.quantity; j++)
+                        {
+                            var assessmentNumber = " " + (j + 1).toString();
+                            assessments.push({
+                                name: assessmentName + assessmentNumber,
+                                grade: 0,
+                                weight: assessmentInfo.weight,
+                                complete: false
+                            });
+                        }
+                    }
+                    else
+                    {
+                        assessments.push({
+                            name: "Final Exam",
+                            grade: 0,
+                            weight: assessmentInfo.weight,
+                            complete: false
+                        });
+                    }
+                }
+            }
+    
+            return {
+                name: this.state.courseName,
+                assessments,
+                average: 0,
+                newCourse: true
+            };
+        }
+        
         return(
             <Button
                 color = {colors.accentColor}
-                title = "    Finish    "
+                title = "Finish"
                 onPress = {() => {
-                    this.props.newCourse(this.state.semester, finishedCourse)
+                    this.props.newCourse(this.state.semester, createCourseObject())
                     this.props.navigation.goBack();
                 }}
             />
@@ -145,8 +188,7 @@ class AddCoursePage extends Component
                             alert("Incomplete");   
                         }
                         else
-                        {   
-                            console.log(this.state._courseType.toUpperCase() + " " + this.state._courseCode);
+                        {
                             this.setState(prevState =>
                             {
                                 return(
@@ -228,7 +270,6 @@ class AddCoursePage extends Component
                         onInfoChange = {(newData) =>
                         {
                             this.setState({assessmentDetails: newData})
-                            console.log(newData);
                         }}
                     />
                 </View>

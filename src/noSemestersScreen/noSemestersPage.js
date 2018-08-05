@@ -45,7 +45,7 @@ class NoSemestersPage extends Component
                 </View>
                 <View style = {{flex: 1, justifyContent: 'center', padding: 50, paddingTop: -56}}>
                     <Text style = {textStyle.regular(16, 'center')}>
-                        An encouraging message.
+                        Get started by pressing that button right there.
                     </Text>
                     <View style = {{marginVertical: 20}}/>
                     <View style = {containerStyle.rowBox}>

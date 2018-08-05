@@ -30,6 +30,20 @@ class SemesterPage extends Component
             var maxGPAString = parseFloat(this.props.maxGPA).toFixed(1);
             var GPAString = parseFloat(this.props.semester.gpa).toFixed(1);
             
+            var showNA = true;
+            for (i in this.props.semester.courses)
+            {
+                if (this.props.semester.courses[i].newCourse == false)
+                {
+                    showNA = false;
+                }
+            }
+
+            if (showNA == true)
+            {
+                var GPAString = "N/A";
+            }
+
             return(
                 <ScrollView style = {containerStyle.tileList}>
                     <Tile title = "Semester Average" 

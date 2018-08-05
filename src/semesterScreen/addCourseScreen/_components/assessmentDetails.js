@@ -16,7 +16,6 @@ export default class AssessmentDetails extends Component
 
     renderAssessmentCard(type)
     {
-        console.log(this.state.details, type);
         var quantityDisplay = () => 
         {
             return(
@@ -63,7 +62,6 @@ export default class AssessmentDetails extends Component
         const convertToPercentage = (objectToConvert, fallback) =>
         {
             var attempt = parseFloat(objectToConvert);
-            console.log(attempt, fallback)
             if (Number(attempt) === attempt)
             {
                 if (attempt > 100)
@@ -125,7 +123,6 @@ export default class AssessmentDetails extends Component
                                     quantity: newDetails[type].quantity,
                                     weight: newWeight
                                 }
-                                console.log(newWeight);
                                 this.setState({details: newDetails});
                                 this.props.onInfoChange(this.state.details);
                             }}

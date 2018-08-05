@@ -1,50 +1,67 @@
 // React Native imports
 import React, {Component} from 'react';
-import {ScrollView, View} from 'react-native';
+import {ScrollView, Text, TouchableOpacity, View} from 'react-native';
 
 // Custom imports
 import {ActionBar, IconButton, ProgressCircle, Tile} from 'easyGrades/src/common';
-import {colors, containerStyle} from 'easyGrades/src/common/appStyles';
+import {colors, containerStyle, textStyle} from 'easyGrades/src/common/appStyles';
 import AssessmentList from './_components/assessmentList';
 
 export default class CoursePage extends Component
 {
-    newAssessment()
+    addGrade()
     {
-        alert("New Assessment");
+        alert("Add Grade");
     }
     editCourse()
     {
         alert("Edit Course");
     }
 
-    render()
+    renderContent(course)
     {
-        var course = this.props.navigation.getParam('course', {});
-
-        return(
-            <View style = {containerStyle.default}>
-                <ActionBar
-                    leftButton = 
-                    {
-                        <IconButton
-                            type = 'arrow-back'
-                            size = {30}
-                            color = {colors.titleAndIconColor}
-                            action = {this.props.navigation.goBack}
-                        />
-                    }
-                    title = {course.name}
-                    rightButton = 
-                    {
-                        <IconButton
-                            type = 'edit'
-                            size = {30}
-                            color = {colors.titleAndIconColor}
-                            action = {this.editCourse}
-                        />
-                    }
-                />
+        if (course.newCourse == true)
+        {
+            return(
+                <View style = {containerStyle.tileList}>
+                    <Tile
+                        title = "Fresh Course"
+                        content = 
+                        {
+                            <View>
+                                <View style = {{marginVertical: 5}}/>
+                                <Text style = {textStyle.regular(16, 'center')}>
+                                    You haven't completed any assessments yet.
+                                </Text>
+                                <View style = {{marginVertical: 5}}/>
+                                <View style = {containerStyle.rowBox}>
+                                    <TouchableOpacity
+                                        style = {{alignItems: 'center', alignSelf: 'stretch', flex: 1, paddingVertical: 5}}
+                                        onPress = {() => this.props.navigation.navigate("Input Grade")}
+                                    >
+                                        <View style = {{
+                                            backgroundColor: colors.darkPrimaryColor,
+                                            paddingVertical: 15,
+                                            paddingHorizontal: 50,
+                                            borderRadius: 30
+                                        }}>
+                                            <Text 
+                                                style = {[textStyle.bold(20), {color: 'white'}]}
+                                            >
+                                                Input Grade
+                                            </Text>
+                                        </View>
+                                    </TouchableOpacity>
+                                </View>
+                            </View>
+                        }
+                    />
+                </View>
+            );
+        }
+        else
+        {
+            return(
                 <ScrollView style = {containerStyle.tileList}>
                     <Tile title = "Average" 
                         content = 
@@ -56,6 +73,7 @@ export default class CoursePage extends Component
                                 emptyRingColor = {colors.darkPrimaryColor}
                                 backgroundColor = {colors.spaceColor}
                                 percentage = {course.average}
+                                active = {!course.newCourse}
                                 animationDelay = {0}
                             />
                         }
@@ -78,9 +96,10 @@ export default class CoursePage extends Component
                                 type = 'add'
                                 size = {25}
                                 color = {colors.primaryTextColor}
-                                action = {this.newAssessment}
+                                action = {() => this.props.navigation.navigate("Input Grade")}
                             />
                         }
+                
                         content = 
                         {
                             <AssessmentList assessments = {course.assessments}/>
@@ -88,6 +107,38 @@ export default class CoursePage extends Component
                     />
                     <View style = {{height: 10}}/>
                 </ScrollView>
+            );
+        }   
+    }
+
+    render()
+    {
+        var course = this.props.navigation.getParam('course', {});
+
+        return(
+            <View style = {containerStyle.default}>
+                <ActionBar
+                    leftButton = 
+                    {
+                        <IconButton
+                            type = 'arrow-back'
+                            size = {30}
+                            color = {colors.titleAndIconColor}
+                            action = {this.props.navigation.popToTop}
+                        />
+                    }
+                    title = {course.name}
+                    rightButton = 
+                    {
+                        <IconButton
+                            type = 'edit'
+                            size = {30}
+                            color = {colors.titleAndIconColor}
+                            action = {this.editCourse}
+                        />
+                    }
+                />
+                {this.renderContent(course)}
             </View>
         );
     }

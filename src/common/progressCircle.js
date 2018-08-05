@@ -108,6 +108,25 @@ export default class ProgressCircle extends Component {
         const diameter = this.props.diameter;
         const radius = this.props.diameter / 2;
 
+        var display = this.props.active ? 
+            <Text style = {{
+                fontSize: this.props.diameter / 2,
+                color: colors.primaryTextColor,
+                fontFamily: 'Lato-Regular'
+            }}>
+                {this.props.percentage}
+                <Text style = {{fontSize: this.props.diameter / 5}}>%</Text>
+            </Text>
+            :
+            <Text style = {{
+                fontSize: this.props.diameter / 2,
+                color: colors.primaryTextColor,
+                fontFamily: 'Lato-Regular'
+            }}>
+                ~
+            </Text>
+        ;
+
         return(
             <View style = {[
                 styles.circle,
@@ -131,18 +150,7 @@ export default class ProgressCircle extends Component {
                         backgroundColor: this.props.backgroundColor,
                     }
                 ]}>
-                    <Animated.Text style = {{
-                        fontSize: this.props.diameter / 2,
-                        color: colors.primaryTextColor,
-                        fontFamily: 'Lato-Regular'
-                        // opacity: this.state.percentage.interpolate({
-                        //     inputRange: [0, this.props.percentage],
-                        //     outputRange: [0, 1]
-                        // })
-                    }}>
-                        {this.props.percentage}
-                        <Text style = {{fontSize: this.props.diameter / 5}}>%</Text>
-                    </Animated.Text>
+                    {display}
                 </View>
             </View>
         );

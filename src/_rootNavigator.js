@@ -30,6 +30,7 @@ class RootNavigator extends Component
 
         var navConfig = {
             initialRouteName: latestSemester,
+            drawerLockMode: 'locked-closed',
             contentComponent: ({navigation}) =>
             {
                 return <NavDrawer navProp = {navigation}/>;
@@ -45,7 +46,7 @@ class RootNavigator extends Component
 }
 
 // Imports for the following functions
-import {AddCoursePage, CoursePage, SemesterPage} from 'easyGrades/src/semesterScreen';
+import {AddCoursePage, CoursePage, InputGradePage, SemesterPage} from 'easyGrades/src/semesterScreen';
 import {NoSemestersPage, NewSemesterPage} from 'easyGrades/src/noSemestersScreen';
 import AboutPage from 'easyGrades/src/aboutScreen/aboutPage';
 
@@ -53,12 +54,22 @@ const createSemesterPage = (semester) =>
 {
     var routes = {};
     routes[semester.name] = {screen: SemesterPage}; // The actual page
-    routes["Add Course"] = {screen: AddCoursePage}; // The page for adding a course to the semester
+    routes["Add Course"] = {
+        screen: AddCoursePage,
+        navigationOptions: ({navigation}) => ({drawerLockMode: 'locked-closed'})
+    }; // The page for adding a course to the semester
 
     // Creating pages for the individual courses
     for (i in semester.courses)
     {
-        routes[semester.courses[i].name] = {screen: CoursePage};
+        routes[semester.courses[i].name] = createStackNavigator({
+            "Course Screen": {screen: CoursePage},
+            "Input Grade": {screen: InputGradePage}
+        }, 
+        {
+            headerMode: 'none',
+            initialRouteName: "Course Screen"
+        });
     }
 
     // Returning a Stack Navigator
@@ -81,8 +92,8 @@ const generateRouteConfigs = (semesterList) =>
         {
             screen: createStackNavigator(
             {
-                "No Semesters": NoSemestersPage,
-                "Add Semester": NewSemesterPage
+                "No Semesters": {screen: NoSemestersPage},
+                "Add Semester": {screen: NewSemesterPage}
             },
             {
                 headerMode: 'none',
