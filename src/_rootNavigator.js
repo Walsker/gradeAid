@@ -67,9 +67,6 @@ const createSemesterPage = (semester) =>
 
 const generateRouteConfigs = (semesterList) =>
 {
-    console.log(CoursePage);
-    console.log(NewSemesterPage);
-    console.log(NoSemestersPage);
     var routes = 
     {
         "About":

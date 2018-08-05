@@ -11,7 +11,6 @@
 // React Native imports
 import React, {Component} from 'react';
 import {StyleSheet, Text, TouchableNativeFeedback, View} from 'react-native';
-// TouchableNativeFeedback only works with Android
 
 // Custom imports
 import {colors, containerStyle} from 'easyGrades/src/common/appStyles';

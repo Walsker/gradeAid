@@ -17,7 +17,7 @@ class AddCoursePage extends Component
     {
         super(props);
 
-        var types = ["Assignments", "Projects", "Essays", "Quizzes", 
+        const types = ["Assignments", "Projects", "Essays", "Quizzes", 
             "Tests", "Midterms", "Labs", "Tutorials", "Discussion Groups", "Final Exam"];
         var emptyList = [];
         var emptyDetails = {};
@@ -79,11 +79,13 @@ class AddCoursePage extends Component
     {
         var finishedCourse = {
             name: this.state.courseName,
+            assessments: [],
             average: 0,
-            assessments: []
+            isEmpty: true
         };
 
-        // TODO: Make incomplete assessments according to the types they've declared
+        // console.log(this.state.selectedTypes);
+        // console.log(this.state.assessmentDetails);
 
         return(
             <Button
