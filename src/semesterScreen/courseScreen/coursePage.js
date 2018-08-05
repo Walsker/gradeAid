@@ -1,14 +1,11 @@
 // React Native imports
 import React, {Component} from 'react';
-import {ScrollView, Text, View} from 'react-native';
+import {ScrollView, View} from 'react-native';
 
 // Custom imports
-import {colors, containerStyle, textStyle} from 'easyGrades/src/common/appStyles';
-import AssessmentList from './components/assessmentList';
-import ProgressCircle from 'easyGrades/src/common/progressCircle';
-import ActionBar from 'easyGrades/src/common/actionBar';
-import IconButton from 'easyGrades/src/common/iconButton';
-import Tile from 'easyGrades/src/common/tile';
+import {ActionBar, IconButton, ProgressCircle, Tile} from 'easyGrades/src/common';
+import {colors, containerStyle} from 'easyGrades/src/common/appStyles';
+import AssessmentList from './_components/assessmentList';
 
 export default class CoursePage extends Component
 {
@@ -23,8 +20,7 @@ export default class CoursePage extends Component
 
     render()
     {
-        const nullCourse = {name: 'NULL 0000', average: 0, assessments: {}};
-        var course = this.props.navigation.getParam('course', nullCourse);
+        var course = this.props.navigation.getParam('course', {});
 
         return(
             <View style = {containerStyle.default}>
@@ -42,10 +38,10 @@ export default class CoursePage extends Component
                     rightButton = 
                     {
                         <IconButton
-                            type = 'add'
+                            type = 'edit'
                             size = {30}
                             color = {colors.titleAndIconColor}
-                            action = {this.newAssessment}
+                            action = {this.editCourse}
                         />
                     }
                 />
@@ -79,10 +75,10 @@ export default class CoursePage extends Component
                         button = 
                         {
                             <IconButton
-                                type = 'edit'
+                                type = 'add'
                                 size = {25}
                                 color = {colors.primaryTextColor}
-                                action = {this.editCourse}
+                                action = {this.newAssessment}
                             />
                         }
                         content = 

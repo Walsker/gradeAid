@@ -7,10 +7,8 @@ import {connect} from 'react-redux';
 
 // Custom imports
 import {colors, containerStyle, textStyle} from 'easyGrades/src/common/appStyles';
-import ActionBar from 'easyGrades/src/common/actionBar';
-import IconButton from 'easyGrades/src/common/iconButton';
-import CourseList from './components/courseList';
-import Tile from 'easyGrades/src/common/tile';
+import {ActionBar, IconButton, Tile} from 'easyGrades/src/common';
+import CourseList from './_components/courseList';
 
 class SemesterPage extends Component
 {
@@ -49,10 +47,10 @@ class SemesterPage extends Component
                         button = 
                         {
                             <IconButton
-                                type = 'edit'
-                                size = {25}
+                                type = 'add'
+                                size = {30}
                                 color = {colors.primaryTextColor}
-                                action = {this.editSemester}
+                                action = {this.newCourse.bind(this)}
                             />
                         }
                         content = 
@@ -110,17 +108,6 @@ class SemesterPage extends Component
 
     render()
     {
-        var rightButton = this.props.newSemester ? [<View key = "addButton"/>] :
-        [
-            <IconButton
-                key = "addButton"
-                type = 'add'
-                size = {30}
-                color = {colors.titleAndIconColor}
-                action = {this.newCourse.bind(this)}
-            />
-        ];
-
         return(
             <View style = {containerStyle.default}>
                 <ActionBar
@@ -134,7 +121,14 @@ class SemesterPage extends Component
                         />
                     }
                     title = {this.props.semester.name}
-                    rightButton = {rightButton}
+                    rightButton = {
+                        <IconButton
+                            type = 'edit'
+                            size = {30}
+                            color = {colors.titleAndIconColor}
+                            action = {this.editSemester}
+                        />
+                    }
                 />
                 {this.renderContent()}
             </View>

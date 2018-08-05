@@ -19,6 +19,7 @@ class NewSemesterPage extends Component
             _semesterName: ""
         };
     }
+    
     render()
     {
         var showNoSemestersPage = this.props.navigation.getParam('showNoSemesters', true);

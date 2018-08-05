@@ -4,7 +4,7 @@ import {StyleSheet, Text, View} from 'react-native';
 
 // Custom imports
 import {colors} from 'easyGrades/src/common/appStyles';
-import IconButton from 'easyGrades/src/common/iconButton';
+import {IconButton} from 'easyGrades/src/common';
 
 export default class NumberPicker extends Component
 {

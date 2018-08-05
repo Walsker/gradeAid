@@ -4,11 +4,10 @@ import {Text, TouchableOpacity, View} from 'react-native';
 
 // Redux imports
 import {connect} from 'react-redux';
-import {newSemester} from 'easyGrades/src/appRedux/actions';
 
 // Custom imports
 import {colors, containerStyle, textStyle} from 'easyGrades/src/common/appStyles';
-import IconButton from 'easyGrades/src/common/iconButton';
+import {IconButton} from 'easyGrades/src/common';
 
 class NoSemestersPage extends Component
 {
@@ -90,4 +89,4 @@ const mapStateToProps = (state) =>
         latestSmester: semesterName
     };
 }
-export default connect(mapStateToProps, {newSemester})(NoSemestersPage);
+export default connect(mapStateToProps)(NoSemestersPage);

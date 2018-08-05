@@ -8,8 +8,8 @@ import {newCourse} from 'easyGrades/src/appRedux/actions';
 
 // Custom imports
 import {colors, containerStyle, textStyle} from 'easyGrades/src/common/appStyles';
-import CheckList from './components/checkList';
-import AssessmentDetails from './components/assessmentDetails';
+import CheckList from './_components/checkList';
+import AssessmentDetails from './_components/assessmentDetails';
 
 class AddCoursePage extends Component
 {

@@ -9,7 +9,7 @@ import {connect} from 'react-redux';
 import {loadSemesterList} from './appRedux/actions';
 
 // Custom imports
-import NavDrawer from 'easyGrades/src/common/navDrawer/navDrawer';
+import {NavDrawer} from 'easyGrades/src/common';
 
 class RootNavigator extends Component
 {
@@ -45,12 +45,9 @@ class RootNavigator extends Component
 }
 
 // Imports for the following functions
-import CoursePage from 'easyGrades/src/coursePage/coursePage';
-import SemesterPage from 'easyGrades/src/semesterPage/semesterPage';
-import AddCoursePage from 'easyGrades/src/addCoursePage/addCoursePage';
-import NoSemestersPage from 'easyGrades/src/noSemestersPage/noSemestersPage';
-import NewSemsterPage from 'easyGrades/src/newSemesterPage/newSemesterPage';
-import AboutPage from 'easyGrades/src/aboutPage/aboutPage';
+import {AddCoursePage, CoursePage, SemesterPage} from 'easyGrades/src/semesterScreen';
+import {NoSemestersPage, NewSemesterPage} from 'easyGrades/src/noSemestersScreen';
+import AboutPage from 'easyGrades/src/aboutScreen/aboutPage';
 
 const createSemesterPage = (semester) =>
 {
@@ -70,6 +67,9 @@ const createSemesterPage = (semester) =>
 
 const generateRouteConfigs = (semesterList) =>
 {
+    console.log(CoursePage);
+    console.log(NewSemesterPage);
+    console.log(NoSemestersPage);
     var routes = 
     {
         "About":
@@ -84,8 +84,8 @@ const generateRouteConfigs = (semesterList) =>
         {
             screen: createStackNavigator(
             {
-                "Add Semester": NewSemsterPage,
-                "No Semesters": NoSemestersPage
+                "No Semesters": NoSemestersPage,
+                "Add Semester": NewSemesterPage
             },
             {
                 headerMode: 'none',

@@ -15,7 +15,7 @@ import {StyleSheet, Text, TouchableNativeFeedback, View} from 'react-native';
 
 // Custom imports
 import {colors, containerStyle} from 'easyGrades/src/common/appStyles';
-import ProgressCircle from 'easyGrades/src/common/progressCircle';
+import {ProgressCircle} from 'easyGrades/src/common';
 
 export default class CourseList extends Component
 {

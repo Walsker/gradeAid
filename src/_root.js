@@ -10,7 +10,7 @@ import reducers from './_rootReducer';
 // Custom imports
 import RootNavigator from './_rootNavigator';
 import {containerStyle} from 'easyGrades/src/common/appStyles';
-import AndroidBar from 'easyGrades/src/common/androidBar';
+import {AndroidBar} from 'easyGrades/src/common';
 
 export default class App extends Component
 {
