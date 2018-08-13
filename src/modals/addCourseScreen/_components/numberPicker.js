@@ -16,7 +16,7 @@ export default class NumberPicker extends Component
                     type = 'remove-circle'
                     size = {25}
                     color = {colors.primaryColor}
-                    action = {() => this.props.onDecrease()}
+                    action = {this.props.onDecrease}
                 />
                 <View style = {styles.number}>
                     <Text style = {styles.numberText}>{this.props.value}</Text>

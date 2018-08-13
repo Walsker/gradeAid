@@ -7,7 +7,6 @@ import {NavigationActions} from 'react-navigation';
 
 // Redux imports
 import {connect} from 'react-redux';
-import {newSemester} from 'easyGrades/src/appRedux/actions';
 
 // Custom imports
 import {containerStyle, textStyle} from '../appStyles';
@@ -34,16 +33,11 @@ class NavDrawer extends Component
         {
             semesterLinks.push(<Divider key = "Divider"/>);
         }
-        
-        var newSemester = () =>
-        {
-            this.props.newSemester();
-        }
 
         var linkToAddSemester = NavigationActions.navigate(
         {
             routeName: 'New Semester',          
-            action: NavigationActions.navigate({routeName: 'Add Semester', params: {showNoSemesters: this.props.semesters.length == 0}}),
+            action: NavigationActions.navigate({routeName: 'NewSemesterPage', params: {showNoSemesters: this.props.semesters.length == 0}}),
         });
 
         return(
@@ -56,7 +50,11 @@ class NavDrawer extends Component
                     {semesterLinks}
                     <DrawerItem 
                         title = "New Semester"
-                        action = {() => this.props.navProp.dispatch(linkToAddSemester)}
+                        // action = {() => this.props.navProp.dispatch(linkToAddSemester)}
+                        action = {() => {
+                            this.props.navProp.closeDrawer();
+                            this.props.navProp.navigate("NewSemesterPage");
+                        }}
                     />
                     <Divider/>
                     <DrawerItem title = "Settings" action = {() => this.props.navProp.navigate("Settings")}/>
@@ -75,4 +73,4 @@ const mapStateToProps = (state, regularProps) =>
     };
 }
                     
-export default connect(mapStateToProps, {newSemester})(NavDrawer);
+export default connect(mapStateToProps)(NavDrawer);

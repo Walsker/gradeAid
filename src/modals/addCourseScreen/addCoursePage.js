@@ -8,6 +8,7 @@ import {newCourse} from 'easyGrades/src/appRedux/actions';
 
 // Custom imports
 import {colors, containerStyle, textStyle} from 'easyGrades/src/common/appStyles';
+import {ActionBar, IconButton} from 'easyGrades/src/common';
 import CheckList from './_components/checkList';
 import AssessmentDetails from './_components/assessmentDetails';
 
@@ -69,7 +70,7 @@ class AddCoursePage extends Component
                 <Button
                     color = {colors.primaryColor}
                     title = "    Next    "
-                    onPress = {() => action()}
+                    onPress = {action}
                 />
             </View>
         );
@@ -445,16 +446,19 @@ class AddCoursePage extends Component
         return(
             <View style = {containerStyle.page}>
                 <ScrollView>
-                    <View style = {containerStyle.rowBox}>
-                        <TouchableOpacity 
-                            onPress = {() => this.props.navigation.goBack()}
-                            style = {{paddingVertical: 5, paddingHorizontal: 70, marginBottom: -5}}
-                        >
-                            <Text style = {{fontFamily: 'Lato-Regular', color: colors.secondaryTextColor}}>
-                                I don't want to add a course.
-                            </Text>
-                        </TouchableOpacity>
-                    </View>
+                    <ActionBar
+                        inverted = {true}
+                        leftButton = 
+                        {
+                            <IconButton
+                                type = 'arrow-back'
+                                size = {30}
+                                color = {colors.primaryColor}
+                                action = {() => this.props.navigation.goBack()}
+                            />
+                        }
+                        title = "Add Course"
+                    />
                     {scenes[this.state.currentScene]}
                 </ScrollView>
             </View>

@@ -14,12 +14,12 @@ class SemesterPage extends Component
 {
     newCourse()
     {
-        this.props.navigation.navigate("Add Course", {semester: this.props.semester});
+        this.props.navigation.navigate("AddCoursePage", {semester: this.props.semester});
     }
 
     editSemester()
     {
-        alert("Edit Semester");
+        this.props.navigation.navigate("EditSemesterPage", {semester: this.props.semester});
     }
     
     renderContent()
@@ -70,7 +70,8 @@ class SemesterPage extends Component
                         content = 
                         {
                             <CourseList
-                                courses = {this.props.semester.courses}
+                                semester = {this.props.semester}
+                                // courses = {this.props.semester.courses}
                                 navProp = {this.props.navigation}
                             />
                         }
@@ -122,6 +123,7 @@ class SemesterPage extends Component
 
     render()
     {
+        console.log(this.props.navigation.state);
         return(
             <View style = {containerStyle.default}>
                 <ActionBar
@@ -140,7 +142,7 @@ class SemesterPage extends Component
                             type = 'edit'
                             size = {30}
                             color = {colors.titleAndIconColor}
-                            action = {this.editSemester}
+                            action = {this.editSemester.bind(this)}
                         />
                     }
                 />

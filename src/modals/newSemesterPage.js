@@ -1,6 +1,6 @@
 // React Native imports
 import React, {Component} from 'react';
-import {Button, Text, TextInput, TouchableOpacity, View} from 'react-native';
+import {Button, Text, TextInput, View} from 'react-native';
 
 // Redux imports
 import {connect} from 'react-redux';
@@ -8,37 +8,39 @@ import {newSemester} from 'easyGrades/src/appRedux/actions';
 
 // Custom Imports
 import {colors, containerStyle, textStyle} from 'easyGrades/src/common/appStyles';
+import {ActionBar, IconButton} from 'easyGrades/src/common';
 
 class NewSemesterPage extends Component
 {
     constructor(props)
     {
         super(props);
-        this.state = 
-        {
-            _semesterName: ""
-        };
+        this.state = {_semesterName: ""};
     }
     
     render()
     {
         var showNoSemestersPage = this.props.navigation.getParam('showNoSemesters', true);
-        
+        console.log(this.props.navigation.state);
         return(
             <View style = {containerStyle.page}>
-                <View style = {containerStyle.rowBox}>
-                    <TouchableOpacity 
-                        onPress = {() => this.props.navigation.navigate("No Semesters", {showNoSemesters: showNoSemestersPage})}
-                        style = {{paddingVertical: 5, paddingHorizontal: 70, marginBottom: -5}}
-                    >
-                        <Text style = {{fontFamily: 'Lato-Regular', color: colors.secondaryTextColor}}>
-                            I don't want to add a new semester.
-                        </Text>
-                    </TouchableOpacity>
-                </View>
+                <ActionBar
+                    inverted = {true}
+                    leftButton = 
+                    {
+                        <IconButton
+                            type = 'arrow-back'
+                            size = {30}
+                            color = {colors.primaryColor}
+                            // action = {() => this.props.navigation.navigate("No Semesters", {showNoSemesters: showNoSemestersPage})}
+                            action = {() => this.props.navigation.pop()}
+                        />
+                    }
+                    title = "New Semester"
+                />
                 <View style = {containerStyle.form}>
                     <View style = {containerStyle.formSection}>
-                        <Text style = {textStyle.regular(22, 'center')}>What do you want to call this semester?</Text>
+                        <Text style = {textStyle.regular(22, 'center')}>What would you like this semester to be named?</Text>
                     </View>
                     <View style = {containerStyle.formSection}>
                         <TextInput
@@ -74,8 +76,8 @@ class NewSemesterPage extends Component
                                         }
                                     }
 
+                                    // this.props.navigation.goBack();
                                     this.props.newSemester(semesterName);
-                                    this.props.navigation.goBack();
                                 }
                             }}
                         />
@@ -88,8 +90,6 @@ class NewSemesterPage extends Component
 
 const mapStateToProps = (state) =>
 {
-    return {
-        semesters: state.semesters
-    };
+    return {semesters: state.semesters};
 }
 export default connect(mapStateToProps, {newSemester})(NewSemesterPage);

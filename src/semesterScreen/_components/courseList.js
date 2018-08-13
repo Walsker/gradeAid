@@ -18,13 +18,13 @@ import {ProgressCircle} from 'easyGrades/src/common';
 
 export default class CourseList extends Component
 {
-    createCourseCard(course, animationID)
+    createCourseCard(course, semesterName, animationID)
     {
         return(
             <TouchableNativeFeedback 
                 key = {course.name}
                 background = {TouchableNativeFeedback.Ripple(colors.lightPrimaryColor, false)}
-                onPress = {() => this.props.navProp.navigate(course.name, {course})}
+                onPress = {() => this.props.navProp.navigate(course.name, {course, semesterName})}
             >
                 <View style = {containerStyle.courseCard}>
                     <ProgressCircle
@@ -56,11 +56,12 @@ export default class CourseList extends Component
         var animationIDs = 0;
         var rowCounter = 0;
         var tilesPerRow = 3;
+        var courses = this.props.semester.courses;
 
-        for (var i in this.props.courses)
+        for (var i in courses)
         {
             courseTiles.push(
-                this.createCourseCard(this.props.courses[i], animationIDs)
+                this.createCourseCard(courses[i], this.props.semester.name, animationIDs)
             );
 
             rowCounter++;

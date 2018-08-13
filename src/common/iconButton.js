@@ -9,7 +9,7 @@ export default class IconButton extends Component
     {
         return(
             <TouchableOpacity 
-                onPress = {() => this.props.action()}
+                onPress = {this.props.action}
             >
                 <View style = {{
                     margin: 12

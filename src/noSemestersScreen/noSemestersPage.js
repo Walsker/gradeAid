@@ -7,7 +7,7 @@ import {connect} from 'react-redux';
 
 // Custom imports
 import {colors, containerStyle, textStyle} from 'easyGrades/src/common/appStyles';
-import {IconButton} from 'easyGrades/src/common';
+import {ActionBar, IconButton} from 'easyGrades/src/common';
 
 class NoSemestersPage extends Component
 {
@@ -15,34 +15,36 @@ class NoSemestersPage extends Component
     {
         super(props);
 
+        var focusListener;
         var moveOnIfSemestersExist = () =>
         {
             var showNoSemestersPage = this.props.navigation.getParam('showNoSemesters', true);
             if (this.props.goStraightToSemester && !showNoSemestersPage)
             {
+                focusListener.remove();
                 this.props.navigation.navigate(this.props.latestSmester);
             }
         };
 
-        this.props.navigation.addListener('didFocus', moveOnIfSemestersExist)
+        focusListener = this.props.navigation.addListener('willFocus', moveOnIfSemestersExist)
     }
 
     render()
     {
         return(
             <View style = {containerStyle.page}>
-                <View style = {{
-                    alignItems: 'flex-start',
-                    flexDirection: 'row',
-                    height: 56
-                }}>
-                    <IconButton
-                        type = 'menu'
-                        size = {30}
-                        color = {colors.primaryColor}
-                        action = {this.props.navigation.openDrawer}
-                    />
-                </View>
+                <ActionBar
+                    inverted = {true}
+                    leftButton = 
+                    {
+                        <IconButton
+                            type = 'menu'
+                            size = {30}
+                            color = {colors.primaryColor}
+                            action = {this.props.navigation.openDrawer}
+                        />
+                    }
+                />
                 <View style = {{flex: 1, justifyContent: 'center', padding: 50, paddingTop: -56}}>
                     <Text style = {textStyle.regular(16, 'center')}>
                         Get started by pressing that button right there.
@@ -51,7 +53,7 @@ class NoSemestersPage extends Component
                     <View style = {containerStyle.rowBox}>
                         <TouchableOpacity
                             style = {{alignItems: 'center', alignSelf: 'stretch', flex: 1, paddingVertical: 5}}
-                            onPress = {() => this.props.navigation.navigate("Add Semester")}
+                            onPress = {() => this.props.navigation.navigate("NewSemesterPage")}
                         >
                             <View style = {{
                                 backgroundColor: colors.darkPrimaryColor,

@@ -18,7 +18,7 @@ export default class CoursePage extends Component
         alert("Edit Course");
     }
 
-    renderContent(course)
+    renderContent(course, semesterName)
     {
         if (course.newCourse == true)
         {
@@ -37,7 +37,7 @@ export default class CoursePage extends Component
                                 <View style = {containerStyle.rowBox}>
                                     <TouchableOpacity
                                         style = {{alignItems: 'center', alignSelf: 'stretch', flex: 1, paddingVertical: 5}}
-                                        onPress = {() => this.props.navigation.navigate("Input Grade")}
+                                        onPress = {() => this.props.navigation.navigate("InputGradePage", {course, semesterName})}
                                     >
                                         <View style = {{
                                             backgroundColor: colors.darkPrimaryColor,
@@ -114,6 +114,7 @@ export default class CoursePage extends Component
     render()
     {
         var course = this.props.navigation.getParam('course', {});
+        var semesterName = this.props.navigation.getParam('semesterName', "");
 
         return(
             <View style = {containerStyle.default}>
@@ -124,7 +125,7 @@ export default class CoursePage extends Component
                             type = 'arrow-back'
                             size = {30}
                             color = {colors.titleAndIconColor}
-                            action = {this.props.navigation.popToTop}
+                            action = {() => this.props.navigation.pop()}
                         />
                     }
                     title = {course.name}
@@ -138,7 +139,7 @@ export default class CoursePage extends Component
                         />
                     }
                 />
-                {this.renderContent(course)}
+                {this.renderContent(course, semesterName)}
             </View>
         );
     }

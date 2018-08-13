@@ -159,11 +159,5 @@ export const textStyle =
     italic: (size, alignment) => 
     {
         return Object.assign({fontFamily: 'Lato-Italic'}, createFont(size, alignment));
-    },
-    actionBarTitle:
-    {
-        color: colors.titleAndIconColor,
-        fontSize: 24,
-        fontFamily: 'Lato-Bold'
     }
 }

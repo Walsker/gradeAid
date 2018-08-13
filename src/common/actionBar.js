@@ -9,13 +9,22 @@ export default class actionBar extends Component
 {
     render()
     {
+        var barStyle = styles.bar;
+        var titleStyle = styles.titleText;
+
+        if (this.props.inverted == true)
+        {
+            barStyle = styles.iBar;
+            titleStyle = styles.iTitleText;
+        }
+
         return(
-            <View style = {styles.bar}>
+            <View style = {barStyle}>
                 <View>
                     {this.props.leftButton}
                 </View>
                 <View style = {styles.title}>
-                    <Text style = {textStyle.actionBarTitle}>{this.props.title}</Text>
+                    <Text style = {titleStyle}>{this.props.title}</Text>
                 </View>
                 <View>
                     {this.props.rightButton}
@@ -32,7 +41,13 @@ const styles = StyleSheet.create(
         alignItems: 'flex-start',
         flexDirection: 'row',
         backgroundColor: colors.primaryColor,
-        elevation: 3,
+        height: 56
+    },
+    iBar:
+    {
+        alignItems: 'flex-start',
+        flexDirection: 'row',
+        backgroundColor: colors.spaceColor,
         height: 56
     },
     title:
@@ -42,6 +57,17 @@ const styles = StyleSheet.create(
         marginTop: 14,
         marginBottom: 10,
         justifyContent: 'center'
+    },
+    titleText:
+    {
+        color: colors.titleAndIconColor,
+        fontSize: 24,
+        fontFamily: 'Lato-Bold'
+    },
+    iTitleText:
+    {
+        color: colors.primaryColor,
+        fontSize: 24,
+        fontFamily: 'Lato-Bold'
     }
 });
-
