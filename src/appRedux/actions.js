@@ -73,3 +73,10 @@ export const loadSemesterList = () =>
         payload: []
     };
 }
+
+export const eraseAppData = () =>
+{
+    return {
+        type: actionTypes.ERASE_DATA
+    };
+}

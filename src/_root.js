@@ -7,6 +7,10 @@ import {Provider} from 'react-redux';
 import {createStore} from 'redux';
 import reducers from './_rootReducer';
 
+import {persistStore, persistReducer} from 'redux-persist';
+import storage from 'redux-persist/lib/storage';
+import {PersistGate} from 'redux-persist/integration/react'
+
 // Custom imports
 import RootNavigator from './_rootNavigator';
 import {containerStyle} from 'easyGrades/src/common/appStyles';
@@ -15,20 +19,29 @@ import {AndroidBar} from 'easyGrades/src/common';
 export default class App extends Component
 {
 	render()
-	{
-        const store = createStore(reducers);
+	{        
+        const persistConfig = {
+            key: 'root',
+            storage,
+        };
+        const persistedReducer = persistReducer(persistConfig, reducers);
+
+        const store = createStore(persistedReducer);
+        const persistor = persistStore(store);
 
 		return(
             <Provider store = {store}>
-                <View style = {containerStyle.default}>
-                    <AndroidBar/>
-                    <StatusBar
-                        translucent
-                        animated
-                        backgroundColor = "rgba(0, 0, 0, 0.2)"
-                    />
-                    <RootNavigator/>
-                </View>
+                <PersistGate loading = {null} persistor = {persistor}>
+                    <View style = {containerStyle.default}>
+                        <AndroidBar/>
+                        <StatusBar
+                            translucent
+                            animated
+                            backgroundColor = "rgba(0, 0, 0, 0.2)"
+                        />
+                        <RootNavigator/>
+                    </View>
+                </PersistGate>
             </Provider>
 		);
 	}

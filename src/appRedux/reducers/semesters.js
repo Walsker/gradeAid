@@ -1,4 +1,4 @@
-import {NEW_COURSE, NEW_SEMESTER, LOAD_SEMESTER_LIST} from '../actionTypes';
+import {ERASE_DATA, NEW_COURSE, NEW_SEMESTER, LOAD_SEMESTER_LIST} from '../actionTypes';
 
 export default (prevState = [], action) =>
 {
@@ -24,6 +24,9 @@ export default (prevState = [], action) =>
             }
 
             return newList;
+
+        case ERASE_DATA:
+            return [];
 
         default:
             return prevState

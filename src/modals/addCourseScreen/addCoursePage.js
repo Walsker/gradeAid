@@ -1,6 +1,6 @@
 // React Native imports
 import React, {Component} from 'react';
-import {Button, ScrollView, Text, TextInput, TouchableOpacity, View} from 'react-native';
+import {Alert, Button, ScrollView, Text, TextInput, TouchableOpacity, View} from 'react-native';
 
 // Redux imports
 import {connect} from 'react-redux';
@@ -443,6 +443,19 @@ class AddCoursePage extends Component
     {
         var scenes = [this.courseTitle_SCENE(), this.assessmentTypes_SCENE(), this.assessmentDetails_SCENE(), this.confirmCourse_SCENE()];
         
+        var backButton = () =>
+        {
+            Alert.alert(
+                "Cancel",
+                "Are you sure you would like to cancel the course creation?",
+                [
+                  {text: 'Yes', onPress: () => this.props.navigation.goBack(), style: 'cancel'},
+                  {text: 'No', onPress: () => {}},
+                ],
+                { cancelable: false }
+              )
+        }
+
         return(
             <View style = {containerStyle.page}>
                 <ScrollView>
@@ -454,7 +467,7 @@ class AddCoursePage extends Component
                                 type = 'arrow-back'
                                 size = {30}
                                 color = {colors.primaryColor}
-                                action = {() => this.props.navigation.goBack()}
+                                action = {backButton}
                             />
                         }
                         title = "Add Course"

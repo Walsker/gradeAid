@@ -30,7 +30,7 @@ class RootNavigator extends Component
 
         var navConfig = {
             initialRouteName: latestSemester,
-            drawerLockMode: 'locked-closed',
+            // drawerLockMode: 'locked-closed',
             contentComponent: ({navigation}) =>
             {
                 return <NavDrawer navProp = {navigation}/>;
@@ -60,6 +60,7 @@ import {CoursePage, EditSemesterPage, InputGradePage, SemesterPage} from 'easyGr
 import * as Modals from 'easyGrades/src/modals';
 import NoSemestersPage from 'easyGrades/src/noSemestersScreen/noSemestersPage';
 import AboutPage from 'easyGrades/src/aboutScreen/aboutPage';
+import SettingsPage from 'easyGrades/src/settingsScreen/settingsPage';
 
 const createSemesterPage = (semester) =>
 {
@@ -72,7 +73,7 @@ const createSemesterPage = (semester) =>
     {
         routes[semester.courses[i].name] = createStackNavigator({
             "Course Screen": {screen: CoursePage},
-            "Input Grade": {screen: InputGradePage}
+            // "Input Grade": {screen: InputGradePage}
         }, 
         {
             headerMode: 'none',
@@ -89,7 +90,7 @@ const generateMainRoutes = (semesterList) =>
     var mainRoutes = 
     {
         "About": {screen: AboutPage},
-        "Settings": {screen: AboutPage},
+        "Settings": {screen: SettingsPage},
         "No Semesters": {screen: NoSemestersPage}
     };
 
