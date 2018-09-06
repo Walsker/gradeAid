@@ -1,4 +1,4 @@
-import {ERASE_DATA, NEW_COURSE, NEW_SEMESTER, LOAD_SEMESTER_LIST} from '../actionTypes';
+import {NEW_COURSE, NEW_SEMESTER, LOAD_SEMESTER_LIST, RENAME_SEMESTER} from '../actionTypes';
 
 export default (prevState = [], action) =>
 {
@@ -24,9 +24,21 @@ export default (prevState = [], action) =>
             }
 
             return newList;
+        
+        case RENAME_SEMESTER:
+            var newList = prevState.slice();
+            console.log("Before Editing:", newList);
 
-        case ERASE_DATA:
-            return [];
+            for (i in newList)
+            {
+                if (newList[i].name == action.payload.oldSemester.name)
+                {
+                    newList[i] = action.payload.newSemester;
+                }
+            }
+            console.log("After Editing:", newList);
+
+            return newList;
 
         default:
             return prevState

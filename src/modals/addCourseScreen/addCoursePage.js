@@ -453,7 +453,7 @@ class AddCoursePage extends Component
                   {text: 'No', onPress: () => {}},
                 ],
                 { cancelable: false }
-              )
+            )
         }
 
         return(

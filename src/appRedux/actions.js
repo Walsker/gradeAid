@@ -2,7 +2,7 @@
 import * as actionTypes from './actionTypes';
 
 // ---------------------------------------------------------------------------------------
-// SET MAX GPA
+// APP SETTINGS ACTIONS
 // ---------------------------------------------------------------------------------------
 
 export const setMaxGPA = (newGPA) =>
@@ -12,6 +12,13 @@ export const setMaxGPA = (newGPA) =>
         payload: newGPA
     };
 }
+
+// export const eraseAppData = () =>
+// {
+//     return {
+//         type: actionTypes.ERASE_DATA
+//     };
+// }
 
 // ---------------------------------------------------------------------------------------
 // SEMESTER ACTIONS
@@ -55,6 +62,30 @@ export const newSemester = (semesterName) =>
     };
 }
 
+export const loadSemesterList = () =>
+{
+    return {
+        type: actionTypes.LOAD_SEMESTER_LIST,
+        payload: []
+    };
+}
+
+export const renameSemester = (oldSemester, newSemesterName) =>
+{
+    var newSemester = Object.assign({}, oldSemester);
+    newSemester.name = newSemesterName;
+    
+    return {
+        type: actionTypes.RENAME_SEMESTER,
+        payload: {oldSemester, newSemester}
+    };
+    
+}
+
+// ---------------------------------------------------------------------------------------
+// COURSE ACTIONS
+// ---------------------------------------------------------------------------------------
+
 export const newCourse = (semester, newCourse) =>
 {
     console.log("Old Semester: ", semester);
@@ -65,18 +96,3 @@ export const newCourse = (semester, newCourse) =>
         payload: semester
     };
 };
-
-export const loadSemesterList = () =>
-{
-    return {
-        type: actionTypes.LOAD_SEMESTER_LIST,
-        payload: []
-    };
-}
-
-export const eraseAppData = () =>
-{
-    return {
-        type: actionTypes.ERASE_DATA
-    };
-}

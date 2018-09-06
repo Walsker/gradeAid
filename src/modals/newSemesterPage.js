@@ -20,7 +20,6 @@ class NewSemesterPage extends Component
     
     render()
     {
-        var showNoSemestersPage = this.props.navigation.getParam('showNoSemesters', true);
         console.log(this.props.navigation.state);
         return(
             <View style = {containerStyle.page}>
@@ -32,7 +31,6 @@ class NewSemesterPage extends Component
                             type = 'arrow-back'
                             size = {30}
                             color = {colors.primaryColor}
-                            // action = {() => this.props.navigation.navigate("No Semesters", {showNoSemesters: showNoSemestersPage})}
                             action = {() => this.props.navigation.pop()}
                         />
                     }
@@ -75,8 +73,6 @@ class NewSemesterPage extends Component
                                             return;
                                         }
                                     }
-
-                                    // this.props.navigation.goBack();
                                     this.props.newSemester(semesterName);
                                 }
                             }}
