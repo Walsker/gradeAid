@@ -72,10 +72,21 @@ class EditSemesterPage extends Component
                                 {
                                     for (i in this.props.semesters)
                                     {
-                                        if (this.props.semesters[i].name == semesterName)
+                                        if (this.props.semesters[i].name == this.state.semester.name)
                                         {
                                             console.log(this.props.semesters[i].name, semesterName)
                                             this.props.navigation.pop();
+                                            return;
+                                        }
+                                        else if (semesterName == this.props.semesters[i].name)
+                                        {
+                                            Alert.alert(
+                                                "Invalid Name",
+                                                semesterName + " already exists. Please choose a different name.",
+                                                [
+                                                    {text: 'OK', onPress: () => {}},
+                                                ]
+                                            )
                                             return;
                                         }
                                     }
@@ -84,8 +95,8 @@ class EditSemesterPage extends Component
                                         "Confirm",
                                         "Your semester will be renamed to " + this.state._newSemesterName + ", are you sure?",
                                         [
-                                          {text: 'Yes', onPress: () => this.props.renameSemester(this.state.semester, semesterName), style: 'cancel'},
-                                          {text: 'No', onPress: () => {}},
+                                            {text: 'Yes', onPress: () => this.props.renameSemester(this.state.semester, semesterName), style: 'cancel'},
+                                            {text: 'No', onPress: () => {}},
                                         ]
                                     )
                                 }
@@ -93,7 +104,6 @@ class EditSemesterPage extends Component
                         />
                     </View>
                 </View>
-                <Text>{this.state.semester.name}</Text>
             </View>
         );
     }

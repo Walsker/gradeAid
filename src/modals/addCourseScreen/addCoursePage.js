@@ -449,8 +449,8 @@ class AddCoursePage extends Component
                 "Cancel",
                 "Are you sure you would like to cancel the course creation?",
                 [
-                  {text: 'Yes', onPress: () => this.props.navigation.goBack(), style: 'cancel'},
-                  {text: 'No', onPress: () => {}},
+                    {text: 'Yes', onPress: () => this.props.navigation.goBack(), style: 'cancel'},
+                    {text: 'No', onPress: () => {}},
                 ],
                 { cancelable: false }
             )

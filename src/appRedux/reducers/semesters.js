@@ -15,6 +15,7 @@ export default (prevState = [], action) =>
 
         case NEW_COURSE:
             var newList = prevState.slice();
+            
             for (i in newList)
             {
                 if (action.payload.name == newList[i].name)
@@ -27,7 +28,6 @@ export default (prevState = [], action) =>
         
         case RENAME_SEMESTER:
             var newList = prevState.slice();
-            console.log("Before Editing:", newList);
 
             for (i in newList)
             {
@@ -36,7 +36,6 @@ export default (prevState = [], action) =>
                     newList[i] = action.payload.newSemester;
                 }
             }
-            console.log("After Editing:", newList);
 
             return newList;
 
