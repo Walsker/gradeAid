@@ -318,27 +318,6 @@ class AddCoursePage extends Component
         );
     }
 
-    // setGoal_SCENE()
-    // {
-    //     return(
-    //         <View style = {containerStyle.form}>
-    //             <View style = {containerStyle.formSection}>
-    //                 <Text style = {textStyle.regular(22, 'center')}>What grade would you like to achieve?</Text>
-    //             </View>
-    //             <View style = {containerStyle.rowBox}>
-    //                 <SelectionGrid
-    //                     width = {3}
-    //                     height = {4}
-    //                 />
-    //             </View>
-    //             <View style = {containerStyle.rowBox}>
-    //                 {this.renderBackButton()}
-    //                 {this.renderForwardButton()}
-    //             </View>
-    //         </View>
-    //     );
-    // }
-
     confirmCourse_SCENE()
     {
         var {assessmentDetails, assessmentTypes, selectedTypes} = this.state;

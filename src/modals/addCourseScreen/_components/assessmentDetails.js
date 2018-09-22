@@ -16,7 +16,7 @@ export default class AssessmentDetails extends Component
 
     renderAssessmentCard(type)
     {
-        var quantityDisplay = () => 
+        var quantityDisplay = () =>
         {
             return(
                 <View style = {styles.item}>
@@ -47,18 +47,18 @@ export default class AssessmentDetails extends Component
                             };
                             this.setState({details: newDetails});
                             this.props.onInfoChange(this.state.details);
-                        }}  
+                        }}
                     />
                 </View>
             );
-        };  
-            
+        };
+
         // There can only be one final exam; don't ask for quantity
         if (type == "Final Exam")
         {
             quantityDisplay = () => {return(<View/>);};
         }
-        
+
         const convertToPercentage = (objectToConvert, fallback) =>
         {
             var attempt = parseFloat(objectToConvert);
@@ -87,7 +87,7 @@ export default class AssessmentDetails extends Component
         }
         else
         {
-            significanceDisplay = 
+            significanceDisplay =
                 <View style = {styles.item}>
                         <Text style = {{fontFamily: 'Lato-Regular', color: colors.secondaryTextColor}}>
                             Percentage of course: {this.state.details[type].quantity * this.state.details[type].weight}%
@@ -118,7 +118,7 @@ export default class AssessmentDetails extends Component
                             {
                                 var newDetails = this.state.details;
                                 var newWeight =  convertToPercentage(currentText, newDetails[type].weight);
-                                newDetails[type] = 
+                                newDetails[type] =
                                 {
                                     quantity: newDetails[type].quantity,
                                     weight: newWeight
@@ -128,7 +128,7 @@ export default class AssessmentDetails extends Component
                             }}
                         />
                         <Text style = {styles.numberText}>%</Text>
-                    </View>     
+                    </View>
                 </View>
                 {significanceDisplay}
             </View>
@@ -138,7 +138,7 @@ export default class AssessmentDetails extends Component
     render()
     {
         var assessmentDetailsList = [];
-        
+
         for (i in this.props.selectedTypes)
         {
             if (this.props.selectedTypes[i])

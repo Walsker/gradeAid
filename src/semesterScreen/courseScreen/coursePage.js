@@ -25,7 +25,7 @@ export default class CoursePage extends Component
             return(
                 <View style = {containerStyle.tileList}>
                     <Tile
-                        title = "Fresh Course"
+                        title = "Empty Course"
                         content = 
                         {
                             <View>

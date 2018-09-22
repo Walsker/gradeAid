@@ -57,12 +57,13 @@ class SemesterPage extends Component
                             </View>
                         }
                     />
-                    <Tile title = "Courses"
+                    <Tile 
+                        title = "Courses"
                         button = 
                         {
                             <IconButton
                                 type = 'add'
-                                size = {30}
+                                size = {25}
                                 color = {colors.primaryTextColor}
                                 action = {this.newCourse.bind(this)}
                             />

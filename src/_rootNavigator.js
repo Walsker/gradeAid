@@ -6,19 +6,12 @@ import {createDrawerNavigator, createStackNavigator} from 'react-navigation';
 
 // Redux imports
 import {connect} from 'react-redux';
-import {loadSemesterList} from './appRedux/actions';
 
 // Custom imports
 import {NavDrawer} from 'easyGrades/src/common';
 
 class RootNavigator extends Component
 {
-    constructor(props)
-    {
-        super(props);
-        // this.props.loadSemesterList();        
-    }
-
     renderDrawerNavigator()
     {
         // Finding the last semester added to the app
@@ -126,4 +119,4 @@ const mapStateToProps = (state) =>
         semesters: state.semesters
     };
 };
-export default connect(mapStateToProps, {loadSemesterList})(RootNavigator);
+export default connect(mapStateToProps)(RootNavigator);

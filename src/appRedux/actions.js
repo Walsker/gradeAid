@@ -62,14 +62,6 @@ export const newSemester = (semesterName) =>
     };
 }
 
-export const loadSemesterList = () =>
-{
-    return {
-        type: actionTypes.LOAD_SEMESTER_LIST,
-        payload: []
-    };
-}
-
 export const renameSemester = (oldSemester, newSemesterName) =>
 {
     var newSemester = Object.assign({}, oldSemester);
@@ -82,17 +74,131 @@ export const renameSemester = (oldSemester, newSemesterName) =>
     
 }
 
+const calculateSemesterGPA = (semester) =>
+{
+    var totalPoints = 0;
+    var toatlCredits = 0;
+
+    var courseAverage = 0;
+    for (i in semester.courses)
+    {
+        toatlCredits += 0.5
+        courseAverage = semester.courses[i].average;
+
+        if (courseAverage >= 90)
+        {
+            totalPoints += 12 * 0.5;
+        }
+        else if (courseAverage >= 85)
+        {
+            totalPoints += 11 * 0.5;
+        }
+        else if (courseAverage >= 80)
+        {
+            totalPoints += 10 * 0.5;
+        }
+        else if (courseAverage >= 77)
+        {
+            totalPoints += 9 * 0.5;
+        }
+        else if (courseAverage >= 73)
+        {
+            totalPoints += 8 * 0.5;
+        }
+        else if (courseAverage >= 70)
+        {
+            totalPoints += 7 * 0.5;
+        }
+        else if (courseAverage >= 67)
+        {
+            totalPoints += 6 * 0.5;
+        }
+        else if (courseAverage >= 63)
+        {
+            totalPoints += 5 * 0.5;
+        }
+        else if (courseAverage >= 60)
+        {
+            totalPoints += 4 * 0.5;
+        }
+        else if (courseAverage >= 57)
+        {
+            totalPoints += 3 * 0.5;
+        }
+        else if (courseAverage >= 53)
+        {
+            totalPoints += 2 * 0.5;
+        }
+        else if (courseAverage >= 50)
+        {
+            totalPoints += 1 * 0.5;
+        }        
+    }
+
+    return totalPoints / toatlCredits;
+}
+
 // ---------------------------------------------------------------------------------------
 // COURSE ACTIONS
 // ---------------------------------------------------------------------------------------
 
+const calculateCourseAverage = (course) =>
+{
+    var sum = 0;
+    var totalAssessments = 0;
+
+    for (i in course.assessments)
+    {
+        if (course.assessments[i].complete == true)
+        {
+            sum += course.assessments[i].grade;
+            totalAssessments++;
+        }
+    }
+
+    return sum / totalAssessments;
+}
+
 export const newCourse = (semester, newCourse) =>
 {
-    console.log("Old Semester: ", semester);
     semester.courses.push(newCourse);
-    console.log("New Semester: ", semester);
+
     return {
         type: actionTypes.NEW_COURSE,
         payload: semester
     };
 };
+
+const _inputGrade = (grade, assessmentName, courseName, semesterObject) =>
+{
+    for (i in semesterObject.courses)
+    {
+        if (semesterObject.courses[i].name == courseName)
+        {
+            console.log("HI:", semesterObject.courses[i]);
+            for (j in semesterObject.courses[i].assessments)
+            {
+                if (semesterObject.courses[i].assessments[j].name == assessmentName)
+                {
+                    semesterObject.courses[i].assessments[j].complete = true;
+                    semesterObject.courses[i].assessments[j].grade = grade;
+                    semesterObject.courses[i].newCourse = false;
+                    semesterObject.courses[i].average = calculateCourseAverage(semesterObject.courses[i]);
+
+                    semesterObject.gpa = calculateSemesterGPA(semesterObject);
+
+                    return semesterObject;
+                }
+            }
+        }
+    }
+}
+export const inputGrade = (grade, assessmentName, courseName, semesterObject) =>
+{
+    var newSemesterObject = _inputGrade(grade, assessmentName, courseName, semesterObject);
+
+    return {
+        type: actionTypes.INPUT_GRADE,
+        payload: newSemesterObject
+    };
+}

@@ -1,30 +1,18 @@
-import {NEW_COURSE, NEW_SEMESTER, LOAD_SEMESTER_LIST, RENAME_SEMESTER} from '../actionTypes';
+import {NEW_SEMESTER, LOAD_SEMESTER_LIST, RENAME_SEMESTER, NEW_COURSE, INPUT_GRADE} from '../actionTypes';
 
 export default (prevState = [], action) =>
 {
     switch(action.type)
     {
-        case LOAD_SEMESTER_LIST:
-            return action.payload;
-
+        // Semester reducers
         case NEW_SEMESTER:
             var newList = prevState.slice();
             newList.push(action.payload);
 
             return newList;
 
-        case NEW_COURSE:
-            var newList = prevState.slice();
-            
-            for (i in newList)
-            {
-                if (action.payload.name == newList[i].name)
-                {
-                    newList[i] = action.payload;
-                }
-            }
-
-            return newList;
+        case LOAD_SEMESTER_LIST:
+            return action.payload;
         
         case RENAME_SEMESTER:
             var newList = prevState.slice();
@@ -38,6 +26,22 @@ export default (prevState = [], action) =>
             }
 
             return newList;
+
+        // Course reducers
+        case NEW_COURSE:
+        case INPUT_GRADE:
+            var tempList = prevState.slice();
+            
+            for (i in tempList)
+            {
+                // Sifting through the semesters and replacing it with the updated one
+                if (action.payload.name == tempList[i].name)
+                {
+                    tempList[i] = action.payload;
+                }
+            }
+
+            return tempList;
 
         default:
             return prevState
