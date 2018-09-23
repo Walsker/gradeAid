@@ -14,7 +14,7 @@ import {StyleSheet, Text, TouchableNativeFeedback, View} from 'react-native';
 
 // Custom imports
 import {colors, containerStyle} from 'easyGrades/src/common/appStyles';
-import {ProgressCircle} from 'easyGrades/src/common';
+import {IconButton, ProgressCircle} from 'easyGrades/src/common';
 
 export default class CourseList extends Component
 {
@@ -71,6 +71,31 @@ export default class CourseList extends Component
                 animationIDs++;
             }
         }
+
+        courseTiles.push(
+            <TouchableNativeFeedback 
+                key = "Add Course Button"
+                background = {TouchableNativeFeedback.Ripple(colors.lightPrimaryColor, false)}
+                onPress = {this.props.newCourse.bind(this)}
+            >
+                <View style = {containerStyle.courseCard}>
+                    <IconButton
+                        type = 'add'
+                        size = {75}
+                        color = {colors.primaryTextColor}
+                        action = {() => {}}
+                    />
+                    <View style = {styles.courseName}>
+                        <Text 
+                            style = {styles.courseNameText}
+                            numberOfLines = {2}
+                        >
+                            ADD COURSE
+                        </Text>
+                    </View>
+                </View>
+            </TouchableNativeFeedback>
+        );
 
         return(
             <View style = {styles.list}>

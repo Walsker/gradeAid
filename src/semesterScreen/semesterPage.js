@@ -59,21 +59,21 @@ class SemesterPage extends Component
                     />
                     <Tile 
                         title = "Courses"
-                        button = 
-                        {
-                            <IconButton
-                                type = 'add'
-                                size = {25}
-                                color = {colors.primaryTextColor}
-                                action = {this.newCourse.bind(this)}
-                            />
-                        }
+                        // button = 
+                        // {
+                        //     <IconButton
+                        //         type = 'add'
+                        //         size = {25}
+                        //         color = {colors.primaryTextColor}
+                        //         action = {this.newCourse.bind(this)}
+                        //     />
+                        // }
                         content = 
                         {
                             <CourseList
                                 semester = {this.props.semester}
-                                // courses = {this.props.semester.courses}
                                 navProp = {this.props.navigation}
+                                newCourse = {this.newCourse.bind(this)}
                             />
                         }
                     />

@@ -10,10 +10,10 @@
 
 // React Native imports
 import React, {Component} from 'react';
-import {Text, View} from 'react-native';
+import {Text, TouchableOpacity, View} from 'react-native';
 
 // Custom Imports
-import {containerStyle, textStyle} from 'easyGrades/src/common/appStyles';
+import {colors, containerStyle, textStyle} from 'easyGrades/src/common/appStyles';
 import {ProgressBar} from 'easyGrades/src/common';
 
 export default class AssessmentList extends Component
@@ -39,11 +39,11 @@ export default class AssessmentList extends Component
                         <ProgressBar 
                             percentage = {grade}
                             listOrder = {animationID}
-                            animationDelay = {500}
+                            animationDelay = {300}
                         />
                     </View>
                     <View style = {containerStyle.assessmentGradePercent}>
-                        <Text style = {textStyle.regular(22)}>{grade + "%"}</Text>
+                        <Text style = {textStyle.regular(22)}>{(Math.round(grade*10)/10) + "%"}</Text>
                     </View>
                 </View>
             </View>
@@ -52,14 +52,30 @@ export default class AssessmentList extends Component
 
     render()
     {
-        var assessmentComponents = []; //= this.props.assessments.map(assessment => this.createItem(assessment.name, assessment.grade));
+        var assessmentComponents = [];
 
-        for (var i in this.props.assessments)
+        for (i in this.props.assessments)
         {
-            assessmentComponents.push(
-                this.createAssessment(this.props.assessments[i].name, this.props.assessments[i].grade, i)
-            );
+            if (this.props.assessments[i].complete == true)
+            {
+                assessmentComponents.push(
+                    this.createAssessment(this.props.assessments[i].name, this.props.assessments[i].grade, i)
+                );
+            }
         }
+
+        assessmentComponents.push(
+            <View
+                key = "Add Assessment Button"
+                style = {containerStyle.assessmentCard}
+            >
+                <View style = {containerStyle.assessmentCardTitle}>
+                    <TouchableOpacity onPress = {this.props.goToInputGradePage}>
+                        <Text style = {[textStyle.bold(20, 'center'), {color: colors.primaryColor}]}> + NEW ASSESSMENT</Text>    
+                    </TouchableOpacity>
+                </View>
+            </View>
+        );
 
         return(
             <View style = {containerStyle.assessmentList}>

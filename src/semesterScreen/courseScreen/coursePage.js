@@ -66,16 +66,22 @@ export default class CoursePage extends Component
                     <Tile title = "Average" 
                         content = 
                         {
-                            <ProgressCircle
-                                diameter = {275}
-                                borderWidth = {15}
-                                ringColor = {colors.accentColor}
-                                emptyRingColor = {colors.darkPrimaryColor}
-                                backgroundColor = {colors.spaceColor}
-                                percentage = {course.average}
-                                active = {!course.newCourse}
-                                animationDelay = {0}
-                            />
+                            <View>
+                                <ProgressCircle
+                                    diameter = {275}
+                                    borderWidth = {15}
+                                    ringColor = {colors.accentColor}
+                                    emptyRingColor = {colors.darkPrimaryColor}
+                                    backgroundColor = {colors.spaceColor}
+                                    percentage = {course.average}
+                                    active = {!course.newCourse}
+                                    animationDelay = {0}
+                                />
+                                <View style = {{paddingTop: 10}}>
+                                    <Text style = {[textStyle.italic(14, 'center'), {color: colors.secondaryTextColor}]}>{(Math.round(course.average*10000000000)/10000000000) + "%"}</Text>
+                                </View>
+                            </View>
+                            
                         }
                     />
                     {/* <Tile
@@ -90,19 +96,22 @@ export default class CoursePage extends Component
                     /> */}
                     <Tile
                         title = "Overview"
-                        button = 
-                        {
-                            <IconButton
-                                type = 'add'
-                                size = {25}
-                                color = {colors.primaryTextColor}
-                                action = {() => this.props.navigation.navigate("Input Grade")}
-                            />
-                        }
+                        // button = 
+                        // {
+                        //     <IconButton
+                        //         type = 'add'
+                        //         size = {25}
+                        //         color = {colors.primaryTextColor}
+                        //         action = {() => this.props.navigation.navigate("Input Grade")}
+                        //     />
+                        // }
                 
                         content = 
                         {
-                            <AssessmentList assessments = {course.assessments}/>
+                            <AssessmentList 
+                                goToInputGradePage = {() => this.props.navigation.navigate("InputGradePage", {course, semesterName})}
+                                assessments = {course.assessments}
+                            />
                         }
                     />
                     <View style = {{height: 10}}/>
