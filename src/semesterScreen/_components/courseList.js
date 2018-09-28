@@ -11,10 +11,11 @@
 // React Native imports
 import React, {Component} from 'react';
 import {StyleSheet, Text, TouchableNativeFeedback, View} from 'react-native';
+import Icon from 'react-native-vector-icons/MaterialIcons';
 
 // Custom imports
 import {colors, containerStyle} from 'easyGrades/src/common/appStyles';
-import {IconButton, ProgressCircle} from 'easyGrades/src/common';
+import {ProgressCircle} from 'easyGrades/src/common';
 
 export default class CourseList extends Component
 {
@@ -79,12 +80,13 @@ export default class CourseList extends Component
                 onPress = {this.props.newCourse.bind(this)}
             >
                 <View style = {containerStyle.courseCard}>
-                    <IconButton
-                        type = 'add'
-                        size = {75}
-                        color = {colors.primaryTextColor}
-                        action = {() => {}}
-                    />
+                    <View style = {{alignItems: 'center', justifyContent: 'center'}}>
+                        <Icon
+                            name = 'add'
+                            size = {75}
+                            color = {colors.primaryTextColor}
+                        />
+                    </View>
                     <View style = {styles.courseName}>
                         <Text 
                             style = {styles.courseNameText}

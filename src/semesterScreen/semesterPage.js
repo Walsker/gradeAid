@@ -59,15 +59,6 @@ class SemesterPage extends Component
                     />
                     <Tile 
                         title = "Courses"
-                        // button = 
-                        // {
-                        //     <IconButton
-                        //         type = 'add'
-                        //         size = {25}
-                        //         color = {colors.primaryTextColor}
-                        //         action = {this.newCourse.bind(this)}
-                        //     />
-                        // }
                         content = 
                         {
                             <CourseList

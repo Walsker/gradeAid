@@ -9,10 +9,6 @@ import AssessmentList from './_components/assessmentList';
 
 export default class CoursePage extends Component
 {
-    addGrade()
-    {
-        alert("Add Grade");
-    }
     editCourse()
     {
         alert("Edit Course");
@@ -95,17 +91,7 @@ export default class CoursePage extends Component
                         }
                     /> */}
                     <Tile
-                        title = "Overview"
-                        // button = 
-                        // {
-                        //     <IconButton
-                        //         type = 'add'
-                        //         size = {25}
-                        //         color = {colors.primaryTextColor}
-                        //         action = {() => this.props.navigation.navigate("Input Grade")}
-                        //     />
-                        // }
-                
+                        title = "Overview"                
                         content = 
                         {
                             <AssessmentList 

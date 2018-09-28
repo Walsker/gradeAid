@@ -1,6 +1,6 @@
 // React Native imports
 import React, {Component} from 'react';
-import {Button, Text, TextInput, View} from 'react-native';
+import {Alert, Button, Text, TextInput, View} from 'react-native';
 
 // Redux imports
 import {connect} from 'react-redux';
@@ -18,6 +18,32 @@ class NewSemesterPage extends Component
         this.state = {_semesterName: ""};
     }
     
+    showAlert(alertType)
+    {
+        if (alertType == "Unnamed Semester")
+        {
+            Alert.alert(
+                "Incomplete",
+                "Please be sure to give your semester a name.",
+                [
+                    {text: 'OK', onPress: () => {}},
+                ],
+                {cancelable: true}
+            );
+        }
+        else if (alertType = "Semester already exists")
+        {
+            Alert.alert(
+                "Semester Already Exists",
+                "Please give your new semester a different name.",
+                [
+                    {text: 'OK', onPress: () => {}},
+                ],
+                {cancelable: true}
+            );
+        }
+    }
+
     render()
     {
         console.log(this.props.navigation.state);
@@ -61,7 +87,7 @@ class NewSemesterPage extends Component
 
                                 if (semesterName == "")
                                 {
-                                    alert("Please name the semester.")
+                                    this.showAlert("Unnamed Semester");
                                 }
                                 else
                                 {
@@ -69,7 +95,7 @@ class NewSemesterPage extends Component
                                     {
                                         if (this.props.semesters[i].name == semesterName)
                                         {
-                                            alert("Semester with same name exists");
+                                            this.showAlert("Semester already exists");
                                             return;
                                         }
                                     }

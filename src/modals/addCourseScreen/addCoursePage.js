@@ -49,6 +49,66 @@ class AddCoursePage extends Component
         };
     }
 
+    showAlert(alertType, customText)
+    {
+        if (alertType == "Cancel Creation")
+        {
+            Alert.alert(
+                "Cancel",
+                "Are you sure you would like to cancel the course creation?",
+                [
+                    {text: 'Yes', onPress: () => this.props.navigation.goBack(), style: 'cancel'},
+                    {text: 'No', onPress: () => {}},
+                ],
+                {cancelable: false}
+            );
+        }
+        else if (alertType == "Incomplete Course Code")
+        {
+            Alert.alert(
+                "Incomplete",
+                "Please be sure to fill both the Course Type and the Course Code.",
+                [
+                    {text: 'OK', onPress: () => {}},
+                ],
+                {cancelable: true}
+            );
+        }
+        else if (alertType == "No Type Selection Made")
+        {
+            Alert.alert(
+                "No Type Selection",
+                "Please be sure to select at least one assessment type.",
+                [
+                    {text: 'OK', onPress: () => {}},
+                ],
+                {cancelable: true}
+            );
+        }
+        else if (alertType == "Weight of 0")
+        {
+            Alert.alert(
+                "Invalid Weight",
+                customText + " has a weight of 0. Please input a larger value.",
+                [
+                    {text: 'OK', onPress: () => {}},
+                ],
+                {cancelable: true}
+            );   
+        }
+        else if (alertType == "Weights don't add up")
+        {
+            Alert.alert(
+                "Invalid Weight",
+                "Oh no! All the weights don't add up to 100%",
+                [
+                    {text: 'OK', onPress: () => {}},
+                ],
+                {cancelable: true}
+            );   
+        }
+    }
+
     renderBackButton()
     {
         return(
@@ -186,7 +246,7 @@ class AddCoursePage extends Component
                     {
                         if (this.state._courseType == "" || this.state._courseCode == "")
                         {
-                            alert("Incomplete");   
+                            this.showAlert("Incomplete Course Code");   
                         }
                         else
                         {
@@ -241,7 +301,7 @@ class AddCoursePage extends Component
                         }
                         if (!selectedCheck)
                         {
-                            alert("Choose at least one type");   
+                            this.showAlert("No Type Selection Made"); 
                         }
                         else
                         {   
@@ -287,7 +347,7 @@ class AddCoursePage extends Component
                             {
                                 if (assessmentDetails[assessmentTypes[i]].weight == 0)
                                 {
-                                    alert(assessmentTypes[i] + " has a weight of 0.");
+                                    this.showAlert("Weight of 0", assessmentTypes[i]);
                                     return;
                                 }
                                 else if (assessmentTypes[i] == "Final Exam")
@@ -303,7 +363,7 @@ class AddCoursePage extends Component
                         
                         if (percentageTotal != 100)
                         {
-                            alert("Oh no! All the weights and quantities don't add to 100%")
+                            this.showAlert("Weights don't add up");
                         }
                         else
                         {
@@ -424,15 +484,15 @@ class AddCoursePage extends Component
         
         var backButton = () =>
         {
-            Alert.alert(
-                "Cancel",
-                "Are you sure you would like to cancel the course creation?",
-                [
-                    {text: 'Yes', onPress: () => this.props.navigation.goBack(), style: 'cancel'},
-                    {text: 'No', onPress: () => {}},
-                ],
-                { cancelable: false }
-            )
+            if (this.state._courseCode == "" && this.state._courseType == "")
+            {
+                this.props.navigation.goBack()   
+            }
+            else
+            {
+                this.showAlert("Cancel Creation");
+            }
+            
         }
 
         return(
@@ -458,4 +518,10 @@ class AddCoursePage extends Component
     }
 }
 
-export default connect(null, {newCourse})(AddCoursePage);
+const mapStateToProps = (state) =>
+{
+    return {
+        semesters: state.semesters
+    };
+}
+export default connect(mapStateToProps, {newCourse})(AddCoursePage);
