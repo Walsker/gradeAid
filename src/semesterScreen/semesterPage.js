@@ -14,16 +14,20 @@ class SemesterPage extends Component
 {
     newCourse()
     {
+        // Moving to the "Add Course" page
         this.props.navigation.navigate("AddCoursePage", {semester: this.props.semester});
     }
 
     editSemester()
     {
+        // Moving to the "Edit Semester" page
         this.props.navigation.navigate("EditSemesterPage", {semester: this.props.semester});
     }
     
+    //  A render function which adapts to the information in the semester object
     renderContent()
     {
+        // Checking if the semester has any courses with completed assessments
         if (!this.props.newSemester)
         {
             // Formatting the GPA numbers
@@ -51,7 +55,7 @@ class SemesterPage extends Component
                         {
                             <View>
                                 <View style = {{marginVertical: -25}}>
-                                    <Text style = {textStyle.bold(212)}>{GPAString}</Text>
+                                    <Text style = {textStyle.bold(200)}>{GPAString}</Text>
                                 </View>
                                 <Text style = {[textStyle.italic(14, 'center'), {color: colors.secondaryTextColor}]}>out of {maxGPAString}</Text>
                             </View>

@@ -110,7 +110,7 @@ export default class ProgressCircle extends Component {
 
         var display = this.props.active ? 
             <Text style = {{
-                fontSize: this.props.diameter / 2,
+                fontSize: this.props.diameter / 2.5,
                 color: colors.primaryTextColor,
                 fontFamily: 'Lato-Regular'
             }}>

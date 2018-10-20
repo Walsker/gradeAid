@@ -1,49 +1,75 @@
-import {NEW_SEMESTER, LOAD_SEMESTER_LIST, RENAME_SEMESTER, NEW_COURSE, INPUT_GRADE} from '../actionTypes';
+import {NEW_SEMESTER, RENAME_SEMESTER, NEW_COURSE, INPUT_GRADE} from '../actionTypes';
 
 export default (prevState = [], action) =>
 {
     switch(action.type)
     {
-        // Semester reducers
+        // --------------------------------------------------------------------
+        // SEMESTER REDUCERS
+        // --------------------------------------------------------------------
+
+        // CASE: adding a semester to the app
         case NEW_SEMESTER:
-            var newList = prevState.slice();
-            newList.push(action.payload);
 
-            return newList;
+            // var stateClone = prevState.slice();
+            // Copying the previous semesters object as to not modify it
+            var semestersClone = jQuery.extend(true, [], prevState)
 
-        case LOAD_SEMESTER_LIST:
-            return action.payload;
+            // Adding the new semester to the semesters clone
+            semestersClone.splice(prevState.length - 1, 0, action.payload);
+
+            // Returning the updated semesters object
+            return semestersClone;
         
+        // CASE: an existing semester is being renamed
         case RENAME_SEMESTER:
-            var newList = prevState.slice();
+            // var newList = prevState.slice();
+            // Copying the previous semesters object as to not modify it
+            var semestersClone = jQuery.extend(true, [], prevState)
 
-            for (i in newList)
+            // Searching through all the semesters
+            for (var semester in semestersClone)
             {
-                if (newList[i].name == action.payload.oldSemester.name)
+                // Checking if this is the semester whose name is being changed
+                if (semestersClone[semester].name == action.payload.oldSemester.name)
                 {
-                    newList[i] = action.payload.newSemester;
+                    // Replacing the old semester with the new semester
+                    semestersClone[semester] = action.payload.newSemester;
                 }
             }
+            
+            // Returning the updated semesters object
+            return semestersClone;
 
-            return newList;
+        // --------------------------------------------------------------------
+        // COURSE REDUCERS
+        // --------------------------------------------------------------------
 
-        // Course reducers
+        // CASE: a new course is created or a course is being replaced
         case NEW_COURSE:
         case INPUT_GRADE:
-            var tempList = prevState.slice();
+
+            // var tempList = prevState.slice();
             
-            for (i in tempList)
+            // Copying the previous semesters object as to not modify it
+            var semestersClone = jQuery.extend(true, [], prevState)
+
+            // Searching through all the semesters
+            for (var semester in semestersClone)
             {
-                // Sifting through the semesters and replacing it with the updated one
-                if (action.payload.name == tempList[i].name)
+                // Checking if this is the semesters whose courses are being modified
+                if (action.payload.name == semestersClone[semester].name)
                 {
-                    tempList[i] = action.payload;
+                    // Replacing the old semester with the new semester
+                    semestersClone[semester] = action.payload;
                 }
             }
 
-            return tempList;
+            // Returning the updated semesters object
+            return semestersClone;
 
         default:
+            // Not making any changes
             return prevState
     }
 };

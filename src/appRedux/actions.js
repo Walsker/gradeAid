@@ -5,20 +5,6 @@ import * as actionTypes from './actionTypes';
 // APP SETTINGS ACTIONS
 // ---------------------------------------------------------------------------------------
 
-export const setMaxGPA = (newGPA) =>
-{
-    return {
-        type: actionTypes.SET_MAX_GPA,
-        payload: newGPA
-    };
-}
-
-// export const eraseAppData = () =>
-// {
-//     return {
-//         type: actionTypes.ERASE_DATA
-//     };
-// }
 
 // ---------------------------------------------------------------------------------------
 // SEMESTER ACTIONS
@@ -51,6 +37,7 @@ var newSemesters = [
     {name: 'Fall 2018', courses, gpa: 11.8}
 ]
 var counter = -1;
+var test = {x: 1, y: 2, z: 3}
 
 export const newSemester = (semesterName) =>
 {
@@ -162,6 +149,7 @@ const calculateCourseAverage = (course) =>
 export const newCourse = (semester, newCourse) =>
 {
     semester.courses.push(newCourse);
+    console.log(newCourse);
 
     return {
         type: actionTypes.NEW_COURSE,

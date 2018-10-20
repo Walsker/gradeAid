@@ -18,6 +18,7 @@ class AddCoursePage extends Component
     {
         super(props);
 
+        // TODO: use assessmentTypes constants file
         const types = ["Assignments", "Projects", "Essays", "Quizzes", 
             "Tests", "Midterms", "Labs", "Tutorials", "Discussion Groups", "Final Exam"];
         var emptyList = [];

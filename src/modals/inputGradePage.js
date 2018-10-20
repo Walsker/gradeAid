@@ -149,12 +149,9 @@ class InputGradePage extends Component
             var attempt = parseFloat(objectToConvert);
             if (Number(attempt) === attempt)
             {
-                if (attempt > 100)
-                {
-                    return 100;
-                }
-                else if (attempt < 0)
+                if (attempt < 0)
                     return 0;
+                    
                 return attempt;
             }
             else
