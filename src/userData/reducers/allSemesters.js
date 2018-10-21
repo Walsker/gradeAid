@@ -5,22 +5,20 @@
 // Below is the structure for this portion of the state
 // allSemesters:
 // {
-//      getAverage: (semesterID),
-//      [id]: {name: string, courses: int[]},
+//      [id]: {name: string},
 // }
-//  where "courses" is a list of course IDs
 // --------------------------------------------------------------------------------------
 
 import {ADD_SEMESTER, REMOVE_SEMESTER, EDIT_SEMESTER} from '../actionTypes';
 
-export default (prevState = {getAverage}, action) =>
+export default (prevState = {}, action) =>
 {
     switch(action.type)
     {
         // ------------------------------------------------------------------------------
         // CASE: a new semester is being created
         // PAYLOAD: a semester object in the form
-        //      {name: string, courses: int[]}
+        //      {name: string}
         // ------------------------------------------------------------------------------
         case ADD_SEMESTER:
 

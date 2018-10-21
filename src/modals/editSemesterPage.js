@@ -61,7 +61,6 @@ class EditSemesterPage extends Component
                             color = {colors.accentColor}
                             title = "    Finish    "
                             onPress = {() => {
-                                console.log(this.state._newSemesterName);
                                 var semesterName = this.state._newSemesterName.trim();
 
                                 if (semesterName == "")
@@ -74,7 +73,6 @@ class EditSemesterPage extends Component
                                     {
                                         if (this.props.semesters[i].name == this.state.semester.name)
                                         {
-                                            console.log(this.props.semesters[i].name, semesterName)
                                             this.props.navigation.pop();
                                             return;
                                         }

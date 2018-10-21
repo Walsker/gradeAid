@@ -46,7 +46,6 @@ class NewSemesterPage extends Component
 
     render()
     {
-        console.log(this.props.navigation.state);
         return(
             <View style = {containerStyle.page}>
                 <ActionBar

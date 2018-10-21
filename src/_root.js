@@ -28,7 +28,7 @@ export default class App extends Component
 
         const store = createStore(persistedReducer);
         const persistor = persistStore(store);
-
+    
 		return(
             <Provider store = {store}>
                 <PersistGate loading = {null} persistor = {persistor}>

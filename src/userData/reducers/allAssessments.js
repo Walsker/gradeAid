@@ -5,22 +5,38 @@
 // Below is the structure for this portion of the state
 // allAssessments:
 // {
-//      [id]: {type: int, name: string, grade: float}
+//      [id]: {type: int, name: string, courseID: int, grade: float}
 // }
 // --------------------------------------------------------------------------------------
 
-import {ADD_ASSESSMENT, REMOVE_ASSESSMENT, EDIT_ASSESSMENT} from '../actionTypes';
+import {CLEAN_ASSESS_LIST, CREATE_ASSESSMENT, DELETE_ASSESSMENT, EDIT_ASSESSMENT} from '../actionTypes';
 
 export default (prevState = {}, action) =>
 {
     switch(action.type)
     {
+		// ------------------------------------------------------------------------------
+        // CASE: the assessment list is being purged of all assessments whose parent 
+        //      course no longer exists
+        // PAYLOAD: an object which contains the IDs of the deleted assessments as keys,
+        //          all with a value of undefined
+		//          {
+		//              [id]: undefined
+		//          }
+		// ------------------------------------------------------------------------------
+		case CLEAN_ASSESS_LIST:
+
+			return {
+				...prevState,
+				...action.payload
+			};
+
         // ------------------------------------------------------------------------------
         // CASE: a new assessment is being created
         // PAYLOAD: an assessment object in the form
-        //      {type: int, name: string, grade: float}
+        //      {type: int, name: string, courseID: int, grade: float}
         // ------------------------------------------------------------------------------
-        case ADD_ASSESSMENT:
+        case CREATE_ASSESSMENT:
 
             // Finding an unused ID
             var newID = 0;
@@ -39,10 +55,10 @@ export default (prevState = {}, action) =>
             };
 
         // ------------------------------------------------------------------------------
-        // CASE: an assessment is being removed from the app
+        // CASE: an assessment is being deleted from the app
         // PAYLOAD: int, the ID of the assessment to be removed
         // ------------------------------------------------------------------------------
-        case REMOVE_ASSESSMENT:
+        case DELETE_ASSESSMENT:
 
             return {
                 ...prevState,

@@ -83,7 +83,6 @@ class InputGradePage extends Component
     {
         var semesters = this.props.semesters;
 
-        console.log("ABOUT TO COMPLETE ", assessmentName, semesters);
         for (i in this.props.semesters)
         {
             if (semesters[i].name == this.state.semesterName)

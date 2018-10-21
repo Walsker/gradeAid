@@ -2,29 +2,73 @@
 import * as actionTypes from './actionTypes';
 
 // --------------------------------------------------------------------------------------
+// GENERAL ACTION CREATORS
+// --------------------------------------------------------------------------------------
+
+// --------------------------------------------------------------------------------------
+// Two action creators for removing courses and assessments that no longer belong to a 
+//  semester or course, respectively.
+// semesters: the allSemesters portion of the state
+// courses: the allCourses portion of the state
+// assessments: the allAssessments portion of the state
+// --------------------------------------------------------------------------------------
+export const cleanCourses = (semesters, courses) =>
+{
+    // Clearning the courses list
+    var semesterlessCourses = {};
+    for (i in courses)
+    {
+        // Checking if this course belongs to a semester
+        if (!(courses[i].semesterID in semesters))
+            semesterlessCourses = Object.assign(semesterlessCourses, {[i]: undefined});
+    }
+
+    return {
+        type: actionTypes.CLEAN_COURSE_LIST,
+        payload: semesterlessCourses
+    };
+}
+export const cleanAssessments = (courses, assessments) =>
+{
+    // Cleaning the assessments list
+    var courselessAssessments = {};
+    for (i in assessments)
+    {
+        // Checking if this assessment belongs to a course
+        if (!(assessments[i].courseID in courses))
+            courselessAssessments = Object.assign(courselessAssessments, {[i]: undefined});
+    }
+
+    return {
+        type: actionTypes.CLEAN_ASSESS_LIST,
+        payload: courselessAssessments
+    };
+}
+
+// --------------------------------------------------------------------------------------
 // SEMESTER ACTION CREATORS
 // --------------------------------------------------------------------------------------
 
 // --------------------------------------------------------------------------------------
-// An action creator for adding a semester to the smester list
+// An action creator for creating a semeseter and adding it to the app
 // semesterName: the name of the new semester
 // --------------------------------------------------------------------------------------
-export const addSemester = (semesterName) =>
+export const createSemester = (semesterName) =>
 {
     return {
-        type: actionTypes.ADD_SEMESTER,
-        payload: {name: semesterName, courses: []}
+        type: actionTypes.CREATE_SEMESTER,
+        payload: {name: semesterName}
     };
 };
 
 // --------------------------------------------------------------------------------------
-// An action creator for removing a semester from the semester list
+// An action creator for deleting a semester from the app
 // id: unique integer value of the semester to be deleted
 // --------------------------------------------------------------------------------------
-export const removeSemester = (id) => 
+export const deleteSemester = (id) => 
 {
     return {
-        type: actionTypes.REMOVE_SEMESTER,
+        type: actionTypes.DELETE_SEMESTER,
         payload: id
     };
 };
@@ -47,34 +91,34 @@ export const editSemester = (id, newProps) =>
 // --------------------------------------------------------------------------------------
 
 // --------------------------------------------------------------------------------------
-// An action creator for adding a course to a semester
+// An action creator for creating a course
 // name: the name of the new course
 // markBreakdown: A list of floats corresponding to the weight of each assessment type
 //                  in the course. The indecies in this list correspond to the constants
 //                  in assessmentTypes.js.
 // --------------------------------------------------------------------------------------
-export const addCourse = (name, markBreakdown) =>
+export const createCourse = (name, semesterID, markBreakdown) =>
 {
     return {
-        type: actionTypes.ADD_COURSE,
+        type: actionTypes.CREATE_COURSE,
         payload: 
         {
             name,
+            semesterID,
             newCourse: true,
-            breakdown: markBreakdown,
-            aassessments: []
+            breakdown: markBreakdown
         }
     };
 };
 
 // --------------------------------------------------------------------------------------
-// An action creator for removing a course from the course list
+// An action creator for deleting a course from the app
 // id: unique integer value of the course to be deleted
 // --------------------------------------------------------------------------------------
-export const removeCourse = (id) => 
+export const deleteCourse = (id) => 
 {
     return {
-        type: actionTypes.REMOVE_COURSE,
+        type: actionTypes.DELETE_COURSE,
         payload: id
     };
 };
@@ -97,28 +141,29 @@ export const editCourse = (id, newProps) =>
 // --------------------------------------------------------------------------------------
 
 // --------------------------------------------------------------------------------------
-// An action creator for adding a new assessment to a course
+// An action creator for creating a new assessment and adding it to the app
 // type: an integer that corresponds to the assessmentTypes in assessmentTypes.js
 // name: the name of the assessment, defaults to the form "[type] [number]"
 //      (i.e. Assignment 5), however a custom name can be provided 
 // grade: an float for the grade inputted by the user
 // --------------------------------------------------------------------------------------
-export const addAssessment = (type, name, grade) =>
+export const createAssessment = (type, name, courseID, grade) =>
 {
     return {
-        type: actionTypes.ADD_ASSESSMENT,
-        payload: {type, name, grade}
+        type: actionTypes.CREATE_ASSESSMENT,
+        payload: {type, name, courseID, grade}
     };
 };
 
 // --------------------------------------------------------------------------------------
-// An action creator for removing an assessment from a course
+// An action creator for deleting an assessment from the app
 // id: the unique ID of the course being deleted
 // --------------------------------------------------------------------------------------
-export const removeAssessment = (id) =>
+export const deleteAssessment = (id) =>
 {
+    // TODO: removeAssessFromCourse(courseID, assessmentID)
     return {
-        type: actionTypes.REMOVE_ASSESSMENT,
+        type: actionTypes.DELETE_ASSESSMENT,
         payload: id
     };
 };

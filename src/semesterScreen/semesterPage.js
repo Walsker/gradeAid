@@ -119,7 +119,6 @@ class SemesterPage extends Component
 
     render()
     {
-        console.log(this.props.navigation.state);
         return(
             <View style = {containerStyle.default}>
                 <ActionBar

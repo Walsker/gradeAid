@@ -149,7 +149,6 @@ const calculateCourseAverage = (course) =>
 export const newCourse = (semester, newCourse) =>
 {
     semester.courses.push(newCourse);
-    console.log(newCourse);
 
     return {
         type: actionTypes.NEW_COURSE,
@@ -163,7 +162,6 @@ const _inputGrade = (grade, assessmentName, courseName, semesterObject) =>
     {
         if (semesterObject.courses[i].name == courseName)
         {
-            console.log("HI:", semesterObject.courses[i]);
             for (j in semesterObject.courses[i].assessments)
             {
                 if (semesterObject.courses[i].assessments[j].name == assessmentName)
