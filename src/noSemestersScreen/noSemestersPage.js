@@ -7,7 +7,7 @@ import {connect} from 'react-redux';
 
 // Custom imports
 import {colors, containerStyle, textStyle} from 'easyGrades/src/common/appStyles';
-import {ActionBar, IconButton} from 'easyGrades/src/common';
+import {ActionBar, Button, IconButton} from 'easyGrades/src/common';
 
 class NoSemestersPage extends Component
 {
@@ -50,25 +50,12 @@ class NoSemestersPage extends Component
                         Get started by pressing that button right there.
                     </Text>
                     <View style = {{marginVertical: 20}}/>
-                    <View style = {containerStyle.rowBox}>
-                        <TouchableOpacity
-                            style = {{alignItems: 'center', alignSelf: 'stretch', flex: 1, paddingVertical: 5}}
-                            onPress = {() => this.props.navigation.navigate("NewSemesterPage")}
-                        >
-                            <View style = {{
-                                backgroundColor: colors.darkPrimaryColor,
-                                paddingVertical: 15,
-                                paddingHorizontal: 50,
-                                borderRadius: 30
-                            }}>
-                                <Text 
-                                    style = {[textStyle.bold(20), {color: 'white'}]}
-                                >
-                                    Start Semester
-                                </Text>
-                            </View>
-                        </TouchableOpacity>
-                    </View>
+                    <Button
+                        label = "Start Semester"
+                        color = {colors.darkPrimaryColor}
+                        inverted = {false}
+                        action = {() => this.props.navigation.navigate("NewSemesterPage")}
+                    />
                 </View>
             </View>
         );

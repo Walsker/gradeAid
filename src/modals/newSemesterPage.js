@@ -1,6 +1,6 @@
 // React Native imports
 import React, {Component} from 'react';
-import {Alert, Button, Text, TextInput, View} from 'react-native';
+import {Alert, Text, TextInput, View} from 'react-native';
 
 // Redux imports
 import {connect} from 'react-redux';
@@ -9,7 +9,7 @@ import {selectSemester} from 'easyGrades/src/navDrawer/redux/actions';
 
 // Custom Imports
 import {colors, containerStyle, textStyle} from 'easyGrades/src/common/appStyles';
-import {ActionBar, IconButton} from 'easyGrades/src/common';
+import {ActionBar, Button, IconButton} from 'easyGrades/src/common';
 
 class NewSemesterPage extends Component
 {
@@ -51,6 +51,41 @@ class NewSemesterPage extends Component
 		}
 	}
 
+	onSubmit()
+	{
+		var semesterName = this.state._semesterName.trim();
+		// TODO: Check if name is "About", "No Semesters", or "Settings"
+		if (semesterName == "")
+		{
+			this.showAlert("Unnamed Semester");
+		}
+		else
+		{
+			for (id in this.props.semesterList)
+			{
+				if (this.props.semesterList[id].name == semesterName)
+				{
+					this.showAlert("Semester already exists");
+					return;
+				}
+			}
+
+			var newID = 0;
+			while (true)
+			{
+				if (this.props.semesterList[newID] == undefined)
+					break;
+				else
+					newID++;
+			}
+			
+			this.props.createSemester(semesterName);
+			this.props.selectSemester(newID);
+
+			this.props.navigation.navigate("Semester Screen");
+		}
+	}
+
 	render()
 	{
 		return(
@@ -86,41 +121,10 @@ class NewSemesterPage extends Component
 					</View>
 					<View style = {containerStyle.formSection}>
 						<Button
+							label = "Submit"
 							color = {colors.accentColor}
-							title = "    Finish    "
-							onPress = {() => {
-								var semesterName = this.state._semesterName.trim();
-								// TODO: Check if name is "About", "No Semesters", or "Settings"
-								if (semesterName == "")
-								{
-									this.showAlert("Unnamed Semester");
-								}
-								else
-								{
-									for (id in this.props.semesterList)
-									{
-										if (this.props.semesterList[id].name == semesterName)
-										{
-											this.showAlert("Semester already exists");
-											return;
-										}
-									}
-
-									var newID = 0;
-									while (true)
-									{
-										if (this.props.semesterList[newID] == undefined)
-											break;
-										else
-											newID++;
-									}
-									
-									this.props.createSemester(semesterName);
-									this.props.selectSemester(newID);
-
-									this.props.navigation.navigate("Semester Screen");
-								}
-							}}
+							inverted = {false}
+							action = {this.onSubmit.bind(this)}
 						/>
 					</View>
 				</View>

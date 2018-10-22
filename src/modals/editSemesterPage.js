@@ -1,6 +1,6 @@
 // React Native imports
 import React, {Component} from 'react';
-import {Alert, Button, Text, TextInput, View} from 'react-native';
+import {Alert, Text, TextInput, View} from 'react-native';
 
 // Redux imports
 import {connect} from 'react-redux';
@@ -9,7 +9,7 @@ import {editSemester} from 'easyGrades/src/userData/actions';
 
 // Custom imports
 import {colors, containerStyle, textStyle} from 'easyGrades/src/common/appStyles';
-import {ActionBar, IconButton} from 'easyGrades/src/common';
+import {ActionBar, Button, IconButton} from 'easyGrades/src/common';
 
 // TODO: Delete semester from here, give serious warning
 class EditSemesterPage extends Component
@@ -28,6 +28,47 @@ class EditSemesterPage extends Component
             // The tentative new semester name
             _newSemesterName: currentSemester.name
         };
+    }
+
+    onSubmit()
+    {
+        var newSemesterName = this.state._newSemesterName.trim();
+
+        if (newSemesterName == "")
+        {
+            alert("Invalid semester name.")
+        }
+        else
+        {
+            for (i in this.props.semesters)
+            {
+                if (this.props.semesters[i].name == this.state.semester.name)
+                {
+                    this.props.navigation.pop();
+                    return;
+                }
+                else if (newSemesterName == this.props.semesters[i].name)
+                {
+                    Alert.alert(
+                        "Invalid Name",
+                        newSemesterName + " already exists. Please choose a different name.",
+                        [
+                            {text: 'OK', onPress: () => {}},
+                        ]
+                    )
+                    return;
+                }
+            }
+
+            Alert.alert(
+                "Confirm",
+                "Your semester will be renamed to " + this.state._newSemesterName + ", are you sure?",
+                [
+                    {text: 'Yes', onPress: () => this.props.renameSemester(this.state.semester, semesterName), style: 'cancel'},
+                    {text: 'No', onPress: () => {}},
+                ]
+            )
+        }                          
     }
 
     render()
@@ -68,70 +109,11 @@ class EditSemesterPage extends Component
                     </View>
                     <View style = {containerStyle.formSection}>
                         <Button
-                            color = {colors.accentColor}
-                            title = "    Finish    "
-                            onPress = {() => {
-                                var newSemesterName = this.state._newSemesterName.trim();
-
-                                if (newSemesterName == "")
-                                {
-                                    alert("Invalid semester name.")
-                                }
-                                else
-                                {
-                                    // old implementation ----------------------
-                                    for (i in this.props.semesters)
-                                    {
-                                        if (this.props.semesters[i].name == this.state.semester.name)
-                                        {
-                                            this.props.navigation.pop();
-                                            return;
-                                        }
-                                        else if (newSemesterName == this.props.semesters[i].name)
-                                        {
-                                            Alert.alert(
-                                                "Invalid Name",
-                                                newSemesterName + " already exists. Please choose a different name.",
-                                                [
-                                                    {text: 'OK', onPress: () => {}},
-                                                ]
-                                            )
-                                            return;
-                                        }
-                                    }
-                                    
-                                    // new implementation ----------------------
-                                    // for (i in this.props.semesterList)
-                                    // {
-                                    //     if (this.props.semesterList[i].name == this.state.semester.name)
-                                    //     {
-                                    //         this.props.navigation.pop();
-                                    //         return;
-                                    //     }
-                                    //     else if (newSemesterName == this.props.semesters[i].name)
-                                    //     {
-                                    //         Alert.alert(
-                                    //             "Invalid Name",
-                                    //             newSemesterName + " already exists. Please choose a different name.",
-                                    //             [
-                                    //                 {text: 'OK', onPress: () => {}},
-                                    //             ]
-                                    //         )
-                                    //         return;
-                                    //     }
-                                    // }
-
-                                    Alert.alert(
-                                        "Confirm",
-                                        "Your semester will be renamed to " + this.state._newSemesterName + ", are you sure?",
-                                        [
-                                            {text: 'Yes', onPress: () => this.props.renameSemester(this.state.semester, semesterName), style: 'cancel'},
-                                            {text: 'No', onPress: () => {}},
-                                        ]
-                                    )
-                                }
-                            }}
-                        />
+							label = "Submit"
+							color = {colors.accentColor}
+							inverted = {false}
+							action = {this.onSubmit.bind(this)}
+						/>
                     </View>
                 </View>
             </View>

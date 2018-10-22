@@ -7,7 +7,7 @@ import {connect} from 'react-redux';
 
 // Custom imports
 import {colors, containerStyle, textStyle} from 'easyGrades/src/common/appStyles';
-import {ActionBar, IconButton, Tile} from 'easyGrades/src/common';
+import {ActionBar, Button, IconButton, Tile} from 'easyGrades/src/common';
 import CourseList from './_components/courseList';
 
 class SemesterPage extends Component
@@ -85,25 +85,12 @@ class SemesterPage extends Component
                                     You have no courses in this semester!
                                 </Text>
                                 <View style = {{marginVertical: 5}}/>
-                                <View style = {containerStyle.rowBox}>
-                                    <TouchableOpacity
-                                        style = {{alignItems: 'center', alignSelf: 'stretch', flex: 1, paddingVertical: 5}}
-                                        onPress = {this.newCourse.bind(this)}
-                                    >
-                                        <View style = {{
-                                            backgroundColor: colors.darkPrimaryColor,
-                                            paddingVertical: 15,
-                                            paddingHorizontal: 50,
-                                            borderRadius: 30
-                                        }}>
-                                            <Text 
-                                                style = {[textStyle.bold(20), {color: 'white'}]}
-                                            >
-                                                Add Course
-                                            </Text>
-                                        </View>
-                                    </TouchableOpacity>
-                                </View>
+                                <Button
+                                    label = "Add Course"
+                                    color = {colors.darkPrimaryColor}
+                                    inverted = {false}
+                                    action = {this.newCourse.bind(this)}
+                                />
                             </View>
                         }
                     />
