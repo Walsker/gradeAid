@@ -11,6 +11,7 @@ import {editSemester} from 'easyGrades/src/userData/actions';
 import {colors, containerStyle, textStyle} from 'easyGrades/src/common/appStyles';
 import {ActionBar, IconButton} from 'easyGrades/src/common';
 
+// TODO: Delete semester from here, give serious warning
 class EditSemesterPage extends Component
 {
     constructor(props)

@@ -13,16 +13,30 @@ import DrawerItem from './drawerItem';
 
 class NavDrawer extends Component
 {
+    constructor(props)
+    {
+        super(props);
+        this.state = 
+        {
+            activeType: 0,
+            SEMESTER_PAGE: 0,
+            ABOUT_PAGE: 1,
+            SETTINGS_PAGE: 2
+        };
+    }
+
     createSemesterLink(semesterID)
     {
-        // TODO: highlight if selected
         var semesterObject = this.props.semesterList[semesterID];
         return(
             <DrawerItem
                 key = {semesterObject.name}
                 title = {semesterObject.name}
+                active = {(semesterID == this.props.selectedSemester) &&
+                    (this.state.activeType == this.state.SEMESTER_PAGE)}
                 action = {() =>
                 {
+                    this.setState({activeType: this.state.SEMESTER_PAGE});
                     this.props.selectSemester(semesterID);
                     this.props.navigation.closeDrawer();
                     this.props.navigation.navigate("Semester Screen");
@@ -49,14 +63,32 @@ class NavDrawer extends Component
                     {semesterPageLinks}
                     <DrawerItem 
                         title = "New Semester"
-                        action = {() => {
+                        active = {false}
+                        action = {() => 
+                        {
                             this.props.navigation.closeDrawer();
                             this.props.navigation.navigate("NewSemesterPage");
                         }}
                     />
                     <Divider/>
-                    <DrawerItem title = "Settings" action = {() => this.props.navigation.navigate("Settings")}/>
-                    <DrawerItem title = "About" action = {() => this.props.navigation.navigate("About")}/>
+                    <DrawerItem
+                        title = "Settings"
+                        active = {this.state.activeType == this.state.SETTINGS_PAGE}
+                        action = {() => 
+                        {
+                            this.setState({activeType: this.state.SETTINGS_PAGE});
+                            this.props.navigation.navigate("Settings");
+                        }}
+                    />
+                    <DrawerItem 
+                        title = "About"
+                        active = {this.state.activeType == this.state.ABOUT_PAGE}
+                        action = {() => 
+                        {
+                            this.setState({activeType: this.state.ABOUT_PAGE});
+                            this.props.navigation.navigate("About");
+                        }}
+                    />
                 </View>
             </View>
         );

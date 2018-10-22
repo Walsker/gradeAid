@@ -6,6 +6,7 @@ import {createDrawerNavigator, createStackNavigator} from 'react-navigation';
 
 // Redux imports
 import {connect} from 'react-redux';
+import {cleanCourseList, cleanAssessmentList} from './userData/actions';
 
 // Custom imports
 import NavDrawer from 'easyGrades/src/navDrawer/navDrawer';
@@ -17,6 +18,16 @@ import {CoursePage, SemesterPage} from 'easyGrades/src/semesterScreen';
 
 class RootNavigator extends Component
 {
+    constructor(props)
+    {
+        super(props);
+
+        console.log("CLEAN");
+        // TODO: Once everything is implemented check if these work properly
+        this.props.cleanCourseList(this.props.semesterList, this.props.courseList);
+        this.props.cleanAssessmentList(this.props.courseList, this.props.assessmentList);
+    }
+
     shouldComponentUpdate(nextProps)
     {
         return false;
@@ -85,4 +96,4 @@ const mapStateToProps = (state) =>
         }
     };
 }
-export default connect(mapStateToProps)(RootNavigator);
+export default connect(mapStateToProps, {cleanCourseList, cleanAssessmentList})(RootNavigator);

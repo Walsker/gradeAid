@@ -8,19 +8,16 @@ import * as actionTypes from './actionTypes';
 // --------------------------------------------------------------------------------------
 // Two action creators for removing courses and assessments that no longer belong to a 
 //  semester or course, respectively.
-// semesters: the semesterList portion of the state
-// courses: the courseList portion of the state
-// assessments: the assessmentList portion of the state
 // --------------------------------------------------------------------------------------
-export const cleanCourses = (semesters, courses) =>
+export const cleanCourseList = (semesterList, courseList) =>
 {
     // Clearning the courses list
     var semesterlessCourses = {};
-    for (i in courses)
+    for (id in courseList)
     {
         // Checking if this course belongs to a semester
-        if (!(courses[i].semesterID in semesters))
-            semesterlessCourses = Object.assign(semesterlessCourses, {[i]: undefined});
+        if (!(courseList[id].semesterID in semesterList))
+            semesterlessCourses = Object.assign(semesterlessCourses, {[id]: undefined});
     }
 
     return {
@@ -28,15 +25,15 @@ export const cleanCourses = (semesters, courses) =>
         payload: semesterlessCourses
     };
 }
-export const cleanAssessments = (courses, assessments) =>
+export const cleanAssessmentList = (courseList, assessmentList) =>
 {
     // Cleaning the assessments list
     var courselessAssessments = {};
-    for (i in assessments)
+    for (id in assessmentList)
     {
         // Checking if this assessment belongs to a course
-        if (!(assessments[i].courseID in courses))
-            courselessAssessments = Object.assign(courselessAssessments, {[i]: undefined});
+        if (!(assessmentList[id].courseID in courseList))
+            courselessAssessments = Object.assign(courselessAssessments, {[id]: undefined});
     }
 
     return {

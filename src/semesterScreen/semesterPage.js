@@ -14,23 +14,18 @@ class SemesterPage extends Component
 {
     newCourse()
     {
-        // Moving to the "Add Course" page
         this.props.navigation.navigate("AddCoursePage", {semester: this.props.semester});
     }
 
     editSemester()
     {
-        // Moving to the "Edit Semester" page
         this.props.navigation.navigate("EditSemesterPage", {semester: this.props.semester});
     }
     
-    //  A render function which adapts to the information in the semester object
     renderContent()
     {
-        // Checking if the semester has any courses with completed assessments
         if (!this.props.newSemester)
         {
-            // Formatting the GPA numbers
             var maxGPAString = parseFloat(this.props.maxGPA).toFixed(1);
             var GPAString = parseFloat(this.props.semester.gpa).toFixed(1);
             

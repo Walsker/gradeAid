@@ -7,6 +7,7 @@ import {Provider} from 'react-redux';
 import {createStore} from 'redux';
 import reducers from './_rootReducer';
 
+// Redux Persist imports
 import {persistStore, persistReducer} from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
 import {PersistGate} from 'redux-persist/integration/react'

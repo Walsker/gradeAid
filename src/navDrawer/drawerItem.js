@@ -13,7 +13,7 @@ export default class DrawerItem extends Component
             <View
                 style = {{
                     paddingBottom: 1,
-                    backgroundColor: colors.spaceColor
+                    backgroundColor: this.props.active ? colors.lightPrimaryColor : colors.spaceColor
                 }}
             >
                 <TouchableOpacity onPress = {this.props.action}>
