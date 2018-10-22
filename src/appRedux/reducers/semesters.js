@@ -2,7 +2,7 @@ import {NEW_SEMESTER, RENAME_SEMESTER, NEW_COURSE, INPUT_GRADE} from '../actionT
 
 export default (prevState = [], action) =>
 {
-    switch(action.type)
+    switch (action.type)
     {
         // --------------------------------------------------------------------
         // SEMESTER REDUCERS
@@ -11,21 +11,21 @@ export default (prevState = [], action) =>
         // CASE: adding a semester to the app
         case NEW_SEMESTER:
 
-            // var stateClone = prevState.slice();
+            
             // Copying the previous semesters object as to not modify it
-            var semestersClone = jQuery.extend(true, [], prevState)
+            var stateClone = prevState.slice();
 
             // Adding the new semester to the semesters clone
-            semestersClone.splice(prevState.length - 1, 0, action.payload);
+            stateClone.push(action.payload);
 
             // Returning the updated semesters object
-            return semestersClone;
+            return stateClone;
         
         // CASE: an existing semester is being renamed
         case RENAME_SEMESTER:
             // var newList = prevState.slice();
             // Copying the previous semesters object as to not modify it
-            var semestersClone = jQuery.extend(true, [], prevState)
+            var semestersClone = {...prevState};
 
             // Searching through all the semesters
             for (var semester in semestersClone)
@@ -52,7 +52,7 @@ export default (prevState = [], action) =>
             // var tempList = prevState.slice();
             
             // Copying the previous semesters object as to not modify it
-            var semestersClone = jQuery.extend(true, [], prevState)
+            var semestersClone = {...prevState};
 
             // Searching through all the semesters
             for (var semester in semestersClone)
@@ -65,11 +65,9 @@ export default (prevState = [], action) =>
                 }
             }
 
-            // Returning the updated semesters object
             return semestersClone;
 
         default:
-            // Not making any changes
             return prevState
     }
 };

@@ -5,6 +5,7 @@ import {Alert, Button, Text, TextInput, View} from 'react-native';
 // Redux imports
 import {connect} from 'react-redux';
 import {renameSemester} from 'easyGrades/src/appRedux/actions';
+import {editSemester} from 'easyGrades/src/userData/actions';
 
 // Custom imports
 import {colors, containerStyle, textStyle} from 'easyGrades/src/common/appStyles';
@@ -17,9 +18,13 @@ class EditSemesterPage extends Component
         super(props);
 
         var currentSemester = this.props.navigation.getParam('semester', {});
+        // var NEWsemesterID = this.props.navgiation.getParam('semesterID', 0);
+
         this.state = 
         {
             semester: currentSemester,
+            // NEWsemester: props.semesterList[semesterID],
+            // The tentative new semester name
             _newSemesterName: currentSemester.name
         };
     }
@@ -43,7 +48,11 @@ class EditSemesterPage extends Component
                 />
                 <View style = {containerStyle.form}>
                     <View style = {containerStyle.formSection}>
-                        <Text style = {textStyle.regular(22, 'center')}>Rename {this.state.semester.name} by entering a new name below.</Text>
+                        <Text style = {textStyle.regular(22, 'center')}>
+                            Rename
+                            <Text style = {{color: colors.accentColor}}> {this.state.semester.name} </Text>
+                            by entering a new name below.
+                        </Text>
                     </View>
                     <View style = {containerStyle.formSection}>
                         <TextInput
@@ -61,14 +70,15 @@ class EditSemesterPage extends Component
                             color = {colors.accentColor}
                             title = "    Finish    "
                             onPress = {() => {
-                                var semesterName = this.state._newSemesterName.trim();
+                                var newSemesterName = this.state._newSemesterName.trim();
 
-                                if (semesterName == "")
+                                if (newSemesterName == "")
                                 {
                                     alert("Invalid semester name.")
                                 }
                                 else
                                 {
+                                    // old implementation ----------------------
                                     for (i in this.props.semesters)
                                     {
                                         if (this.props.semesters[i].name == this.state.semester.name)
@@ -76,11 +86,11 @@ class EditSemesterPage extends Component
                                             this.props.navigation.pop();
                                             return;
                                         }
-                                        else if (semesterName == this.props.semesters[i].name)
+                                        else if (newSemesterName == this.props.semesters[i].name)
                                         {
                                             Alert.alert(
                                                 "Invalid Name",
-                                                semesterName + " already exists. Please choose a different name.",
+                                                newSemesterName + " already exists. Please choose a different name.",
                                                 [
                                                     {text: 'OK', onPress: () => {}},
                                                 ]
@@ -88,6 +98,27 @@ class EditSemesterPage extends Component
                                             return;
                                         }
                                     }
+                                    
+                                    // new implementation ----------------------
+                                    // for (i in this.props.semesterList)
+                                    // {
+                                    //     if (this.props.semesterList[i].name == this.state.semester.name)
+                                    //     {
+                                    //         this.props.navigation.pop();
+                                    //         return;
+                                    //     }
+                                    //     else if (newSemesterName == this.props.semesters[i].name)
+                                    //     {
+                                    //         Alert.alert(
+                                    //             "Invalid Name",
+                                    //             newSemesterName + " already exists. Please choose a different name.",
+                                    //             [
+                                    //                 {text: 'OK', onPress: () => {}},
+                                    //             ]
+                                    //         )
+                                    //         return;
+                                    //     }
+                                    // }
 
                                     Alert.alert(
                                         "Confirm",
@@ -109,6 +140,9 @@ class EditSemesterPage extends Component
 
 const mapStateToProps = (state) =>
 {
-    return {semesters: state.semesters};
+    return {
+        semesters: state.semesters,
+        semesterList: state.semesterList
+    };
 }
-export default connect(mapStateToProps, {renameSemester})(EditSemesterPage);
+export default connect(mapStateToProps, {renameSemester, editSemester})(EditSemesterPage);

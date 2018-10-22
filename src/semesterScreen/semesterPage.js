@@ -67,7 +67,7 @@ class SemesterPage extends Component
                         {
                             <CourseList
                                 semester = {this.props.semester}
-                                navProp = {this.props.navigation}
+                                navigation = {this.props.navigation}
                                 newCourse = {this.newCourse.bind(this)}
                             />
                         }
@@ -147,28 +147,21 @@ class SemesterPage extends Component
     }
 }
 
-const mapStateToProps = (state, regularProps) =>
-{       
-    var semesterName = regularProps.navigation.state.routeName;
-    var semesterObject = {name: semesterName, courses: [], gpa: null};
+const mapStateToProps = (state) =>
+{
+    var semesterObject = state.semesterList[state.selectedSemester];
     var newSemester = true;
-
-    for (i in state.semesters)
+    
+    for (id in state.courseList)
     {
-        if (state.semesters[i].name == semesterName)
+        if (state.courseList[id].semesterID == state.selectedSemester)
         {
-            semesterObject = state.semesters[i];
-
-            if (semesterObject.courses.length != 0)
-            {
-                newSemester = false;
-            }
+            newSemester = false;
             break;
         }
     }
 
     return {
-        maxGPA: state.maxGPA,
         semester: semesterObject,
         newSemester
     };

@@ -3,7 +3,7 @@
 // It sorts all the assessments by giving them all a unique ID
 //
 // Below is the structure for this portion of the state
-// allAssessments:
+// assessmentList:
 // {
 //      [id]: {type: int, name: string, courseID: int, grade: float}
 // }
@@ -13,7 +13,7 @@ import {CLEAN_ASSESS_LIST, CREATE_ASSESSMENT, DELETE_ASSESSMENT, EDIT_ASSESSMENT
 
 export default (prevState = {}, action) =>
 {
-    switch(action.type)
+    switch (action.type)
     {
 		// ------------------------------------------------------------------------------
         // CASE: the assessment list is being purged of all assessments whose parent 
@@ -42,7 +42,6 @@ export default (prevState = {}, action) =>
             var newID = 0;
             while (true)
             {
-                // Checking if there exists an assessment with the ID newID
                 if (prevState[newID] == undefined)
                     break;
                 else
@@ -87,8 +86,6 @@ export default (prevState = {}, action) =>
             };
             
         default:
-
-            // Not making any changes
             return prevState
     }
 };

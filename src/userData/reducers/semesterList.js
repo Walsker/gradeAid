@@ -3,30 +3,29 @@
 // It sorts all the semesters by giving them all a unique ID
 //
 // Below is the structure for this portion of the state
-// allSemesters:
+// semesterList:
 // {
 //      [id]: {name: string},
 // }
 // --------------------------------------------------------------------------------------
 
-import {ADD_SEMESTER, REMOVE_SEMESTER, EDIT_SEMESTER} from '../actionTypes';
+import {CREATE_SEMESTER, DELETE_SEMESTER, EDIT_SEMESTER} from '../actionTypes';
 
 export default (prevState = {}, action) =>
 {
-    switch(action.type)
+    switch (action.type)
     {
         // ------------------------------------------------------------------------------
         // CASE: a new semester is being created
         // PAYLOAD: a semester object in the form
         //      {name: string}
         // ------------------------------------------------------------------------------
-        case ADD_SEMESTER:
+        case CREATE_SEMESTER:
 
             // Finding an unused ID
             var newID = 0;
             while (true)
             {
-                // Checking if there exists a semester with the ID newID
                 if (prevState[newID] == undefined)
                     break;
                 else
@@ -42,7 +41,7 @@ export default (prevState = {}, action) =>
         // CASE: a semester is being removed from the app
         // PAYLOAD: int, the ID of the semester to be removed
         // ------------------------------------------------------------------------------
-        case REMOVE_SEMESTER:
+        case DELETE_SEMESTER:
 
             return {
                 ...prevState,
@@ -71,8 +70,6 @@ export default (prevState = {}, action) =>
             };
             
         default:
-
-            // Not making any changes
             return prevState
     }
 };

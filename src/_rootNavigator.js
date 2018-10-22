@@ -8,115 +8,81 @@ import {createDrawerNavigator, createStackNavigator} from 'react-navigation';
 import {connect} from 'react-redux';
 
 // Custom imports
-import {NavDrawer} from 'easyGrades/src/common';
+import NavDrawer from 'easyGrades/src/navDrawer/navDrawer';
+import * as Modals from 'easyGrades/src/modals';
+import NoSemestersPage from 'easyGrades/src/noSemestersScreen/noSemestersPage';
+import AboutPage from 'easyGrades/src/aboutScreen/aboutPage';
+import SettingsPage from 'easyGrades/src/settingsScreen/settingsPage';
+import {CoursePage, SemesterPage} from 'easyGrades/src/semesterScreen';
 
 class RootNavigator extends Component
 {
-    renderDrawerNavigator()
+    shouldComponentUpdate(nextProps)
     {
-        // Finding the last semester added to the app
-        var latestSemester;
-        for (i in this.props.mainRoutes)
-        {
-            latestSemester = i;
-        }
+        return false;
+    }
 
-        var navConfig = {
-            initialRouteName: latestSemester,
-            // drawerLockMode: 'locked-closed',
+    render()
+    {        
+        var landingPage = Object.keys(this.props.semesterList).length == 0 ? 
+            "No Semesters" : "Semester Screen";
+        
+        var drawerNavConfig = 
+        {
+            initialRouteName: landingPage,
             contentComponent: ({navigation}) =>
             {
-                return <NavDrawer navProp = {navigation}/>;
+                return <NavDrawer navigation = {navigation}/>;
             }
         };
 
-        return createDrawerNavigator(this.props.mainRoutes, navConfig);
-    }
-    
-    render()
-    {   
-        var mainRoutes = Object.assign({}, {"Drawer": this.renderDrawerNavigator()}, this.props.modalRoutes);
+        var DrawerNavigator = createDrawerNavigator(this.props.drawerRoutes, drawerNavConfig);
+
+        var mainRoutes = Object.assign(this.props.modalRoutes, {"Drawer": DrawerNavigator});
         var MainNavigator = createStackNavigator(mainRoutes,
         {
             headerMode: 'none',
             initialRouteName: "Drawer"
         });
-        
-        return(
+
+        return (
             <MainNavigator/>
         );
     }
 }
 
-// Imports for the following functions
-import {CoursePage, EditSemesterPage, InputGradePage, SemesterPage} from 'easyGrades/src/semesterScreen';
-import * as Modals from 'easyGrades/src/modals';
-import NoSemestersPage from 'easyGrades/src/noSemestersScreen/noSemestersPage';
-import AboutPage from 'easyGrades/src/aboutScreen/aboutPage';
-import SettingsPage from 'easyGrades/src/settingsScreen/settingsPage';
-
-const createSemesterPage = (semester) =>
+const mapStateToProps = (state) =>
 {
-    var routes = {};
-    routes[semester.name] = {screen: SemesterPage}; // The actual page
-    // routes["Edit Semester"] = {screen: EditSemesterPage}
-    
-    // Creating pages for the individual courses
-    for (i in semester.courses)
-    {
-        routes[semester.courses[i].name] = createStackNavigator({
-            "Course Screen": {screen: CoursePage},
-            // "Input Grade": {screen: InputGradePage}
-        }, 
-        {
-            headerMode: 'none',
-            initialRouteName: "Course Screen"
-        });
-    }
+    console.log("App State: ", state);
 
-    // Returning a Stack Navigator
-    return(createStackNavigator(routes, {headerMode: 'none'}));
-}
-
-const generateMainRoutes = (semesterList) =>
-{
-    var mainRoutes = 
-    {
-        "About": {screen: AboutPage},
-        "Settings": {screen: SettingsPage},
-        "No Semesters": {screen: NoSemestersPage}
-    };
-
-    // Adding all the semesters to route configuration
-    for (i in semesterList)
-    {
-        mainRoutes[semesterList[i].name] = {screen: createSemesterPage(semesterList[i])};
-    }
-
-    return mainRoutes;
-}
-
-const generateModalRoutes = () =>
-{
     var modalRoutes = {};
-
-    // Adding all the modals to route configuration
-    for (var modal in Modals)
+    for (modal in Modals)
     {
         modalRoutes[modal] = {screen: Modals[modal]}
     }
 
-    return modalRoutes;
-}
-
-const mapStateToProps = (state) =>
-{
-    console.log("App State: ", state)
+    var semesterScreen = createStackNavigator(
+    {
+        Semester: {screen: SemesterPage},
+        Course: {screen: CoursePage}
+    },
+    {
+        headerMode: 'none',
+        initialRouteName: "Semester"
+    });
 
     return {
-        mainRoutes: generateMainRoutes(state.semesters),
-        modalRoutes: generateModalRoutes(),
-        semesters: state.semesters
+        semesterList: state.semesterList,
+        courseList: state.courseList,
+        assessmentList: state.assessmentList,
+        modalRoutes,
+        drawerRoutes:
+        {
+            "About": {screen: AboutPage},
+            "Settings": {screen: SettingsPage},
+            "No Semesters": {screen: NoSemestersPage},
+            "Semester Screen": semesterScreen
+        }
     };
-};
+}
 export default connect(mapStateToProps)(RootNavigator);

@@ -8,9 +8,9 @@ import * as actionTypes from './actionTypes';
 // --------------------------------------------------------------------------------------
 // Two action creators for removing courses and assessments that no longer belong to a 
 //  semester or course, respectively.
-// semesters: the allSemesters portion of the state
-// courses: the allCourses portion of the state
-// assessments: the allAssessments portion of the state
+// semesters: the semesterList portion of the state
+// courses: the courseList portion of the state
+// assessments: the assessmentList portion of the state
 // --------------------------------------------------------------------------------------
 export const cleanCourses = (semesters, courses) =>
 {

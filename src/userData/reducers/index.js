@@ -1,5 +1,5 @@
-import allSemesters from './allSemesters';
-import allCourses from './allCourses';
-import allAssessments from './allAssessments';
+import semesterList from './semesterList';
+import courseList from './courseList';
+import assessmentList from './assessmentList';
 
-export default {allSemesters, allCourses, allAssessments};
+export default {semesterList, courseList, assessmentList};

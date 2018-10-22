@@ -25,7 +25,7 @@ export default class CourseList extends Component
             <TouchableNativeFeedback 
                 key = {course.name}
                 background = {TouchableNativeFeedback.Ripple(colors.lightPrimaryColor, false)}
-                onPress = {() => this.props.navProp.navigate(course.name, {course, semesterName})}
+                onPress = {() => this.props.navigation.navigate(course.name, {course, semesterName})}
             >
                 <View style = {containerStyle.courseCard}>
                     <ProgressCircle

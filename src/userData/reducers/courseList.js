@@ -3,7 +3,7 @@
 // It sorts all the courses by giving them all a unique ID, which semesters will then refer to.
 //
 // Below is the structure for this portion of the state
-// allCourses:
+// courseList:
 // {
 //      [id]: {name: string, semesterID: int, newCourse: bool}
 // }
@@ -13,7 +13,7 @@ import {CLEAN_COURSE_LIST, ADD_COURSE, REMOVE_COURSE, EDIT_COURSE} from '../acti
 
 export default (prevState = {}, action) =>
 {
-	switch(action.type)
+	switch (action.type)
 	{
 		// ------------------------------------------------------------------------------
 		// CASE: the course list is being purged of all courses whose parent semester
@@ -42,7 +42,6 @@ export default (prevState = {}, action) =>
 			var newID = 0;
 			while (true)
 			{
-				// Checking if there exists a course with the ID newID
 				if (prevState[newID] == undefined)
 					break;
 				else
@@ -87,7 +86,6 @@ export default (prevState = {}, action) =>
 			};
 
 		default:
-			// Not making any changes
 			return prevState
 	}
 };

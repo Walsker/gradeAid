@@ -28,10 +28,10 @@ export default class App extends Component
 
         const store = createStore(persistedReducer);
         const persistor = persistStore(store);
-    
+        // persistor.purge();
 		return(
             <Provider store = {store}>
-                <PersistGate loading = {null} persistor = {persistor}>
+                <PersistGate loading = {<View style = {{backgroundColor: 'red'}}/>} persistor = {persistor}>
                     <View style = {containerStyle.default}>
                         <AndroidBar/>
                         <StatusBar

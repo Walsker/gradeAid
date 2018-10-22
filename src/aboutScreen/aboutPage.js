@@ -11,7 +11,7 @@ export default class AboutPage extends Component
     {
         return(
             <View style = {containerStyle.page}>
-                <Text style = {textStyle.regular(28, 'center')}>This is Wal's creation.</Text>
+                <Text style = {textStyle.regular(28, 'center')}>ABOUT: This is Wal's creation.</Text>
             </View>
         );
     }
