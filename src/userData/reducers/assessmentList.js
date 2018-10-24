@@ -13,13 +13,13 @@ import {CLEAN_ASSESS_LIST, CREATE_ASSESSMENT, DELETE_ASSESSMENT, EDIT_ASSESSMENT
 
 export default (prevState = {}, action) =>
 {
-    switch (action.type)
-    {
+	switch (action.type)
+	{
 		// ------------------------------------------------------------------------------
-        // CASE: the assessment list is being purged of all assessments whose parent 
-        //      course no longer exists
-        // PAYLOAD: an object which contains the IDs of the deleted assessments as keys,
-        //          all with a value of undefined
+		// CASE: the assessment list is being purged of all assessments whose parent
+		//      course no longer exists
+		// PAYLOAD: an object which contains the IDs of the deleted assessments as keys,
+		//          all with a value of undefined
 		//          {
 		//              [id]: undefined
 		//          }
@@ -31,67 +31,67 @@ export default (prevState = {}, action) =>
 				...action.payload
 			};
 
-        // ------------------------------------------------------------------------------
-        // CASE: a new assessment is being created
-        // PAYLOAD: an assessment object in the form
-        //      {type: int, name: string, courseID: int, grade: float}
-        // ------------------------------------------------------------------------------
-        case CREATE_ASSESSMENT:
+		// ------------------------------------------------------------------------------
+		// CASE: a new assessment is being created
+		// PAYLOAD: an assessment object in the form
+		//      {type: int, name: string, courseID: int, grade: float}
+		// ------------------------------------------------------------------------------
+		case CREATE_ASSESSMENT:
 
-            // Finding an unused ID
-            var newID = 0;
-            while (true)
-            {
-                if (prevState[newID] == undefined)
-                    break;
-                else
-                    newID++;
-            }
+			// Finding an unused ID
+			var newID = 0;
+			while (true)
+			{
+				if (prevState[newID] == undefined)
+					break;
+				else
+					newID++;
+			}
 
-            return {
-                ...prevState,
-                [newID]: action.payload,
-            };
+			return {
+				...prevState,
+				[newID]: action.payload,
+			};
 
-        // ------------------------------------------------------------------------------
-        // CASE: an assessment is being deleted from the app
-        // PAYLOAD: int, the ID of the assessment to be removed
-        // ------------------------------------------------------------------------------
-        case DELETE_ASSESSMENT:
+		// ------------------------------------------------------------------------------
+		// CASE: an assessment is being deleted from the app
+		// PAYLOAD: int, the ID of the assessment to be removed
+		// ------------------------------------------------------------------------------
+		case DELETE_ASSESSMENT:
 
-            var assessList = {};
-            for (id in courseList)
-            {
-                if (id != action.payload)
-                {
-                    assessList = Object.assign(assessList, prevState[id]);
-                }
-            }
-            
-            return semesterList;
+			var assessList = {};
+			for (id in courseList)
+			{
+				if (id != action.payload)
+				{
+					assessList = Object.assign(assessList, prevState[id]);
+				}
+			}
 
-        // ------------------------------------------------------------------------------
-        // CASE: an existing assessment is being modified
-        // PAYLOAD: an object in the form
-        //      {id, newProps}
-        //      id: the unique id of the assessment to be modified
-        //      newProps: an object of the new values of the properties being changed
-        // ------------------------------------------------------------------------------
-        case EDIT_ASSESSMENT:
+			return semesterList;
 
-            // Copying the previous list of assessments as to not modify it
-            var assessList = {...prevState};
-            var oldAssessment = assessList[action.payload.id];
+		// ------------------------------------------------------------------------------
+		// CASE: an existing assessment is being modified
+		// PAYLOAD: an object in the form
+		//      {id, newProps}
+		//      id: the unique id of the assessment to be modified
+		//      newProps: an object of the new values of the properties being changed
+		// ------------------------------------------------------------------------------
+		case EDIT_ASSESSMENT:
 
-            // Making the changes to the assessment object
-            var modifiedAssessment = Object.assign(oldAssessment, action.payload.newProps);
+			// Copying the previous list of assessments as to not modify it
+			var assessList = {...prevState};
+			var oldAssessment = assessList[action.payload.id];
 
-            return {
-                ...prevState,
-                [action.payload.id]: modifiedAssessment
-            };
-            
-        default:
-            return prevState
-    }
+			// Making the changes to the assessment object
+			var modifiedAssessment = Object.assign(oldAssessment, action.payload.newProps);
+
+			return {
+				...prevState,
+				[action.payload.id]: modifiedAssessment
+			};
+
+		default:
+			return prevState
+	}
 };

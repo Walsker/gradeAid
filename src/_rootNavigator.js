@@ -18,88 +18,88 @@ import {CoursePage, SemesterPage} from 'easyGrades/src/semesterScreen';
 
 class RootNavigator extends Component
 {
-    constructor(props)
-    {
-        super(props);
+	constructor(props)
+	{
+		super(props);
 
-        console.log("CLEAN");
-        // TODO: Once everything is implemented check if these work properly
-        this.props.cleanCourseList(this.props.semesterList, this.props.courseList);
-        this.props.cleanAssessmentList(this.props.courseList, this.props.assessmentList);
+		console.log("CLEAN");
+		// TODO: Once everything is implemented check if these work properly
+		this.props.cleanCourseList(this.props.semesterList, this.props.courseList);
+		this.props.cleanAssessmentList(this.props.courseList, this.props.assessmentList);
 
-        var modalRoutes = {};
-        for (modal in Modals)
-        {
-            modalRoutes[modal] = {screen: Modals[modal]}
-        }
+		var modalRoutes = {};
+		for (modal in Modals)
+		{
+			modalRoutes[modal] = {screen: Modals[modal]}
+		}
 
-        var semesterScreen = createStackNavigator(
-        {
-            Semester: {screen: SemesterPage},
-            Course: {screen: CoursePage}
-        },
-        {
-            headerMode: 'none',
-            initialRouteName: "Semester"
-        });
+		var semesterScreen = createStackNavigator(
+		{
+			Semester: {screen: SemesterPage},
+			Course: {screen: CoursePage}
+		},
+		{
+			headerMode: 'none',
+			initialRouteName: "Semester"
+		});
 
-        this.state =
-        {
-            modalRoutes,
-            drawerRoutes:
-            {
-                "About": {screen: AboutPage},
-                "Settings": {screen: SettingsPage},
-                "No Semesters": {screen: NoSemestersPage},
-                "Semester Screen": semesterScreen
-            }
-        };
-    }
+		this.state =
+		{
+			modalRoutes,
+			drawerRoutes:
+			{
+				"About": {screen: AboutPage},
+				"Settings": {screen: SettingsPage},
+				"No Semesters": {screen: NoSemestersPage},
+				"Semester Screen": semesterScreen
+			}
+		};
+	}
 
-    shouldComponentUpdate(nextProps)
-    {
-        return false;
-    }
+	shouldComponentUpdate(nextProps)
+	{
+		return false;
+	}
 
-    render()
-    {        
-        var landingPage = Object.keys(this.props.semesterList).length == 0 ? 
-            "No Semesters" : "Semester Screen";
-        
-        var drawerNavConfig = 
-        {
-            initialRouteName: landingPage,
-            contentComponent: ({navigation}) =>
-            {
-                return <NavDrawer navigation = {navigation}/>;
-            }
-        };
+	render()
+	{
+		var landingPage = Object.keys(this.props.semesterList).length == 0 ?
+			"No Semesters" : "Semester Screen";
 
-        // var DrawerNavigator = createDrawerNavigator(this.props.drawerRoutes, drawerNavConfig);
-        var DrawerNavigator = createDrawerNavigator(this.state.drawerRoutes, drawerNavConfig);
+		var drawerNavConfig =
+		{
+			initialRouteName: landingPage,
+			contentComponent: ({navigation}) =>
+			{
+				return <NavDrawer navigation = {navigation}/>;
+			}
+		};
 
-        // var mainRoutes = Object.assign(this.props.modalRoutes, {"Drawer": DrawerNavigator});
-        var mainRoutes = Object.assign(this.state.modalRoutes, {"Drawer": DrawerNavigator});
-        var MainNavigator = createStackNavigator(mainRoutes,
-        {
-            headerMode: 'none',
-            initialRouteName: "Drawer"
-        });
+		// var DrawerNavigator = createDrawerNavigator(this.props.drawerRoutes, drawerNavConfig);
+		var DrawerNavigator = createDrawerNavigator(this.state.drawerRoutes, drawerNavConfig);
 
-        return (
-            <MainNavigator/>
-        );
-    }
+		// var mainRoutes = Object.assign(this.props.modalRoutes, {"Drawer": DrawerNavigator});
+		var mainRoutes = Object.assign(this.state.modalRoutes, {"Drawer": DrawerNavigator});
+		var MainNavigator = createStackNavigator(mainRoutes,
+		{
+			headerMode: 'none',
+			initialRouteName: "Drawer"
+		});
+
+		return (
+			<MainNavigator/>
+		);
+	}
 }
 
 const mapStateToProps = (state) =>
 {
-    console.log("App State: ", state);
+	console.log("App State: ", state);
 
-    return {
-        semesterList: state.semesterList,
-        courseList: state.courseList,
-        assessmentList: state.assessmentList,
-    };
+	return {
+		semesterList: state.semesterList,
+		courseList: state.courseList,
+		assessmentList: state.assessmentList,
+	};
 }
 export default connect(mapStateToProps, {cleanCourseList, cleanAssessmentList})(RootNavigator);

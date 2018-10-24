@@ -4,7 +4,7 @@ import navReducers from './navDrawer/redux/reducers';
 import userData from './userData/reducers';
 
 export default combineReducers({
-    ...appReducers,
-    ...navReducers,
-    ...userData
+	...appReducers,
+	...navReducers,
+	...userData
 });

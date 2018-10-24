@@ -6,16 +6,16 @@
 // A list of possible assessment types
 export const types =
 [
-    "Assignment",
-    "Project",
-    "Essay",
-    "Quiz",
-    "Test",
-    "Midterm",
-    "Lab",
-    "Tutorial",
-    "Discussion Group",
-    "Final Exam"
+	"Assignment",
+	"Project",
+	"Essay",
+	"Quiz",
+	"Test",
+	"Midterm",
+	"Lab",
+	"Tutorial",
+	"Discussion Group",
+	"Final Exam"
 ];
 
 // Contants that correspond to the list above

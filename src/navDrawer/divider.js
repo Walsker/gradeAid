@@ -7,14 +7,14 @@ import {colors} from 'easyGrades/src/common/appStyles';
 
 export default class Divider extends Component
 {
-    render()
-    {
-        return(
-            <View style = {{
-                backgroundColor: colors.dividerColor,
-                marginVertical: 10,
-                height: 1
-            }}/>
-        );
-    }
+	render()
+	{
+		return(
+			<View style = {{
+				backgroundColor: colors.dividerColor,
+				marginVertical: 10,
+				height: 1
+			}}/>
+		);
+	}
 }

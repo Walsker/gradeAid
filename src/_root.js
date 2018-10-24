@@ -20,30 +20,30 @@ import {AndroidBar} from 'easyGrades/src/common';
 export default class App extends Component
 {
 	render()
-	{        
-        const persistConfig = {
-            key: 'root',
-            storage,
-        };
-        const persistedReducer = persistReducer(persistConfig, reducers);
+	{
+		const persistConfig = {
+			key: 'root',
+			storage,
+		};
+		const persistedReducer = persistReducer(persistConfig, reducers);
 
-        const store = createStore(persistedReducer);
-        const persistor = persistStore(store);
-        persistor.purge();
+		const store = createStore(persistedReducer);
+		const persistor = persistStore(store);
+		persistor.purge();
 		return(
-            <Provider store = {store}>
-                <PersistGate loading = {<View style = {{backgroundColor: 'red'}}/>} persistor = {persistor}>
-                    <View style = {containerStyle.default}>
-                        <AndroidBar/>
-                        <StatusBar
-                            translucent
-                            animated
-                            backgroundColor = "rgba(0, 0, 0, 0.2)"
-                        />
-                        <RootNavigator/>
-                    </View>
-                </PersistGate>
-            </Provider>
+			<Provider store = {store}>
+				<PersistGate loading = {<View style = {{backgroundColor: 'red'}}/>} persistor = {persistor}>
+					<View style = {containerStyle.default}>
+						<AndroidBar/>
+						<StatusBar
+							translucent
+							animated
+							backgroundColor = "rgba(0, 0, 0, 0.2)"
+						/>
+						<RootNavigator/>
+					</View>
+				</PersistGate>
+			</Provider>
 		);
 	}
 }

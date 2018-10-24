@@ -67,7 +67,7 @@ export default (prevState = {}, action) =>
 					courseList = Object.assign(courseList, prevState[id]);
 				}
 			}
-			
+
 			return semesterList;
 
 		// ------------------------------------------------------------------------------

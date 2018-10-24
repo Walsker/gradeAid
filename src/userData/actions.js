@@ -6,40 +6,40 @@ import * as actionTypes from './actionTypes';
 // --------------------------------------------------------------------------------------
 
 // --------------------------------------------------------------------------------------
-// Two action creators for removing courses and assessments that no longer belong to a 
+// Two action creators for removing courses and assessments that no longer belong to a
 //  semester or course, respectively.
 // --------------------------------------------------------------------------------------
 export const cleanCourseList = (semesterList, courseList) =>
 {
-    // Clearning the courses list
-    var semesterlessCourses = {};
-    for (id in courseList)
-    {
-        // Checking if this course belongs to a semester
-        if (!(courseList[id].semesterID in semesterList))
-            semesterlessCourses = Object.assign(semesterlessCourses, {[id]: undefined});
-    }
+	// Clearning the courses list
+	var semesterlessCourses = {};
+	for (id in courseList)
+	{
+		// Checking if this course belongs to a semester
+		if (!(courseList[id].semesterID in semesterList))
+			semesterlessCourses = Object.assign(semesterlessCourses, {[id]: undefined});
+	}
 
-    return {
-        type: actionTypes.CLEAN_COURSE_LIST,
-        payload: semesterlessCourses
-    };
+	return {
+		type: actionTypes.CLEAN_COURSE_LIST,
+		payload: semesterlessCourses
+	};
 }
 export const cleanAssessmentList = (courseList, assessmentList) =>
 {
-    // Cleaning the assessments list
-    var courselessAssessments = {};
-    for (id in assessmentList)
-    {
-        // Checking if this assessment belongs to a course
-        if (!(assessmentList[id].courseID in courseList))
-            courselessAssessments = Object.assign(courselessAssessments, {[id]: undefined});
-    }
+	// Cleaning the assessments list
+	var courselessAssessments = {};
+	for (id in assessmentList)
+	{
+		// Checking if this assessment belongs to a course
+		if (!(assessmentList[id].courseID in courseList))
+			courselessAssessments = Object.assign(courselessAssessments, {[id]: undefined});
+	}
 
-    return {
-        type: actionTypes.CLEAN_ASSESS_LIST,
-        payload: courselessAssessments
-    };
+	return {
+		type: actionTypes.CLEAN_ASSESS_LIST,
+		payload: courselessAssessments
+	};
 }
 
 // --------------------------------------------------------------------------------------
@@ -52,22 +52,22 @@ export const cleanAssessmentList = (courseList, assessmentList) =>
 // --------------------------------------------------------------------------------------
 export const createSemester = (semesterName, orderID) =>
 {
-    return {
-        type: actionTypes.CREATE_SEMESTER,
-        payload: {name: semesterName, orderID}
-    };
+	return {
+		type: actionTypes.CREATE_SEMESTER,
+		payload: {name: semesterName, orderID}
+	};
 };
 
 // --------------------------------------------------------------------------------------
 // An action creator for deleting a semester from the app
 // id: unique integer value of the semester to be deleted
 // --------------------------------------------------------------------------------------
-export const deleteSemester = (id) => 
+export const deleteSemester = (id) =>
 {
-    return {
-        type: actionTypes.DELETE_SEMESTER,
-        payload: id
-    };
+	return {
+		type: actionTypes.DELETE_SEMESTER,
+		payload: id
+	};
 };
 
 // --------------------------------------------------------------------------------------
@@ -77,10 +77,10 @@ export const deleteSemester = (id) =>
 // --------------------------------------------------------------------------------------
 export const editSemester = (id, newProps) =>
 {
-    return {
-        type: actionTypes.EDIT_SEMESTER,
-        payload: {id, newProps}
-    };
+	return {
+		type: actionTypes.EDIT_SEMESTER,
+		payload: {id, newProps}
+	};
 };
 
 // --------------------------------------------------------------------------------------
@@ -96,28 +96,28 @@ export const editSemester = (id, newProps) =>
 // --------------------------------------------------------------------------------------
 export const createCourse = (name, semesterID, markBreakdown) =>
 {
-    return {
-        type: actionTypes.CREATE_COURSE,
-        payload: 
-        {
-            name,
-            semesterID,
-            newCourse: true,
-            breakdown: markBreakdown
-        }
-    };
+	return {
+		type: actionTypes.CREATE_COURSE,
+		payload:
+		{
+			name,
+			semesterID,
+			newCourse: true,
+			breakdown: markBreakdown
+		}
+	};
 };
 
 // --------------------------------------------------------------------------------------
 // An action creator for deleting a course from the app
 // id: unique integer value of the course to be deleted
 // --------------------------------------------------------------------------------------
-export const deleteCourse = (id) => 
+export const deleteCourse = (id) =>
 {
-    return {
-        type: actionTypes.DELETE_COURSE,
-        payload: id
-    };
+	return {
+		type: actionTypes.DELETE_COURSE,
+		payload: id
+	};
 };
 
 // --------------------------------------------------------------------------------------
@@ -127,10 +127,10 @@ export const deleteCourse = (id) =>
 // --------------------------------------------------------------------------------------
 export const editCourse = (id, newProps) =>
 {
-    return {
-        type: actionTypes.EDIT_COURSE,
-        payload: {id, newProps}
-    };
+	return {
+		type: actionTypes.EDIT_COURSE,
+		payload: {id, newProps}
+	};
 };
 
 // --------------------------------------------------------------------------------------
@@ -141,15 +141,15 @@ export const editCourse = (id, newProps) =>
 // An action creator for creating a new assessment and adding it to the app
 // type: an integer that corresponds to the assessmentTypes in assessmentTypes.js
 // name: the name of the assessment, defaults to the form "[type] [number]"
-//      (i.e. Assignment 5), however a custom name can be provided 
+//      (i.e. Assignment 5), however a custom name can be provided
 // grade: an float for the grade inputted by the user
 // --------------------------------------------------------------------------------------
 export const createAssessment = (type, name, courseID, grade) =>
 {
-    return {
-        type: actionTypes.CREATE_ASSESSMENT,
-        payload: {type, name, courseID, grade}
-    };
+	return {
+		type: actionTypes.CREATE_ASSESSMENT,
+		payload: {type, name, courseID, grade}
+	};
 };
 
 // --------------------------------------------------------------------------------------
@@ -158,11 +158,11 @@ export const createAssessment = (type, name, courseID, grade) =>
 // --------------------------------------------------------------------------------------
 export const deleteAssessment = (id) =>
 {
-    // TODO: removeAssessFromCourse(courseID, assessmentID)
-    return {
-        type: actionTypes.DELETE_ASSESSMENT,
-        payload: id
-    };
+	// TODO: removeAssessFromCourse(courseID, assessmentID)
+	return {
+		type: actionTypes.DELETE_ASSESSMENT,
+		payload: id
+	};
 };
 
 // --------------------------------------------------------------------------------------
@@ -172,8 +172,8 @@ export const deleteAssessment = (id) =>
 // --------------------------------------------------------------------------------------
 export const editAssessment = (id, newProps) =>
 {
-    return {
-        type: actionTypes.EDIT_COURSE,
-        payload: {id, newProps}
-    };
+	return {
+		type: actionTypes.EDIT_COURSE,
+		payload: {id, newProps}
+	};
 };

@@ -16,7 +16,7 @@ class NewSemesterPage extends Component
 	constructor(props)
 	{
 		super(props);
-		
+
 		// Keeping track of the tentative semester name
 		this.state = {_semesterName: ""};
 	}
@@ -54,7 +54,7 @@ class NewSemesterPage extends Component
 	onSubmit()
 	{
 		var semesterName = this.state._semesterName.trim();
-		
+
 		if (semesterName == "")
 		{
 			this.showAlert("Unnamed Semester");
@@ -78,7 +78,7 @@ class NewSemesterPage extends Component
 				else
 					newID++;
 			}
-			
+
 			this.props.createSemester(semesterName, this.props.orderID);
 			this.props.selectSemester(newID);
 			this.props.upSemesterCount();
