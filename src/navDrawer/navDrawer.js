@@ -28,27 +28,34 @@ class NavDrawer extends Component
     createSemesterLink(semesterID)
     {
         var semesterObject = this.props.semesterList[semesterID];
-        return(
-            <DrawerItem
-                key = {semesterObject.name}
-                title = {semesterObject.name}
-                active = {(semesterID == this.props.selectedSemester) &&
-                    (this.state.activeType == this.state.SEMESTER_PAGE)}
-                action = {() =>
-                {
-                    this.setState({activeType: this.state.SEMESTER_PAGE});
-                    this.props.selectSemester(semesterID);
-                    this.props.navigation.closeDrawer();
-                    this.props.navigation.navigate("Semester Screen");
-                }}
-            />
-        );
+
+        if (semesterObject)
+        {
+            return(
+                <DrawerItem
+                    key = {semesterObject.name}
+                    title = {semesterObject.name}
+                    active = {(semesterID == this.props.selectedSemester) &&
+                        (this.state.activeType == this.state.SEMESTER_PAGE)}
+                    action = {() =>
+                    {
+                        this.setState({activeType: this.state.SEMESTER_PAGE});
+                        this.props.selectSemester(semesterID);
+                        this.props.navigation.closeDrawer();
+                        this.props.navigation.navigate("Semester Screen");
+                    }}
+                />
+            );
+        }
+        else
+            return;
     }
 
     render()
     {
         var semesterPageLinks = Object.keys(this.props.semesterList).map(semesterID => this.createSemesterLink(semesterID));
-        if (semesterPageLinks.length != 0)
+    
+        if (Object.keys(this.props.semesterList).length != 0)
         {
             semesterPageLinks.push(<Divider key = "Divider"/>);
         }

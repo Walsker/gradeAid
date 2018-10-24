@@ -4,8 +4,8 @@ import {Alert, Text, TextInput, View} from 'react-native';
 
 // Redux imports
 import {connect} from 'react-redux';
-import {renameSemester} from 'easyGrades/src/appRedux/actions';
-import {editSemester} from 'easyGrades/src/userData/actions';
+import {editSemester, deleteSemester} from 'easyGrades/src/userData/actions';
+import {selectSemester} from 'easyGrades/src/navDrawer/redux/actions';
 
 // Custom imports
 import {colors, containerStyle, textStyle} from 'easyGrades/src/common/appStyles';
@@ -17,17 +17,86 @@ class EditSemesterPage extends Component
     constructor(props)
     {
         super(props);
-
-        var currentSemester = this.props.navigation.getParam('semester', {});
-        // var NEWsemesterID = this.props.navgiation.getParam('semesterID', 0);
-
         this.state = 
         {
-            semester: currentSemester,
-            // NEWsemester: props.semesterList[semesterID],
             // The tentative new semester name
-            _newSemesterName: currentSemester.name
+            semesterName: props.semesterList[props.selectedSemester].name,
+            _newSemesterName: props.semesterList[props.selectedSemester].name
         };
+    }
+
+    showAlert(alertType)
+	{
+		switch (alertType)
+		{
+			case "Unnamed Semester":
+
+				Alert.alert(
+					"Incomplete",
+					"Please be sure to give your semester a name.",
+					[
+						{text: 'OK', onPress: () => {}},
+					],
+					{cancelable: true}
+				);
+				break;
+
+			case "Semester already exists":
+
+				Alert.alert(
+					"Semester Already Exists",
+					"Please give your new semester a different name.",
+					[
+						{text: 'OK', onPress: () => {}},
+					],
+					{cancelable: true}
+				);
+                break;
+            
+            case "Delete Semester":
+
+                Alert.alert(
+                    "Delete Semester",
+                    "Are you sure you would like delete this semester? This cannot be undone.",
+                    [
+                        {
+                            text: 'Yes',
+                            onPress: this.onDelete.bind(this),
+                            style: 'cancel'
+                        },
+                        {text: 'No', onPress: () => {}},
+                    ],
+                    {cancelable: true}
+                );
+                break;
+		}   
+    }
+    
+    onDelete()
+    {
+        var semesterToBeDeleted = this.props.selectedSemester;
+        var prevSemester = -1;
+        for (id in this.props.semesterList)
+        {
+            if (id != this.props.selectedSemester)
+                prevSemester = id;
+        }
+
+        // console.log("DELETED: ", semesterToBeDeleted);
+        console.log("SELECT: ", prevSemester);
+
+        if (prevSemester == -1)
+        {
+            this.props.navigation.navigate("No Semesters");
+            this.props.deleteSemester(semesterToBeDeleted);
+        }
+        else
+        {
+            this.props.selectSemester(prevSemester);
+            this.props.deleteSemester(semesterToBeDeleted);
+            this.props.navigation.navigate("Semester Screen");
+        }
+        console.log("end");
     }
 
     onSubmit()
@@ -36,35 +105,38 @@ class EditSemesterPage extends Component
 
         if (newSemesterName == "")
         {
-            alert("Invalid semester name.")
+            this.showAlert("Unnamed Semester");
         }
         else
         {
-            for (i in this.props.semesters)
+            if (this.state.semesterName == newSemesterName)
             {
-                if (this.props.semesters[i].name == this.state.semester.name)
-                {
-                    this.props.navigation.pop();
-                    return;
-                }
-                else if (newSemesterName == this.props.semesters[i].name)
-                {
-                    Alert.alert(
-                        "Invalid Name",
-                        newSemesterName + " already exists. Please choose a different name.",
-                        [
-                            {text: 'OK', onPress: () => {}},
-                        ]
-                    )
-                    return;
-                }
+                this.props.navigation.pop();
+                return;
             }
+
+            for (id in this.props.semesterList)
+			{
+				if (this.props.semesterList[id].name == newSemesterName)
+				{
+					this.showAlert("Semester already exists");
+					return;
+				}
+			}
 
             Alert.alert(
                 "Confirm",
-                "Your semester will be renamed to " + this.state._newSemesterName + ", are you sure?",
+                "Your semester will be renamed to " + newSemesterName + ", are you sure?",
                 [
-                    {text: 'Yes', onPress: () => this.props.renameSemester(this.state.semester, semesterName), style: 'cancel'},
+                    {
+                        text: 'Yes',
+                        onPress: () => 
+                        {
+                            this.props.editSemester(this.props.selectedSemester, {name: newSemesterName});
+                            this.props.navigation.pop();
+                        },
+                        style: 'cancel'
+                    },
                     {text: 'No', onPress: () => {}},
                 ]
             )
@@ -92,13 +164,13 @@ class EditSemesterPage extends Component
                     <View style = {containerStyle.formSection}>
                         <Text style = {textStyle.regular(22, 'center')}>
                             Rename
-                            <Text style = {{color: colors.accentColor}}> {this.state.semester.name} </Text>
+                            <Text style = {{color: colors.accentColor}}> {this.state.semesterName} </Text>
                             by entering a new name below.
                         </Text>
                     </View>
                     <View style = {containerStyle.formSection}>
                         <TextInput
-                            defaultValue = {this.state.semester.name}
+                            defaultValue = {this.state.semesterName}
                             underlineColorAndroid = {colors.primaryTextColor}
                             style = {textStyle.regular(24, 'center')}
                             onChangeText = {(newText) => this.setState({_newSemesterName: newText})}
@@ -106,13 +178,26 @@ class EditSemesterPage extends Component
                         <Text style = {[textStyle.regular(14, 'center')]}>
                             Semester Name
                         </Text>
-                    </View>
-                    <View style = {containerStyle.formSection}>
                         <Button
 							label = "Submit"
 							color = {colors.accentColor}
 							inverted = {false}
 							action = {this.onSubmit.bind(this)}
+						/>
+                    </View>
+                    <View style = {containerStyle.formSection}>
+                        <View style = {{marginVertical: 10}}>
+                            <Text style = {textStyle.regular(22, 'center')}>
+                                Delete
+                                <Text style = {{color: 'red'}}> {this.state.semesterName} </Text>
+                                by pressing the button below.
+                            </Text>
+                        </View>
+                        <Button
+							label = "Delete Semester"
+							color = {'red'}
+							inverted = {false}
+							action = {() => this.showAlert("Delete Semester")}
 						/>
                     </View>
                 </View>
@@ -124,8 +209,8 @@ class EditSemesterPage extends Component
 const mapStateToProps = (state) =>
 {
     return {
-        semesters: state.semesters,
-        semesterList: state.semesterList
+        semesterList: state.semesterList,
+        selectedSemester: state.selectedSemester
     };
 }
-export default connect(mapStateToProps, {renameSemester, editSemester})(EditSemesterPage);
+export default connect(mapStateToProps, {editSemester, deleteSemester, selectSemester})(EditSemesterPage);

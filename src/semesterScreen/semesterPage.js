@@ -1,6 +1,6 @@
 // React Native imports
 import React, {Component} from 'react';
-import {ScrollView, Text, TouchableOpacity, View} from 'react-native';
+import {ScrollView, Text, View} from 'react-native';
 
 // Redux imports
 import {connect} from 'react-redux';
@@ -12,6 +12,16 @@ import CourseList from './_components/courseList';
 
 class SemesterPage extends Component
 {
+    constructor(props)
+    {
+        super(props);
+
+        if (props.selectedSemester == -1)
+        {
+            console.log("AHH");
+            props.navigation.navigate("No Semesters");
+        }
+    }
     newCourse()
     {
         this.props.navigation.navigate("AddCoursePage", {semester: this.props.semester});
@@ -131,7 +141,6 @@ class SemesterPage extends Component
 
 const mapStateToProps = (state) =>
 {
-    var semesterObject = state.semesterList[state.selectedSemester];
     var newSemester = true;
     
     for (id in state.courseList)
@@ -144,7 +153,8 @@ const mapStateToProps = (state) =>
     }
 
     return {
-        semester: semesterObject,
+        semester: state.semesterList[state.selectedSemester],
+        // semesterName: state.semesterList[state.selectedSemester].name,
         newSemester
     };
 }

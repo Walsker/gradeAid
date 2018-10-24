@@ -5,6 +5,7 @@ import {Text, TouchableOpacity, View} from 'react-native';
 // Custom imports
 import {colors} from 'easyGrades/src/common/appStyles';
 
+//TODO: dark highilight on press
 export default class DrawerItem extends Component
 {
     render()

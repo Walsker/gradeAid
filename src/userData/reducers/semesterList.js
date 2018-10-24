@@ -43,10 +43,17 @@ export default (prevState = {}, action) =>
         // ------------------------------------------------------------------------------
         case DELETE_SEMESTER:
 
-            return {
-                ...prevState,
-                [action.payload]: undefined
-            };
+        // TODO: fix case where there are no semesters left
+            var semesterList = {};
+            for (id in prevState)
+            {
+                if (id != action.payload)
+                {
+                    semesterList = Object.assign(semesterList, {[id]: prevState[id]});
+                }
+            }
+            console.log(semesterList);
+            return semesterList;
 
         // ------------------------------------------------------------------------------
         // CASE: an existing semester is being modified

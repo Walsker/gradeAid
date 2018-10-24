@@ -9,7 +9,7 @@
 // }
 // --------------------------------------------------------------------------------------
 
-import {CLEAN_COURSE_LIST, ADD_COURSE, REMOVE_COURSE, EDIT_COURSE} from '../actionTypes';
+import {CLEAN_COURSE_LIST, CREATE_COURSE, DELETE_COURSE, EDIT_COURSE} from '../actionTypes';
 
 export default (prevState = {}, action) =>
 {
@@ -36,7 +36,7 @@ export default (prevState = {}, action) =>
 		// PAYLOAD: a course object in the form
 		//      {name: string, semesterID: newCourse: bool, breakdown: float[]}
 		// ------------------------------------------------------------------------------
-		case ADD_COURSE:
+		case CREATE_COURSE:
 
 			// Finding an unused ID
 			var newID = 0;
@@ -57,12 +57,18 @@ export default (prevState = {}, action) =>
 		// CASE: a course is being removed from the app
 		// PAYLOAD: int, the ID of the course to be removed
 		// ------------------------------------------------------------------------------
-		case REMOVE_COURSE:
+		case DELETE_COURSE:
 
-			return {
-				...prevState,
-				[action.payload]: undefined
-			};
+			var courseList = {};
+			for (id in courseList)
+			{
+				if (id != action.payload)
+				{
+					courseList = Object.assign(courseList, prevState[id]);
+				}
+			}
+			
+			return semesterList;
 
 		// ------------------------------------------------------------------------------
 		// CASE: an existing course is being modified

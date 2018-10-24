@@ -26,6 +26,34 @@ class RootNavigator extends Component
         // TODO: Once everything is implemented check if these work properly
         this.props.cleanCourseList(this.props.semesterList, this.props.courseList);
         this.props.cleanAssessmentList(this.props.courseList, this.props.assessmentList);
+
+        var modalRoutes = {};
+        for (modal in Modals)
+        {
+            modalRoutes[modal] = {screen: Modals[modal]}
+        }
+
+        var semesterScreen = createStackNavigator(
+        {
+            Semester: {screen: SemesterPage},
+            Course: {screen: CoursePage}
+        },
+        {
+            headerMode: 'none',
+            initialRouteName: "Semester"
+        });
+
+        this.state =
+        {
+            modalRoutes,
+            drawerRoutes:
+            {
+                "About": {screen: AboutPage},
+                "Settings": {screen: SettingsPage},
+                "No Semesters": {screen: NoSemestersPage},
+                "Semester Screen": semesterScreen
+            }
+        };
     }
 
     shouldComponentUpdate(nextProps)
@@ -47,9 +75,11 @@ class RootNavigator extends Component
             }
         };
 
-        var DrawerNavigator = createDrawerNavigator(this.props.drawerRoutes, drawerNavConfig);
+        // var DrawerNavigator = createDrawerNavigator(this.props.drawerRoutes, drawerNavConfig);
+        var DrawerNavigator = createDrawerNavigator(this.state.drawerRoutes, drawerNavConfig);
 
-        var mainRoutes = Object.assign(this.props.modalRoutes, {"Drawer": DrawerNavigator});
+        // var mainRoutes = Object.assign(this.props.modalRoutes, {"Drawer": DrawerNavigator});
+        var mainRoutes = Object.assign(this.state.modalRoutes, {"Drawer": DrawerNavigator});
         var MainNavigator = createStackNavigator(mainRoutes,
         {
             headerMode: 'none',
@@ -66,34 +96,10 @@ const mapStateToProps = (state) =>
 {
     console.log("App State: ", state);
 
-    var modalRoutes = {};
-    for (modal in Modals)
-    {
-        modalRoutes[modal] = {screen: Modals[modal]}
-    }
-
-    var semesterScreen = createStackNavigator(
-    {
-        Semester: {screen: SemesterPage},
-        Course: {screen: CoursePage}
-    },
-    {
-        headerMode: 'none',
-        initialRouteName: "Semester"
-    });
-
     return {
         semesterList: state.semesterList,
         courseList: state.courseList,
         assessmentList: state.assessmentList,
-        modalRoutes,
-        drawerRoutes:
-        {
-            "About": {screen: AboutPage},
-            "Settings": {screen: SettingsPage},
-            "No Semesters": {screen: NoSemestersPage},
-            "Semester Screen": semesterScreen
-        }
     };
 }
 export default connect(mapStateToProps, {cleanCourseList, cleanAssessmentList})(RootNavigator);

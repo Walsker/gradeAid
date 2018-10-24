@@ -59,10 +59,16 @@ export default (prevState = {}, action) =>
         // ------------------------------------------------------------------------------
         case DELETE_ASSESSMENT:
 
-            return {
-                ...prevState,
-                [action.payload]: undefined
-            };
+            var assessList = {};
+            for (id in courseList)
+            {
+                if (id != action.payload)
+                {
+                    assessList = Object.assign(assessList, prevState[id]);
+                }
+            }
+            
+            return semesterList;
 
         // ------------------------------------------------------------------------------
         // CASE: an existing assessment is being modified
