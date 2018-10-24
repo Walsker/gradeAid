@@ -5,7 +5,7 @@ import {Alert, Text, TextInput, View} from 'react-native';
 // Redux imports
 import {connect} from 'react-redux';
 import {createSemester} from 'easyGrades/src/userData/actions';
-import {selectSemester} from 'easyGrades/src/navDrawer/redux/actions';
+import {selectSemester, upSemesterCount} from 'easyGrades/src/navDrawer/redux/actions';
 
 // Custom Imports
 import {colors, containerStyle, textStyle} from 'easyGrades/src/common/appStyles';
@@ -54,7 +54,7 @@ class NewSemesterPage extends Component
 	onSubmit()
 	{
 		var semesterName = this.state._semesterName.trim();
-		// TODO: Check if name is "About", "No Semesters", or "Settings"
+		
 		if (semesterName == "")
 		{
 			this.showAlert("Unnamed Semester");
@@ -79,8 +79,9 @@ class NewSemesterPage extends Component
 					newID++;
 			}
 			
-			this.props.createSemester(semesterName);
+			this.props.createSemester(semesterName, this.props.orderID);
 			this.props.selectSemester(newID);
+			this.props.upSemesterCount();
 
 			this.props.navigation.navigate("Semester Screen");
 		}
@@ -135,6 +136,9 @@ class NewSemesterPage extends Component
 
 const mapStateToProps = (state) =>
 {
-	return {semesterList: state.semesterList};
+	return {
+		semesterList: state.semesterList,
+		orderID: state.orderID
+	};
 }
-export default connect(mapStateToProps, {createSemester, selectSemester})(NewSemesterPage);
+export default connect(mapStateToProps, {createSemester, selectSemester, upSemesterCount})(NewSemesterPage);

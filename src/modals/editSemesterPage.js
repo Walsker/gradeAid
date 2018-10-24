@@ -82,9 +82,6 @@ class EditSemesterPage extends Component
                 prevSemester = id;
         }
 
-        // console.log("DELETED: ", semesterToBeDeleted);
-        console.log("SELECT: ", prevSemester);
-
         if (prevSemester == -1)
         {
             this.props.navigation.navigate("No Semesters");
@@ -96,7 +93,6 @@ class EditSemesterPage extends Component
             this.props.deleteSemester(semesterToBeDeleted);
             this.props.navigation.navigate("Semester Screen");
         }
-        console.log("end");
     }
 
     onSubmit()

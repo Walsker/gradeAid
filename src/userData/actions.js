@@ -50,11 +50,11 @@ export const cleanAssessmentList = (courseList, assessmentList) =>
 // An action creator for creating a semeseter and adding it to the app
 // semesterName: the name of the new semester
 // --------------------------------------------------------------------------------------
-export const createSemester = (semesterName) =>
+export const createSemester = (semesterName, orderID) =>
 {
     return {
         type: actionTypes.CREATE_SEMESTER,
-        payload: {name: semesterName}
+        payload: {name: semesterName, orderID}
     };
 };
 

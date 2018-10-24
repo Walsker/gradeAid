@@ -7,3 +7,11 @@ export const selectSemester = (selectedSemesterID) =>
         payload: selectedSemesterID
     };
 }
+
+export const upSemesterCount = () =>
+{
+    return {
+        type: actionTypes.UP_COUNT,
+        payload: null
+    };
+}

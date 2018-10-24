@@ -51,10 +51,35 @@ class NavDrawer extends Component
             return;
     }
 
+    putInChronologicalOrder(list)
+    {
+        var count = Object.keys(list).length;
+        var chronologicalList = [];
+        var lowestOrderValue = Number.MAX_SAFE_INTEGER;
+
+        for (i = 0; i < count; i++)
+        {
+            var lowest;
+            for (id in list)
+            {
+                if (list[id].orderID < lowestOrderValue && !(id in chronologicalList))
+                {
+                    lowest = id;
+                }
+            }
+            console.log("push: ", id);
+            chronologicalList.push(id);
+        }
+
+        return chronologicalList;
+    }
+
     render()
     {
-        var semesterPageLinks = Object.keys(this.props.semesterList).map(semesterID => this.createSemesterLink(semesterID));
-    
+        var semesterIDs = Object.keys(this.props.semesterList);
+        semesterIDs.sort((a, b) => {return this.props.semesterList[a].orderID - this.props.semesterList[b].orderID});
+        var semesterPageLinks = semesterIDs.map(semesterID => this.createSemesterLink(semesterID));
+
         if (Object.keys(this.props.semesterList).length != 0)
         {
             semesterPageLinks.push(<Divider key = "Divider"/>);
@@ -64,7 +89,7 @@ class NavDrawer extends Component
             <View style = {containerStyle.default}>
                 <View style = {containerStyle.drawerHeader}>
                     {/* <Text style = {[textStyle.bold(56), {color: 'white'}]}>Easy Grades</Text> */}
-                    <View style = {{marginVertical: 36}}/>
+                    <View style = {{marginVertical: 16}}/>
                 </View>
                 <View style = {containerStyle.default}>
                     <View style = {{marginVertical: 5}}/>
