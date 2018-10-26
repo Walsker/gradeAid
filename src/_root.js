@@ -29,7 +29,7 @@ export default class App extends Component
 
 		const store = createStore(persistedReducer);
 		const persistor = persistStore(store);
-		persistor.purge();
+		// persistor.purge();
 		return(
 			<Provider store = {store}>
 				<PersistGate loading = {<View style = {{backgroundColor: 'red'}}/>} persistor = {persistor}>

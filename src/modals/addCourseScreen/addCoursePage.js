@@ -1,16 +1,16 @@
 // React Native imports
 import React, {Component} from 'react';
-import {Alert, Button, ScrollView, Text, TextInput, TouchableOpacity, View} from 'react-native';
+import {Alert, ScrollView, Text, TextInput, View} from 'react-native';
 
 // Redux imports
 import {connect} from 'react-redux';
-import {newCourse} from 'easyGrades/src/appRedux/actions';
+import {createCourse} from 'easyGrades/src/userData/actions';
 
 // Custom imports
 import {colors, containerStyle, textStyle} from 'easyGrades/src/common/appStyles';
-import {ActionBar, IconButton} from 'easyGrades/src/common';
+import {ActionBar, Button, IconButton} from 'easyGrades/src/common';
+import * as Assessment from 'easyGrades/src/semesterScreen/assessmentTypes';
 import CheckList from './_components/checkList';
-import AssessmentDetails from './_components/assessmentDetails';
 
 class AddCoursePage extends Component
 {
@@ -18,190 +18,127 @@ class AddCoursePage extends Component
 	{
 		super(props);
 
-		// TODO: use assessmentTypes constants file
-		const types = ["Assignments", "Projects", "Essays", "Quizzes",
-			"Tests", "Midterms", "Labs", "Tutorials", "Discussion Groups", "Final Exam"];
-		var emptyList = [];
-		var emptyDetails = {};
-
-		for (i in types)
+		var pluralAssessTypes = {...Assessment.types};
+		for (i in pluralAssessTypes)
 		{
-			emptyList.push(false);
-			if (types[i] != "Final Exam")
-			{
-				emptyDetails[types[i]] = {quantity: 1, weight: 0.0};
-			}
-			else
-			{
-				emptyDetails[types[i]] = {weight: 0.0};
-			}
+			if (pluralAssessTypes[i] == Assessment.types[Assessment.QUIZ])
+				pluralAssessTypes[i] += "zes";
+			else if (pluralAssessTypes[i] != Assessment.types[Assessment.FINAL_EXAM])
+				pluralAssessTypes[i] += "s";
+		}
+
+		var selectedTypes = [];
+		var markBreakdown = [];
+
+		for (i in Assessment.types)
+		{
+			selectedTypes.push(false);
+			markBreakdown.push(0.0);
 		}
 
 		this.state =
 		{
-			semester: this.props.navigation.getParam('semester', {}),
 			currentScene: 0,
-			assessmentTypes: types,
-			selectedTypes: emptyList,
-			assessmentDetails: emptyDetails,
-			_courseType: "",
-			_courseCode: "",
+			pluralAssessTypes,
+			selectedTypes,
+			markBreakdown,
 			courseName: ""
 		};
 	}
 
 	showAlert(alertType, customText)
 	{
-		if (alertType == "Cancel Creation")
+		switch (alertType)
 		{
-			Alert.alert(
-				"Cancel",
-				"Are you sure you would like to cancel the course creation?",
-				[
-					{text: 'Yes', onPress: () => this.props.navigation.goBack(), style: 'cancel'},
-					{text: 'No', onPress: () => {}},
-				],
-				{cancelable: false}
-			);
-		}
-		else if (alertType == "Incomplete Course Code")
-		{
-			Alert.alert(
-				"Incomplete",
-				"Please be sure to fill both the Course Type and the Course Code.",
-				[
-					{text: 'OK', onPress: () => {}},
-				],
-				{cancelable: true}
-			);
-		}
-		else if (alertType == "No Type Selection Made")
-		{
-			Alert.alert(
-				"No Type Selection",
-				"Please be sure to select at least one assessment type.",
-				[
-					{text: 'OK', onPress: () => {}},
-				],
-				{cancelable: true}
-			);
-		}
-		else if (alertType == "Weight of 0")
-		{
-			Alert.alert(
-				"Invalid Weight",
-				customText + " has a weight of 0. Please input a larger value.",
-				[
-					{text: 'OK', onPress: () => {}},
-				],
-				{cancelable: true}
-			);
-		}
-		else if (alertType == "Weights don't add up")
-		{
-			Alert.alert(
-				"Invalid Weight",
-				"Oh no! All the weights don't add up to 100%",
-				[
-					{text: 'OK', onPress: () => {}},
-				],
-				{cancelable: true}
-			);
+			case "Cancel Creation":
+
+				Alert.alert(
+					"Cancel",
+					"Are you sure you would like to cancel the course creation?",
+					[
+						{text: 'Yes', onPress: () => this.props.navigation.goBack(), style: 'cancel'},
+						{text: 'No', onPress: () => {}},
+					],
+					{cancelable: false}
+				);
+				return;
+
+			case "Incomplete Course Code":
+
+				Alert.alert(
+					"Incomplete",
+					"Please be sure to give your course a name.",
+					[{text: 'OK', onPress: () => {}}],
+					{cancelable: true}
+				);
+				return;
+
+			case "Course Name Taken":
+
+				Alert.alert(
+					"Name Taken",
+					"You have already created a course with the same name in this semester.",
+					[{text: 'OK', onPress: () => {}}],
+					{cancelable: true}
+				);
+				return;
+
+			case "No Type Selection Made":
+
+				Alert.alert(
+					"No Type Selection",
+					"Please be sure to select at least one assessment type.",
+					[{text: 'OK', onPress: () => {}}],
+					{cancelable: true}
+				);
+				return;
+
+			case "Breakdown Contains a 0":
+
+				Alert.alert(
+					"Breakdown Invalid",
+					"\"" + customText + "\" has a percentage of 0.",
+					[{text: 'OK', onPress: () => {}}],
+					{cancelable: true}
+				);
+				return;
+
+			case "Breakdown Sum Invalid":
+
+				Alert.alert(
+					"Breakdown Invalid",
+					"Your breakdown does not add up to 100%",
+					[{text: 'OK', onPress: () => {}}],
+					{cancelable: true}
+				);
+				return;
+
+			case "Weights don't add up":
+
+				Alert.alert(
+					"Invalid Weight",
+					"Oh no! All the weights don't add up to 100%",
+					[{text: 'OK', onPress: () => {}}],
+					{cancelable: true}
+				);
+				return;
 		}
 	}
 
-	renderBackButton()
+	back()
 	{
-		return(
-			<Button
-				color = {colors.primaryColor}
-				title = "    Back    "
-				onPress = {() => this.setState(prevState =>
-				{
-					return({currentScene: prevState.currentScene - 1});
-				})}
-			/>
-		);
-	}
-
-	renderForwardButton(action)
-	{
-		return(
-			<View>
-				<Button
-					color = {colors.primaryColor}
-					title = "    Next    "
-					onPress = {action}
-				/>
-			</View>
-		);
-	}
-
-	renderFinishButton()
-	{
-		var createCourseObject = () =>
+		this.setState(prevState =>
 		{
-			var types = this.state.assessmentTypes;
-			var assessments = [];
-			for (i in types)
-			{
-				if (this.state.selectedTypes[i] == true)
-				{
-					var assessmentName = types[i];
-					var assessmentInfo = this.state.assessmentDetails[types[i]];
+			return({currentScene: prevState.currentScene - 1});
+		});
+	}
 
-					if (assessmentName != "Final Exam")
-					{
-						if (assessmentName == "Quizzes")
-						{
-							var assessmentName = "Quiz";
-						}
-						else
-						{
-							var assessmentName = assessmentName.slice(0, -1);
-						}
-
-						for (var j = 0; j < assessmentInfo.quantity; j++)
-						{
-							var assessmentNumber = " " + (j + 1).toString();
-							assessments.push({
-								name: assessmentName + assessmentNumber,
-								grade: 0,
-								weight: assessmentInfo.weight,
-								complete: false
-							});
-						}
-					}
-					else
-					{
-						assessments.push({
-							name: "Final Exam",
-							grade: 0,
-							weight: assessmentInfo.weight,
-							complete: false
-						});
-					}
-				}
-			}
-
-			return {
-				name: this.state.courseName,
-				assessments,
-				average: 0,
-				newCourse: true
-			};
-		}
-
-		return(
-			<Button
-				color = {colors.accentColor}
-				title = "Finish"
-				onPress = {() => {
-					this.props.newCourse(this.state.semester, createCourseObject())
-					this.props.navigation.goBack();
-				}}
-			/>
-		);
+	next(extraState)
+	{
+		this.setState(prevState =>
+		{
+			return({currentScene: prevState.currentScene + 1, ...extraState});
+		});
 	}
 
 	courseTitle_SCENE()
@@ -211,56 +148,41 @@ class AddCoursePage extends Component
 				<View style = {containerStyle.formSection}>
 					<TextInput
 						autoCapitalize = 'characters'
-						maxLength = {6}
-						defaultValue = {this.state._courseType}
-						onChangeText = {(newText) => this.setState({_courseType: newText})}
-						onSubmitEditing = {() => this.nextTextInput.focus()}
-						placeholder = "i.e. COMP"
+						maxLength = {15}
+						defaultValue = {this.state.courseName}
+						onChangeText = {(newText) => this.setState({courseName: newText})}
+						placeholder = "i.e. COMP 1405"
 						placeholderTextColor = 'rgba(0, 0, 0, 0.2)'
 						underlineColorAndroid = {colors.primaryTextColor}
-						returnKeyType = 'next'
 						style = {textStyle.regular(24)}
 					/>
 					<Text style = {[textStyle.regular(14), {paddingLeft: 3.5}]}>
-						Course Type
-					</Text>
-				</View>
-				<View style = {containerStyle.formSection}>
-					<TextInput
-						ref = {input => this.nextTextInput = input}
-						keyboardType = 'numeric'
-						maxLength = {6}
-						defaultValue = {this.state._courseCode}
-						onChangeText = {(newText) => this.setState({_courseCode: newText})}
-						placeholder = "i.e. 1405"
-						placeholderTextColor = 'rgba(0, 0, 0, 0.2)'
-						underlineColorAndroid = {colors.primaryTextColor}
-						returnKeyType = 'done'
-						style = {textStyle.regular(24)}
-					/>
-					<Text style = {[textStyle.regular(14), {paddingLeft: 3.5}]}>
-						Course Code
+						Course Name
 					</Text>
 				</View>
 				<View style = {containerStyle.rowBox}>
-					{this.renderForwardButton(() =>
-					{
-						if (this.state._courseType == "" || this.state._courseCode == "")
+					<Button
+						label = "Next"
+						color = {colors.primaryColor}
+						inverted = {false}
+						action = {() =>
 						{
-							this.showAlert("Incomplete Course Code");
-						}
-						else
-						{
-							this.setState(prevState =>
+							var nameTaken = false;
+							for (id in this.props.courseList)
 							{
-								return(
-								{
-									courseName: this.state._courseType.toUpperCase() + " " + this.state._courseCode,
-									currentScene: prevState.currentScene + 1
-								});
-							});
-						}
-					})}
+								if (this.props.courseList[id].semesterID == this.props.selectedSemester &&
+									this.props.courseList[id].name == this.state.courseName.trim())
+									nameTaken = true;
+							}
+
+							if (this.state.courseName == "")
+								this.showAlert("Incomplete Course Code");
+							else if (nameTaken)
+								this.showAlert("Course Name Taken");
+							else
+								this.next({courseName: this.state.courseName.trim()});
+						}}
+					/>
 				</View>
 			</View>
 		);
@@ -277,7 +199,7 @@ class AddCoursePage extends Component
 					<CheckList
 						color = {colors.accentColor}
 						fontSize = {22}
-						labels = {this.state.assessmentTypes}
+						labels = {this.state.pluralAssessTypes}
 						values = {this.state.selectedTypes}
 						onItemToggle = {(id) =>
 						{
@@ -288,92 +210,157 @@ class AddCoursePage extends Component
 					/>
 				</View>
 				<View style = {containerStyle.rowBox}>
-					{this.renderBackButton()}
-					{this.renderForwardButton(() =>
-					{
-						var selectedCheck = false;
-						for (i in this.state.selectedTypes)
+					<Button
+						label = "Back"
+						color = {colors.primaryColor}
+						inverted = {true}
+						action = {this.back.bind(this)}
+					/>
+					<Button
+						label = "Next"
+						color = {colors.primaryColor}
+						inverted = {false}
+						action = {() =>
 						{
-							if (this.state.selectedTypes[i])
+							var atLeastOneSelected = false;
+							for (i in this.state.selectedTypes)
 							{
-								selectedCheck = true;
-								break;
+								if (this.state.selectedTypes[i])
+								{
+									atLeastOneSelected = true;
+									break;
+								}
 							}
-						}
-						if (!selectedCheck)
-						{
-							this.showAlert("No Type Selection Made");
-						}
-						else
-						{
-							this.setState(prevState =>
-							{
-								return({currentScene: prevState.currentScene + 1});
-							});
-						}
-					})}
+
+							if (!atLeastOneSelected)
+								this.showAlert("No Type Selection Made");
+							else
+								this.next()
+						}}
+					/>
 				</View>
 			</View>
 		);
 	}
 
-	assessmentDetails_SCENE()
+	markBreakdown_SCENE()
 	{
+		const convertToPercentage = (string, fallback) =>
+		{
+			var attempt = parseFloat(string);
+			if (Number(attempt) === attempt)
+			{
+				if (attempt > 100)
+					return 100;
+				else if (attempt < 0)
+					return 0;
+				return attempt;
+			}
+			else
+				return fallback;
+		};
+
+		const createTypeSpecificaiton = (type) =>
+		{
+			var input = "";
+			return (
+				<View
+					style =
+					{[
+						containerStyle.rowBox,
+						{alignItems: 'center', justifyContent: 'space-between', paddingHorizontal: 20}
+					]}
+					key = {type}
+				>
+					<Text style = {textStyle.regular(25, 'left')}>{this.state.pluralAssessTypes[type]}</Text>
+					<View style = {{flexDirection: 'row', alignItems: 'center'}}>
+						<TextInput
+							keyboardType = 'numeric'
+							// clearTextOnFocus = {true}
+							defaultValue = {this.state.markBreakdown[type] == 0 ? '' : this.state.markBreakdown[type].toString()}
+							placeholderTextColor = 'rgba(0, 0, 0, 0.2)'
+							underlineColorAndroid = {colors.primaryTextColor}
+							returnKeyType = 'done'
+							style = {[textStyle.regular(25, 'right'), {width: 75}]}
+							onChangeText = {(newInput) => input = newInput}
+							onEndEditing = {() =>
+							{
+								var breakdown = this.state.markBreakdown;
+								var newPercentage = convertToPercentage(input, this.state.markBreakdown[type]);
+								breakdown[type] = newPercentage;
+								this.setState({markBreakdown: breakdown});
+							}}
+						/>
+						<Text style = {textStyle.regular(18)}>%</Text>
+					</View>
+				</View>
+			);
+		};
+
+		var breakdownInput = [];
+		for (i in this.state.selectedTypes)
+		{
+			if (this.state.selectedTypes[i])
+				breakdownInput.push(createTypeSpecificaiton(i));
+		}
+
+		var breakdownSum = 0;
+		for (i in this.state.markBreakdown)
+		{
+			if (this.state.selectedTypes[i])
+			{
+				breakdownSum += this.state.markBreakdown[i];
+			}
+		}
+
 		return(
 			<View style = {containerStyle.form}>
 				<View style = {containerStyle.formSection}>
-					<Text style = {textStyle.regular(22, 'center')}>Specify the quantity and total weight of each type of assessment below.{/*{'\n\n'}You can get more specific on the next page.*/}</Text>
+					<Text style = {textStyle.regular(22, 'center')}>Specify the mark breakdown below.</Text>
 				</View>
 				<View style = {containerStyle.formSection}>
-					<AssessmentDetails
-						assessmentTypes = {this.state.assessmentTypes}
-						selectedTypes = {this.state.selectedTypes}
-						initialInfo = {this.state.assessmentDetails}
-						onInfoChange = {(newData) =>
-						{
-							this.setState({assessmentDetails: newData})
-						}}
-					/>
+					<ScrollView>
+						{breakdownInput}
+					</ScrollView>
+				</View>
+				<View style = {containerStyle.formSection}>
+					<Text style = {[textStyle.regular(14, 'center'), {color: colors.secondaryTextColor}]}>
+						Sum: {breakdownSum}%
+					</Text>
 				</View>
 				<View style = {containerStyle.rowBox}>
-					{this.renderBackButton()}
-					{this.renderForwardButton(() =>
-					{
-						var percentageTotal = 0;
-						var {selectedTypes, assessmentTypes, assessmentDetails} = this.state;
-
-						for (i in assessmentTypes)
+					<Button
+						label = "Back"
+						color = {colors.primaryColor}
+						inverted = {true}
+						action = {this.back.bind(this)}
+					/>
+					<Button
+						label = "Next"
+						color = {colors.primaryColor}
+						inverted = {false}
+						action = {() =>
 						{
-							if (selectedTypes[i])
+							var noneLeftBlank = true;
+							var violator = "";
+							for (i in this.state.selectedTypes)
 							{
-								if (assessmentDetails[assessmentTypes[i]].weight == 0)
+								if (this.state.selectedTypes[i] && this.state.markBreakdown[i] == 0)
 								{
-									this.showAlert("Weight of 0", assessmentTypes[i]);
-									return;
-								}
-								else if (assessmentTypes[i] == "Final Exam")
-								{
-									percentageTotal += assessmentDetails[assessmentTypes[i]].weight;
-								}
-								else
-								{
-									percentageTotal += assessmentDetails[assessmentTypes[i]].weight * assessmentDetails[assessmentTypes[i]].quantity;
+									noneLeftBlank = false;
+									violator = this.state.pluralAssessTypes[i];
+									break;
 								}
 							}
-						}
 
-						if (percentageTotal != 100)
-						{
-							this.showAlert("Weights don't add up");
-						}
-						else
-						{
-							this.setState(prevState =>
-							{
-								return({currentScene: prevState.currentScene + 1});
-							});
-						}
-					})}
+							if (!noneLeftBlank)
+								this.showAlert("Breakdown Contains a 0", violator);
+							else if (breakdownSum != 100)
+								this.showAlert("Breakdown Sum Invalid");
+							else
+								this.next();
+						}}
+					/>
 				</View>
 			</View>
 		);
@@ -381,99 +368,52 @@ class AddCoursePage extends Component
 
 	confirmCourse_SCENE()
 	{
-		var {assessmentDetails, assessmentTypes, selectedTypes} = this.state;
-		var displayStyle =
+		var breakdownComponents = [];
+		for (i in this.state.selectedTypes)
 		{
-			color: colors.primaryTextColor,
-			fontSize: 18,
-			fontFamily: 'Lato-Regular'
-		};
-
-		var assessmentDisplay = (assessmentType) =>
-		{
-			var name = assessmentType;
-			var quantity = assessmentDetails[assessmentType].quantity + " ";
-			var weight = assessmentDetails[assessmentType].weight;
-
-			if (name == "Final Exam")
+			if (this.state.selectedTypes[i])
 			{
-				quantity = "";
-
-				return(
-					<View
-						key = {assessmentType}
-						style = {{paddingVertical: 5}}>
-						<Text style = {{color: colors.primaryTextColor, fontSize: 20, fontFamily: 'Lato-Bold'}}>
-							{quantity + name + " - " + weight + "%"}
+				breakdownComponents.push(
+					<View key = {i}>
+						<Text style = {textStyle.regular(20)}>
+							{this.state.pluralAssessTypes[i] + " - " + this.state.markBreakdown[i] + "%"}
 						</Text>
 					</View>
 				);
-			}
-
-			if (quantity == 1)
-			{
-				if (name == "Quizzes")
-				{
-					name = "Quiz"
-				}
-				else
-				{
-					name = name.slice(0, -1);
-				}
-			}
-
-			return(
-				<Text
-					key = {assessmentType}
-					style = {displayStyle}
-				>
-					{quantity + name + " - " + (quantity * weight) + "%"}
-				</Text>
-			);
-		};
-
-		var displayList = [];
-		for (i in assessmentTypes)
-		{
-			if (selectedTypes[i])
-			{
-				displayList.push(assessmentDisplay(assessmentTypes[i]));
 			}
 		}
 
 		return(
 			<View style = {containerStyle.form}>
 				<View style = {containerStyle.formSection}>
-					<Text style = {textStyle.regular(22, 'center')}>Confirm your course information below.</Text>
+					<Text style = {textStyle.regular(22, 'center')}>Verify your course information below.</Text>
 				</View>
 				<View style = {containerStyle.formSection}>
 					<View style = {[containerStyle.courseCard, {alignItems: 'center'}]}>
 						<Text style = {textStyle.bold(22)}>{this.state.courseName}</Text>
 						<View style = {{paddingVertical: 10}}>
-							<Text
-								style = {{color: colors.primaryTextColor, fontSize: 18, fontFamily: 'Lato-Light'}}
-							>
-								Your Assessments
-							</Text>
+							<Text style = {[textStyle.regular(18), {fontFamily: 'Lato-Light'}]}>Mark Breakdown</Text>
 						</View>
-						{displayList}
+						{breakdownComponents}
 					</View>
 				</View>
 				<View style = {containerStyle.formSection}>
-					{this.renderFinishButton()}
-					<View style = {containerStyle.rowBox}>
-						<TouchableOpacity
-							onPress = {() => this.setState(prevState =>
-							{
-								return({currentScene: prevState.currentScene - 1});
-							})}
-							style = {{paddingVertical: 15, paddingHorizontal: 70}}
-						>
-							<Text style = {{fontFamily: 'Lato-Regular', color: colors.accentColor}}>
-								Wait I need to change something!
-							</Text>
-						</TouchableOpacity>
-					</View>
+					<Button
+						label = "Create Course"
+						color = {colors.accentColor}
+						inverted = {false}
+						action = {() =>
+						{
+							this.props.createCourse(this.props.courseName, this.props.selectedSemester, this.state.markBreakdown);
+							this.props.navigation.pop();
+						}}
+					/>
+					<Button
+						label = "Back"
+						color = {colors.accentColor}
+						inverted = {true}
+						action = {this.back.bind(this)}
+					/>
 				</View>
 			</View>
 		);
@@ -481,24 +421,18 @@ class AddCoursePage extends Component
 
 	render()
 	{
-		var scenes = [this.courseTitle_SCENE(), this.assessmentTypes_SCENE(), this.assessmentDetails_SCENE(), this.confirmCourse_SCENE()];
+		const scenes = [this.courseTitle_SCENE(), this.assessmentTypes_SCENE(), this.markBreakdown_SCENE(), this.confirmCourse_SCENE()];
 
-		var backButton = () =>
+		const backButton = () =>
 		{
-			if (this.state._courseCode == "" && this.state._courseType == "")
-			{
+			if (this.state.courseName == "")
 				this.props.navigation.goBack()
-			}
 			else
-			{
 				this.showAlert("Cancel Creation");
-			}
-
 		}
 
 		return(
 			<View style = {containerStyle.page}>
-				<ScrollView>
 					<ActionBar
 						inverted = {true}
 						leftButton =
@@ -512,6 +446,7 @@ class AddCoursePage extends Component
 						}
 						title = "Add Course"
 					/>
+				<ScrollView>
 					{scenes[this.state.currentScene]}
 				</ScrollView>
 			</View>
@@ -522,7 +457,8 @@ class AddCoursePage extends Component
 const mapStateToProps = (state) =>
 {
 	return {
-		semesters: state.semesters
+		selectedSemester: state.selectedSemester,
+		courseList: state.courseList
 	};
 }
-export default connect(mapStateToProps, {newCourse})(AddCoursePage);
+export default connect(mapStateToProps, {createCourse})(AddCoursePage);

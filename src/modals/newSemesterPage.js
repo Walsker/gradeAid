@@ -50,6 +50,19 @@ class NewSemesterPage extends Component
 				break;
 		}
 	}
+	
+	setSelectedSemester()
+	{
+		var newID = 0;
+		while (true)
+		{
+			if (this.props.semesterList[newID] == undefined)
+				break;
+			else
+				newID++;
+		}
+		this.props.selectSemester(newID);
+	}
 
 	onSubmit()
 	{
@@ -80,7 +93,7 @@ class NewSemesterPage extends Component
 			}
 
 			this.props.createSemester(semesterName, this.props.orderID);
-			this.props.selectSemester(newID);
+			this.setSelectedSemester();
 			this.props.upSemesterCount();
 
 			this.props.navigation.navigate("Semester Screen");

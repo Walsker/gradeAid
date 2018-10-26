@@ -1,5 +1,13 @@
 import * as actionTypes from './actionTypes';
 
+export const selectCourse = (selectedCourseID) =>
+{
+	return {
+		type: actionTypes.SELECT_COURSE,
+		payload: selectedCourseID
+	};
+}
+
 export const selectSemester = (selectedSemesterID) =>
 {
 	return {

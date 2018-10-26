@@ -1,4 +1,13 @@
-// React import
+// --------------------------------------------------------------------------------------
+// Template:
+//	<Button
+//		label = <string>
+//		color = <color>
+//		inverted = <bool>
+//		action = <method>
+//	/>
+// --------------------------------------------------------------------------------------
+// React Native imports
 import React, {Component} from 'react';
 import {Animated, TouchableWithoutFeedback, View} from 'react-native';
 
@@ -61,7 +70,7 @@ export default class Button extends Component
 							}),
 						paddingVertical: 5,
 						paddingHorizontal: 35,
-						elevation: 3,
+						elevation: 2,
 						borderRadius: 30,
 						borderWidth: 2,
 						borderColor: this.props.color
