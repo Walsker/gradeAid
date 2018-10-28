@@ -132,7 +132,7 @@ export const deleteAssessment = (id) =>
 export const editAssessment = (id, newProps) =>
 {
 	return {
-		type: actionTypes.EDIT_COURSE,
+		type: actionTypes.EDIT_ASSESSMENT,
 		payload: {id, newProps}
 	};
 };

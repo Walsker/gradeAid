@@ -17,7 +17,7 @@ import * as Modals from 'easyGrades/src/modals';
 import NoSemestersPage from 'easyGrades/src/noSemestersScreen/noSemestersPage';
 import AboutPage from 'easyGrades/src/aboutScreen/aboutPage';
 import SettingsPage from 'easyGrades/src/settingsScreen/settingsPage';
-import {CoursePage, SemesterPage} from 'easyGrades/src/semesterScreen';
+import {AssessmentPage, CoursePage, SemesterPage} from 'easyGrades/src/semesterScreen';
 
 class RootNavigator extends Component
 {
@@ -36,7 +36,8 @@ class RootNavigator extends Component
 		var semesterScreen = createStackNavigator(
 		{
 			Semester: {screen: SemesterPage},
-			Course: {screen: CoursePage}
+			Course: {screen: CoursePage},
+			Assessment: {screen: AssessmentPage}
 		},
 		{
 			headerMode: 'none',

@@ -62,8 +62,8 @@ class InputGradePage extends Component
 			case "No Grade Provided":
 
 				Alert.alert(
-					"No Grade Inputted",
-					"Please input a valid grade.",
+					"No Grade Entered",
+					"Please enter a valid grade.",
 					[{text: 'OK', onPress: () => {}}],
 					{cancelable: true}
 				);
@@ -201,7 +201,7 @@ class InputGradePage extends Component
 		return(
 			<View style = {containerStyle.form}>
 				<View style = {containerStyle.formSection}>
-					<Text style = {textStyle.regular(24, 'center')}>Input the grade you received for the {selectedType.toLowerCase()} below.</Text>
+					<Text style = {textStyle.regular(24, 'center')}>Enter the grade you received for the {selectedType.toLowerCase()} below.</Text>
 				</View>
 				<View style = {containerStyle.formSection}>
 					<View style = {{flexDirection: 'row', alignItems: 'center', alignSelf: 'center'}}>

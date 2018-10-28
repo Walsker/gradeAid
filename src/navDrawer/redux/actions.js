@@ -8,6 +8,14 @@ export const selectCourse = (selectedCourseID) =>
 	};
 }
 
+export const selectAssessment = (selectedAssessID) =>
+{
+	return {
+		type: actionTypes.SELECT_ASSESSMENT,
+		payload: selectedAssessID
+	};
+}
+
 export const selectSemester = (selectedSemesterID) =>
 {
 	return {

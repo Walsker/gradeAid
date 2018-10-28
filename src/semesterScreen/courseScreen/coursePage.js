@@ -92,7 +92,7 @@ class CoursePage extends Component
 				/>
 				<Tile
 					title = "Overview"
-					content = {<AssessmentList/>}
+					content = {<AssessmentList navigation = {this.props.navigation}/>}
 				/>
 				<View style = {{height: 10}}/>
 			</ScrollView>
@@ -102,7 +102,7 @@ class CoursePage extends Component
 	render()
 	{
 		if (!this.props.course)
-			return (<View/>);
+			return <View/>;
 			
 		return(
 			<View style = {containerStyle.default}>

@@ -1,9 +1,10 @@
 // React Native imports
 import React, {Component} from 'react';
-import {Text, TouchableOpacity, View} from 'react-native';
+import {Animated, TouchableWithoutFeedback, View} from 'react-native';
 
 // Redux imports
 import {connect} from 'react-redux';
+import {selectAssessment} from 'easyGrades/src/navDrawer/redux/actions';
 
 // Custom Imports
 import {colors, containerStyle, textStyle} from 'easyGrades/src/common/appStyles';
@@ -11,29 +12,81 @@ import {ProgressBar} from 'easyGrades/src/common';
 
 class AssessmentList extends Component
 {
+	constructor(props)
+	{
+		super(props);
+
+		this.state =
+		{
+			INACTIVE_VALUE: 0,
+			ACTIVE_VALUE: 1,
+			duration: 75
+		};
+	}
+
+	onPressIn(id)
+	{
+		Animated.timing(this.props.pressValues[id],
+		{
+			toValue: this.state.ACTIVE_VALUE,
+			duration: this.state.duration
+		}).start();
+	}
+
+	onRelease(id)
+	{
+		Animated.timing(this.props.pressValues[id],
+		{
+			toValue: this.state.INACTIVE_VALUE,
+			duration: this.state.duration
+		}).start();
+
+		this.props.selectAssessment(id);
+		this.props.navigation.navigate("Assessment");
+	}
+
 	createAssessment(assessmentID, animationID)
 	{
+		var pressedBackground =
+		{
+			backgroundColor: this.props.pressValues[assessmentID].interpolate({
+				inputRange: [this.state.INACTIVE_VALUE, this.state.ACTIVE_VALUE],
+				outputRange: [colors.lightPrimaryColor, colors.darkPrimaryColor]
+			})
+		};
+
+		var pressedText =
+		{
+			color: this.props.pressValues[assessmentID].interpolate({
+				inputRange: [this.state.INACTIVE_VALUE, this.state.ACTIVE_VALUE],
+				outputRange: [colors.primaryTextColor, '#FFFFFF']
+			})
+		};
+
 		return(
-			<View
+			<TouchableWithoutFeedback
 				key = {animationID}
-				style = {containerStyle.assessmentCard}
+				onPressIn = {() => this.onPressIn(assessmentID)}
+				onPressOut = {() => this.onRelease(assessmentID)}
 			>
-				<View style = {containerStyle.assessmentCardTitle}>
-					<Text style = {textStyle.regular(20)}>{this.props.assessments[assessmentID].name}</Text>
-				</View>
-				<View style = {{flexDirection: 'row'}}>
-					<View style = {containerStyle.assessmentGradeBar}>
-						<ProgressBar
-							percentage = {this.props.assessments[assessmentID].grade}
-							listOrder = {animationID}
-							animationDelay = {300}
-						/>
+				<Animated.View style = {[containerStyle.assessmentCard, pressedBackground]}>
+					<View style = {containerStyle.assessmentCardTitle}>
+						<Animated.Text style = {[textStyle.regular(20), pressedText]}>{this.props.assessments[assessmentID].name}</Animated.Text>
 					</View>
-					<View style = {containerStyle.assessmentGradePercent}>
-						<Text style = {textStyle.regular(22)}>{(Math.round(this.props.assessments[assessmentID].grade*1000)/10) + "%"}</Text>
+					<View style = {{flexDirection: 'row'}}>
+						<View style = {containerStyle.assessmentGradeBar}>
+							<ProgressBar
+								percentage = {this.props.assessments[assessmentID].grade}
+								listOrder = {animationID}
+								animationDelay = {300}
+							/>
+						</View>
+						<View style = {containerStyle.assessmentGradePercent}>
+							<Animated.Text style = {[textStyle.regular(22), pressedText]}>{(Math.round(this.props.assessments[assessmentID].grade*1000)/10) + "%"}</Animated.Text>
+						</View>
 					</View>
-				</View>
-			</View>
+				</Animated.View>
+			</TouchableWithoutFeedback>
 		);
 	}
 
@@ -60,14 +113,19 @@ class AssessmentList extends Component
 const mapStateToProps = (state) =>
 {
 	var assessmentsInThisCourse = {};
+	var pressValues = {};
 	for (id in state.assessmentList)
 	{
 		if (state.assessmentList[id].courseID == state.selectedCourse)
+		{
 			Object.assign(assessmentsInThisCourse, {[id]: state.assessmentList[id]})
+			pressValues[id] = new Animated.Value(0);
+		}	
 	}
-
+	
 	return {
-		assessments: assessmentsInThisCourse
+		assessments: assessmentsInThisCourse,
+		pressValues
 	};
 }
-export default connect(mapStateToProps)(AssessmentList);
+export default connect(mapStateToProps, {selectAssessment})(AssessmentList);

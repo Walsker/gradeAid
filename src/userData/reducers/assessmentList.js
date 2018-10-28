@@ -63,15 +63,15 @@ export default (prevState = {}, action) =>
 		case DELETE_ASSESSMENT:
 
 			var assessList = {};
-			for (id in courseList)
+			for (id in prevState)
 			{
 				if (id != action.payload)
 				{
-					assessList = Object.assign(assessList, prevState[id]);
+					assessList = Object.assign(assessList, {[id]: prevState[id]});
 				}
 			}
 
-			return semesterList;
+			return assessList;
 
 		// ------------------------------------------------------------------------------
 		// CASE: an existing assessment is being modified
@@ -88,7 +88,7 @@ export default (prevState = {}, action) =>
 
 			// Making the changes to the assessment object
 			var modifiedAssessment = Object.assign({}, oldAssessment, action.payload.newProps);
-
+			console.log("MOD: ", modifiedAssessment);
 			return {
 				...prevState,
 				[action.payload.id]: modifiedAssessment

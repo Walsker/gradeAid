@@ -21,7 +21,7 @@ class CourseInfoPage extends Component
 
 				Alert.alert(
 					"Drop Course",
-					"Are you sure you would like to drop this course? This action cannot be undone.",
+					"Are you sure you would like to drop this course?\nThis action cannot be undone.",
 					[
 						{text: 'Yes', onPress: this.dropCourse.bind(this), style: 'cancel'},
 						{text: 'No', onPress: () => {}},
@@ -42,7 +42,7 @@ class CourseInfoPage extends Component
     render()
     {
 		if (!this.props.course)
-			return (<View/>);
+			return <View/>;
 
         var breakdownComponents = [];
 		for (i in this.props.course.breakdown)

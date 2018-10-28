@@ -8,34 +8,34 @@ import {editCourse} from 'easyGrades/src/userData/actions';
 
 // Custom imports
 import {colors, containerStyle, textStyle} from 'easyGrades/src/common/appStyles';
-import {ActionBar, Button, CheckList, IconButton} from 'easyGrades/src/common';
+import {ActionBar, Button, IconButton} from 'easyGrades/src/common';
 import * as Assessment from 'easyGrades/src/semesterScreen/assessmentTypes';
 
 class EditCoursePage extends Component
 {
-    constructor(props)
-    {
-        super(props);
+	constructor(props)
+	{
+		super(props);
 
-        var course = props.courseList[props.selectedCourse];
+		var course = props.courseList[props.selectedCourse];
 
 		var selectedTypes = [];
-		
-        for (i in course.breakdown)
-        {
-            selectedTypes.push((course.breakdown[i] != 0));
-		}
-		
-        this.state =
-        {
-            currentScene: 0,
-            courseName: course.name,
-            selectedTypes,
-            markBreakdown: course.breakdown.map((x) => x * 100)
-        }
-    }
 
-    showAlert(alertType, customText)
+		for (i in course.breakdown)
+		{
+			selectedTypes.push((course.breakdown[i] != 0));
+		}
+
+		this.state =
+		{
+			currentScene: 0,
+			courseName: course.name,
+			selectedTypes,
+			markBreakdown: course.breakdown.map((x) => x * 100)
+		}
+	}
+
+	showAlert(alertType, customText)
 	{
 		switch (alertType)
 		{
@@ -92,9 +92,9 @@ class EditCoursePage extends Component
 				);
 				return;
 		}
-    }
-    
-    back()
+	}
+
+	back()
 	{
 		this.setState(prevState =>
 		{
@@ -108,9 +108,9 @@ class EditCoursePage extends Component
 		{
 			return({currentScene: prevState.currentScene + 1, ...extraState});
 		});
-    }
-    
-    courseTitle_SCENE()
+	}
+
+	courseTitle_SCENE()
 	{
 		return(
 			<View style = {containerStyle.form}>
@@ -140,8 +140,8 @@ class EditCoursePage extends Component
 							for (id in this.props.courseList)
 							{
 								if (this.props.courseList[id].semesterID == this.props.selectedSemester &&
-                                    this.props.courseList[id].name == this.state.courseName.trim() &&
-                                    id != this.props.selectedCourse)
+									this.props.courseList[id].name == this.state.courseName.trim() &&
+									id != this.props.selectedCourse)
 									nameUsed = true;
 							}
 
@@ -156,7 +156,7 @@ class EditCoursePage extends Component
 				</View>
 			</View>
 		);
-    }
+	}
 
 	markBreakdown_SCENE()
 	{
@@ -330,7 +330,7 @@ class EditCoursePage extends Component
 								else
 									breakdown.push(0.0);
 							}
-							console.log("BD: ", breakdown);
+							
 							this.props.editCourse(this.props.selectedCourse, {name: this.state.courseName, breakdown});
 							this.props.navigation.navigate("CourseInfoPage");
 						}}
@@ -346,13 +346,13 @@ class EditCoursePage extends Component
 		);
 	}
 
-    render()
-    {
-        const scenes = [this.courseTitle_SCENE(), this.markBreakdown_SCENE(), this.confirmCourse_SCENE()];
-        
-        return (
-            <View style = {containerStyle.default}>
-                <ActionBar
+	render()
+	{
+		const scenes = [this.courseTitle_SCENE(), this.markBreakdown_SCENE(), this.confirmCourse_SCENE()];
+
+		return (
+			<View style = {containerStyle.default}>
+				<ActionBar
 					inverted = {true}
 					leftButton =
 					{
@@ -365,20 +365,20 @@ class EditCoursePage extends Component
 					}
 					title = "Edit Course"
 				/>
-                <ScrollView>
+				<ScrollView>
 					{scenes[this.state.currentScene]}
 				</ScrollView>
-            </View>
-        );
-    }
+			</View>
+		);
+	}
 }
 
 const mapStateToProps = (state) =>
 {
-    return {
-        courseList: state.courseList,
-        selectedSemester: state.selectedSemester,
-        selectedCourse: state.selectedCourse
-    };
+	return {
+		courseList: state.courseList,
+		selectedSemester: state.selectedSemester,
+		selectedCourse: state.selectedCourse
+	};
 }
 export default connect(mapStateToProps, {editCourse})(EditCoursePage)
