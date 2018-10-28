@@ -1,30 +1,17 @@
-// -----------------------------------------------------------------------------------
-// REQUIRED COMPONENTS: Array of assessment objects.
-// Example:
-//  var assessments = [
-//      {name: "Assignment 1", grade: 80},
-//      {name: "Assignment 2", grade: 55},
-//      {name: "Midterm", grade: 92.2}
-//  ]
-// -----------------------------------------------------------------------------------
-
 // React Native imports
 import React, {Component} from 'react';
 import {Text, TouchableOpacity, View} from 'react-native';
+
+// Redux imports
+import {connect} from 'react-redux';
 
 // Custom Imports
 import {colors, containerStyle, textStyle} from 'easyGrades/src/common/appStyles';
 import {ProgressBar} from 'easyGrades/src/common';
 
-export default class AssessmentList extends Component
+class AssessmentList extends Component
 {
-	constructor(props)
-	{
-		super(props);
-		this.state = {length: 0};
-	}
-
-	createAssessment(assessmentTitle, grade, animationID)
+	createAssessment(assessmentID, animationID)
 	{
 		return(
 			<View
@@ -32,18 +19,18 @@ export default class AssessmentList extends Component
 				style = {containerStyle.assessmentCard}
 			>
 				<View style = {containerStyle.assessmentCardTitle}>
-					<Text style = {textStyle.regular(20)}>{assessmentTitle}</Text>
+					<Text style = {textStyle.regular(20)}>{this.props.assessments[assessmentID].name}</Text>
 				</View>
 				<View style = {{flexDirection: 'row'}}>
 					<View style = {containerStyle.assessmentGradeBar}>
 						<ProgressBar
-							percentage = {grade}
+							percentage = {this.props.assessments[assessmentID].grade}
 							listOrder = {animationID}
 							animationDelay = {300}
 						/>
 					</View>
 					<View style = {containerStyle.assessmentGradePercent}>
-						<Text style = {textStyle.regular(22)}>{(Math.round(grade*10)/10) + "%"}</Text>
+						<Text style = {textStyle.regular(22)}>{(Math.round(this.props.assessments[assessmentID].grade*1000)/10) + "%"}</Text>
 					</View>
 				</View>
 			</View>
@@ -53,29 +40,14 @@ export default class AssessmentList extends Component
 	render()
 	{
 		var assessmentComponents = [];
-
-		for (i in this.props.assessments)
+		var animationCounter = 0;
+		for (id in this.props.assessments)
 		{
-			if (this.props.assessments[i].complete == true)
-			{
-				assessmentComponents.push(
-					this.createAssessment(this.props.assessments[i].name, this.props.assessments[i].grade, i)
-				);
-			}
+			assessmentComponents.push(
+				this.createAssessment(id, animationCounter)
+			);
+			animationCounter++;
 		}
-
-		assessmentComponents.push(
-			<View
-				key = "Add Assessment Button"
-				style = {containerStyle.assessmentCard}
-			>
-				<View style = {containerStyle.assessmentCardTitle}>
-					<TouchableOpacity onPress = {this.props.goToInputGradePage}>
-						<Text style = {[textStyle.bold(20, 'center'), {color: colors.primaryColor}]}> + NEW ASSESSMENT</Text>
-					</TouchableOpacity>
-				</View>
-			</View>
-		);
 
 		return(
 			<View style = {containerStyle.assessmentList}>
@@ -84,3 +56,18 @@ export default class AssessmentList extends Component
 		);
 	}
 }
+
+const mapStateToProps = (state) =>
+{
+	var assessmentsInThisCourse = {};
+	for (id in state.assessmentList)
+	{
+		if (state.assessmentList[id].courseID == state.selectedCourse)
+			Object.assign(assessmentsInThisCourse, {[id]: state.assessmentList[id]})
+	}
+
+	return {
+		assessments: assessmentsInThisCourse
+	};
+}
+export default connect(mapStateToProps)(AssessmentList);

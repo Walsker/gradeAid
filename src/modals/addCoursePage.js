@@ -143,9 +143,9 @@ class AddCoursePage extends Component
 						placeholder = "i.e. COMP 1405"
 						placeholderTextColor = 'rgba(0, 0, 0, 0.2)'
 						underlineColorAndroid = {colors.primaryTextColor}
-						style = {textStyle.regular(24)}
+						style = {textStyle.regular(24, 'center')}
 					/>
-					<Text style = {[textStyle.regular(14), {paddingLeft: 3.5}]}>
+					<Text style = {textStyle.regular(14, 'center')}>
 						Course Name
 					</Text>
 				</View>
@@ -313,7 +313,7 @@ class AddCoursePage extends Component
 					</ScrollView>
 				</View>
 				<View style = {containerStyle.formSection}>
-					<Text style = {[textStyle.regular(14, 'center'), {color: colors.secondaryTextColor}]}>
+					<Text style = {textStyle.regular(14, 'center', colors.secondaryTextColor)}>
 						Sum: {breakdownSum}%
 					</Text>
 				</View>
@@ -363,8 +363,8 @@ class AddCoursePage extends Component
 			if (this.state.selectedTypes[i])
 			{
 				breakdownComponents.push(
-					<View key = {i}>
-						<Text style = {textStyle.regular(20)}>
+					<View key = {i} style = {{marginVertical: 5}}>
+						<Text style = {textStyle.regular(24, 'center')}>
 							{Assessment.pluralTypes[i] + " - " + this.state.markBreakdown[i] + "%"}
 						</Text>
 					</View>
@@ -378,11 +378,13 @@ class AddCoursePage extends Component
 					<Text style = {textStyle.regular(22, 'center')}>Verify your course information below.</Text>
 				</View>
 				<View style = {containerStyle.formSection}>
-					<View style = {[containerStyle.courseCard, {alignItems: 'center'}]}>
-						<Text style = {textStyle.bold(22)}>{this.state.courseName}</Text>
-						<View style = {{paddingVertical: 10}}>
-							<Text style = {[textStyle.regular(18), {fontFamily: 'Lato-Light'}]}>Mark Breakdown</Text>
-						</View>
+					<Text style = {textStyle.bold(42, 'center', colors.primaryColor)}>{this.state.courseName}</Text>
+					<View style = {{paddingVertical: 10}}>
+						<Text style = {textStyle.light(24, 'center', colors.darkPrimaryColor)}>Mark Breakdown</Text>
+					</View>
+				</View>
+				<View style = {containerStyle.formSection}>
+					<View style = {containerStyle.courseCard}>
 						{breakdownComponents}
 					</View>
 				</View>

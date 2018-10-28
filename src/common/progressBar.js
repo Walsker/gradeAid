@@ -24,7 +24,7 @@ export default class ProgressBar extends Component
 
 		Animated.timing(this.state.percentage,
 		{
-			toValue: this.props.percentage,
+			toValue: this.props.percentage * 100,
 			easing: Easing.bezier(0, 0.75, 0.25, 1),
 			duration: animationDuration,
 			delay: initialDelay + (animationDuration / 10 * this.props.listOrder)
@@ -45,8 +45,8 @@ export default class ProgressBar extends Component
 				<Animated.View
 					style = {[styles.progress, {
 							width: this.state.percentage.interpolate({
-								inputRange: [0, this.props.percentage],
-								outputRange: [0, this.state.width * (this.props.percentage / 100)]
+								inputRange: [0, this.props.percentage * 100],
+								outputRange: [0, this.state.width * this.props.percentage]
 							})
 						}
 					]}

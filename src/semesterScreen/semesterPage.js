@@ -65,39 +65,45 @@ class SemesterPage extends Component
 
 	semester_SCENE()
 	{
-		var maxGPAString = parseFloat(this.props.maxGPA).toFixed(1);
-		var GPAString = parseFloat(this.props.semester.gpa).toFixed(1);
+		// var maxGPAString = parseFloat(this.props.maxGPA).toFixed(1);
+		// var GPAString = parseFloat(this.props.semester.gpa).toFixed(1);
 
-		var showNA = true;
-		for (i in this.props.semester.courses)
-		{
-			if (this.props.semester.courses[i].newCourse == false)
-			{
-				showNA = false;
-			}
-		}
+		// var showNA = true;
+		// for (i in this.props.semester.courses)
+		// {
+		// 	if (this.props.semester.courses[i].newCourse == false)
+		// 	{
+		// 		showNA = false;
+		// 	}
+		// }
 
-		if (showNA == true)
-		{
-			var GPAString = "N/A";
-		}
+		// if (showNA == true)
+		// {
+		// 	var GPAString = "N/A";
+		// }
 
 		return(
 			<ScrollView style = {containerStyle.tileList}>
-				<Tile title = "Semester Average"
+				{/* <Tile title = "Semester Average"
 					content =
 					{
 						<View>
 							<View style = {{marginVertical: -25}}>
 								<Text style = {textStyle.bold(200)}>{GPAString}</Text>
 							</View>
-							<Text style = {[textStyle.italic(14, 'center'), {color: colors.secondaryTextColor}]}>out of {maxGPAString}</Text>
+							<Text style = {textStyle.italic(14, 'center', colors.secondaryTextColor)}>out of {maxGPAString}</Text>
 						</View>
 					}
-				/>
+				/> */}
 				<Tile
 					title = "Courses"
-					content = {<CourseList navigation = {this.props.navigation} newCourse = {this.newCourse.bind(this)}/>}
+					content =
+					{
+						<CourseList 
+							navigation = {this.props.navigation} 
+							newCourse = {this.newCourse.bind(this)}
+						/>
+					}
 				/>
 				<View style = {{height: 10}}/>
 			</ScrollView>

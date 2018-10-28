@@ -121,7 +121,7 @@ class NewSemesterPage extends Component
 							style = {textStyle.regular(24, 'center')}
 							onChangeText = {(newText) => this.setState({_semesterName: newText})}
 						/>
-						<Text style = {[textStyle.regular(14, 'center')]}>
+						<Text style = {textStyle.regular(14, 'center')}>
 							Semester Name
 						</Text>
 					</View>

@@ -12,9 +12,9 @@ import AssessmentList from './_components/assessmentList';
 
 class CoursePage extends Component
 {
-	editCourse()
+	viewCourseInfo()
 	{
-		alert("Edit Course");
+		this.props.navigation.navigate("CourseInfoPage");
 	}
 
 	inputGrade()
@@ -27,7 +27,7 @@ class CoursePage extends Component
 		return(
 			<View style = {containerStyle.tileList}>
 				<Tile
-					title = "New Course"
+					title = "No Assessments"
 					content =
 					{
 						<View>
@@ -65,36 +65,34 @@ class CoursePage extends Component
 								ringColor = {colors.accentColor}
 								emptyRingColor = {colors.darkPrimaryColor}
 								backgroundColor = {colors.spaceColor}
-								percentage = {course.average}
-								active = {!course.newCourse}
+								// percentage = {course.average}
+								percentage = {50.123}
+								active = {true}
 								animationDelay = {0}
 							/>
 							<View style = {{paddingTop: 10}}>
-								<Text style = {[textStyle.italic(14, 'center'), {color: colors.secondaryTextColor}]}>{(Math.round(course.average*10000000000)/10000000000) + "%"}</Text>
+								{/* <Text style = {textStyle.italic(14, 'center', colors.secondaryTextColor)}>{(Math.round(course.average*10000000000)/10000000000)}%</Text> */}
+								<Text style = {textStyle.italic(14, 'center', colors.secondaryTextColor)}>50.123%</Text>
 							</View>
 						</View>
 
 					}
 				/>
-				{/* <Tile
-					title = "Insights"
-					content =
-					{
-						<Text style = {{paddingHorizontal: 10, fontSize: 16, fontFamily: 'Lato-Italic', color: colors.secondaryTextColor, textAlign: 'center'}}>
-							Here I'll include information to do with the goals that the user may have set, or other relevant calculated information.
-							{"\n"}~{"\n"}The above average isn't actually the calculated average, it's just a placeholder.
-						</Text>
-					}
-				/> */}
 				<Tile
-					title = "Overview"
-					content =
+					title = "New Assessment?"
+					content = 
 					{
-						<AssessmentList
-							goToInputGradePage = {() => this.props.navigation.navigate("InputGradePage", {course, semesterName})}
-							assessments = {course.assessments}
+						<Button
+							label = "Input Grade"
+							color = {colors.primaryColor}
+							inverted = {false}
+							action = {this.inputGrade.bind(this)}
 						/>
 					}
+				/>
+				<Tile
+					title = "Overview"
+					content = {<AssessmentList/>}
 				/>
 				<View style = {{height: 10}}/>
 			</ScrollView>
@@ -103,6 +101,9 @@ class CoursePage extends Component
 
 	render()
 	{
+		if (!this.props.course)
+			return (<View/>);
+			
 		return(
 			<View style = {containerStyle.default}>
 				<ActionBar
@@ -119,14 +120,14 @@ class CoursePage extends Component
 					rightButton =
 					{
 						<IconButton
-							type = 'edit'
+							type = 'info-outline'
 							size = {30}
 							color = {colors.titleAndIconColor}
-							action = {this.editCourse}
+							action = {this.viewCourseInfo.bind(this)}
 						/>
 					}
 				/>
-				{this.props.course.newCourse ? this.newCourse_SCENE() : this.course_SCENE()}
+				{this.props.newCourse ? this.newCourse_SCENE() : this.course_SCENE()}
 			</View>
 		);
 	}
@@ -134,8 +135,20 @@ class CoursePage extends Component
 
 const mapStateToProps = (state) =>
 {
+	var newCourse = true;
+
+	for (id in state.assessmentList)
+	{
+		if (state.assessmentList[id].courseID == state.selectedCourse)
+		{
+			newCourse = false;
+			break;
+		}
+	}
+
 	return {
-		course: state.courseList[state.selectedCourse]
+		course: state.courseList[state.selectedCourse],
+		newCourse
 	};
 }
 export default connect(mapStateToProps)(CoursePage);

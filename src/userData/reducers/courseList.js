@@ -5,7 +5,7 @@
 // Below is the structure for this portion of the state
 // courseList:
 // {
-//      [id]: {name: string, semesterID: int, newCourse: bool}
+//      [id]: {name: string, semesterID: int}
 // }
 // --------------------------------------------------------------------------------------
 
@@ -38,7 +38,7 @@ export default (prevState = {}, action) =>
 		// ------------------------------------------------------------------------------
 		// CASE: a course is being added to the app
 		// PAYLOAD: a course object in the form
-		//      {name: string, semesterID: newCourse: bool, breakdown: float[]}
+		//      {name: string, semesterID: int, breakdown: float[]}
 		// ------------------------------------------------------------------------------
 		case CREATE_COURSE:
 
@@ -72,7 +72,7 @@ export default (prevState = {}, action) =>
 				}
 			}
 
-			return semesterList;
+			return courseList;
 
 		// ------------------------------------------------------------------------------
 		// CASE: an existing course is being modified

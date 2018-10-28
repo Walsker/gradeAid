@@ -36,7 +36,7 @@ class CourseList extends Component
 						emptyRingColor = {colors.darkPrimaryColor}
 						backgroundColor = {colors.spaceColor}
 						percentage = {courseObject.average}
-						active = {!courseObject.newCourse}
+						active = {!(courseObject.average == -1)}
 						animationDelay = {500 + (parseInt(animationID) * 750)}
 					/>
 					<View style = {styles.courseName}>

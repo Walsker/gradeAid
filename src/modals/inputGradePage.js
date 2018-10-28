@@ -16,7 +16,7 @@ class InputGradePage extends Component
 	constructor(props)
 	{
 		super(props);
-		
+
 		var checkBoxLabels = [];
 		var checkBoxValues = [];
 		for (type in props.courseAssessmentTypes)
@@ -48,7 +48,7 @@ class InputGradePage extends Component
 					{cancelable: true}
 				);
 				return;
-			
+
 			case "Name Used":
 
 				Alert.alert(
@@ -106,7 +106,7 @@ class InputGradePage extends Component
 	{
 		if (type == Assessment.FINAL_EXAM)
 			return Assessment.types[Assessment.FINAL_EXAM];
-			
+
 		var numberOfSameTypeAssessments = 0;
 		for (id in this.props.sisterAssessments)
 		{
@@ -267,7 +267,7 @@ class InputGradePage extends Component
 									return;
 								}
 
-								this.inputGrade();								
+								this.inputGrade();
 							}}
 						/>
 						<Button

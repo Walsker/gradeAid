@@ -170,7 +170,7 @@ class EditSemesterPage extends Component
 							style = {textStyle.regular(24, 'center')}
 							onChangeText = {(newText) => this.setState({_newSemesterName: newText})}
 						/>
-						<Text style = {[textStyle.regular(14, 'center')]}>
+						<Text style = {textStyle.regular(14, 'center')}>
 							Semester Name
 						</Text>
 						<Button

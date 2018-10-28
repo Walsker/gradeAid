@@ -103,7 +103,6 @@ export const createCourse = (name, semesterID, markBreakdown) =>
 			name,
 			semesterID,
 			average: 0,
-			newCourse: true,
 			breakdown: markBreakdown
 		}
 	};

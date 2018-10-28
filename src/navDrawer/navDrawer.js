@@ -88,7 +88,6 @@ class NavDrawer extends Component
 		return(
 			<View style = {containerStyle.default}>
 				<View style = {containerStyle.drawerHeader}>
-					{/* <Text style = {[textStyle.bold(56), {color: 'white'}]}>Easy Grades</Text> */}
 					<View style = {{marginVertical: 18}}/>
 				</View>
 				<View style = {containerStyle.default}>

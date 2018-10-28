@@ -131,34 +131,38 @@ export const containerStyle = StyleSheet.create(
 	}
 });
 
-const createFont = (size, alignment) =>
+const createFont = (size, alignment, color) =>
 {
 	var style = {color: colors.primaryTextColor};
 
 	if (size)
-	{
 		style["fontSize"] = size;
-	}
+
 	if (alignment)
-	{
 		style["textAlign"] = alignment;
-	}
+
+	if (color)
+		style["color"] = color
 
 	return style;
 };
 
 export const textStyle =
 {
-	regular: (size, alignment) =>
+	light: (size, alignment, color) =>
 	{
-		return Object.assign({fontFamily: 'Lato-Regular'}, createFont(size, alignment));
+		return Object.assign({fontFamily: 'Lato-Light'}, createFont(size, alignment, color));
 	},
-	bold: (size, alignment) =>
+	regular: (size, alignment, color) =>
 	{
-		return Object.assign({fontFamily: 'Lato-Black'}, createFont(size, alignment));
+		return Object.assign({fontFamily: 'Lato-Regular'}, createFont(size, alignment, color));
 	},
-	italic: (size, alignment) =>
+	bold: (size, alignment, color) =>
 	{
-		return Object.assign({fontFamily: 'Lato-Italic'}, createFont(size, alignment));
+		return Object.assign({fontFamily: 'Lato-Black'}, createFont(size, alignment, color));
+	},
+	italic: (size, alignment, color) =>
+	{
+		return Object.assign({fontFamily: 'Lato-Italic'}, createFont(size, alignment, color));
 	}
 }
