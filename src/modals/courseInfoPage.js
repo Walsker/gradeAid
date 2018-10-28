@@ -115,4 +115,4 @@ const mapStateToProps = (state) =>
         course: state.courseList[state.selectedCourse]
     };
 }
-export default connect(mapStateToProps, {editCourse, deleteCourse})(CourseInfoPage);
+export default connect(mapStateToProps, {deleteCourse})(CourseInfoPage);

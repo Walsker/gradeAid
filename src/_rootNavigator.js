@@ -10,7 +10,6 @@ import
 
 // Redux imports
 import {connect} from 'react-redux';
-import {cleanCourseList, cleanAssessmentList} from './userData/actions';
 
 // Custom imports
 import NavDrawer from 'easyGrades/src/navDrawer/navDrawer';
@@ -80,22 +79,6 @@ class RootNavigator extends Component
 		};
 	}
 
-	shouldComponentUpdate(nextProps)
-	{
-		if (this.props.semesterList != nextProps.semesterList)
-		{
-			this.props.cleanCourseList(this.props.semesterList, this.props.courseList);
-			console.log("Clean Courselist");
-		}
-
-		if (this.props.courseList != nextProps.courseList)
-		{
-			this.props.cleanAssessmentList(this.props.courseList, this.props.assessmentList);
-			console.log("Clean Assesslist");
-		}
-		return true;
-	}
-
 	render()
 	{
 		return this.state.mainNavigator;
@@ -113,4 +96,4 @@ const mapStateToProps = (state) =>
 		assessmentList: state.assessmentList,
 	};
 }
-export default connect(mapStateToProps, {cleanCourseList, cleanAssessmentList})(RootNavigator);
+export default connect(mapStateToProps)(RootNavigator);

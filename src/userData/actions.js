@@ -2,47 +2,6 @@
 import * as actionTypes from './actionTypes';
 
 // --------------------------------------------------------------------------------------
-// GENERAL ACTION CREATORS
-// --------------------------------------------------------------------------------------
-
-// --------------------------------------------------------------------------------------
-// Two action creators for removing courses and assessments that no longer belong to a
-//  semester or course, respectively.
-// --------------------------------------------------------------------------------------
-export const cleanCourseList = (semesterList, courseList) =>
-{
-	// Clearning the courses list
-	var semesterlessCourses = [];
-	for (id in courseList)
-	{
-		// Checking if this course does not belong to a semester
-		if (!(courseList[id].semesterID in semesterList))
-			semesterlessCourses.push(id);
-	}
-
-	return {
-		type: actionTypes.CLEAN_COURSE_LIST,
-		payload: semesterlessCourses
-	};
-}
-export const cleanAssessmentList = (courseList, assessmentList) =>
-{
-	// Cleaning the assessments list
-	var courselessAssessments = [];
-	for (id in assessmentList)
-	{
-		// Checking if this assessment does not belong to a course
-		if (!(assessmentList[id].courseID in courseList))
-			courselessAssessments.push(id);
-	}
-
-	return {
-		type: actionTypes.CLEAN_ASSESS_LIST,
-		payload: courselessAssessments
-	};
-}
-
-// --------------------------------------------------------------------------------------
 // SEMESTER ACTION CREATORS
 // --------------------------------------------------------------------------------------
 

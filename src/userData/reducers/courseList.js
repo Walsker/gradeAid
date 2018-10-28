@@ -64,11 +64,11 @@ export default (prevState = {}, action) =>
 		case DELETE_COURSE:
 
 			var courseList = {};
-			for (id in courseList)
+			for (id in prevState)
 			{
 				if (id != action.payload)
 				{
-					courseList = Object.assign(courseList, prevState[id]);
+					courseList = Object.assign(courseList, {[id]: prevState[id]});
 				}
 			}
 

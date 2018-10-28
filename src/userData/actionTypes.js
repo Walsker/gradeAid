@@ -1,6 +1,3 @@
-export const CLEAN_COURSE_LIST = "cleanCourseList";
-export const CLEAN_ASSESS_LIST = "cleanAssessmentList"
-
 export const CREATE_SEMESTER = "createSemester";
 export const DELETE_SEMESTER = "deleteSemester";
 export const EDIT_SEMESTER = "editSemester";

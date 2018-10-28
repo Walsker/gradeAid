@@ -43,7 +43,6 @@ export default (prevState = {}, action) =>
 		// ------------------------------------------------------------------------------
 		case DELETE_SEMESTER:
 
-		// TODO: fix case where there are no semesters left
 			var semesterList = {};
 			for (id in prevState)
 			{
@@ -52,7 +51,7 @@ export default (prevState = {}, action) =>
 					semesterList = Object.assign(semesterList, {[id]: prevState[id]});
 				}
 			}
-			console.log(semesterList);
+			
 			return semesterList;
 
 		// ------------------------------------------------------------------------------

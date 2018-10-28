@@ -29,7 +29,7 @@ export const containerStyle = StyleSheet.create(
 		alignItems: 'center',
 		justifyContent: 'flex-start',
 		backgroundColor: colors.primaryColor,
-		elevation: 3
+		elevation: 5
 	},
 	assessmentCard:
 	{

@@ -29,9 +29,9 @@ class AddCoursePage extends Component
 		this.state =
 		{
 			currentScene: 0,
+			courseName: "",
 			selectedTypes,
-			markBreakdown,
-			courseName: ""
+			markBreakdown
 		};
 	}
 
@@ -49,16 +49,6 @@ class AddCoursePage extends Component
 						{text: 'No', onPress: () => {}},
 					],
 					{cancelable: false}
-				);
-				return;
-
-			case "Incomplete Course Code":
-
-				Alert.alert(
-					"Incomplete",
-					"Please be sure to give your course a name.",
-					[{text: 'OK', onPress: () => {}}],
-					{cancelable: true}
 				);
 				return;
 
@@ -97,16 +87,6 @@ class AddCoursePage extends Component
 				Alert.alert(
 					"Breakdown Invalid",
 					"Your breakdown does not add up to 100%",
-					[{text: 'OK', onPress: () => {}}],
-					{cancelable: true}
-				);
-				return;
-
-			case "Weights don't add up":
-
-				Alert.alert(
-					"Invalid Weight",
-					"Oh no! All the weights don't add up to 100%",
 					[{text: 'OK', onPress: () => {}}],
 					{cancelable: true}
 				);
@@ -395,13 +375,7 @@ class AddCoursePage extends Component
 						inverted = {false}
 						action = {() =>
 						{
-							var reducedBreakdown = {...this.state.markBreakdown};
-							for (i in reducedBreakdown)
-							{
-								reducedBreakdown[i] /= 100;
-							}
-
-							this.props.createCourse(this.state.courseName, this.props.selectedSemester, reducedBreakdown);
+							this.props.createCourse(this.state.courseName, this.props.selectedSemester, this.state.markBreakdown.map((x) => x / 100));
 							this.props.navigation.navigate("Semester Screen");
 						}}
 					/>
@@ -430,19 +404,19 @@ class AddCoursePage extends Component
 
 		return(
 			<View style = {containerStyle.page}>
-					<ActionBar
-						inverted = {true}
-						leftButton =
-						{
-							<IconButton
-								type = 'arrow-back'
-								size = {30}
-								color = {colors.primaryColor}
-								action = {backButton}
-							/>
-						}
-						title = "Add Course"
-					/>
+				<ActionBar
+					inverted = {true}
+					leftButton =
+					{
+						<IconButton
+							type = 'arrow-back'
+							size = {30}
+							color = {colors.primaryColor}
+							action = {backButton}
+						/>
+					}
+					title = "Add Course"
+				/>
 				<ScrollView>
 					{scenes[this.state.currentScene]}
 				</ScrollView>

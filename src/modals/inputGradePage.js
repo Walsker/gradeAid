@@ -142,12 +142,6 @@ class InputGradePage extends Component
 				</View>
 				<View style = {containerStyle.rowBox}>
 					<Button
-						label = "Back"
-						color = {colors.primaryColor}
-						inverted = {true}
-						action = {this.back.bind(this)}
-					/>
-					<Button
 						label = "Next"
 						color = {colors.primaryColor}
 						inverted = {false}
