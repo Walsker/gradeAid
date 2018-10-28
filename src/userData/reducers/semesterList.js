@@ -69,7 +69,7 @@ export default (prevState = {}, action) =>
 			var oldSemester = semesterList[action.payload.id];
 
 			// Making the changes to the semester object
-			var modifiedSemester = Object.assign(oldSemester, action.payload.newProps);
+			var modifiedSemester = Object.assign({}, oldSemester, action.payload.newProps);
 
 			return {
 				...prevState,

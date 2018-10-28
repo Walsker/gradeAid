@@ -11,7 +11,6 @@ import {selectSemester} from 'easyGrades/src/navDrawer/redux/actions';
 import {colors, containerStyle, textStyle} from 'easyGrades/src/common/appStyles';
 import {ActionBar, Button, IconButton} from 'easyGrades/src/common';
 
-// TODO: Delete semester from here, give serious warning
 class EditSemesterPage extends Component
 {
 	constructor(props)

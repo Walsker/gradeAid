@@ -1,31 +1,32 @@
-// -----------------------------------------------------------------------------------
-// REQUIRED COMPONENTS: Array of Course objects.
-// Example:
-//  var courses = [
-//      {name: "COMP 1405", average: 80},
-//      {name: "MATH 1007", average: 55},
-//      {name: "MUSI 1701", average: 92.2}
-//  ]
-// -----------------------------------------------------------------------------------
-
 // React Native imports
 import React, {Component} from 'react';
 import {StyleSheet, Text, TouchableNativeFeedback, View} from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 
+// Redux imports
+import {connect} from 'react-redux';
+import {selectCourse} from 'easyGrades/src/navDrawer/redux/actions';
+
 // Custom imports
 import {colors, containerStyle} from 'easyGrades/src/common/appStyles';
 import {ProgressCircle} from 'easyGrades/src/common';
 
-export default class CourseList extends Component
+class CourseList extends Component
 {
-	createCourseCard(course, semesterName, animationID)
+	toCourseScreen(courseID)
 	{
+		this.props.selectCourse(courseID);
+		this.props.navigation.navigate("Course");
+	}
+
+	createCourseCard(courseID, animationID)
+	{
+		var courseObject = this.props.courseObjects[courseID];
 		return(
 			<TouchableNativeFeedback
-				key = {course.name}
+				key = {courseID}
 				background = {TouchableNativeFeedback.Ripple(colors.lightPrimaryColor, false)}
-				onPress = {() => this.props.navigation.navigate(course.name, {course, semesterName})}
+				onPress = {() => this.toCourseScreen(courseID)}
 			>
 				<View style = {containerStyle.courseCard}>
 					<ProgressCircle
@@ -34,8 +35,8 @@ export default class CourseList extends Component
 						ringColor = {colors.accentColor}
 						emptyRingColor = {colors.darkPrimaryColor}
 						backgroundColor = {colors.spaceColor}
-						percentage = {course.average}
-						active = {!course.newCourse}
+						percentage = {courseObject.average}
+						active = {!courseObject.newCourse}
 						animationDelay = {500 + (parseInt(animationID) * 750)}
 					/>
 					<View style = {styles.courseName}>
@@ -43,7 +44,7 @@ export default class CourseList extends Component
 							style = {styles.courseNameText}
 							numberOfLines = {2}
 						>
-							{course.name}
+							{courseObject.name}
 						</Text>
 					</View>
 				</View>
@@ -57,12 +58,11 @@ export default class CourseList extends Component
 		var animationIDs = 0;
 		var rowCounter = 0;
 		var tilesPerRow = 3;
-		var courses = this.props.semester.courses;
 
-		for (var i in courses)
+		for (id in this.props.courseObjects)
 		{
 			courseTiles.push(
-				this.createCourseCard(courses[i], this.props.semester.name, animationIDs)
+				this.createCourseCard(id, animationIDs)
 			);
 
 			rowCounter++;
@@ -77,14 +77,20 @@ export default class CourseList extends Component
 			<TouchableNativeFeedback
 				key = "Add Course Button"
 				background = {TouchableNativeFeedback.Ripple(colors.lightPrimaryColor, false)}
-				onPress = {this.props.newCourse.bind(this)}
+				onPress = {this.props.newCourse}
 			>
 				<View style = {containerStyle.courseCard}>
-					<View style = {{alignItems: 'center', justifyContent: 'center'}}>
+					<View style = {{
+						alignItems: 'center',
+						alignSelf: 'center',
+						justifyContent: 'center',
+						backgroundColor: colors.darkPrimaryColor,
+						borderRadius: 50
+					}}>
 						<Icon
 							name = 'add'
 							size = {75}
-							color = {colors.primaryTextColor}
+							color = {colors.accentColor}
 						/>
 					</View>
 					<View style = {styles.courseName}>
@@ -107,6 +113,19 @@ export default class CourseList extends Component
 	}
 }
 
+const mapStateToProps = (state) =>
+{
+	var courseObjects = {};
+	for (id in state.courseList)
+	{
+		if (state.selectedSemester == state.courseList[id].semesterID)
+			courseObjects = Object.assign(courseObjects, {[id]: state.courseList[id]});
+	}
+
+	return {courseObjects};
+}
+export default connect(mapStateToProps, {selectCourse})(CourseList);
+
 const styles = StyleSheet.create(
 {
 	list:
@@ -123,7 +142,7 @@ const styles = StyleSheet.create(
 	},
 	courseNameText:
 	{
-		color: colors.primaryTextColor,
+		color: colors.darkPrimaryColor,
 		fontFamily: 'Lato-Black',
 		fontSize: 17,
 		textAlign: 'center',

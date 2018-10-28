@@ -8,24 +8,14 @@ import {createCourse} from 'easyGrades/src/userData/actions';
 
 // Custom imports
 import {colors, containerStyle, textStyle} from 'easyGrades/src/common/appStyles';
-import {ActionBar, Button, IconButton} from 'easyGrades/src/common';
+import {ActionBar, Button, CheckList, IconButton} from 'easyGrades/src/common';
 import * as Assessment from 'easyGrades/src/semesterScreen/assessmentTypes';
-import CheckList from './_components/checkList';
 
 class AddCoursePage extends Component
 {
 	constructor(props)
 	{
 		super(props);
-
-		var pluralAssessTypes = {...Assessment.types};
-		for (i in pluralAssessTypes)
-		{
-			if (pluralAssessTypes[i] == Assessment.types[Assessment.QUIZ])
-				pluralAssessTypes[i] += "zes";
-			else if (pluralAssessTypes[i] != Assessment.types[Assessment.FINAL_EXAM])
-				pluralAssessTypes[i] += "s";
-		}
 
 		var selectedTypes = [];
 		var markBreakdown = [];
@@ -39,7 +29,6 @@ class AddCoursePage extends Component
 		this.state =
 		{
 			currentScene: 0,
-			pluralAssessTypes,
 			selectedTypes,
 			markBreakdown,
 			courseName: ""
@@ -73,10 +62,10 @@ class AddCoursePage extends Component
 				);
 				return;
 
-			case "Course Name Taken":
+			case "Course Name Used":
 
 				Alert.alert(
-					"Name Taken",
+					"Name Used",
 					"You have already created a course with the same name in this semester.",
 					[{text: 'OK', onPress: () => {}}],
 					{cancelable: true}
@@ -167,18 +156,18 @@ class AddCoursePage extends Component
 						inverted = {false}
 						action = {() =>
 						{
-							var nameTaken = false;
+							var nameUsed = false;
 							for (id in this.props.courseList)
 							{
 								if (this.props.courseList[id].semesterID == this.props.selectedSemester &&
 									this.props.courseList[id].name == this.state.courseName.trim())
-									nameTaken = true;
+									nameUsed = true;
 							}
 
 							if (this.state.courseName == "")
 								this.showAlert("Incomplete Course Code");
-							else if (nameTaken)
-								this.showAlert("Course Name Taken");
+							else if (nameUsed)
+								this.showAlert("Course Name Used");
 							else
 								this.next({courseName: this.state.courseName.trim()});
 						}}
@@ -199,7 +188,7 @@ class AddCoursePage extends Component
 					<CheckList
 						color = {colors.accentColor}
 						fontSize = {22}
-						labels = {this.state.pluralAssessTypes}
+						labels = {Assessment.pluralTypes}
 						values = {this.state.selectedTypes}
 						onItemToggle = {(id) =>
 						{
@@ -272,12 +261,12 @@ class AddCoursePage extends Component
 					]}
 					key = {type}
 				>
-					<Text style = {textStyle.regular(25, 'left')}>{this.state.pluralAssessTypes[type]}</Text>
+					<Text style = {textStyle.regular(25, 'left')}>{Assessment.pluralTypes[type]}</Text>
 					<View style = {{flexDirection: 'row', alignItems: 'center'}}>
 						<TextInput
 							keyboardType = 'numeric'
-							// clearTextOnFocus = {true}
-							defaultValue = {this.state.markBreakdown[type] == 0 ? '' : this.state.markBreakdown[type].toString()}
+							clearTextOnFocus = {true}
+							defaultValue = {this.state.markBreakdown[type] == 0 ? "" : this.state.markBreakdown[type].toString()}
 							placeholderTextColor = 'rgba(0, 0, 0, 0.2)'
 							underlineColorAndroid = {colors.primaryTextColor}
 							returnKeyType = 'done'
@@ -348,7 +337,7 @@ class AddCoursePage extends Component
 								if (this.state.selectedTypes[i] && this.state.markBreakdown[i] == 0)
 								{
 									noneLeftBlank = false;
-									violator = this.state.pluralAssessTypes[i];
+									violator = Assessment.pluralTypes[i];
 									break;
 								}
 							}
@@ -376,7 +365,7 @@ class AddCoursePage extends Component
 				breakdownComponents.push(
 					<View key = {i}>
 						<Text style = {textStyle.regular(20)}>
-							{this.state.pluralAssessTypes[i] + " - " + this.state.markBreakdown[i] + "%"}
+							{Assessment.pluralTypes[i] + " - " + this.state.markBreakdown[i] + "%"}
 						</Text>
 					</View>
 				);
@@ -404,8 +393,14 @@ class AddCoursePage extends Component
 						inverted = {false}
 						action = {() =>
 						{
-							this.props.createCourse(this.props.courseName, this.props.selectedSemester, this.state.markBreakdown);
-							this.props.navigation.pop();
+							var reducedBreakdown = {...this.state.markBreakdown};
+							for (i in reducedBreakdown)
+							{
+								reducedBreakdown[i] /= 100;
+							}
+
+							this.props.createCourse(this.state.courseName, this.props.selectedSemester, reducedBreakdown);
+							this.props.navigation.navigate("Semester Screen");
 						}}
 					/>
 					<Button

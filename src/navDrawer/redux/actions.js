@@ -16,7 +16,7 @@ export const selectSemester = (selectedSemesterID) =>
 	};
 }
 
-export const upSemesterCount = () =>
+export const upOrderID = () =>
 {
 	return {
 		type: actionTypes.UP_COUNT,

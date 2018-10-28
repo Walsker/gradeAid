@@ -12,12 +12,12 @@ import * as actionTypes from './actionTypes';
 export const cleanCourseList = (semesterList, courseList) =>
 {
 	// Clearning the courses list
-	var semesterlessCourses = {};
+	var semesterlessCourses = [];
 	for (id in courseList)
 	{
-		// Checking if this course belongs to a semester
+		// Checking if this course does not belong to a semester
 		if (!(courseList[id].semesterID in semesterList))
-			semesterlessCourses = Object.assign(semesterlessCourses, {[id]: undefined});
+			semesterlessCourses.push(id);
 	}
 
 	return {
@@ -28,12 +28,12 @@ export const cleanCourseList = (semesterList, courseList) =>
 export const cleanAssessmentList = (courseList, assessmentList) =>
 {
 	// Cleaning the assessments list
-	var courselessAssessments = {};
+	var courselessAssessments = [];
 	for (id in assessmentList)
 	{
-		// Checking if this assessment belongs to a course
+		// Checking if this assessment does not belong to a course
 		if (!(assessmentList[id].courseID in courseList))
-			courselessAssessments = Object.assign(courselessAssessments, {[id]: undefined});
+			courselessAssessments.push(id);
 	}
 
 	return {
@@ -54,7 +54,7 @@ export const createSemester = (semesterName, orderID) =>
 {
 	return {
 		type: actionTypes.CREATE_SEMESTER,
-		payload: {name: semesterName, orderID}
+		payload: {name: semesterName, average: 'X', orderID}
 	};
 };
 
@@ -102,6 +102,7 @@ export const createCourse = (name, semesterID, markBreakdown) =>
 		{
 			name,
 			semesterID,
+			average: 0,
 			newCourse: true,
 			breakdown: markBreakdown
 		}

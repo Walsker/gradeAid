@@ -1,136 +1,176 @@
 // React Native imports
 import React, {Component} from 'react';
-import {Button, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View} from 'react-native';
+import {Alert, ScrollView, Text, TextInput, View} from 'react-native';
 
 // Redux imports
 import {connect} from 'react-redux';
-import {inputGrade} from 'easyGrades/src/appRedux/actions';
+import {createAssessment} from 'easyGrades/src/userData/actions';
 
 // Custom imports
 import {colors, containerStyle, textStyle} from 'easyGrades/src/common/appStyles';
-import {ActionBar, IconButton} from 'easyGrades/src/common';
+import {ActionBar, Button, CheckList, IconButton} from 'easyGrades/src/common';
+import * as Assessment from 'easyGrades/src/semesterScreen/assessmentTypes';
 
 class InputGradePage extends Component
 {
 	constructor(props)
 	{
 		super(props);
+		
+		var checkBoxLabels = [];
+		var checkBoxValues = [];
+		for (type in props.courseAssessmentTypes)
+		{
+			checkBoxLabels.push(Assessment.types[props.courseAssessmentTypes[type]]);
+			checkBoxValues.push(false);
+		}
+
 		this.state =
 		{
-			course: this.props.navigation.getParam('course', {}),
-			semesterName: this.props.navigation.getParam('semesterName', ""),
-			selectedAssessments: [],
+			checkBoxLabels,
+			checkBoxValues,
 			currentScene: 0,
-			_selectedAssessmentName: "",
-			_grade: 0
+			grade: "",
+			name: "",
 		}
 	}
 
-	getCourseObject()
+	showAlert(alertType)
 	{
-		var semesters = this.props.semesters;
-		var currentSemester;
-
-		for (i in semesters)
+		switch (alertType)
 		{
-			if (semesters[i].name == this.state.semesterName)
-			{
-				currentSemester = semesters[i];
-				break;
-			}
-		}
+			case "No Type Selection Made":
 
-		for (i in currentSemester.courses)
-		{
-			if (currentSemester.courses[i].name == this.state.course.name)
-			{
-				return {
-					semester: currentSemester,
-					courseNumber: i
-				};
-			}
-		}
+				Alert.alert(
+					"No Type Selection",
+					"Please be sure to select at least one assessment type.",
+					[{text: 'OK', onPress: () => {}}],
+					{cancelable: true}
+				);
+				return;
+			
+			case "Name Used":
 
-		return null;
-	}
+				Alert.alert(
+					"Name Used",
+					"You have already used this name on an assessment in this course.",
+					[{text: 'OK', onPress: () => {}}],
+					{cancelable: true}
+				);
+				return;
 
-	createSelectableAssessment(assessmentID)
-	{
-		var assessment = this.state.course.assessments[assessmentID];
+			case "No Grade Provided":
 
-		var buttonStyle = this.state.selectedAssessments[assessmentID] ? styles.selectable_ON : styles.selectable_OFF;
-		var labelStyle = this.state.selectedAssessments[assessmentID] ? [textStyle.bold(17, 'center'), {color: 'white'}] : textStyle.regular(18, 'center');
-
-		return(
-			<TouchableOpacity
-				key = {assessment.name}
-				onPress = {() => {
-					var newList = new Array(this.state.selectedAssessments.length);
-					newList[assessmentID] = !newList[assessmentID];
-					this.setState({selectedAssessments: newList, selectedAssessmentName: assessment.name});
-				}}
-			>
-				<View style = {buttonStyle}>
-					<Text style = {labelStyle}>
-						{assessment.name}
-					</Text>
-				</View>
-			</TouchableOpacity>
-		);
-	}
-
-	completeAssessment(assessmentName, gradeReceived)
-	{
-		var semesters = this.props.semesters;
-
-		for (i in this.props.semesters)
-		{
-			if (semesters[i].name == this.state.semesterName)
-			{
-				this.props.inputGrade(gradeReceived, assessmentName, this.state.course.name, semesters[i]);
-				this.props.navigation.goBack();
-			}
+				Alert.alert(
+					"No Grade Inputted",
+					"Please input a valid grade.",
+					[{text: 'OK', onPress: () => {}}],
+					{cancelable: true}
+				);
+				return;
 		}
 	}
 
-	selectAssessment_SCENE()
+	back()
 	{
-		var assessmentList = [];
-
-		for (i in this.state.course.assessments)
+		this.setState(prevState =>
 		{
-			if (this.state.course.assessments[i].complete == false)
-			{
-				assessmentList.push(this.createSelectableAssessment(i));
-			}
+			return({currentScene: prevState.currentScene - 1});
+		});
+	}
+
+	next()
+	{
+		this.setState(prevState =>
+		{
+			return({currentScene: prevState.currentScene + 1});
+		});
+	}
+
+	inputGrade()
+	{
+		var selectedType = "";
+		for (i in this.state.checkBoxValues)
+		{
+			if (this.state.checkBoxValues[i])
+				selectedType = this.props.courseAssessmentTypes[i];
 		}
 
+		var chosenName = this.state.name == "" ? this.createNextName(this.props.courseAssessmentTypes[selectedType]) : this.state.name;
+
+		this.props.createAssessment(selectedType, chosenName, this.props.selectedCourse, parseFloat(this.state.grade) / 100);
+		this.props.navigation.pop();
+	}
+
+	createNextName(type)
+	{
+		if (type == Assessment.FINAL_EXAM)
+			return Assessment.types[Assessment.FINAL_EXAM];
+			
+		var numberOfSameTypeAssessments = 0;
+		for (id in this.props.sisterAssessments)
+		{
+			if (type == this.props.sisterAssessments[id].type)
+				numberOfSameTypeAssessments++;
+		}
+		return Assessment.types[type] + " " + (numberOfSameTypeAssessments + 1).toString();
+	}
+
+	selectAssessType_SCENE()
+	{
 		return(
 			<View style = {containerStyle.form}>
 				<View style = {containerStyle.formSection}>
-					<Text style = {textStyle.regular(24, 'center')}>Select the assessment which you have completed below.</Text>
+					<Text style = {textStyle.regular(22, 'center')}>Select the type of assessment you have completed.</Text>
 				</View>
 				<View style = {containerStyle.formSection}>
-					{assessmentList}
+					<CheckList
+						color = {colors.accentColor}
+						fontSize = {22}
+						labels = {this.state.checkBoxLabels}
+						values = {this.state.checkBoxValues}
+						onItemToggle = {(id) =>
+						{
+							var newArray = [];
+							for (i in this.state.checkBoxValues)
+								newArray.push(false);
+
+							newArray[id] = true;
+							this.setState({checkBoxValues: newArray});
+						}}
+					/>
 				</View>
 				<View style = {containerStyle.rowBox}>
 					<Button
+						label = "Back"
 						color = {colors.primaryColor}
-						title = "Next"
-						onPress = {() =>
+						inverted = {true}
+						action = {this.back.bind(this)}
+					/>
+					<Button
+						label = "Next"
+						color = {colors.primaryColor}
+						inverted = {false}
+						action = {() =>
 						{
-							var assessWasSelected = false;
-							for (i in this.state.selectedAssessments)
+							var atLeastOneSelected = false;
+							var selectedType;
+							for (i in this.state.checkBoxValues)
 							{
-								if (this.state.selectedAssessments[i] == true)
+								if (this.state.checkBoxValues[i])
 								{
-									assessWasSelected = true;
+									atLeastOneSelected = true;
+									selectedType = i;
+									break;
 								}
 							}
 
-							if (assessWasSelected == true)
+							if (!atLeastOneSelected)
+								this.showAlert("No Type Selection Made");
+							else
 							{
-								this.setState({currentScene: this.state.currentScene + 1});
+								this.setState({name: this.createNextName(this.props.courseAssessmentTypes[selectedType])});
+								this.next()
 							}
 						}}
 					/>
@@ -141,52 +181,100 @@ class InputGradePage extends Component
 
 	inputGrade_SCENE()
 	{
-		var currentText = "";
-
-		const convertToPercentage = (objectToConvert, fallback) =>
+		const convertToPercentage = (string, fallback) =>
 		{
-			var attempt = parseFloat(objectToConvert);
+			var attempt = parseFloat(string);
 			if (Number(attempt) === attempt)
 			{
-				if (attempt < 0)
+				if (attempt > 100)
+					return 100;
+				else if (attempt < 0)
 					return 0;
-
 				return attempt;
 			}
 			else
-			{
 				return fallback;
-			}
+		};
+
+		var selectedType = "";
+		for (i in this.state.checkBoxValues)
+		{
+			if (this.state.checkBoxValues[i])
+				selectedType = Assessment.types[this.props.courseAssessmentTypes[i]];
 		}
 
+		var gradeInput = "";
 		return(
 			<View style = {containerStyle.form}>
 				<View style = {containerStyle.formSection}>
-					<Text style = {textStyle.regular(24, 'center')}>Input the grade you received below.</Text>
+					<Text style = {textStyle.regular(24, 'center')}>Input the grade you received for the {selectedType.toLowerCase()} below.</Text>
 				</View>
 				<View style = {containerStyle.formSection}>
-					<View style = {{flexDirection: 'row', alignItems: 'center'}}>
+					<View style = {{flexDirection: 'row', alignItems: 'center', alignSelf: 'center'}}>
 						<TextInput
 							keyboardType = 'numeric'
 							clearTextOnFocus = {true}
+							defaultValue = {this.state.grade == 0 ? "" : this.state.grade.toString()}
 							placeholderTextColor = 'rgba(0, 0, 0, 0.2)'
 							underlineColorAndroid = {colors.primaryTextColor}
 							returnKeyType = 'done'
-							style = {[styles.numberText, {width: 75, textAlign: 'right'}]}
-							onChangeText = {(newText) => currentText = newText}
+							style = {[textStyle.regular(28, 'right'), {width: 75}]}
+							onChangeText = {(newText) => gradeInput = newText}
 							onEndEditing = {() => {
-								this.setState({_grade: convertToPercentage(currentText, this.state._grade)});
+								this.setState({grade: convertToPercentage(gradeInput, this.state.grade)});
 							}}
 						/>
-						<Text style = {styles.numberText}>%</Text>
+						<Text style = {textStyle.regular(24)}>%</Text>
+					</View>
+					<View style = {{marginVertical: 25}}/>
+					<View style = {containerStyle.formSection}>
+						<Text style = {textStyle.regular(24, 'center')}>Provide a name for your {selectedType.toLowerCase()}. {'\n'}(Optional)</Text>
+					</View>
+					<View style = {containerStyle.formSection}>
+						<TextInput
+							maxLength = {25}
+							defaultValue = {this.state.name}
+							onChangeText = {(newText) => this.setState({name: newText})}
+							underlineColorAndroid = {colors.primaryTextColor}
+							style = {textStyle.regular(24, 'center')}
+						/>
+						<Text style = {[textStyle.regular(14, 'center'), {paddingLeft: 3.5}]}>
+							{selectedType} Name
+						</Text>
 					</View>
 					<View style = {containerStyle.formSection}>
 						<Button
+							label = "Submit"
 							color = {colors.accentColor}
-							title = "    Finish    "
-							onPress = {() => {
-								this.completeAssessment(this.state.selectedAssessmentName, this.state._grade)
+							inverted = {false}
+							action = {() =>
+							{
+								if (this.state.name != "")
+								{
+									for (id in this.props.sisterAssessments)
+									{
+										if (this.props.sisterAssessments[id].name == this.state.name)
+										{
+											this.showAlert("Name Used");
+											return;
+										}
+									}
+								}
+
+								if (this.state.grade == "")
+								{
+									this.showAlert("No Grade Provided");
+									return;
+								}
+
+								this.inputGrade();								
 							}}
+						/>
+						<Button
+							label = "Back"
+							color = {colors.accentColor}
+							inverted = {true}
+							action = {this.back.bind(this)}
 						/>
 					</View>
 				</View>
@@ -196,7 +284,7 @@ class InputGradePage extends Component
 
 	render()
 	{
-		var scenes = [this.selectAssessment_SCENE(), this.inputGrade_SCENE()];
+		var scenes = [this.selectAssessType_SCENE(), this.inputGrade_SCENE()];
 
 		return(
 			<View style = {containerStyle.page}>
@@ -221,29 +309,28 @@ class InputGradePage extends Component
 	}
 }
 
-const styles = StyleSheet.create(
-{
-	selectable_OFF:
-	{
-		padding: 10,
-		margin: 5,
-		borderRadius: 10,
-		borderColor: colors.dividerColor,
-		borderWidth: 1
-	},
-	selectable_ON:
-	{
-		padding: 10,
-		margin: 5,
-		borderRadius: 10,
-		borderColor: colors.accentColor,
-		backgroundColor: colors.accentColor,
-		borderWidth: 1
-	}
-});
-
 const mapStateToProps = (state) =>
 {
-	return {semesters: state.semesters};
+	var validAssessmentTypes = [];
+	var course = state.courseList[state.selectedCourse];
+	for (i in course.breakdown)
+	{
+		if (course.breakdown[i] != 0)
+			validAssessmentTypes.push(i);
+	}
+
+	var assessmentsInSameCourse = {};
+	for (id in state.assessmentList)
+	{
+		if (state.assessmentList[id].courseID == state.selectedCourse)
+			Object.assign(assessmentsInSameCourse, {[id]: state.assessmentList[id]})
+	}
+
+	return {
+		sisterAssessments: assessmentsInSameCourse,
+		courseAssessmentTypes: validAssessmentTypes,
+		selectedSemester: state.selectedSemester,
+		selectedCourse: state.selectedCourse
+	};
 };
-export default connect(mapStateToProps, {inputGrade})(InputGradePage);
+export default connect(mapStateToProps, {createAssessment})(InputGradePage);

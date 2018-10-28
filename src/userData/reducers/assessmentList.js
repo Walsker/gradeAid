@@ -18,18 +18,21 @@ export default (prevState = {}, action) =>
 		// ------------------------------------------------------------------------------
 		// CASE: the assessment list is being purged of all assessments whose parent
 		//      course no longer exists
-		// PAYLOAD: an object which contains the IDs of the deleted assessments as keys,
-		//          all with a value of undefined
-		//          {
-		//              [id]: undefined
-		//          }
+		// PAYLOAD: a list of all the assessment IDs for assessments that no longer
+		//			belong to a course
 		// ------------------------------------------------------------------------------
 		case CLEAN_ASSESS_LIST:
 
-			return {
-				...prevState,
-				...action.payload
-			};
+			var newAssessList = {};
+			for (id in prevState)
+			{
+				if (!(id in action.payload))
+				{
+					newAssessList = Object.assign(newAssessList, {[id]: prevState[id]});
+				}
+			}
+
+			return newAssessList;
 
 		// ------------------------------------------------------------------------------
 		// CASE: a new assessment is being created
@@ -84,7 +87,7 @@ export default (prevState = {}, action) =>
 			var oldAssessment = assessList[action.payload.id];
 
 			// Making the changes to the assessment object
-			var modifiedAssessment = Object.assign(oldAssessment, action.payload.newProps);
+			var modifiedAssessment = Object.assign({}, oldAssessment, action.payload.newProps);
 
 			return {
 				...prevState,

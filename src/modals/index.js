@@ -1,4 +1,4 @@
-import AddCoursePage from './addCourseScreen/addCoursePage';
+import AddCoursePage from './addCoursePage';
 import EditSemesterPage from './editSemesterPage';
 import InputGradePage from './inputGradePage';
 import NewSemesterPage from './newSemesterPage';

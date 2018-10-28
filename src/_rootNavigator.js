@@ -2,7 +2,11 @@
 import React, {Component} from 'react';
 
 // React Navigation imports
-import {createDrawerNavigator, createStackNavigator} from 'react-navigation';
+import
+{
+	createDrawerNavigator,
+	createStackNavigator
+} from 'react-navigation';
 
 // Redux imports
 import {connect} from 'react-redux';
@@ -22,17 +26,14 @@ class RootNavigator extends Component
 	{
 		super(props);
 
-		console.log("CLEAN");
-		// TODO: Once everything is implemented check if these work properly
-		this.props.cleanCourseList(this.props.semesterList, this.props.courseList);
-		this.props.cleanAssessmentList(this.props.courseList, this.props.assessmentList);
-
+		// Creating the routes for all the modals
 		var modalRoutes = {};
 		for (modal in Modals)
 		{
 			modalRoutes[modal] = {screen: Modals[modal]}
 		}
 
+		// Creating the semester screen
 		var semesterScreen = createStackNavigator(
 		{
 			Semester: {screen: SemesterPage},
@@ -43,26 +44,7 @@ class RootNavigator extends Component
 			initialRouteName: "Semester"
 		});
 
-		this.state =
-		{
-			modalRoutes,
-			drawerRoutes:
-			{
-				"About": {screen: AboutPage},
-				"Settings": {screen: SettingsPage},
-				"No Semesters": {screen: NoSemestersPage},
-				"Semester Screen": semesterScreen
-			}
-		};
-	}
-
-	shouldComponentUpdate(nextProps)
-	{
-		return false;
-	}
-
-	render()
-	{
+		// Creating a drawer navigator
 		var landingPage = Object.keys(this.props.semesterList).length == 0 ?
 			"No Semesters" : "Semester Screen";
 
@@ -75,20 +57,48 @@ class RootNavigator extends Component
 			}
 		};
 
-		// var DrawerNavigator = createDrawerNavigator(this.props.drawerRoutes, drawerNavConfig);
-		var DrawerNavigator = createDrawerNavigator(this.state.drawerRoutes, drawerNavConfig);
+		var drawerRoutes =
+		{
+			"About": {screen: AboutPage},
+			"Settings": {screen: SettingsPage},
+			"No Semesters": {screen: NoSemestersPage},
+			"Semester Screen": semesterScreen
+		};
+		var DrawerNavigator = createDrawerNavigator(drawerRoutes, drawerNavConfig);
 
-		// var mainRoutes = Object.assign(this.props.modalRoutes, {"Drawer": DrawerNavigator});
-		var mainRoutes = Object.assign(this.state.modalRoutes, {"Drawer": DrawerNavigator});
+		// Creating the main navigator (drawer navigator + modals)
+		var mainRoutes = Object.assign(modalRoutes, {"Drawer": DrawerNavigator});
 		var MainNavigator = createStackNavigator(mainRoutes,
 		{
 			headerMode: 'none',
 			initialRouteName: "Drawer"
 		});
 
-		return (
-			<MainNavigator/>
-		);
+		this.state =
+		{
+			mainNavigator: <MainNavigator/>
+		};
+	}
+
+	shouldComponentUpdate(nextProps)
+	{
+		if (this.props.semesterList != nextProps.semesterList)
+		{
+			this.props.cleanCourseList(this.props.semesterList, this.props.courseList);
+			console.log("Clean Courselist");
+		}
+
+		if (this.props.courseList != nextProps.courseList)
+		{
+			this.props.cleanAssessmentList(this.props.courseList, this.props.assessmentList);
+			console.log("Clean Assesslist");
+		}
+		return true;
+	}
+
+	render()
+	{
+		return this.state.mainNavigator;
 	}
 }
 
@@ -97,6 +107,7 @@ const mapStateToProps = (state) =>
 	console.log("App State: ", state);
 
 	return {
+		navReducer: state.navReducer,
 		semesterList: state.semesterList,
 		courseList: state.courseList,
 		assessmentList: state.assessmentList,

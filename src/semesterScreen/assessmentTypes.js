@@ -18,6 +18,20 @@ export const types =
 	"Final Exam"
 ];
 
+export const pluralTypes =
+[
+	"Assignments",
+	"Projects",
+	"Essays",
+	"Quizzes",
+	"Tests",
+	"Midterms",
+	"Labs",
+	"Tutorials",
+	"Discussion Groups",
+	"Final Exam"
+];
+
 // Contants that correspond to the list above
 export const ASSIGNMENT = 0;
 export const PROJECT = 1;

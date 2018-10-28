@@ -18,18 +18,22 @@ export default (prevState = {}, action) =>
 		// ------------------------------------------------------------------------------
 		// CASE: the course list is being purged of all courses whose parent semester
 		//      no longer exists
-		// PAYLOAD: an object which contains the IDs of the deleted courses as keys, all
-		//          with a value of undefined
-		//          {
-		//              [id]: undefined
-		//          }
+		// PAYLOAD: a list of all the course IDs for courses that no longer
+		//			belong to a semester
 		// ------------------------------------------------------------------------------
 		case CLEAN_COURSE_LIST:
 
-			return {
-				...prevState,
-				...action.payload
-			};
+			var newCourseList = {};
+			for (id in prevState)
+			{
+				if (!(id in action.payload))
+				{
+					console.log(prevState[id])
+					newCourseList = Object.assign(newCourseList, {[id]: prevState[id]});
+				}
+			}
+
+			return newCourseList;
 
 		// ------------------------------------------------------------------------------
 		// CASE: a course is being added to the app
@@ -84,7 +88,7 @@ export default (prevState = {}, action) =>
 			var oldCourse = courseList[action.payload.id];
 
 			// Making the changes to the course object
-			var modifiedCourse = Object.assign(oldCourse, action.payload.newProps);
+			var modifiedCourse = Object.assign({}, oldCourse, action.payload.newProps);
 
 			return {
 				...prevState,
