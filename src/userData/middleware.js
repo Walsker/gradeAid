@@ -163,7 +163,7 @@ export const listCleaner = store => next => action =>
 	switch(action.type)
 	{
 		case actionTypes.DELETE_COURSE:
-			console.log("DELETING COURSE");
+			
 			var result = next(action);
 
 			cleanAssessList(store, next);

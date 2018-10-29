@@ -1,5 +1,4 @@
 import {ERASE_APP_DATA} from 'easyGrades/src/settingsScreen/redux/actionTypes';
-console.log("HA: ", ERASE_APP_DATA)
 export {ERASE_APP_DATA};
 
 export const CREATE_SEMESTER = "createSemester";

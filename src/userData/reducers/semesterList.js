@@ -20,7 +20,7 @@ export default (prevState = {}, action) =>
 		// PAYLOAD: an empty object
 		// --------------------------------------------------------------------------------------
 		case ERASE_APP_DATA:
-			console.log("RED");
+		
 			return action.payload;
 		
 		// ------------------------------------------------------------------------------

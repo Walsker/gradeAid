@@ -6,7 +6,6 @@ import * as actionTypes from './actionTypes';
 // --------------------------------------------------------------------------------------
 export const eraseAppData = () =>
 {
-	console.log("ELKJASD")
 	return {
 		type: actionTypes.ERASE_APP_DATA,
 		payload: {}
