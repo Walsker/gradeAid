@@ -5,7 +5,7 @@
 	<key>CFBundleDevelopmentRegion</key>
 	<string>en</string>
 	<key>CFBundleDisplayName</key>
-	<string>easyGrades</string>
+	<string>gradeAid</string>
 	<key>CFBundleExecutable</key>
 	<string>$(EXECUTABLE_NAME)</string>
 	<key>CFBundleIdentifier</key>
@@ -33,6 +33,8 @@
 	<key>UISupportedInterfaceOrientations</key>
 	<array>
 		<string>UIInterfaceOrientationPortrait</string>
+		<string>UIInterfaceOrientationLandscapeLeft</string>
+		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
@@ -51,28 +53,6 @@
 	</dict>
 	<key>UIAppFonts</key>
 	<array>
-		<string>LemonMilk.otf</string>
-		<string>LemonMilkbold.otf</string>
-		<string>LemonMilkbolditalic.otf</string>
-		<string>LemonMilkitalic.otf</string>
-		<string>LemonMilklight.otf</string>
-		<string>LemonMilklightitalic.otf</string>
-		<string>Roboto-Italic.ttf</string>
-		<string>Roboto-Light.ttf</string>
-		<string>Roboto-LightItalic.ttf</string>
-		<string>Roboto-Regular.ttf</string>
-		<string>Roboto-Thin.ttf</string>
-		<string>Roboto-ThinItalic.ttf</string>
-		<string>Roboto-Black.ttf</string>
-		<string>Roboto-BlackItalic.ttf</string>
-		<string>Roboto-Bold.ttf</string>
-		<string>Roboto-BoldCondensed.ttf</string>
-		<string>Roboto-BoldCondensedItalic.ttf</string>
-		<string>Roboto-BoldItalic.ttf</string>
-		<string>Roboto-Condensed.ttf</string>
-		<string>Roboto-CondensedItalic.ttf</string>
-		<string>Roboto-Medium.ttf</string>
-		<string>Roboto-MediumItalic.ttf</string>
 		<string>Lato-Black.ttf</string>
 		<string>Lato-BlackItalic.ttf</string>
 		<string>Lato-Bold.ttf</string>

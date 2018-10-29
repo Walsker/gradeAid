@@ -3,8 +3,8 @@ import React, {Component} from 'react';
 import {Text, View} from 'react-native';
 
 // Custom imports
-import {colors, containerStyle, textStyle} from 'easyGrades/src/common/appStyles';
-import {ActionBar, IconButton} from 'easyGrades/src/common';
+import {colors, containerStyle, textStyle} from 'gradeAid/src/common/appStyles';
+import {ActionBar, IconButton} from 'gradeAid/src/common';
 
 export default class AboutPage extends Component
 {

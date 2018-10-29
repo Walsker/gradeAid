@@ -4,11 +4,11 @@ import {Alert, ScrollView, Text, TextInput, View} from 'react-native';
 
 // Redux imports
 import {connect} from 'react-redux';
-import {editAssessment} from 'easyGrades/src/userData/actions';
+import {editAssessment} from 'gradeAid/src/userData/actions';
 
 // Custom imports
-import {colors, containerStyle, textStyle} from 'easyGrades/src/common/appStyles';
-import {ActionBar, Button, IconButton} from 'easyGrades/src/common';
+import {colors, containerStyle, textStyle} from 'gradeAid/src/common/appStyles';
+import {ActionBar, Button, IconButton} from 'gradeAid/src/common';
 
 class EditAssessmentPage extends Component
 {

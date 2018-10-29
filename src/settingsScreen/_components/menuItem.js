@@ -3,7 +3,7 @@ import React, {Component} from 'react';
 import {Animated, Text, TouchableWithoutFeedback} from 'react-native';
 
 // Custom imports
-import {colors, textStyle} from 'easyGrades/src/common/appStyles';
+import {colors, textStyle} from 'gradeAid/src/common/appStyles';
 
 export default class MenuItem extends Component
 {

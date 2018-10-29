@@ -5,11 +5,11 @@ import Icon from 'react-native-vector-icons/MaterialIcons';
 
 // Redux imports
 import {connect} from 'react-redux';
-import {selectCourse} from 'easyGrades/src/navDrawer/redux/actions';
+import {selectCourse} from 'gradeAid/src/navDrawer/redux/actions';
 
 // Custom imports
-import {colors, containerStyle} from 'easyGrades/src/common/appStyles';
-import {ProgressCircle} from 'easyGrades/src/common';
+import {colors, containerStyle} from 'gradeAid/src/common/appStyles';
+import {ProgressCircle} from 'gradeAid/src/common';
 
 class CourseList extends Component
 {

@@ -4,12 +4,12 @@ import {Alert, Text, View} from 'react-native';
 
 // Redux imports
 import {connect} from 'react-redux';
-import {deleteCourse} from 'easyGrades/src/userData/actions';
+import {deleteCourse} from 'gradeAid/src/userData/actions';
 
 // Custom imports
-import {colors, containerStyle, textStyle} from 'easyGrades/src/common/appStyles';
-import {ActionBar, Button, IconButton} from 'easyGrades/src/common';
-import * as Assessment from 'easyGrades/src/semesterScreen/assessmentTypes';
+import {colors, containerStyle, textStyle} from 'gradeAid/src/common/appStyles';
+import {ActionBar, Button, IconButton} from 'gradeAid/src/common';
+import * as Assessment from 'gradeAid/src/semesterScreen/assessmentTypes';
 
 class CourseInfoPage extends Component
 {

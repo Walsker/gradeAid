@@ -6,8 +6,8 @@ import {Text, TouchableOpacity, View} from 'react-native';
 import {connect} from 'react-redux';
 
 // Custom imports
-import {colors, containerStyle, textStyle} from 'easyGrades/src/common/appStyles';
-import {ActionBar, Button, IconButton} from 'easyGrades/src/common';
+import {colors, containerStyle, textStyle} from 'gradeAid/src/common/appStyles';
+import {ActionBar, Button, IconButton} from 'gradeAid/src/common';
 
 class NoSemestersPage extends Component
 {

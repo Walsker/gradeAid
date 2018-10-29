@@ -7,7 +7,7 @@ import {connect} from 'react-redux';
 import {selectSemester} from './redux/actions';
 
 // Custom imports
-import {containerStyle, textStyle} from 'easyGrades/src/common/appStyles';
+import {containerStyle, textStyle} from 'gradeAid/src/common/appStyles';
 import Divider from './divider';
 import DrawerItem from './drawerItem';
 

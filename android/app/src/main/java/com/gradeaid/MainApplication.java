@@ -1,4 +1,4 @@
-package com.easygrades;
+package com.gradeaid;
 
 import android.app.Application;
 

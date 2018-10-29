@@ -1,6 +1,6 @@
 import * as actionTypes from './actionTypes';
 import {editSemester, editCourse, deleteCourse, deleteAssessment} from './actions';
-import * as Assessment from 'easyGrades/src/semesterScreen/assessmentTypes';
+import * as Assessment from 'gradeAid/src/semesterScreen/assessmentTypes';
 
 const toLetterGrade = (grade) =>
 {

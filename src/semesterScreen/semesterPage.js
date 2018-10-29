@@ -6,8 +6,8 @@ import {ScrollView, Text, View} from 'react-native';
 import {connect} from 'react-redux';
 
 // Custom imports
-import {colors, containerStyle, textStyle} from 'easyGrades/src/common/appStyles';
-import {ActionBar, Button, IconButton, Tile} from 'easyGrades/src/common';
+import {colors, containerStyle, textStyle} from 'gradeAid/src/common/appStyles';
+import {ActionBar, Button, IconButton, Tile} from 'gradeAid/src/common';
 import CourseList from './_components/courseList';
 
 class SemesterPage extends Component

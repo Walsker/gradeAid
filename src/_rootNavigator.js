@@ -12,12 +12,12 @@ import
 import {connect} from 'react-redux';
 
 // Custom imports
-import NavDrawer from 'easyGrades/src/navDrawer/navDrawer';
-import * as Modals from 'easyGrades/src/modals';
-import NoSemestersPage from 'easyGrades/src/noSemestersScreen/noSemestersPage';
-import AboutPage from 'easyGrades/src/aboutScreen/aboutPage';
-import SettingsPage from 'easyGrades/src/settingsScreen/settingsPage';
-import {AssessmentPage, CoursePage, SemesterPage} from 'easyGrades/src/semesterScreen';
+import NavDrawer from 'gradeAid/src/navDrawer/navDrawer';
+import * as Modals from 'gradeAid/src/modals';
+import NoSemestersPage from 'gradeAid/src/noSemestersScreen/noSemestersPage';
+import AboutPage from 'gradeAid/src/aboutScreen/aboutPage';
+import SettingsPage from 'gradeAid/src/settingsScreen/settingsPage';
+import {AssessmentPage, CoursePage, SemesterPage} from 'gradeAid/src/semesterScreen';
 
 class RootNavigator extends Component
 {

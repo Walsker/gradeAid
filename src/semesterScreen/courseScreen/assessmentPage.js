@@ -4,11 +4,11 @@ import {Alert, ScrollView, Text, View} from 'react-native';
 
 // Redux imports
 import {connect} from 'react-redux';
-import {deleteAssessment} from 'easyGrades/src/userData/actions';
+import {deleteAssessment} from 'gradeAid/src/userData/actions';
 
 // Custon imports
-import {colors, containerStyle, textStyle} from 'easyGrades/src/common/appStyles';
-import {ActionBar, Button, IconButton, Tile} from 'easyGrades/src/common';
+import {colors, containerStyle, textStyle} from 'gradeAid/src/common/appStyles';
+import {ActionBar, Button, IconButton, Tile} from 'gradeAid/src/common';
 
 class AssessmentPage extends Component
 {

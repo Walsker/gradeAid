@@ -7,8 +7,8 @@ import {connect} from 'react-redux';
 import {eraseAppData} from './redux/actions';
 
 // Custom imports
-import {colors, containerStyle} from 'easyGrades/src/common/appStyles';
-import {ActionBar, IconButton} from 'easyGrades/src/common';
+import {colors, containerStyle} from 'gradeAid/src/common/appStyles';
+import {ActionBar, IconButton} from 'gradeAid/src/common';
 import MenuItem from './_components/menuItem';
 import Divider from './_components/divider';
 

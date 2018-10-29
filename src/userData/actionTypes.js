@@ -1,4 +1,4 @@
-import {ERASE_APP_DATA} from 'easyGrades/src/settingsScreen/redux/actionTypes';
+import {ERASE_APP_DATA} from 'gradeAid/src/settingsScreen/redux/actionTypes';
 export {ERASE_APP_DATA};
 
 export const CREATE_SEMESTER = "createSemester";

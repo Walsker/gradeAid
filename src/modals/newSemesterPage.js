@@ -4,12 +4,12 @@ import {Alert, Text, TextInput, View} from 'react-native';
 
 // Redux imports
 import {connect} from 'react-redux';
-import {createSemester} from 'easyGrades/src/userData/actions';
-import {selectSemester, upOrderID} from 'easyGrades/src/navDrawer/redux/actions';
+import {createSemester} from 'gradeAid/src/userData/actions';
+import {selectSemester, upOrderID} from 'gradeAid/src/navDrawer/redux/actions';
 
 // Custom Imports
-import {colors, containerStyle, textStyle} from 'easyGrades/src/common/appStyles';
-import {ActionBar, Button, IconButton} from 'easyGrades/src/common';
+import {colors, containerStyle, textStyle} from 'gradeAid/src/common/appStyles';
+import {ActionBar, Button, IconButton} from 'gradeAid/src/common';
 
 class NewSemesterPage extends Component
 {
