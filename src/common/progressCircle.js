@@ -10,25 +10,27 @@
 import React, {Component} from 'react';
 import {Animated, Easing, StyleSheet, Text, View} from 'react-native';
 
+// React Navigation imports
+import {withNavigationFocus} from 'react-navigation';
+
 // Custom imports
 import {colors} from './appStyles';
 
-export default class ProgressCircle extends Component {
+class ProgressCircle extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {percentage: new Animated.Value(0)}
 	}
 
-	componentDidMount() {
-		Animated.timing(
-			this.state.percentage,
-			{
-				toValue: this.props.percentage,
-				easing: Easing.bezier(0, 0.2, 0.6, 1),
-				duration: 1000,
-				delay: this.props.animationDelay
-			}
-		).start();
+	refresh()
+	{
+		Animated.timing(this.state.percentage,
+		{
+			toValue: Math.min(Math.max(0, this.props.percentage), 1),
+			easing: Easing.bezier(0, 0.2, 0.6, 1),
+			duration: 1000,
+			delay: this.props.animationDelay
+		}).start();
 	}
 
 	renderSemiCircle(color, diameter, radius) {
@@ -63,7 +65,7 @@ export default class ProgressCircle extends Component {
 			<Animated.View style = {{
 				transform: [{
 					rotate: this.state.percentage.interpolate({
-						inputRange: [0, 50, 100],
+						inputRange: [0, .5, 1],
 						outputRange: ['0deg', '180deg', '180deg']
 					})
 				}],
@@ -79,7 +81,7 @@ export default class ProgressCircle extends Component {
 			<Animated.View style = {{
 				transform: [{
 					rotate: this.state.percentage.interpolate({
-						inputRange: [0, 50, 100],
+						inputRange: [0, .5, 1],
 						outputRange: ['0deg', '180deg', '360deg']
 					})
 				}],
@@ -94,7 +96,7 @@ export default class ProgressCircle extends Component {
 		return(
 			<Animated.View style = {{
 				opacity: this.state.percentage.interpolate({
-					inputRange: [0, 50, 50, 100],
+					inputRange: [0, .5, .5, 1],
 					outputRange: [1, 1, 0, 0]
 				})
 			}}>
@@ -103,7 +105,11 @@ export default class ProgressCircle extends Component {
 		);
 	}
 
-	render() {
+	render()
+	{
+		if (this.props.isFocused)
+			this.refresh();
+			
 		const innerDiameter = this.props.diameter - this.props.borderWidth;
 		const diameter = this.props.diameter;
 		const radius = this.props.diameter / 2;
@@ -114,7 +120,7 @@ export default class ProgressCircle extends Component {
 				color: colors.primaryTextColor,
 				fontFamily: 'Lato-Regular'
 			}}>
-				{this.props.percentage.toFixed(0)}
+				{(this.props.percentage * 100).toFixed(0)}
 				<Text style = {{fontSize: this.props.diameter / 5}}>%</Text>
 			</Text>
 			:
@@ -156,6 +162,7 @@ export default class ProgressCircle extends Component {
 		);
 	}
 }
+export default withNavigationFocus(ProgressCircle);
 
 const styles = StyleSheet.create({
 	circle: {

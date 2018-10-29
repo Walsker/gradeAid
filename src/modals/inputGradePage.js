@@ -180,9 +180,9 @@ class InputGradePage extends Component
 			var attempt = parseFloat(string);
 			if (Number(attempt) === attempt)
 			{
-				if (attempt > 100)
+				if (attempt >= 100)
 					return 100;
-				else if (attempt < 0)
+				else if (attempt <= 0)
 					return 0;
 				return attempt;
 			}
@@ -255,7 +255,7 @@ class InputGradePage extends Component
 									}
 								}
 
-								if (this.state.grade == "")
+								if (this.state.grade === "")
 								{
 									this.showAlert("No Grade Provided");
 									return;

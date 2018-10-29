@@ -13,6 +13,12 @@ import {ActionBar, Button, IconButton} from 'easyGrades/src/common';
 
 class NewSemesterPage extends Component
 {
+	constructor(props)
+	{
+		super(props);
+		this.state = {_semesterName: ""};
+	}
+	
 	showAlert(alertType)
 	{
 		switch (alertType)

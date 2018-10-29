@@ -61,7 +61,7 @@ export const createCourse = (name, semesterID, markBreakdown) =>
 		{
 			name,
 			semesterID,
-			average: 0,
+			average: -1,
 			breakdown: markBreakdown
 		}
 	};
@@ -117,7 +117,6 @@ export const createAssessment = (type, name, courseID, grade) =>
 // --------------------------------------------------------------------------------------
 export const deleteAssessment = (id) =>
 {
-	// TODO: removeAssessFromCourse(courseID, assessmentID)
 	return {
 		type: actionTypes.DELETE_ASSESSMENT,
 		payload: id

@@ -27,10 +27,7 @@ export default (prevState = {}, action) =>
 			for (id in prevState)
 			{
 				if (!(id in action.payload))
-				{
-					console.log(prevState[id])
 					newCourseList = Object.assign(newCourseList, {[id]: prevState[id]});
-				}
 			}
 
 			return newCourseList;

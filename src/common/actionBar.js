@@ -5,7 +5,7 @@ import {StyleSheet, Text, View} from 'react-native';
 // Custom imports
 import {colors} from './appStyles';
 
-export default class actionBar extends Component
+export default class ActionBar extends Component
 {
 	render()
 	{
@@ -41,7 +41,8 @@ const styles = StyleSheet.create(
 		alignItems: 'flex-start',
 		flexDirection: 'row',
 		backgroundColor: colors.primaryColor,
-		height: 56
+		height: 56,
+		elevation: 10
 	},
 	iBar:
 	{

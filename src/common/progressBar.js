@@ -2,10 +2,13 @@
 import React, {Component} from 'react';
 import {Animated, Easing, StyleSheet, View} from 'react-native';
 
+// React Navigation imports
+import {withNavigationFocus} from 'react-navigation';
+
 // Custom imports
 import {colors} from './appStyles';
 
-export default class ProgressBar extends Component
+class ProgressBar extends Component
 {
 	constructor(props)
 	{
@@ -13,26 +16,27 @@ export default class ProgressBar extends Component
 		this.state =
 		{
 			percentage: new Animated.Value(0),
+			animationDuration: 2500,
 			width: 0
 		};
 	}
 
-	componentDidMount()
+	refresh()
 	{
-		var animationDuration = 2500; // milliseconds
-		var initialDelay = this.props.animationDelay;
-
 		Animated.timing(this.state.percentage,
 		{
 			toValue: this.props.percentage * 100,
 			easing: Easing.bezier(0, 0.75, 0.25, 1),
-			duration: animationDuration,
-			delay: initialDelay + (animationDuration / 10 * this.props.listOrder)
+			duration: this.state.animationDuration,
+			delay: this.props.initialDelay + (this.state.animationDuration / 10 * this.props.listOrder)
 		}).start();
 	}
 
 	render()
 	{
+		if (this.props.isFocused)
+			this.refresh();
+
 		return(
 			<View
 				style = {styles.default}
@@ -55,6 +59,7 @@ export default class ProgressBar extends Component
 		);
 	}
 }
+export default withNavigationFocus(ProgressBar);
 
 const styles = StyleSheet.create(
 {

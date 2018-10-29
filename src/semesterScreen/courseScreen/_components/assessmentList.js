@@ -2,6 +2,9 @@
 import React, {Component} from 'react';
 import {Animated, TouchableWithoutFeedback, View} from 'react-native';
 
+// React Navigation imports
+import {withNavigationFocus} from 'react-navigation';
+
 // Redux imports
 import {connect} from 'react-redux';
 import {selectAssessment} from 'easyGrades/src/navDrawer/redux/actions';
@@ -15,13 +18,24 @@ class AssessmentList extends Component
 	constructor(props)
 	{
 		super(props);
-
 		this.state =
 		{
 			INACTIVE_VALUE: 0,
 			ACTIVE_VALUE: 1,
 			duration: 75
 		};
+	}
+
+	refresh()
+	{
+		for (i in this.props.pressValues)
+		{
+			Animated.timing(this.props.pressValues[i],
+			{
+				toValue: this.state.INACTIVE_VALUE,
+				duration: this.state.duration
+			}).start();
+		}
 	}
 
 	onPressIn(id)
@@ -41,8 +55,11 @@ class AssessmentList extends Component
 			duration: this.state.duration
 		}).start();
 
-		this.props.selectAssessment(id);
-		this.props.navigation.navigate("Assessment");
+		if (this.props.active)
+		{
+			this.props.selectAssessment(id);
+			this.props.navigation.navigate("Assessment");
+		}
 	}
 
 	createAssessment(assessmentID, animationID)
@@ -68,6 +85,7 @@ class AssessmentList extends Component
 				key = {animationID}
 				onPressIn = {() => this.onPressIn(assessmentID)}
 				onPressOut = {() => this.onRelease(assessmentID)}
+				delayPressOut = {50}
 			>
 				<Animated.View style = {[containerStyle.assessmentCard, pressedBackground]}>
 					<View style = {containerStyle.assessmentCardTitle}>
@@ -92,6 +110,9 @@ class AssessmentList extends Component
 
 	render()
 	{
+		if (this.props.isFocused)
+			this.refresh();
+
 		var assessmentComponents = [];
 		var animationCounter = 0;
 		for (id in this.props.assessments)
@@ -113,19 +134,16 @@ class AssessmentList extends Component
 const mapStateToProps = (state) =>
 {
 	var assessmentsInThisCourse = {};
-	var pressValues = {};
+	var pressValues = {}
 	for (id in state.assessmentList)
 	{
 		if (state.assessmentList[id].courseID == state.selectedCourse)
 		{
-			Object.assign(assessmentsInThisCourse, {[id]: state.assessmentList[id]})
+			assessmentsInThisCourse[id] = state.assessmentList[id];
 			pressValues[id] = new Animated.Value(0);
-		}	
+		}
 	}
 	
-	return {
-		assessments: assessmentsInThisCourse,
-		pressValues
-	};
+	return {assessments: assessmentsInThisCourse, pressValues};
 }
-export default connect(mapStateToProps, {selectAssessment})(AssessmentList);
+export default connect(mapStateToProps, {selectAssessment})(withNavigationFocus(AssessmentList));

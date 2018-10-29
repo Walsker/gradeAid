@@ -20,12 +20,6 @@ class SemesterPage extends Component
 		this.state = {_semesterName: ""};
 	}
 
-	componentWillUnmount()
-	{
-		console.log("Unmounting");
-		this.state.willFocusSubscription.remove();
-	}
-
 	newCourse()
 	{
 		this.props.navigation.navigate("AddCoursePage");
@@ -65,36 +59,22 @@ class SemesterPage extends Component
 
 	semester_SCENE()
 	{
-		// var maxGPAString = parseFloat(this.props.maxGPA).toFixed(1);
-		// var GPAString = parseFloat(this.props.semester.gpa).toFixed(1);
-
-		// var showNA = true;
-		// for (i in this.props.semester.courses)
-		// {
-		// 	if (this.props.semester.courses[i].newCourse == false)
-		// 	{
-		// 		showNA = false;
-		// 	}
-		// }
-
-		// if (showNA == true)
-		// {
-		// 	var GPAString = "N/A";
-		// }
+		averageString = this.props.semester.average;
+		if (this.props.semester.average == 'X')
+			averageString = "N/A";
 
 		return(
 			<ScrollView style = {containerStyle.tileList}>
-				{/* <Tile title = "Semester Average"
+				<Tile title = "Semester Average"
 					content =
 					{
 						<View>
 							<View style = {{marginVertical: -25}}>
-								<Text style = {textStyle.bold(200)}>{GPAString}</Text>
+								<Text style = {textStyle.bold(200)}>{averageString}</Text>
 							</View>
-							<Text style = {textStyle.italic(14, 'center', colors.secondaryTextColor)}>out of {maxGPAString}</Text>
 						</View>
 					}
-				/> */}
+				/>
 				<Tile
 					title = "Courses"
 					content =

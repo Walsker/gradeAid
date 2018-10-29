@@ -21,16 +21,6 @@ export const containerStyle = StyleSheet.create(
 		flex: 1,
 		backgroundColor: colors.spaceColor
 	},
-	actionBar:
-	{
-		height: 56,
-		paddingHorizontal: 16,
-		flexDirection: 'row',
-		alignItems: 'center',
-		justifyContent: 'flex-start',
-		backgroundColor: colors.primaryColor,
-		elevation: 5
-	},
 	assessmentCard:
 	{
 		alignSelf: 'stretch',

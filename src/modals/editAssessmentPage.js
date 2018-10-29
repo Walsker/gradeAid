@@ -1,6 +1,6 @@
 // React Native imports
 import React, {Component} from 'react';
-import {Alert, Text, TextInput, View} from 'react-native';
+import {Alert, ScrollView, Text, TextInput, View} from 'react-native';
 
 // Redux imports
 import {connect} from 'react-redux';
@@ -69,16 +69,16 @@ class EditAssessmentPage extends Component
 		}
 	}
 
-    render()
-    {
+	render()
+	{
 		const convertToPercentage = (string, fallback) =>
 		{
 			var attempt = parseFloat(string);
 			if (Number(attempt) === attempt)
 			{
-				if (attempt > 100)
+				if (attempt >= 100)
 					return 100;
-				else if (attempt < 0)
+				else if (attempt <= 0)
 					return 0;
 				return attempt;
 			}
@@ -87,99 +87,101 @@ class EditAssessmentPage extends Component
 		};
 
 		var gradeInput = "";
-        return (
-            <View style = {containerStyle.default}>
-                <ActionBar
-					inverted = {true}
-					leftButton =
-					{
-						<IconButton
-							type = 'arrow-back'
-							size = {30}
-							color = {colors.primaryColor}
-							action = {() => this.props.navigation.pop()}
-						/>
-					}
-					title = "Edit Assessment"
-				/>
-				<View style = {containerStyle.form}>
-					<View style = {containerStyle.formSection}>
-						<Text style = {textStyle.regular(24, 'center')}>Enter the correct grade below.</Text>
-					</View>
-					<View style = {containerStyle.formSection}>
-						<View style = {{flexDirection: 'row', alignItems: 'center', alignSelf: 'center'}}>
-							<TextInput
-								keyboardType = 'numeric'
-								clearTextOnFocus = {true}
-								defaultValue = {this.state.grade == 0 ? "" : this.state.grade.toString()}
-								placeholderTextColor = 'rgba(0, 0, 0, 0.2)'
-								underlineColorAndroid = {colors.primaryTextColor}
-								returnKeyType = 'done'
-								style = {[textStyle.regular(28, 'right'), {width: 75}]}
-								onChangeText = {(newText) => gradeInput = newText}
-								onEndEditing = {() => {
-									this.setState({grade: convertToPercentage(gradeInput, this.state.grade)});
-								}}
+		return (
+			<View style = {containerStyle.default}>
+				<ScrollView>
+					<ActionBar
+						inverted = {true}
+						leftButton =
+						{
+							<IconButton
+								type = 'arrow-back'
+								size = {30}
+								color = {colors.primaryColor}
+								action = {() => this.props.navigation.pop()}
 							/>
-							<Text style = {textStyle.regular(24)}>%</Text>
-						</View>
-						<View style = {{marginVertical: 25}}/>
+						}
+						title = "Edit Assessment"
+					/>
+					<View style = {containerStyle.form}>
 						<View style = {containerStyle.formSection}>
-							<Text style = {textStyle.regular(24, 'center')}>Change the name of your assessment below.</Text>
-						</View>
-						<View style = {containerStyle.formSection}>
-							<TextInput
-								maxLength = {25}
-								defaultValue = {this.state.name}
-								onChangeText = {(newText) => this.setState({name: newText})}
-								underlineColorAndroid = {colors.primaryTextColor}
-								style = {textStyle.regular(24, 'center')}
-							/>
-							<Text style = {[textStyle.regular(14, 'center'), {paddingLeft: 3.5}]}>
-								Assessment Name
-							</Text>
+							<Text style = {textStyle.regular(24, 'center')}>Enter the correct grade below.</Text>
 						</View>
 						<View style = {containerStyle.formSection}>
-							<Button
-								label = "Submit Changes"
-								color = {colors.accentColor}
-								inverted = {false}
-								action = {() =>
-								{
-									if (this.state.name != "")
+							<View style = {{flexDirection: 'row', alignItems: 'center', alignSelf: 'center'}}>
+								<TextInput
+									keyboardType = 'numeric'
+									clearTextOnFocus = {true}
+									defaultValue = {this.state.grade == 0 ? "" : this.state.grade.toString()}
+									placeholderTextColor = 'rgba(0, 0, 0, 0.2)'
+									underlineColorAndroid = {colors.primaryTextColor}
+									returnKeyType = 'done'
+									style = {[textStyle.regular(28, 'right'), {width: 75}]}
+									onChangeText = {(newText) => gradeInput = newText}
+									onEndEditing = {() => {
+										this.setState({grade: convertToPercentage(gradeInput, this.state.grade)});
+									}}
+								/>
+								<Text style = {textStyle.regular(24)}>%</Text>
+							</View>
+							<View style = {{marginVertical: 25}}/>
+							<View style = {containerStyle.formSection}>
+								<Text style = {textStyle.regular(24, 'center')}>Change the name of your assessment below.</Text>
+							</View>
+							<View style = {containerStyle.formSection}>
+								<TextInput
+									maxLength = {25}
+									defaultValue = {this.state.name}
+									onChangeText = {(newText) => this.setState({name: newText})}
+									underlineColorAndroid = {colors.primaryTextColor}
+									style = {textStyle.regular(24, 'center')}
+								/>
+								<Text style = {[textStyle.regular(14, 'center'), {paddingLeft: 3.5}]}>
+									Assessment Name
+								</Text>
+							</View>
+							<View style = {containerStyle.formSection}>
+								<Button
+									label = "Submit Changes"
+									color = {colors.accentColor}
+									inverted = {false}
+									action = {() =>
 									{
-										for (id in this.props.sisterAssessments)
+										if (this.state.name != "")
 										{
-											if (this.props.sisterAssessments[id].name == this.state.name &&
-												id != this.props.selectedAssessment)
+											for (id in this.props.sisterAssessments)
 											{
-												this.showAlert("Name Used");
-												return;
+												if (this.props.sisterAssessments[id].name == this.state.name &&
+													id != this.props.selectedAssessment)
+												{
+													this.showAlert("Name Used");
+													return;
+												}
 											}
 										}
-									}
-									else
-									{
-										this.showAlert("Name Required");
-										return;
-									}
+										else
+										{
+											this.showAlert("Name Required");
+											return;
+										}
 
-									if (this.state.grade == "")
-									{
-										this.showAlert("No Grade Provided");
-										return;
-									}
+										if (this.state.grade === "")
+										{
+											this.showAlert("No Grade Provided");
+											return;
+										}
 
-									this.props.editAssessment(this.props.selectedAssessment, {name: this.state.name, grade: this.state.grade / 100});
-									this.props.navigation.pop();
-								}}
-							/>
+										this.props.editAssessment(this.props.selectedAssessment, {name: this.state.name, grade: this.state.grade / 100});
+										this.props.navigation.navigate("Course");
+									}}
+								/>
+							</View>
 						</View>
-					</View>
-				</View>                
-            </View>
-        );
-    }
+					</View>     
+				</ScrollView>           
+			</View>
+		);
+	}
 }
 
 const mapStateToProps = (state) =>

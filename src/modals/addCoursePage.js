@@ -51,6 +51,16 @@ class AddCoursePage extends Component
 					{cancelable: false}
 				);
 				return;
+			
+			case "Incomplete Course Name":
+
+				Alert.alert(
+					"No Name Provided",
+					"Please enter a name for your course.",
+					[{text: 'OK', onPress: () => {}}],
+					{cancelable: true}
+				);
+				return;
 
 			case "Course Name Used":
 
@@ -145,7 +155,7 @@ class AddCoursePage extends Component
 							}
 
 							if (this.state.courseName == "")
-								this.showAlert("Incomplete Course Code");
+								this.showAlert("Incomplete Course Name");
 							else if (nameUsed)
 								this.showAlert("Course Name Used");
 							else
@@ -219,9 +229,9 @@ class AddCoursePage extends Component
 			var attempt = parseFloat(string);
 			if (Number(attempt) === attempt)
 			{
-				if (attempt > 100)
+				if (attempt >= 100)
 					return 100;
-				else if (attempt < 0)
+				else if (attempt <= 0)
 					return 0;
 				return attempt;
 			}

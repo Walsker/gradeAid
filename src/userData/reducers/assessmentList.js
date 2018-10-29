@@ -66,9 +66,7 @@ export default (prevState = {}, action) =>
 			for (id in prevState)
 			{
 				if (id != action.payload)
-				{
-					assessList = Object.assign(assessList, {[id]: prevState[id]});
-				}
+					assessList[id] = {...prevState[id]};
 			}
 
 			return assessList;
@@ -88,7 +86,7 @@ export default (prevState = {}, action) =>
 
 			// Making the changes to the assessment object
 			var modifiedAssessment = Object.assign({}, oldAssessment, action.payload.newProps);
-			console.log("MOD: ", modifiedAssessment);
+
 			return {
 				...prevState,
 				[action.payload.id]: modifiedAssessment

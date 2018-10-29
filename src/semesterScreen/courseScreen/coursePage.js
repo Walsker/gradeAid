@@ -12,6 +12,12 @@ import AssessmentList from './_components/assessmentList';
 
 class CoursePage extends Component
 {
+	constructor(props)
+	{
+		super(props);
+		this.state = {dragging: false}
+	}
+
 	viewCourseInfo()
 	{
 		this.props.navigation.navigate("CourseInfoPage");
@@ -54,7 +60,11 @@ class CoursePage extends Component
 	course_SCENE()
 	{
 		return(
-			<ScrollView style = {containerStyle.tileList}>
+			<ScrollView 
+				style = {containerStyle.tileList}
+				onScrollBeginDrag = {() => this.setState({dragging: true})}
+				onScrollEndDrag = {() => this.setState({dragging: false})}
+			>
 				<Tile title = "Average"
 					content =
 					{
@@ -65,17 +75,11 @@ class CoursePage extends Component
 								ringColor = {colors.accentColor}
 								emptyRingColor = {colors.darkPrimaryColor}
 								backgroundColor = {colors.spaceColor}
-								// percentage = {course.average}
-								percentage = {50.123}
+								percentage = {this.props.course.average}
 								active = {true}
 								animationDelay = {0}
 							/>
-							<View style = {{paddingTop: 10}}>
-								{/* <Text style = {textStyle.italic(14, 'center', colors.secondaryTextColor)}>{(Math.round(course.average*10000000000)/10000000000)}%</Text> */}
-								<Text style = {textStyle.italic(14, 'center', colors.secondaryTextColor)}>50.123%</Text>
-							</View>
 						</View>
-
 					}
 				/>
 				<Tile
@@ -92,7 +96,12 @@ class CoursePage extends Component
 				/>
 				<Tile
 					title = "Overview"
-					content = {<AssessmentList navigation = {this.props.navigation}/>}
+					content = {
+					<AssessmentList
+						navigation = {this.props.navigation}
+						active = {!this.state.dragging}
+					/>
+				}
 				/>
 				<View style = {{height: 10}}/>
 			</ScrollView>
@@ -103,7 +112,7 @@ class CoursePage extends Component
 	{
 		if (!this.props.course)
 			return <View/>;
-			
+		
 		return(
 			<View style = {containerStyle.default}>
 				<ActionBar

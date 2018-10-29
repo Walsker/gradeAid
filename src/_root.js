@@ -6,7 +6,7 @@ import {StatusBar, View} from 'react-native';
 import {Provider} from 'react-redux';
 import {createStore, applyMiddleware} from 'redux';
 import reducers from './_rootReducer';
-import {calculateAverages} from 'easyGrades/src/userData/middleware';
+import {averageCalculator, listCleaner} from 'easyGrades/src/userData/middleware';
 
 // Redux Persist imports
 import {persistStore, persistReducer} from 'redux-persist';
@@ -28,7 +28,7 @@ export default class App extends Component
 		};
 		const persistedReducer = persistReducer(persistConfig, reducers);
 
-		const store = createStore(persistedReducer);//, applyMiddleware(calculateAverages));
+		const store = createStore(persistedReducer, applyMiddleware(averageCalculator, listCleaner));
 		const persistor = persistStore(store);
 		// persistor.purge();
 		return(

@@ -42,36 +42,13 @@ class NavDrawer extends Component
 						this.setState({activeType: this.state.SEMESTER_PAGE});
 						this.props.selectSemester(semesterID);
 						this.props.navigation.closeDrawer();
-						this.props.navigation.navigate("Semester Screen");
+						this.props.navigation.navigate("Semester");
 					}}
 				/>
 			);
 		}
 		else
 			return;
-	}
-
-	putInChronologicalOrder(list)
-	{
-		var count = Object.keys(list).length;
-		var chronologicalList = [];
-		var lowestOrderValue = Number.MAX_SAFE_INTEGER;
-
-		for (i = 0; i < count; i++)
-		{
-			var lowest;
-			for (id in list)
-			{
-				if (list[id].orderID < lowestOrderValue && !(id in chronologicalList))
-				{
-					lowest = id;
-				}
-			}
-			console.log("push: ", id);
-			chronologicalList.push(id);
-		}
-
-		return chronologicalList;
 	}
 
 	render()

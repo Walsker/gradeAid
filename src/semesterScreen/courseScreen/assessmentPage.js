@@ -12,7 +12,7 @@ import {ActionBar, Button, IconButton, Tile} from 'easyGrades/src/common';
 
 class AssessmentPage extends Component
 {
-    showAlert(alertType)
+	showAlert(alertType)
 	{
 		switch(alertType)
 		{
@@ -29,22 +29,22 @@ class AssessmentPage extends Component
 				);
 				return;
 		}
-    }
-    
-    deleteAssessment()
-    {
-        this.props.navigation.navigate("Course");
-        this.props.deleteAssessment(this.props.selectedAssessment);
-    }
+	}
 
-    render()
-    {
-        if (!this.props.assessment)
-            return <View/>;
+	deleteAssessment()
+	{
+		this.props.navigation.navigate("Course");
+		this.props.deleteAssessment(this.props.selectedAssessment);
+	}
 
-        return (
-            <View style = {containerStyle.default}>
-                <ActionBar
+	render()
+	{
+		if (!this.props.assessment)
+			return <View/>;
+
+		return (
+			<View style = {containerStyle.default}>
+				<ActionBar
 					leftButton =
 					{
 						<IconButton
@@ -55,65 +55,55 @@ class AssessmentPage extends Component
 						/>
 					}
 					title = {this.props.assessment.name}
-					// rightButton =
-					// {
-					// 	<IconButton
-					// 		type = 'info-outline'
-					// 		size = {30}
-					// 		color = {colors.titleAndIconColor}
-					// 		action = {this.viewCourseInfo.bind(this)}
-					// 	/>
-					// }
 				/>
-                <ScrollView style = {containerStyle.tileList}>
-                    <Tile
-                        title = "Grade"
-                        content = 
-                        {
-                            <View>
-                                <Text style = {textStyle.bold(100, 'center')}>
-                                    {this.props.assessment.grade * 1000 / 10}
-                                    <Text style = {textStyle.bold(75)}>%</Text>
-                                </Text>
-                                <Text style = {textStyle.italic(14, 'center')}>{this.props.assessment.grade * 100}%</Text>
-                            </View>
-                        }
-                    />
-                    <Tile
-                        title = "Made a mistake?"
-                        content =
-                        {
-                            <Button
-                                label = "Edit Assessment"
-                                color = {colors.primaryColor}
-                                inverted = {false}
-                                action = {() => this.props.navigation.navigate("EditAssessmentPage")}
-                            />
-                        }
-                    />
-                    <Tile
-                        title = "Delete Assessment"
-                        content =
-                        {
-                            <Button
-                                label = "Delete Assessment"
-                                color = {'red'}
-                                inverted = {false}
-                                action = {() => this.showAlert("Delete Assessment")}
-                            />
-                        }
-                    />
-                </ScrollView>
-            </View>
-        );
-    }
+				<ScrollView style = {containerStyle.tileList}>
+					<Tile
+						title = "Grade"
+						content =
+						{
+							<View>
+								<Text style = {textStyle.regular(150, 'center')}>
+									{this.props.assessment.grade * 1000 / 10}
+									<Text style = {textStyle.regular(75)}>%</Text>
+								</Text>
+							</View>
+						}
+					/>
+					<Tile
+						title = "Made a mistake?"
+						content =
+						{
+							<Button
+								label = "Edit Assessment"
+								color = {colors.primaryColor}
+								inverted = {false}
+								action = {() => this.props.navigation.navigate("EditAssessmentPage")}
+							/>
+						}
+					/>
+					<Tile
+						title = "Delete Assessment"
+						content =
+						{
+							<Button
+								label = "Delete Assessment"
+								color = {'red'}
+								inverted = {false}
+								action = {() => this.showAlert("Delete Assessment")}
+							/>
+						}
+					/>
+				</ScrollView>
+			</View>
+		);
+	}
 }
 
 const mapStateToProps = (state) =>
 {
-    return {
-        selectedAssessment: state.selectedAssessment,
-        assessment: state.assessmentList[state.selectedAssessment]
-    };
+	return {
+		selectedAssessment: state.selectedAssessment,
+		assessment: state.assessmentList[state.selectedAssessment]
+	};
 }
 export default connect(mapStateToProps, {deleteAssessment})(AssessmentPage);
