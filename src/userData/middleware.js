@@ -70,7 +70,6 @@ const calculateCourseAverage = (store, next, courseID) =>
 		if (componentAverage[i] != -1)
 		{
 			normalizer += courseObject.breakdown[i];
-			console.log(componentAverage[i], numOfComponentsUsedSoFar);
 
 			if (numOfComponentsUsedSoFar == 1)
 			{
