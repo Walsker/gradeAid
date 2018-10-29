@@ -75,13 +75,7 @@ class EditAssessmentPage extends Component
 		{
 			var attempt = parseFloat(string);
 			if (Number(attempt) === attempt)
-			{
-				if (attempt >= 100)
-					return 100;
-				else if (attempt <= 0)
-					return 0;
-				return attempt;
-			}
+				return (attempt <= 0 ? 0 : attempt);
 			else
 				return fallback;
 		};
@@ -116,7 +110,7 @@ class EditAssessmentPage extends Component
 									placeholderTextColor = 'rgba(0, 0, 0, 0.2)'
 									underlineColorAndroid = {colors.primaryTextColor}
 									returnKeyType = 'done'
-									style = {[textStyle.regular(28, 'right'), {width: 75}]}
+									style = {[textStyle.regular(28, 'center'), {width: 125}]}
 									onChangeText = {(newText) => gradeInput = newText}
 									onEndEditing = {() => {
 										this.setState({grade: convertToPercentage(gradeInput, this.state.grade)});

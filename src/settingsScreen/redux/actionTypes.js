@@ -1,0 +1,1 @@
+export const ERASE_APP_DATA = "eraseAppData";

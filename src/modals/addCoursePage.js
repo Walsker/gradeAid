@@ -228,13 +228,7 @@ class AddCoursePage extends Component
 		{
 			var attempt = parseFloat(string);
 			if (Number(attempt) === attempt)
-			{
-				if (attempt >= 100)
-					return 100;
-				else if (attempt <= 0)
-					return 0;
-				return attempt;
-			}
+				return (attempt <= 0 ? 0 : attempt);
 			else
 				return fallback;
 		};

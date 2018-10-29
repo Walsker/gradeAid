@@ -56,7 +56,7 @@ class EditSemesterPage extends Component
 
 				Alert.alert(
 					"Delete Semester",
-					"Are you sure you would like delete this semester? This cannot be undone.",
+					"Are you sure you would like delete this semester? This action cannot be undone.",
 					[
 						{
 							text: 'Yes',

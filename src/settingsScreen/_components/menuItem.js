@@ -3,9 +3,9 @@ import React, {Component} from 'react';
 import {Animated, Text, TouchableWithoutFeedback} from 'react-native';
 
 // Custom imports
-import {colors} from 'easyGrades/src/common/appStyles';
+import {colors, textStyle} from 'easyGrades/src/common/appStyles';
 
-export default class DrawerItem extends Component
+export default class MenuItem extends Component
 {
 	constructor(props)
 	{
@@ -42,8 +42,6 @@ export default class DrawerItem extends Component
 
 	render()
 	{
-		var bkgColor = this.props.active ? colors.accentColor : colors.spaceColor;
-
 		return(
 			<TouchableWithoutFeedback onPressIn = {this.onPressIn.bind(this)} onPressOut = {this.onRelease.bind(this)}>
 				<Animated.View
@@ -51,19 +49,13 @@ export default class DrawerItem extends Component
 						paddingBottom: 1,
 						backgroundColor: this.state.pressValue.interpolate({
 							inputRange: [this.state.INACTIVE_VALUE, this.state.ACTIVE_VALUE],
-							outputRange: [bkgColor, colors.lightPrimaryColor]
+							outputRange: [colors.spaceColor, colors.lightPrimaryColor]
 						})
 					}}
 				>
-					<Text
-						style = {{
-							paddingLeft: 35,
-							paddingVertical: 15,
-							fontFamily: 'Lato-Regular',
-							fontSize: 18
-						}}
-					>
-					{this.props.title}</Text>
+					<Text style = {[textStyle.regular(22, 'left'), {paddingLeft: 35, paddingVertical: 15}]}>
+						{this.props.title}
+					</Text>
 				</Animated.View>
 			</TouchableWithoutFeedback>
 		);

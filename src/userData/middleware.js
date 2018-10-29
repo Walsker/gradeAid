@@ -37,47 +37,57 @@ const calculateCourseAverage = (store, next, courseID) =>
 	var assessList = store.getState().assessmentList;
 	var courseObject = store.getState().courseList[courseID];
 
-	var grades = {};
+	var componentAverage = [];
+	var numOfComponentsUsedSoFar = 0;
 	for (i in Assessment.types)
-		grades[i] = [];
-
-	for (id in assessList)
 	{
-		if (assessList[id].courseID == courseID)
-			grades[assessList[id].type].push(assessList[id].grade);
-	}
+		componentAverage.push(-1);
+		var componentSum = 0;
+		var assessCount = 0;
+		var componentUsed = false;
+		for (id in assessList)
+		{
+			if (assessList[id].type == i && assessList[id].courseID == courseID)
+			{
+				componentUsed = true;
+				componentSum += assessList[id].grade;
+				assessCount++;
+			}
+		}
 
-	var zeroAssessments = true;
-	var onlyOneType = false;
-	for (i in grades)
-	{
-		if (grades[i].length != 0 && !onlyOneType)
-		{
-			onlyOneType = true;
-			zeroAssessments = false;
-		}
-		else if (grades[i].length != 0 && onlyOneType)
-		{
-			onlyOneType = false;
-			break;
-		}
+		if (componentUsed)
+			numOfComponentsUsedSoFar++;
+
+		if (assessCount != 0)
+			componentAverage[i] = componentSum / assessCount;
 	}
 
 	var courseAverage = 0;
-	for (i in grades)
+	var normalizer = 0;
+	var normalize = false;
+	for (i in componentAverage)
 	{
-		var componentSum = 0
-		if (grades[i].length != 0)
+		if (componentAverage[i] != -1)
 		{
-			for (j in grades[i])
-				componentSum += grades[i][j];
+			normalizer += courseObject.breakdown[i];
+			console.log(componentAverage[i], numOfComponentsUsedSoFar);
 
-			courseAverage += (componentSum / grades[i].length) *
-				(onlyOneType ? 1 : courseObject.breakdown[i]);
+			if (numOfComponentsUsedSoFar == 1)
+			{
+				courseAverage = componentAverage[i];
+				break;
+			}
+			else
+				courseAverage += (componentAverage[i] * courseObject.breakdown[i]);
 		}
 	}
 
-	next(editCourse(courseID, {average: (zeroAssessments ? -1 : courseAverage)}));
+	if (numOfComponentsUsedSoFar == 0)
+		courseAverage = -1;
+	else if (numOfComponentsUsedSoFar != 1)
+		courseAverage /= normalizer;
+
+	next(editCourse(courseID, {average: courseAverage}));
 	calculateSemesterAverage(store, next, courseObject.semesterID);
 }
 
@@ -104,16 +114,15 @@ export const averageCalculator = store => next => action =>
 		case actionTypes.DELETE_ASSESSMENT:
 		case actionTypes.EDIT_ASSESSMENT:
 
-			var result = next(action);
 			var courseID;
-			
 			if (action.type == actionTypes.CREATE_ASSESSMENT)
 				courseID = action.payload.courseID;
 			if (action.type == actionTypes.DELETE_ASSESSMENT)
-				courseID = action.payload;
+				courseID = store.getState().assessmentList[action.payload].courseID;
 			if (action.type == actionTypes.EDIT_ASSESSMENT)
-				courseID = action.payload.id;
+				courseID = store.getState().assessmentList[action.payload.id].courseID;
 
+			var result = next(action);
 			calculateCourseAverage(store, next, courseID);
 			return result;
 
@@ -133,7 +142,7 @@ const cleanAssessList = (store, next) =>
 	for (id in assessList)
 	{
 		if (!(existingCourseIDs.includes(assessList[id].courseID)))
-			next(deleteAssessment(id)); 
+			next(deleteAssessment(id));
 	}
 }
 
@@ -156,18 +165,19 @@ export const listCleaner = store => next => action =>
 		case actionTypes.DELETE_COURSE:
 			console.log("DELETING COURSE");
 			var result = next(action);
-			
+
 			cleanAssessList(store, next);
-			
+
 			if (Object.keys(store.getState().semesterList).includes(result.payload))
 				calculateSemesterAverage(store, next, result.payload);
 
 			return result;
 
 		case actionTypes.DELETE_SEMESTER:
-			
+		case actionTypes.ERASE_APP_DATA:
+
 			var result = next(action);
-			
+
 			cleanCourseList(store, next);
 			cleanAssessList(store, next);
 

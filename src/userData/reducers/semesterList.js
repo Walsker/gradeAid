@@ -9,12 +9,20 @@
 // }
 // --------------------------------------------------------------------------------------
 
-import {CREATE_SEMESTER, DELETE_SEMESTER, EDIT_SEMESTER} from '../actionTypes';
+import {ERASE_APP_DATA, CREATE_SEMESTER, DELETE_SEMESTER, EDIT_SEMESTER} from '../actionTypes';
 
 export default (prevState = {}, action) =>
 {
 	switch (action.type)
 	{
+		// --------------------------------------------------------------------------------------
+		// CASE: app data is being erased
+		// PAYLOAD: an empty object
+		// --------------------------------------------------------------------------------------
+		case ERASE_APP_DATA:
+			console.log("RED");
+			return action.payload;
+		
 		// ------------------------------------------------------------------------------
 		// CASE: a new semester is being created
 		// PAYLOAD: a semester object in the form
