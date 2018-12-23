@@ -8,7 +8,7 @@ import {createCourse} from 'gradeAid/src/userData/actions';
 
 // Custom imports
 import {colors, containerStyle, textStyle} from 'gradeAid/src/common/appStyles';
-import {ActionBar, Button, CheckList, IconButton} from 'gradeAid/src/common';
+import {ActionBar, Button, CheckList, Divider, IconButton} from 'gradeAid/src/common';
 import * as Assessment from 'gradeAid/src/semesterScreen/assessmentTypes';
 
 class AddCoursePage extends Component
@@ -174,6 +174,7 @@ class AddCoursePage extends Component
 				<View style = {containerStyle.formSection}>
 					<Text style = {textStyle.regular(22, 'center')}>What kind of assessments are in your course?{'\n\n'}Select all that apply.</Text>
 				</View>
+				<Divider color = {colors.dividerColor} style = {{marginVertical: 0}}/>
 				<View style = {containerStyle.formSection}>
 					<CheckList
 						color = {colors.accentColor}
@@ -238,12 +239,18 @@ class AddCoursePage extends Component
 			var input = "";
 			return (
 				<View
+					key = {type}
 					style =
 					{[
 						containerStyle.rowBox,
-						{alignItems: 'center', justifyContent: 'space-between', paddingHorizontal: 20}
+						{
+							alignItems: 'center',
+							justifyContent: 'space-between',
+							marginVertical: 0,
+							// paddingHorizontal: 20,
+							// backgroundColor: 'red'
+						}
 					]}
-					key = {type}
 				>
 					<Text style = {textStyle.regular(25, 'left')}>{Assessment.pluralTypes[type]}</Text>
 					<View style = {{flexDirection: 'row', alignItems: 'center'}}>
@@ -255,9 +262,17 @@ class AddCoursePage extends Component
 							underlineColorAndroid = {colors.primaryTextColor}
 							returnKeyType = 'done'
 							style = {[textStyle.regular(25, 'right'), {width: 75}]}
-							onChangeText = {(newInput) => input = newInput}
-							onEndEditing = {() =>
+							// onChangeText = {(newInput) => input = newInput}
+							// onEndEditing = {() =>
+							// {
+							// 	var breakdown = this.state.markBreakdown;
+							// 	var newPercentage = convertToPercentage(input, this.state.markBreakdown[type]);
+							// 	breakdown[type] = newPercentage;
+							// 	this.setState({markBreakdown: breakdown});
+							// }}
+							onChangeText = {(newInput) =>
 							{
+								input = (newInput == "" ? 0 : newInput);
 								var breakdown = this.state.markBreakdown;
 								var newPercentage = convertToPercentage(input, this.state.markBreakdown[type]);
 								breakdown[type] = newPercentage;
@@ -291,6 +306,7 @@ class AddCoursePage extends Component
 				<View style = {containerStyle.formSection}>
 					<Text style = {textStyle.regular(22, 'center')}>Specify the mark breakdown below.</Text>
 				</View>
+				<Divider color = {colors.dividerColor}/>
 				<View style = {containerStyle.formSection}>
 					<ScrollView>
 						{breakdownInput}

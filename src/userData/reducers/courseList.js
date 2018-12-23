@@ -5,7 +5,8 @@
 // Below is the structure for this portion of the state
 // courseList:
 // {
-//      [id]: {name: string, semesterID: int}
+//      [id]: {name: string, semesterID: int, breakdown: float[]}
+//		...
 // }
 // --------------------------------------------------------------------------------------
 

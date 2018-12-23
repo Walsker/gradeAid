@@ -8,7 +8,7 @@ import {createAssessment} from 'gradeAid/src/userData/actions';
 
 // Custom imports
 import {colors, containerStyle, textStyle} from 'gradeAid/src/common/appStyles';
-import {ActionBar, Button, CheckList, IconButton} from 'gradeAid/src/common';
+import {ActionBar, Button, CheckList, Divider, IconButton} from 'gradeAid/src/common';
 import * as Assessment from 'gradeAid/src/semesterScreen/assessmentTypes';
 
 class InputGradePage extends Component
@@ -185,17 +185,26 @@ class InputGradePage extends Component
 		};
 
 		var selectedType = "";
+		var the = "the ";
 		for (i in this.state.checkBoxValues)
 		{
 			if (this.state.checkBoxValues[i])
+			{
 				selectedType = Assessment.types[this.props.courseAssessmentTypes[i]];
+
+				if (this.props.courseAssessmentTypes[i] == Assessment.ATTENDANCE || this.props.courseAssessmentTypes[i] == Assessment.PARTICIPATION)
+					the = "";
+
+				break;
+			}
+			
 		}
 
 		var gradeInput = "";
 		return(
 			<View style = {containerStyle.form}>
 				<View style = {containerStyle.formSection}>
-					<Text style = {textStyle.regular(24, 'center')}>Enter the grade you received for the {selectedType.toLowerCase()} below.</Text>
+					<Text style = {textStyle.regular(24, 'center')}>Enter the grade you received for {the}{selectedType.toLowerCase()} below.</Text>
 				</View>
 				<View style = {containerStyle.formSection}>
 					<View style = {{flexDirection: 'row', alignItems: 'center', alignSelf: 'center'}}>
@@ -214,9 +223,9 @@ class InputGradePage extends Component
 						/>
 						<Text style = {textStyle.regular(24)}>%</Text>
 					</View>
-					<View style = {{marginVertical: 25}}/>
+					<Divider color = {colors.spaceColor}/>
 					<View style = {containerStyle.formSection}>
-						<Text style = {textStyle.regular(24, 'center')}>Provide a name for your {selectedType.toLowerCase()}. {'\n'}(Optional)</Text>
+						<Text style = {textStyle.regular(24, 'center')}>(Optional) Provide a name for your {selectedType.toLowerCase()}.</Text>
 					</View>
 					<View style = {containerStyle.formSection}>
 						<TextInput

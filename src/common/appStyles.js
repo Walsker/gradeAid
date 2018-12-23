@@ -83,6 +83,11 @@ export const containerStyle = StyleSheet.create(
 		margin: 20
 	},
 	formSection: {marginBottom: 20},
+	modal:
+	{
+		flex: 1,
+		backgroundColor: colors.spaceColor
+	},
 	page:
 	{
 		flex: 1,
