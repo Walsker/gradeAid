@@ -14,7 +14,11 @@ export default class ActionBar extends Component
 
 		if (this.props.inverted == true)
 		{
-			barStyle = styles.iBar;
+			if (this.props.lifted)
+				barStyle = styles.liftedIBar
+			else
+				barStyle = styles.iBar;
+
 			titleStyle = styles.iTitleText;
 		}
 
@@ -50,6 +54,14 @@ const styles = StyleSheet.create(
 		flexDirection: 'row',
 		backgroundColor: colors.spaceColor,
 		height: 56
+	},
+	liftedIBar:
+	{
+		alignItems: 'flex-start',
+		flexDirection: 'row',
+		backgroundColor: colors.spaceColor,
+		height: 56,
+		elevation: 3
 	},
 	title:
 	{

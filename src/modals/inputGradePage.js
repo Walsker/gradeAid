@@ -449,23 +449,23 @@ class InputGradePage extends Component
 		var scenes = [this.selectAssessType_SCENE(), this.inputGrade_SCENE()];
 
 		return(
-			<View style = {containerStyle.page}>
-				<ScrollView>
-					<ActionBar
-						inverted = {true}
-						leftButton =
-						{
-							<IconButton
-								type = 'arrow-back'
-								size = {30}
-								color = {colors.primaryColor}
-								action = {() => this.props.navigation.pop()}
-							/>
-						}
-						title = "Input Grade"
-					/>
+			<View style = {containerStyle.default}>
+				<ActionBar
+					inverted = {true}
+					leftButton =
+					{
+						<IconButton
+							type = 'arrow-back'
+							size = {30}
+							color = {colors.primaryColor}
+							action = {() => this.props.navigation.pop()}
+						/>
+					}
+					title = "Input Grade"
+				/>
+				<View style = {containerStyle.page}>
 					{scenes[this.state.currentScene]}
-				</ScrollView>
+				</View>
 			</View>
 		);
 	}

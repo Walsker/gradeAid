@@ -32,7 +32,7 @@ class NoSemestersPage extends Component
 	render()
 	{
 		return(
-			<View style = {containerStyle.page}>
+			<View style = {containerStyle.default}>
 				<ActionBar
 					inverted = {true}
 					leftButton =
@@ -45,17 +45,19 @@ class NoSemestersPage extends Component
 						/>
 					}
 				/>
-				<View style = {{flex: 1, justifyContent: 'center', padding: 50, paddingTop: -56}}>
-					<Text style = {textStyle.regular(16, 'center')}>
-						Get started by pressing that button right there.
-					</Text>
-					<View style = {{marginVertical: 20}}/>
-					<Button
-						label = "Start Semester"
-						color = {colors.darkPrimaryColor}
-						inverted = {false}
-						action = {() => this.props.navigation.navigate("NewSemesterPage")}
-					/>
+				<View style = {containerStyle.page}>
+					<View style = {{flex: 1, justifyContent: 'center', padding: 50, paddingTop: -56}}>
+						<Text style = {textStyle.regular(16, 'center')}>
+							Get started by pressing that button right there.
+						</Text>
+						<View style = {{marginVertical: 20}}/>
+						<Button
+							label = "Start Semester"
+							color = {colors.darkPrimaryColor}
+							inverted = {false}
+							action = {() => this.props.navigation.navigate("NewSemesterPage")}
+						/>
+					</View>
 				</View>
 			</View>
 		);

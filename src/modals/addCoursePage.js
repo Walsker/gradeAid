@@ -31,7 +31,8 @@ class AddCoursePage extends Component
 			currentScene: 0,
 			courseName: "",
 			selectedTypes,
-			markBreakdown
+			markBreakdown,
+			scrolled: false
 		};
 	}
 
@@ -193,7 +194,7 @@ class AddCoursePage extends Component
 						}}
 					/>
 				</View>
-				<View style = {containerStyle.rowBox}>
+				<View style = {[containerStyle.rowBox, {marginTop: -5}]}>
 					<Button
 						label = "Back"
 						color = {colors.primaryColor}
@@ -302,9 +303,7 @@ class AddCoursePage extends Component
 				</View>
 				<Divider color = {colors.dividerColor}/>
 				<View style = {containerStyle.formSection}>
-					<ScrollView>
-						{breakdownInput}
-					</ScrollView>
+					{breakdownInput}
 				</View>
 				<View style = {containerStyle.formSection}>
 					<Text style = {textStyle.regular(14, 'center', colors.secondaryTextColor)}>
@@ -416,10 +415,32 @@ class AddCoursePage extends Component
 				this.showAlert("Cancel Creation");
 		}
 
+		const scrollToggle = (event) =>
+		{
+			if (event.nativeEvent.contentOffset.y != 0)
+			{
+				if (!this.state.scrolled)
+				{
+					this.setState({scrolled: true})
+					console.log(true);
+				}	
+					
+			}
+			else
+			{
+				if (this.state.scrolled)
+				{
+					this.setState({scrolled: false})
+					console.log(false);
+				}
+			}
+		}
+
 		return(
-			<View style = {containerStyle.page}>
+			<View style = {containerStyle.default}>
 				<ActionBar
 					inverted = {true}
+					lifted = {this.state.scrolled}
 					leftButton =
 					{
 						<IconButton
@@ -431,9 +452,14 @@ class AddCoursePage extends Component
 					}
 					title = "Add Course"
 				/>
-				<ScrollView>
-					{scenes[this.state.currentScene]}
-				</ScrollView>
+				<View style = {containerStyle.page}>
+					<ScrollView
+						keyboardShouldPersistTaps = 'handled'
+						onScroll = {scrollToggle}
+					>
+						{scenes[this.state.currentScene]}
+					</ScrollView>
+				</View>
 			</View>
 		);
 	}

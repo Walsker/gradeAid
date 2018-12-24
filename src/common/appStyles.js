@@ -2,7 +2,7 @@ import {StyleSheet} from 'react-native';
 
 export const colors =
 {
-	spaceColor: 'rgb(250, 250, 250)',
+	spaceColor: '#FAFAFA',
 	darkSpaceColor: 'rgb(200, 200, 200)',
 	accentColor: '#FFC107',
 	primaryColor: '#3F51B5',
@@ -92,7 +92,7 @@ export const containerStyle = StyleSheet.create(
 	{
 		flex: 1,
 		backgroundColor: colors.spaceColor,
-		padding: 5
+		paddingHorizontal: 5
 	},
 	rowBox:
 	{

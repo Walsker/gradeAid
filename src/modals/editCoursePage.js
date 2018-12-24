@@ -31,7 +31,8 @@ class EditCoursePage extends Component
 			currentScene: 0,
 			courseName: course.name,
 			selectedTypes,
-			markBreakdown: course.breakdown.map((x) => x * 100)
+			markBreakdown: course.breakdown.map((x) => x * 100),
+			scrolled: false
 		}
 	}
 
@@ -238,9 +239,7 @@ class EditCoursePage extends Component
 					<Text style = {textStyle.regular(22, 'center')}>Specify the mark breakdown below.</Text>
 				</View>
 				<View style = {containerStyle.formSection}>
-					<ScrollView>
-						{breakdownInput}
-					</ScrollView>
+					{breakdownInput}
 				</View>
 				<View style = {containerStyle.formSection}>
 					<Text style = {textStyle.regular(14, 'center', colors.secondaryTextColor)}>
@@ -353,6 +352,27 @@ class EditCoursePage extends Component
 	{
 		const scenes = [this.courseTitle_SCENE(), this.markBreakdown_SCENE(), this.confirmCourse_SCENE()];
 
+		const scrollToggle = (event) =>
+		{
+			if (event.nativeEvent.contentOffset.y != 0)
+			{
+				if (!this.state.scrolled)
+				{
+					this.setState({scrolled: true})
+					console.log(true);
+				}	
+					
+			}
+			else
+			{
+				if (this.state.scrolled)
+				{
+					this.setState({scrolled: false})
+					console.log(false);
+				}
+			}
+		}
+
 		return (
 			<View style = {containerStyle.default}>
 				<ActionBar
@@ -368,9 +388,14 @@ class EditCoursePage extends Component
 					}
 					title = "Edit Course"
 				/>
-				<ScrollView>
-					{scenes[this.state.currentScene]}
-				</ScrollView>
+				<View style = {containerStyle.default}>
+					<ScrollView
+						keyboardShouldPersistTaps = 'handled'
+						onScroll = {scrollToggle}
+					>
+						{scenes[this.state.currentScene]}
+					</ScrollView>
+				</View>
 			</View>
 		);
 	}
