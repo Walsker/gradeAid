@@ -165,6 +165,7 @@ class EditSemesterPage extends Component
 					</View>
 					<View style = {containerStyle.formSection}>
 						<TextInput
+							autoFocus = {true}
 							defaultValue = {this.state.semesterName}
 							underlineColorAndroid = {colors.primaryTextColor}
 							style = {textStyle.regular(24, 'center')}

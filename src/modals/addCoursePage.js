@@ -126,6 +126,7 @@ class AddCoursePage extends Component
 			<View style = {containerStyle.form}>
 				<View style = {containerStyle.formSection}>
 					<TextInput
+						autoFocus = {true}
 						autoCapitalize = 'characters'
 						maxLength = {15}
 						defaultValue = {this.state.courseName}
@@ -246,9 +247,7 @@ class AddCoursePage extends Component
 						{
 							alignItems: 'center',
 							justifyContent: 'space-between',
-							marginVertical: 0,
-							// paddingHorizontal: 20,
-							// backgroundColor: 'red'
+							marginVertical: 0
 						}
 					]}
 				>

@@ -121,6 +121,7 @@ class NewSemesterPage extends Component
 					</View>
 					<View style = {containerStyle.formSection}>
 						<TextInput
+							autoFocus = {true}
 							placeholder = "i.e. Fall 2018"
 							placeholderTextColor = 'rgba(0, 0, 0, 0.2)'
 							underlineColorAndroid = {colors.primaryTextColor}

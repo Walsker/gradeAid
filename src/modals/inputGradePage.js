@@ -232,12 +232,14 @@ class InputGradePage extends Component
 				return(
 					<View style = {{flexDirection: 'row', alignItems: 'center', alignSelf: 'center'}}>
 						<TextInput
+							blurOnSubmit = {false}
+							onSubmitEditing = {() => this.denomInput.focus()}
 							keyboardType = 'numeric'
 							clearTextOnFocus = {true}
 							defaultValue = {this.state.numerator == 0 ? "" : this.state.numerator.toString()}
 							placeholderTextColor = 'rgba(0, 0, 0, 0.2)'
 							underlineColorAndroid = {colors.primaryTextColor}
-							returnKeyType = 'done'
+							returnKeyType = 'next'
 							style = {[textStyle.regular(28, 'center'), {width: 75}]}
 							onChangeText = {(newText) => {
 								this.setState({numerator: convertToPercentage(newText, this.state.numerator)});
@@ -245,12 +247,14 @@ class InputGradePage extends Component
 						/>
 						<Text style = {textStyle.regular(24)}>/</Text>
 						<TextInput
+							ref = {(input) => this.denomInput = input}
+							blurOnSubmit = {false}
 							keyboardType = 'numeric'
 							clearTextOnFocus = {true}
 							defaultValue = {this.state.denominator == 0 ? "" : this.state.denominator.toString()}
 							placeholderTextColor = 'rgba(0, 0, 0, 0.2)'
 							underlineColorAndroid = {colors.primaryTextColor}
-							returnKeyType = 'done'
+							returnKeyType = 'next'
 							style = {[textStyle.regular(28, 'center'), {width: 75}]}
 							onChangeText = {(newText) => {
 								this.setState({denominator: convertToPercentage(newText, this.state.denominator)});
@@ -264,12 +268,14 @@ class InputGradePage extends Component
 				return(
 					<View style = {{flexDirection: 'row', alignItems: 'center', alignSelf: 'center'}}>
 						<TextInput
+							blurOnSubmit = {false}
+							onSubmitEditing = {() => this.nameInput.focus()}
 							keyboardType = 'numeric'
 							clearTextOnFocus = {true}
 							defaultValue = {this.state.percentage == 0 ? "" : this.state.percentage.toString()}
 							placeholderTextColor = 'rgba(0, 0, 0, 0.2)'
 							underlineColorAndroid = {colors.primaryTextColor}
-							returnKeyType = 'done'
+							returnKeyType = 'next'
 							style = {[textStyle.regular(28, 'center'), {width: 125}]}
 							onChangeText = {(newText) => {
 								this.setState({percentage: convertToPercentage(newText, this.state.percentage)});
@@ -321,6 +327,7 @@ class InputGradePage extends Component
 					</View>
 					<View style = {containerStyle.formSection}>
 						<TextInput
+							ref = {input => this.nameInput = input}
 							maxLength = {25}
 							defaultValue = {this.state.name}
 							onChangeText = {(newText) => this.setState({name: newText})}

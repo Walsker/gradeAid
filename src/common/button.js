@@ -52,7 +52,7 @@ export default class Button extends Component
 	render()
 	{
 		return (
-			<View style = {containerStyle.rowBox}>
+			<View style = {[containerStyle.rowBox, {elevation: 5}]}>
 				<TouchableWithoutFeedback
 					style = {{alignItems: 'center', alignSelf: 'stretch', flex: 1, paddingVertical: 5}}
 					onPressIn = {this.onPressIn.bind(this)}
@@ -72,7 +72,7 @@ export default class Button extends Component
 						paddingHorizontal: 35,
 						elevation: 2,
 						borderRadius: 30,
-						borderWidth: 2,
+						borderWidth: 1.5,
 						borderColor: this.props.color
 					}}>
 						<Animated.Text

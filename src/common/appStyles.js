@@ -114,7 +114,7 @@ export const containerStyle = StyleSheet.create(
 		alignItems: 'center',
 		justifyContent: 'flex-start',
 		alignSelf: 'stretch',
-		elevation: 3
+		// elevation: 3
 	},
 	tileTitle:
 	{

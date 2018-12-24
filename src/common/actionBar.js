@@ -42,7 +42,7 @@ const styles = StyleSheet.create(
 		flexDirection: 'row',
 		backgroundColor: colors.primaryColor,
 		height: 56,
-		elevation: 10
+		// elevation: 10
 	},
 	iBar:
 	{
