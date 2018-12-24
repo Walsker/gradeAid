@@ -109,12 +109,12 @@ export const containerStyle = StyleSheet.create(
 	tile:
 	{
 		backgroundColor: colors.spaceColor,
-		marginVertical: 5,
-		paddingVertical: 10,
 		alignItems: 'center',
 		justifyContent: 'flex-start',
 		alignSelf: 'stretch',
-		// elevation: 3
+		paddingVertical: 10,
+		marginVertical: 5,
+		// elevation: 1,
 	},
 	tileTitle:
 	{

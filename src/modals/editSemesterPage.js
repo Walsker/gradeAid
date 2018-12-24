@@ -170,6 +170,7 @@ class EditSemesterPage extends Component
 							underlineColorAndroid = {colors.primaryTextColor}
 							style = {textStyle.regular(24, 'center')}
 							onChangeText = {(newText) => this.setState({_newSemesterName: newText})}
+							onSubmitEditing = {this.onSubmit.bind(this)}
 						/>
 						<Text style = {textStyle.regular(14, 'center')}>
 							Semester Name

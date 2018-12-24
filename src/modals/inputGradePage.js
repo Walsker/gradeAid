@@ -33,6 +33,7 @@ class InputGradePage extends Component
 			percentage: "",
 			numerator: "",
 			denominator: "",
+			weight: "",
 			name: "",
 			useFraction: false
 		}
@@ -249,6 +250,7 @@ class InputGradePage extends Component
 						<TextInput
 							ref = {(input) => this.denomInput = input}
 							blurOnSubmit = {false}
+							onSubmitEditing = {() => this.weightInput.focus()}
 							keyboardType = 'numeric'
 							clearTextOnFocus = {true}
 							defaultValue = {this.state.denominator == 0 ? "" : this.state.denominator.toString()}
@@ -267,9 +269,10 @@ class InputGradePage extends Component
 			{
 				return(
 					<View style = {{flexDirection: 'row', alignItems: 'center', alignSelf: 'center'}}>
+						<Text style = {textStyle.regular(24, 'left', colors.spaceColor)}>%</Text>
 						<TextInput
 							blurOnSubmit = {false}
-							onSubmitEditing = {() => this.nameInput.focus()}
+							onSubmitEditing = {() => this.weightInput.focus()}
 							keyboardType = 'numeric'
 							clearTextOnFocus = {true}
 							defaultValue = {this.state.percentage == 0 ? "" : this.state.percentage.toString()}
@@ -287,15 +290,21 @@ class InputGradePage extends Component
 			}
 		}
 
-		var selectedType = "";
+		var selectedType = -1;
+		var selectedTypeNameSng = "";
+		var selectedTypeNamePlr = "";
 		var the = "the ";
 		for (i in this.state.checkBoxValues)
 		{
 			if (this.state.checkBoxValues[i])
 			{
-				selectedType = Assessment.types[this.props.courseAssessmentTypes[i]];
+				var selectedType = this.props.courseAssessmentTypes[i];
+				selectedTypeNameSng = Assessment.types[selectedType];
+				selectedTypeNamePlr = Assessment.pluralTypes[selectedType];
+				selectedTypeNameSng = selectedTypeNameSng.toLowerCase()
+				selectedTypeNamePlr = selectedTypeNamePlr.toLowerCase()
 
-				if (this.props.courseAssessmentTypes[i] == Assessment.ATTENDANCE || this.props.courseAssessmentTypes[i] == Assessment.PARTICIPATION)
+				if (selectedType == Assessment.ATTENDANCE || selectedType == Assessment.PARTICIPATION)
 					the = "";
 
 				break;
@@ -306,10 +315,13 @@ class InputGradePage extends Component
 		return(
 			<View style = {containerStyle.form}>
 				<View style = {containerStyle.formSection}>
-					<Text style = {textStyle.regular(24, 'center')}>Enter the grade you received for {the}{selectedType.toLowerCase()} below.</Text>
+					<Text style = {textStyle.regular(24, 'center')}>Enter the grade you received for {the}{selectedTypeNameSng} below.</Text>
 				</View>
 				<View style = {containerStyle.formSection}>
 					{renderGradeInput()}
+					<Text style = {[textStyle.regular(14, 'center'), {paddingLeft: 3.5}]}>
+						Grade
+					</Text>
 					<CheckList
 						style = {{alignSelf: 'center', paddingVertical: 10, paddingRight: 40}}
 						color = {colors.accentColor}
@@ -321,83 +333,112 @@ class InputGradePage extends Component
 							this.setState({useFraction: !this.state.useFraction});
 						}}
 					/>
-					<Divider color = {colors.spaceColor}/>
-					<View style = {containerStyle.formSection}>
-						<Text style = {textStyle.regular(24, 'center')}>(Optional) Provide a name for your {selectedType.toLowerCase()}.</Text>
-					</View>
-					<View style = {containerStyle.formSection}>
+				</View>
+				<View style = {containerStyle.formSection}>
+					<Text style = {textStyle.regular(24, 'center')}>Enter the weight of this grade.</Text>
+				</View>
+				<View style = {containerStyle.formSection}>
+					<Text style = {textStyle.italic(12, 'center', colors.secondaryTextColor)}>
+						The total weight of your {selectedTypeNamePlr} should be {this.props.courseBreakdown[selectedType] * 100}%
+					</Text>
+					<View style = {{flexDirection: 'row', alignItems: 'center', alignSelf: 'center'}}>
+						<Text style = {textStyle.regular(24, 'left', colors.spaceColor)}>%</Text>
 						<TextInput
-							ref = {input => this.nameInput = input}
-							maxLength = {25}
-							defaultValue = {this.state.name}
-							onChangeText = {(newText) => this.setState({name: newText})}
+							ref = {input => this.weightInput = input}
+							blurOnSubmit = {false}
+							onSubmitEditing = {() => this.nameInput.focus()}
+							keyboardType = 'numeric'
+							clearTextOnFocus = {true}
+							defaultValue = {this.state.weight == 0 ? "" : this.state.weight.toString()}
+							placeholderTextColor = 'rgba(0, 0, 0, 0.2)'
 							underlineColorAndroid = {colors.primaryTextColor}
-							style = {textStyle.regular(24, 'center')}
-						/>
-						<Text style = {[textStyle.regular(14, 'center'), {paddingLeft: 3.5}]}>
-							{selectedType} Name
-						</Text>
-					</View>
-					<View style = {containerStyle.formSection}>
-						<Button
-							label = "Submit"
-							color = {colors.accentColor}
-							inverted = {false}
-							action = {() =>
-							{
-								if (this.state.name != "")
-								{
-									for (id in this.props.sisterAssessments)
-									{
-										if (this.props.sisterAssessments[id].name == this.state.name)
-										{
-											this.showAlert("Name Used");
-											return;
-										}
-									}
-								}
-
-								if (this.state.useFraction)
-								{
-									if (this.state.numerator === "" || this.state.denominator === "")
-									{
-										this.showAlert("Missing Values");
-										return;
-									}
-									else if (this.state.denominator == 0)
-									{
-										this.showAlert("Zero Denominator");
-										return;
-									}
-									else if (this.state.numerator < 0 || this.state.denominator < 0)
-									{
-										this.showAlert("Negative Values")
-										return;
-									}
-								}
-								else
-								{
-									if (this.state.percentage === "")
-									{
-										this.showAlert("No Grade Provided");
-										return;
-									}
-									else if (this.state.percentage < 0)
-									{
-										this.showAlert("Negative Values");
-										return;
-									}
-								}
-								this.inputGrade();
+							returnKeyType = 'next'
+							style = {[textStyle.regular(28, 'center'), {width: 125}]}
+							onChangeText = {(newText) => {
+								this.setState({weight: convertToPercentage(newText, this.state.weight)});
 							}}
 						/>
-						<Button
-							label = "Back"
-							color = {colors.accentColor}
-							inverted = {true}
-							action = {this.back.bind(this)}
-						/>
+						<Text style = {textStyle.regular(24)}>%</Text>
 					</View>
+					<Text style = {[textStyle.regular(14, 'center'), {paddingLeft: 3.5}]}>
+						Weight
+					</Text>
+				</View>	
+				<View style = {containerStyle.formSection}>
+					<Text style = {textStyle.regular(24, 'center')}>(Optional) Provide a name for your {selectedTypeNameSng}.</Text>
+				</View>
+				<View style = {containerStyle.formSection}>
+					<TextInput
+						ref = {input => this.nameInput = input}
+						maxLength = {25}
+						defaultValue = {this.state.name}
+						onChangeText = {(newText) => this.setState({name: newText})}
+						underlineColorAndroid = {colors.primaryTextColor}
+						style = {textStyle.regular(24, 'center')}
+					/>
+					<Text style = {[textStyle.regular(14, 'center'), {paddingLeft: 3.5}]}>
+						{Assessment.types[selectedType]} Name
+					</Text>
+				</View>
+				<View style = {containerStyle.formSection}>
+					<Button
+						label = "Submit"
+						color = {colors.accentColor}
+						inverted = {false}
+						action = {() =>
+						{
+							if (this.state.name != "")
+							{
+								for (id in this.props.sisterAssessments)
+								{
+									if (this.props.sisterAssessments[id].name == this.state.name)
+									{
+										this.showAlert("Name Used");
+										return;
+									}
+								}
+							}
+
+							if (this.state.useFraction)
+							{
+								if (this.state.numerator === "" || this.state.denominator === "")
+								{
+									this.showAlert("Missing Values");
+									return;
+								}
+								else if (this.state.denominator == 0)
+								{
+									this.showAlert("Zero Denominator");
+									return;
+								}
+								else if (this.state.numerator < 0 || this.state.denominator < 0)
+								{
+									this.showAlert("Negative Values")
+									return;
+								}
+							}
+							else
+							{
+								if (this.state.percentage === "")
+								{
+									this.showAlert("No Grade Provided");
+									return;
+								}
+								else if (this.state.percentage < 0)
+								{
+									this.showAlert("Negative Values");
+									return;
+								}
+							}
+							this.inputGrade();
+						}}
+					/>
+					<Button
+						label = "Back"
+						color = {colors.accentColor}
+						inverted = {true}
+						action = {this.back.bind(this)}
+					/>
 				</View>
 			</View>
 		);
@@ -450,8 +491,8 @@ const mapStateToProps = (state) =>
 	return {
 		sisterAssessments: assessmentsInSameCourse,
 		courseAssessmentTypes: validAssessmentTypes,
-		selectedSemester: state.selectedSemester,
-		selectedCourse: state.selectedCourse
+		selectedCourse: state.selectedCourse,
+		courseBreakdown: state.courseList[state.selectedCourse].breakdown
 	};
 };
 export default connect(mapStateToProps, {createAssessment})(InputGradePage);

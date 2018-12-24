@@ -122,6 +122,24 @@ class AddCoursePage extends Component
 
 	courseTitle_SCENE()
 	{
+		const submit = () =>
+		{
+			var nameUsed = false;
+			for (id in this.props.courseList)
+			{
+				if (this.props.courseList[id].semesterID == this.props.selectedSemester &&
+					this.props.courseList[id].name == this.state.courseName.trim())
+					nameUsed = true;
+			}
+
+			if (this.state.courseName == "")
+				this.showAlert("Incomplete Course Name");
+			else if (nameUsed)
+				this.showAlert("Course Name Used");
+			else
+				this.next({courseName: this.state.courseName.trim()});
+		};
+
 		return(
 			<View style = {containerStyle.form}>
 				<View style = {containerStyle.formSection}>
@@ -131,6 +149,7 @@ class AddCoursePage extends Component
 						maxLength = {15}
 						defaultValue = {this.state.courseName}
 						onChangeText = {(newText) => this.setState({courseName: newText})}
+						onSubmitEditing = {submit}
 						placeholder = "i.e. COMP 1405"
 						placeholderTextColor = 'rgba(0, 0, 0, 0.2)'
 						underlineColorAndroid = {colors.primaryTextColor}
@@ -145,23 +164,7 @@ class AddCoursePage extends Component
 						label = "Next"
 						color = {colors.primaryColor}
 						inverted = {false}
-						action = {() =>
-						{
-							var nameUsed = false;
-							for (id in this.props.courseList)
-							{
-								if (this.props.courseList[id].semesterID == this.props.selectedSemester &&
-									this.props.courseList[id].name == this.state.courseName.trim())
-									nameUsed = true;
-							}
-
-							if (this.state.courseName == "")
-								this.showAlert("Incomplete Course Name");
-							else if (nameUsed)
-								this.showAlert("Course Name Used");
-							else
-								this.next({courseName: this.state.courseName.trim()});
-						}}
+						action = {submit}
 					/>
 				</View>
 			</View>
