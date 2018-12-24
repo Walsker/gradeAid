@@ -16,7 +16,6 @@ import {PersistGate} from 'redux-persist/integration/react'
 // Custom imports
 import RootNavigator from './_rootNavigator';
 import {colors, containerStyle} from 'gradeAid/src/common/appStyles';
-import {AndroidBar} from 'gradeAid/src/common';
 
 export default class App extends Component
 {

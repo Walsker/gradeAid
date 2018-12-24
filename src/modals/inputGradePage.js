@@ -27,6 +27,7 @@ class InputGradePage extends Component
 
 		this.state =
 		{
+			scrolled: false,
 			checkBoxLabels,
 			checkBoxValues,
 			currentScene: 0,
@@ -73,6 +74,16 @@ class InputGradePage extends Component
 				);
 				return;
 			
+			case "No Weight Provided":
+
+				Alert.alert(
+					"No Weight Entered",
+					"Please enter a valid weight.",
+					[{text: 'OK', onPress: () => {}}],
+					{cancelable: true}
+				);
+				return;
+
 			case "Zero Denominator":
 
 				Alert.alert(
@@ -387,18 +398,7 @@ class InputGradePage extends Component
 						inverted = {false}
 						action = {() =>
 						{
-							if (this.state.name != "")
-							{
-								for (id in this.props.sisterAssessments)
-								{
-									if (this.props.sisterAssessments[id].name == this.state.name)
-									{
-										this.showAlert("Name Used");
-										return;
-									}
-								}
-							}
-
+							
 							if (this.state.useFraction)
 							{
 								if (this.state.numerator === "" || this.state.denominator === "")
@@ -430,6 +430,29 @@ class InputGradePage extends Component
 									return;
 								}
 							}
+
+							if (this.state.weight === "")
+							{
+								this.showAlert("No Weight Provided");
+								return;
+							}
+							else if (this.state.weight < 0)
+							{
+								this.showAlert("Negative Values");
+								return;
+							}
+
+							if (this.state.name != "")
+							{
+								for (id in this.props.sisterAssessments)
+								{
+									if (this.props.sisterAssessments[id].name == this.state.name)
+									{
+										this.showAlert("Name Used");
+										return;
+									}
+								}
+							}
 							this.inputGrade();
 						}}
 					/>
@@ -448,10 +471,32 @@ class InputGradePage extends Component
 	{
 		var scenes = [this.selectAssessType_SCENE(), this.inputGrade_SCENE()];
 
+		const scrollToggle = (event) =>
+		{
+			if (event.nativeEvent.contentOffset.y != 0)
+			{
+				if (!this.state.scrolled)
+				{
+					this.setState({scrolled: true})
+					console.log(true);
+				}	
+					
+			}
+			else
+			{
+				if (this.state.scrolled)
+				{
+					this.setState({scrolled: false})
+					console.log(false);
+				}
+			}
+		}
+
 		return(
 			<View style = {containerStyle.default}>
 				<ActionBar
 					inverted = {true}
+					lifted = {this.state.scrolled}
 					leftButton =
 					{
 						<IconButton
@@ -463,9 +508,14 @@ class InputGradePage extends Component
 					}
 					title = "Input Grade"
 				/>
-				<View style = {containerStyle.page}>
-					{scenes[this.state.currentScene]}
-				</View>
+				<ScrollView
+					keyboardShouldPersistTaps = 'handled'
+					onScroll = {scrollToggle}
+				>
+					<View style = {containerStyle.page}>
+						{scenes[this.state.currentScene]}
+					</View>
+				</ScrollView>
 			</View>
 		);
 	}
