@@ -15,7 +15,7 @@ import {PersistGate} from 'redux-persist/integration/react'
 
 // Custom imports
 import RootNavigator from './_rootNavigator';
-import {containerStyle} from 'gradeAid/src/common/appStyles';
+import {colors, containerStyle} from 'gradeAid/src/common/appStyles';
 import {AndroidBar} from 'gradeAid/src/common';
 
 export default class App extends Component
@@ -35,12 +35,9 @@ export default class App extends Component
 			<Provider store = {store}>
 				<PersistGate loading = {<View style = {{backgroundColor: 'red'}}/>} persistor = {persistor}>
 					<View style = {containerStyle.default}>
-						<AndroidBar/>
 						<StatusBar
-							translucent
 							animated
-							// backgroundColor = "rgba(0, 0, 0, 0.2)"
-							backgroundColor = "rgba(0, 0, 0, 0)"
+							backgroundColor = {colors.primaryColor}
 						/>
 						<RootNavigator/>
 					</View>
