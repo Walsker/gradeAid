@@ -53,7 +53,7 @@ export default class CheckList extends Component
 		}
 
 		return(
-			<View style = {styles.list}>
+			<View style = {[styles.list, this.props.style]}>
 				{listComponents}
 			</View>
 		);

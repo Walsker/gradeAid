@@ -53,5 +53,5 @@ export default class App extends Component
 // This is to get rid of the warning caused while mounting screens with React-navigation.
 // There's a possibility that this warning is a false-positive.
 // Check if this is fixed in the next React Native update.
-import { YellowBox } from 'react-native'
-YellowBox.ignoreWarnings(['Warning: isMounted(...) is deprecated'])
+// import { YellowBox } from 'react-native'
+// YellowBox.ignoreWarnings(['Warning: isMounted(...) is deprecated'])

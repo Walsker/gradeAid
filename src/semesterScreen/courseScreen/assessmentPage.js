@@ -20,7 +20,7 @@ class AssessmentPage extends Component
 
 				Alert.alert(
 					"Delete Assessment",
-					"Are you sure you would like to delete this grade?\nThis action cannot be undone.",
+					"Are you sure you would like to delete this grade?\n\nThis action cannot be undone.",
 					[
 						{text: 'Yes', onPress: this.deleteAssessment.bind(this), style: 'cancel'},
 						{text: 'No', onPress: () => {}},

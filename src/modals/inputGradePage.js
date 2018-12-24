@@ -30,8 +30,11 @@ class InputGradePage extends Component
 			checkBoxLabels,
 			checkBoxValues,
 			currentScene: 0,
-			grade: "",
+			percentage: "",
+			numerator: "",
+			denominator: "",
 			name: "",
+			useFraction: false
 		}
 	}
 
@@ -68,6 +71,36 @@ class InputGradePage extends Component
 					{cancelable: true}
 				);
 				return;
+			
+			case "Zero Denominator":
+
+				Alert.alert(
+					"Invalid Fraction",
+					"The denominator cannot be 0.",
+					[{text: 'OK', onPress: () => {}}],
+					{cancelable: true}
+				);
+				return;
+
+			case "Negative Values":
+
+				Alert.alert(
+					"Negative Values",
+					"Please enter positive values",
+					[{text: 'OK', onPress: () => {}}],
+					{cancelable: true}
+				);
+				return;
+
+			case "Missing Values":
+
+				Alert.alert(
+					"Missing Values",
+					"Please input all required values.",
+					[{text: 'OK', onPress: () => {}}],
+					{cancelable: true}
+				);
+				return;
 		}
 	}
 
@@ -98,7 +131,13 @@ class InputGradePage extends Component
 
 		var chosenName = this.state.name == "" ? this.createNextName(this.props.courseAssessmentTypes[selectedType]) : this.state.name;
 
-		this.props.createAssessment(selectedType, chosenName, this.props.selectedCourse, parseFloat(this.state.grade) / 100);
+		var trueGrade = 0;
+		if (this.state.useFraction)
+			trueGrade = (this.state.numerator / this.state.denominator);
+		else
+			trueGrade = (this.state.percentage / 100);
+
+		this.props.createAssessment(selectedType, chosenName, this.props.selectedCourse, trueGrade);
 		this.props.navigation.pop();
 	}
 
@@ -177,12 +216,70 @@ class InputGradePage extends Component
 	{
 		const convertToPercentage = (string, fallback) =>
 		{
+			if (string === "") return "";
+
 			var attempt = parseFloat(string);
 			if (Number(attempt) === attempt)
-				return (attempt <= 0 ? 0 : attempt);
+				return attempt;
 			else
 				return fallback;
 		};
+
+		const renderGradeInput = () =>
+		{
+			if (this.state.useFraction)
+			{
+				return(
+					<View style = {{flexDirection: 'row', alignItems: 'center', alignSelf: 'center'}}>
+						<TextInput
+							keyboardType = 'numeric'
+							clearTextOnFocus = {true}
+							defaultValue = {this.state.numerator == 0 ? "" : this.state.numerator.toString()}
+							placeholderTextColor = 'rgba(0, 0, 0, 0.2)'
+							underlineColorAndroid = {colors.primaryTextColor}
+							returnKeyType = 'done'
+							style = {[textStyle.regular(28, 'center'), {width: 75}]}
+							onChangeText = {(newText) => {
+								this.setState({numerator: convertToPercentage(newText, this.state.numerator)});
+							}}
+						/>
+						<Text style = {textStyle.regular(24)}>/</Text>
+						<TextInput
+							keyboardType = 'numeric'
+							clearTextOnFocus = {true}
+							defaultValue = {this.state.denominator == 0 ? "" : this.state.denominator.toString()}
+							placeholderTextColor = 'rgba(0, 0, 0, 0.2)'
+							underlineColorAndroid = {colors.primaryTextColor}
+							returnKeyType = 'done'
+							style = {[textStyle.regular(28, 'center'), {width: 75}]}
+							onChangeText = {(newText) => {
+								this.setState({denominator: convertToPercentage(newText, this.state.denominator)});
+							}}
+						/>
+					</View>
+				);
+			}
+			else
+			{
+				return(
+					<View style = {{flexDirection: 'row', alignItems: 'center', alignSelf: 'center'}}>
+						<TextInput
+							keyboardType = 'numeric'
+							clearTextOnFocus = {true}
+							defaultValue = {this.state.percentage == 0 ? "" : this.state.percentage.toString()}
+							placeholderTextColor = 'rgba(0, 0, 0, 0.2)'
+							underlineColorAndroid = {colors.primaryTextColor}
+							returnKeyType = 'done'
+							style = {[textStyle.regular(28, 'center'), {width: 125}]}
+							onChangeText = {(newText) => {
+								this.setState({percentage: convertToPercentage(newText, this.state.percentage)});
+							}}
+						/>
+						<Text style = {textStyle.regular(24)}>%</Text>
+					</View>
+				);
+			}
+		}
 
 		var selectedType = "";
 		var the = "the ";
@@ -200,29 +297,24 @@ class InputGradePage extends Component
 			
 		}
 
-		var gradeInput = "";
 		return(
 			<View style = {containerStyle.form}>
 				<View style = {containerStyle.formSection}>
 					<Text style = {textStyle.regular(24, 'center')}>Enter the grade you received for {the}{selectedType.toLowerCase()} below.</Text>
 				</View>
 				<View style = {containerStyle.formSection}>
-					<View style = {{flexDirection: 'row', alignItems: 'center', alignSelf: 'center'}}>
-						<TextInput
-							keyboardType = 'numeric'
-							clearTextOnFocus = {true}
-							defaultValue = {this.state.grade == 0 ? "" : this.state.grade.toString()}
-							placeholderTextColor = 'rgba(0, 0, 0, 0.2)'
-							underlineColorAndroid = {colors.primaryTextColor}
-							returnKeyType = 'done'
-							style = {[textStyle.regular(28, 'center'), {width: 125}]}
-							onChangeText = {(newText) => gradeInput = newText}
-							onEndEditing = {() => {
-								this.setState({grade: convertToPercentage(gradeInput, this.state.grade)});
-							}}
-						/>
-						<Text style = {textStyle.regular(24)}>%</Text>
-					</View>
+					{renderGradeInput()}
+					<CheckList
+						style = {{alignSelf: 'center', paddingVertical: 10, paddingRight: 40}}
+						color = {colors.accentColor}
+						fontSize = {18}
+						labels = {["Use a fraction"]}
+						values = {[this.state.useFraction]}
+						onItemToggle = {(id) =>
+						{
+							this.setState({useFraction: !this.state.useFraction});
+						}}
+					/>
 					<Divider color = {colors.spaceColor}/>
 					<View style = {containerStyle.formSection}>
 						<Text style = {textStyle.regular(24, 'center')}>(Optional) Provide a name for your {selectedType.toLowerCase()}.</Text>
@@ -258,12 +350,37 @@ class InputGradePage extends Component
 									}
 								}
 
-								if (this.state.grade === "")
+								if (this.state.useFraction)
 								{
-									this.showAlert("No Grade Provided");
-									return;
+									if (this.state.numerator === "" || this.state.denominator === "")
+									{
+										this.showAlert("Missing Values");
+										return;
+									}
+									else if (this.state.denominator == 0)
+									{
+										this.showAlert("Zero Denominator");
+										return;
+									}
+									else if (this.state.numerator < 0 || this.state.denominator < 0)
+									{
+										this.showAlert("Negative Values")
+										return;
+									}
 								}
-
+								else
+								{
+									if (this.state.percentage === "")
+									{
+										this.showAlert("No Grade Provided");
+										return;
+									}
+									else if (this.state.percentage < 0)
+									{
+										this.showAlert("Negative Values");
+										return;
+									}
+								}
 								this.inputGrade();
 							}}
 						/>

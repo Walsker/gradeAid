@@ -262,14 +262,6 @@ class AddCoursePage extends Component
 							underlineColorAndroid = {colors.primaryTextColor}
 							returnKeyType = 'done'
 							style = {[textStyle.regular(25, 'right'), {width: 75}]}
-							// onChangeText = {(newInput) => input = newInput}
-							// onEndEditing = {() =>
-							// {
-							// 	var breakdown = this.state.markBreakdown;
-							// 	var newPercentage = convertToPercentage(input, this.state.markBreakdown[type]);
-							// 	breakdown[type] = newPercentage;
-							// 	this.setState({markBreakdown: breakdown});
-							// }}
 							onChangeText = {(newInput) =>
 							{
 								input = (newInput == "" ? 0 : newInput);
