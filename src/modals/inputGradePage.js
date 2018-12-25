@@ -8,7 +8,7 @@ import {createAssessment} from 'gradeAid/src/userData/actions';
 
 // Custom imports
 import {colors, containerStyle, textStyle} from 'gradeAid/src/common/appStyles';
-import {ActionBar, Button, CheckList, Divider, IconButton} from 'gradeAid/src/common';
+import {ActionBar, Button, CheckList, IconButton} from 'gradeAid/src/common';
 import * as Assessment from 'gradeAid/src/semesterScreen/assessmentTypes';
 
 class InputGradePage extends Component
@@ -73,7 +73,7 @@ class InputGradePage extends Component
 					{cancelable: true}
 				);
 				return;
-			
+
 			case "No Weight Provided":
 
 				Alert.alert(
@@ -132,27 +132,6 @@ class InputGradePage extends Component
 		});
 	}
 
-	inputGrade()
-	{
-		var selectedType = "";
-		for (i in this.state.checkBoxValues)
-		{
-			if (this.state.checkBoxValues[i])
-				selectedType = this.props.courseAssessmentTypes[i];
-		}
-
-		var chosenName = this.state.name == "" ? this.createNextName(this.props.courseAssessmentTypes[selectedType]) : this.state.name;
-
-		var trueGrade = 0;
-		if (this.state.useFraction)
-			trueGrade = (this.state.numerator / this.state.denominator);
-		else
-			trueGrade = (this.state.percentage / 100);
-
-		this.props.createAssessment(selectedType, chosenName, this.props.selectedCourse, trueGrade);
-		this.props.navigation.pop();
-	}
-
 	createNextName(type)
 	{
 		if (type == Assessment.FINAL_EXAM)
@@ -165,6 +144,28 @@ class InputGradePage extends Component
 				numberOfSameTypeAssessments++;
 		}
 		return Assessment.types[type] + " " + (numberOfSameTypeAssessments + 1).toString();
+	}
+
+	inputGrade()
+	{
+		var selectedType = "";
+		for (i in this.state.checkBoxValues)
+		{
+			if (this.state.checkBoxValues[i])
+				selectedType = this.props.courseAssessmentTypes[i];
+		}
+
+		var chosenName = this.state.name == "" ? this.createNextName(this.props.courseAssessmentTypes[selectedType]) : this.state.name;
+
+		var trueWeight = this.state.weight / 100;
+		var trueGrade = 0;
+		if (this.state.useFraction)
+			trueGrade = (this.state.numerator / this.state.denominator);
+		else
+			trueGrade = (this.state.percentage / 100);
+
+		this.props.createAssessment(selectedType, chosenName, this.props.selectedCourse, trueGrade, trueWeight);
+		this.props.navigation.pop();
 	}
 
 	selectAssessType_SCENE()
@@ -320,7 +321,7 @@ class InputGradePage extends Component
 
 				break;
 			}
-			
+
 		}
 
 		return(
@@ -374,7 +375,7 @@ class InputGradePage extends Component
 					<Text style = {[textStyle.regular(14, 'center'), {paddingLeft: 3.5}]}>
 						Weight
 					</Text>
-				</View>	
+				</View>
 				<View style = {containerStyle.formSection}>
 					<Text style = {textStyle.regular(24, 'center')}>(Optional) Provide a name for your {selectedTypeNameSng}.</Text>
 				</View>
@@ -398,7 +399,7 @@ class InputGradePage extends Component
 						inverted = {false}
 						action = {() =>
 						{
-							
+
 							if (this.state.useFraction)
 							{
 								if (this.state.numerator === "" || this.state.denominator === "")
@@ -476,19 +477,12 @@ class InputGradePage extends Component
 			if (event.nativeEvent.contentOffset.y != 0)
 			{
 				if (!this.state.scrolled)
-				{
 					this.setState({scrolled: true})
-					console.log(true);
-				}	
-					
 			}
 			else
 			{
 				if (this.state.scrolled)
-				{
 					this.setState({scrolled: false})
-					console.log(false);
-				}
 			}
 		}
 

@@ -5,7 +5,7 @@
 // Below is the structure for this portion of the state
 // assessmentList:
 // {
-//      [id]: {type: int, name: string, courseID: int, grade: float}
+//      [id]: {type: int, name: string, courseID: int, grade: float, weight: float}
 //		...
 // }
 // --------------------------------------------------------------------------------------
@@ -38,7 +38,7 @@ export default (prevState = {}, action) =>
 		// ------------------------------------------------------------------------------
 		// CASE: a new assessment is being created
 		// PAYLOAD: an assessment object in the form
-		//      {type: int, name: string, courseID: int, grade: float}
+		//      {type: int, name: string, courseID: int, grade: float, weight: float}
 		// ------------------------------------------------------------------------------
 		case CREATE_ASSESSMENT:
 

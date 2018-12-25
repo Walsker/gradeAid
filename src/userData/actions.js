@@ -101,13 +101,14 @@ export const editCourse = (id, newProps) =>
 // type: an integer that corresponds to the assessmentTypes in assessmentTypes.js
 // name: the name of the assessment, defaults to the form "[type] [number]"
 //      (i.e. Assignment 5), however a custom name can be provided
-// grade: an float for the grade inputted by the user
+// grade: a float for the grade inputted by the user
+// weight: a float for the weight inputted by the user
 // --------------------------------------------------------------------------------------
-export const createAssessment = (type, name, courseID, grade) =>
+export const createAssessment = (type, name, courseID, grade, weight) =>
 {
 	return {
 		type: actionTypes.CREATE_ASSESSMENT,
-		payload: {type, name, courseID, grade}
+		payload: {type, name, courseID, grade, weight}
 	};
 };
 

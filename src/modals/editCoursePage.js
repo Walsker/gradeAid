@@ -357,19 +357,12 @@ class EditCoursePage extends Component
 			if (event.nativeEvent.contentOffset.y != 0)
 			{
 				if (!this.state.scrolled)
-				{
-					this.setState({scrolled: true})
-					console.log(true);
-				}	
-					
+					this.setState({scrolled: true})	
 			}
 			else
 			{
 				if (this.state.scrolled)
-				{
 					this.setState({scrolled: false})
-					console.log(false);
-				}
 			}
 		}
 
