@@ -36,7 +36,7 @@ export default class AboutPage extends Component
 						<View style = {containerStyle.courseCard}>
 							<Text style = {textStyle.regular(24, 'center')}>Contact me at</Text>
 							<TouchableOpacity
-								onPress = {() => Linking.openURL('mailto:wal.gatlei@gmail.com').catch(err => console.error('Could not open mail app', err))}
+								onPress = {() => Linking.openURL('mailto:wal.gatlei@gmail.com?subject=[Grade Aid]').catch(err => console.error('Could not open mail app', err))}
 							>
 								<View style = {{marginVertical: 10}}>
 									<Text style = {textStyle.regular(30, 'center', colors.primaryColor)}>wal.gatlei@gmail.com</Text>
