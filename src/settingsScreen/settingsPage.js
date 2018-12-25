@@ -10,7 +10,6 @@ import {eraseAppData} from './redux/actions';
 import {colors, containerStyle} from 'gradeAid/src/common/appStyles';
 import {ActionBar, IconButton} from 'gradeAid/src/common';
 import MenuItem from './_components/menuItem';
-import Divider from './_components/divider';
 
 class SettingsPage extends Component
 {
@@ -38,7 +37,38 @@ class SettingsPage extends Component
 				/>
 				<View style = {{marginVertical: 5}}/>
 				<MenuItem
+					title = "Letter Grade System"
+					color = {colors.primaryTextColor}
+					action = {() =>
+					{
+						Alert.alert(
+							"Edit Letter Grade System",
+							"WIP",
+							[
+								{text: 'OK', onPress: () => {}},
+							],
+							{cancelable: true}
+						);
+					}}
+				/>
+				<MenuItem
+					title = "Themes"
+					color = {colors.primaryTextColor}
+					action = {() =>
+					{
+						Alert.alert(
+							"Themes Page",
+							"WIP",
+							[
+								{text: 'OK', onPress: () => {}},
+							],
+							{cancelable: true}
+						);
+					}}
+				/>
+				<MenuItem
 					title = "Erase App Data"
+					color = 'red'
 					action = {() =>
 					{
 						Alert.alert(
@@ -56,7 +86,6 @@ class SettingsPage extends Component
 						);
 					}}
 				/>
-				<Divider color = {colors.secondaryTextColor}/>
 			</View>
 		);
 	}

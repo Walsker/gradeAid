@@ -1,6 +1,6 @@
 // React Native imports
 import React, {Component} from 'react';
-import {Animated, Text, TouchableWithoutFeedback} from 'react-native';
+import {Animated, Text, TouchableWithoutFeedback, View} from 'react-native';
 
 // Custom imports
 import {colors, textStyle} from 'gradeAid/src/common/appStyles';
@@ -43,21 +43,28 @@ export default class MenuItem extends Component
 	render()
 	{
 		return(
-			<TouchableWithoutFeedback onPressIn = {this.onPressIn.bind(this)} onPressOut = {this.onRelease.bind(this)}>
-				<Animated.View
-					style = {{
-						paddingBottom: 1,
-						backgroundColor: this.state.pressValue.interpolate({
-							inputRange: [this.state.INACTIVE_VALUE, this.state.ACTIVE_VALUE],
-							outputRange: [colors.spaceColor, colors.lightPrimaryColor]
-						})
-					}}
-				>
-					<Text style = {[textStyle.regular(22, 'left'), {paddingLeft: 35, paddingVertical: 15}]}>
-						{this.props.title}
-					</Text>
-				</Animated.View>
-			</TouchableWithoutFeedback>
+			<View>
+				<TouchableWithoutFeedback onPressIn = {this.onPressIn.bind(this)} onPressOut = {this.onRelease.bind(this)}>
+					<Animated.View
+						style = {{
+							paddingBottom: 1,
+							backgroundColor: this.state.pressValue.interpolate({
+								inputRange: [this.state.INACTIVE_VALUE, this.state.ACTIVE_VALUE],
+								outputRange: [colors.spaceColor, colors.lightPrimaryColor]
+							})
+						}}
+					>
+						<Text style = {[textStyle.regular(18, 'left', this.props.color), {paddingLeft: 35, paddingVertical: 10}]}>
+							{this.props.title}
+						</Text>
+					</Animated.View>
+				</TouchableWithoutFeedback>
+				<View style = {{
+					backgroundColor: colors.dividerColor,
+					marginVertical: 5,
+					height: 1.2
+				}}/>
+			</View>
 		);
 	}
 }

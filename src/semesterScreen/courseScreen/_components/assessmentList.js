@@ -22,7 +22,8 @@ class AssessmentList extends Component
 		{
 			INACTIVE_VALUE: 0,
 			ACTIVE_VALUE: 1,
-			duration: 75
+			duration: 75,
+			delayFactor: 0
 		};
 	}
 
@@ -84,7 +85,7 @@ class AssessmentList extends Component
 
 		return(
 			<TouchableWithoutFeedback
-				key = {animationID}
+				key = {Date.now().toString()}
 				onPressIn = {() => this.onPressIn(assessmentID)}
 				onPressOut = {() => this.onRelease(assessmentID)}
 				delayPressOut = {50}
@@ -116,7 +117,7 @@ class AssessmentList extends Component
 			this.refresh();
 
 		var assessmentComponents = [];
-		var animationCounter = 1;
+		var animationCounter = this.state.delayFactor;
 		for (id in this.props.assessments)
 		{
 			assessmentComponents.push(

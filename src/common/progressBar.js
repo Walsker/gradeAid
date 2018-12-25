@@ -28,7 +28,7 @@ class ProgressBar extends Component
 			toValue: Math.min(Math.max(0, this.props.percentage * 100), 100),
 			easing: Easing.bezier(0, 0.75, 0.25, 1),
 			duration: this.state.animationDuration,
-			delay: this.props.initialDelay + (this.state.animationDuration / 10 * this.props.listOrder)
+			delay: this.props.animationDelay + (this.state.animationDuration / 10 * this.props.listOrder)
 		}).start();
 	}
 

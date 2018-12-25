@@ -116,10 +116,10 @@ class CoursePage extends Component
 					{
 						<View>
 							<Text style = {textStyle.regular(16, 'center', colors.secondaryTextColor)}>Highest achievable grade</Text>
-							<Text style = {textStyle.regular(24, 'center')}>{maxGrade}%</Text>
-							<Divider color = {colors.primaryTextColor} space = {10}/>
+							<Text style = {[textStyle.regular(24, 'center'), {paddingTop: 10}]}>{maxGrade}%</Text>
+							<Divider color = {colors.primaryTextColor} seperation = {0}/>
 							<Text style = {textStyle.regular(16, 'center', colors.secondaryTextColor)}>Lowest achievable grade</Text>
-							<Text style = {textStyle.regular(24, 'center')}>{minGrade}%</Text>
+							<Text style = {[textStyle.regular(24, 'center'), {paddingBottom: 10}]}>{minGrade}%</Text>
 							{/* <Button
 								label = "Explore"
 								color = {'green'}
