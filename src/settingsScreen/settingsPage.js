@@ -56,7 +56,7 @@ class SettingsPage extends Component
 						);
 					}}
 				/>
-				<Divider/>
+				<Divider color = {colors.secondaryTextColor}/>
 			</View>
 		);
 	}

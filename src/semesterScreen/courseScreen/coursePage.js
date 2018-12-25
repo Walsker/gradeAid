@@ -6,7 +6,7 @@ import {ScrollView, Text, View} from 'react-native';
 import {connect} from 'react-redux';
 
 // Custom imports
-import {ActionBar, Button, IconButton, ProgressBar, ProgressCircle, Tile} from 'gradeAid/src/common';
+import {ActionBar, Button, Divider, IconButton, ProgressBar, ProgressCircle, Tile} from 'gradeAid/src/common';
 import {colors, containerStyle, textStyle} from 'gradeAid/src/common/appStyles';
 import AssessmentList from './_components/assessmentList';
 
@@ -59,6 +59,9 @@ class CoursePage extends Component
 
 	course_SCENE()
 	{
+		var maxGrade = ((this.props.course.average * this.props.course.completion) + (1 - this.props.course.completion)) * 100;
+		var minGrade = Math.round(this.props.course.average * this.props.course.completion * 1000) / 10;
+
 		return(
 			<ScrollView 
 				style = {containerStyle.tileList}
@@ -105,6 +108,25 @@ class CoursePage extends Component
 							inverted = {false}
 							action = {this.inputGrade.bind(this)}
 						/>
+					}
+				/>
+				<Tile
+					title = "Insights"
+					content = 
+					{
+						<View>
+							<Text style = {textStyle.regular(16, 'center', colors.secondaryTextColor)}>Highest achievable grade</Text>
+							<Text style = {textStyle.regular(24, 'center')}>{maxGrade}%</Text>
+							<Divider color = {colors.primaryTextColor} space = {10}/>
+							<Text style = {textStyle.regular(16, 'center', colors.secondaryTextColor)}>Lowest achievable grade</Text>
+							<Text style = {textStyle.regular(24, 'center')}>{minGrade}%</Text>
+							{/* <Button
+								label = "Explore"
+								color = {'green'}
+								inverted = {false}
+								action = {() => {}}
+							/> */}
+						</View>
 					}
 				/>
 				<Tile

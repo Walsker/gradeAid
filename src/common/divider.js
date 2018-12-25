@@ -18,7 +18,7 @@ export default class Divider extends Component
 			{[
 				{
 					height: 1.2,
-					marginVertical: 25,
+					marginVertical: this.props.space ? this.props.space : 25,
 					marginHorizontal: 50,
 					backgroundColor: this.props.color
 				},

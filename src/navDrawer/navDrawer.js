@@ -7,7 +7,7 @@ import {connect} from 'react-redux';
 import {selectSemester} from './redux/actions';
 
 // Custom imports
-import {containerStyle, textStyle} from 'gradeAid/src/common/appStyles';
+import {colors, containerStyle, textStyle} from 'gradeAid/src/common/appStyles';
 import Divider from './divider';
 import DrawerItem from './drawerItem';
 
@@ -81,7 +81,7 @@ class NavDrawer extends Component
 							this.props.navigation.navigate("NewSemesterPage");
 						}}
 					/>
-					<Divider/>
+					<Divider color = {colors.secondaryTextColor}/>
 					<DrawerItem
 						title = "Settings"
 						active = {this.state.activeType == this.state.SETTINGS_PAGE}
