@@ -5,7 +5,7 @@
 // Below is the structure for this portion of the state
 // courseList:
 // {
-//      [id]: {name: string, semesterID: int, breakdown: float[]}
+//      [id]: {name: string, semesterID: int, average: float, completion: float, breakdown: float[]}
 //		...
 // }
 // --------------------------------------------------------------------------------------
@@ -36,7 +36,7 @@ export default (prevState = {}, action) =>
 		// ------------------------------------------------------------------------------
 		// CASE: a course is being added to the app
 		// PAYLOAD: a course object in the form
-		//      {name: string, semesterID: int, breakdown: float[]}
+		//      {name: string, semesterID: int, average: float, completion: float, breakdown: float[]}
 		// ------------------------------------------------------------------------------
 		case CREATE_COURSE:
 

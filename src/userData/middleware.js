@@ -2,6 +2,8 @@ import * as actionTypes from './actionTypes';
 import {editSemester, editCourse, deleteCourse, deleteAssessment} from './actions';
 import * as Assessment from 'gradeAid/src/semesterScreen/assessmentTypes';
 
+// --------------------------------------------------------------------------------------
+
 const toLetterGrade = (grade) =>
 {
 	if (grade < .50)
@@ -37,56 +39,68 @@ const calculateCourseAverage = (store, next, courseID) =>
 	var assessList = store.getState().assessmentList;
 	var courseObject = store.getState().courseList[courseID];
 
-	var componentAverage = [];
-	var numOfComponentsUsedSoFar = 0;
-	for (i in Assessment.types)
+	var average = 0;
+	var completion = 0;
+
+	for (var id in assessList)
 	{
-		componentAverage.push(-1);
-		var componentSum = 0;
-		var assessCount = 0;
-		var componentUsed = false;
-		for (id in assessList)
+		if (assessList[id].courseID == courseID)
 		{
-			if (assessList[id].type == i && assessList[id].courseID == courseID)
-			{
-				componentUsed = true;
-				componentSum += assessList[id].grade;
-				assessCount++;
-			}
-		}
-
-		if (componentUsed)
-			numOfComponentsUsedSoFar++;
-
-		if (assessCount != 0)
-			componentAverage[i] = componentSum / assessCount;
-	}
-
-	var courseAverage = 0;
-	var normalizer = 0;
-	var normalize = false;
-	for (i in componentAverage)
-	{
-		if (componentAverage[i] != -1)
-		{
-			normalizer += courseObject.breakdown[i];
-
-			if (numOfComponentsUsedSoFar == 1)
-			{
-				courseAverage = componentAverage[i];
-				break;
-			}
-			else
-				courseAverage += (componentAverage[i] * courseObject.breakdown[i]);
+			average += (assessList[id].grade * assessList[id].weight)
+			completion += assessList[id].weight;
 		}
 	}
 
-	if (numOfComponentsUsedSoFar == 0)
-		courseAverage = -1;
-	else if (numOfComponentsUsedSoFar != 1)
-		courseAverage /= normalizer;
+	// var componentAverage = [];
+	// var numOfComponentsUsedSoFar = 0;
+	// for (i in Assessment.types)
+	// {
+	// 	componentAverage.push(-1);
+	// 	var componentSum = 0;
+	// 	var assessCount = 0;
+	// 	var componentUsed = false;
+	// 	for (id in assessList)
+	// 	{
+	// 		if (assessList[id].type == i && assessList[id].courseID == courseID)
+	// 		{
+	// 			componentUsed = true;
+	// 			componentSum += assessList[id].grade;
+	// 			assessCount++;
+	// 		}
+	// 	}
 
-	next(editCourse(courseID, {average: courseAverage}));
+	// 	if (componentUsed)
+	// 		numOfComponentsUsedSoFar++;
+
+	// 	if (assessCount != 0)
+	// 		componentAverage[i] = componentSum / assessCount;
+	// }
+
+	// var courseAverage = 0;
+	// var normalizer = 0;
+	// var normalize = false;
+	// for (i in componentAverage)
+	// {
+	// 	if (componentAverage[i] != -1)
+	// 	{
+	// 		normalizer += courseObject.breakdown[i];
+
+	// 		if (numOfComponentsUsedSoFar == 1)
+	// 		{
+	// 			courseAverage = componentAverage[i];
+	// 			break;
+	// 		}
+	// 		else
+	// 			courseAverage += (componentAverage[i] * courseObject.breakdown[i]);
+	// 	}
+	// }
+
+	// if (numOfComponentsUsedSoFar == 0)
+	// 	courseAverage = -1;
+	// else if (numOfComponentsUsedSoFar != 1)
+	// 	courseAverage /= normalizer;
+
+	next(editCourse(courseID, {average: completion == 0 ? -1 : average / completion, completion}));
 	calculateSemesterAverage(store, next, courseObject.semesterID);
 }
 
@@ -98,7 +112,9 @@ const calculateSemesterAverage = (store, next, semesterID) =>
 	for (id in courseList)
 	{
 		averageSum += courseList[id].average;
-		zeroCourses = false;
+
+		if (courseList[id].average != -1)
+			zeroCourses = false;
 	}
 
 	var semesterAverage = averageSum / Object.keys(courseList).length;
@@ -132,6 +148,8 @@ export const averageCalculator = store => next => action =>
 			return next(action);
 	}
 }
+
+// --------------------------------------------------------------------------------------
 
 const cleanAssessList = (store, next) =>
 {
