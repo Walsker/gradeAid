@@ -4,11 +4,11 @@ import {Alert, ScrollView, Text, View} from 'react-native';
 
 // Redux imports
 import {connect} from 'react-redux';
-import {deleteAssessment} from 'gradeAid/src/userData/actions';
+import {editAssessment, deleteAssessment} from 'gradeAid/src/userData/actions';
 
 // Custon imports
 import {colors, containerStyle, textStyle} from 'gradeAid/src/common/appStyles';
-import {ActionBar, Button, IconButton, Tile} from 'gradeAid/src/common';
+import {ActionBar, Button, CheckList, IconButton, Tile} from 'gradeAid/src/common';
 
 class AssessmentPage extends Component
 {
@@ -29,6 +29,11 @@ class AssessmentPage extends Component
 				);
 				return;
 		}
+	}
+
+	hideAssessment()
+	{
+		this.props.editAssessment(this.props.selectedAssessment, {hidden: !this.props.assessment.hidden});
 	}
 
 	deleteAssessment()
@@ -96,6 +101,22 @@ class AssessmentPage extends Component
 						}
 					/>
 					<Tile
+						title = "Hide Assessment"
+						content =
+						{
+							<View>
+								<CheckList
+									style = {{alignSelf: 'center', paddingVertical: 0}}
+									color = {colors.accentColor}
+									fontSize = {16}
+									labels = {["Pretend like this assessment never existed."]}
+									values = {[this.props.assessment.hidden]}
+									onItemToggle = {id => this.hideAssessment()}
+								/>
+							</View>
+						}
+					/>
+					<Tile
 						title = "Delete Assessment"
 						content =
 						{
@@ -120,4 +141,4 @@ const mapStateToProps = (state) =>
 		assessment: state.assessmentList[state.selectedAssessment]
 	};
 }
-export default connect(mapStateToProps, {deleteAssessment})(AssessmentPage);
+export default connect(mapStateToProps, {editAssessment, deleteAssessment})(AssessmentPage);

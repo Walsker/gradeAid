@@ -109,7 +109,7 @@ export const createAssessment = (type, name, courseID, grade, weight) =>
 {
 	return {
 		type: actionTypes.CREATE_ASSESSMENT,
-		payload: {type, name, courseID, grade, weight}
+		payload: {type, name, courseID, grade, weight, hidden: false}
 	};
 };
 

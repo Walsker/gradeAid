@@ -44,7 +44,7 @@ const calculateCourseAverage = (store, next, courseID) =>
 
 	for (var id in assessList)
 	{
-		if (assessList[id].courseID == courseID)
+		if (assessList[id].courseID == courseID && !assessList[id].hidden)
 		{
 			average += (assessList[id].grade * assessList[id].weight)
 			completion += assessList[id].weight;

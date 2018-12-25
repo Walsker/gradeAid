@@ -76,14 +76,14 @@ class CoursePage extends Component
 								emptyRingColor = {colors.darkPrimaryColor}
 								backgroundColor = {colors.spaceColor}
 								percentage = {this.props.course.average}
-								active = {true}
+								active = {this.props.course.average != -1}
 								animationDelay = {0}
 							/>
 						</View>
 					}
 				/>
 				<Tile
-					title = {"Class Completion - " + (this.props.course.completion * 100) + "%"}
+					title = {"Class Completion - " + (Math.round(this.props.course.completion * 1000) / 10) + "%"}
 					content = 
 					{
 						<View style = {{alignSelf: 'stretch', paddingHorizontal: 25}}>

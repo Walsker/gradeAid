@@ -80,6 +80,8 @@ class AssessmentList extends Component
 			})
 		};
 
+		var hiddenText = this.props.assessments[assessmentID].hidden ? {textDecorationLine: 'line-through'} : {};
+
 		return(
 			<TouchableWithoutFeedback
 				key = {animationID}
@@ -89,7 +91,7 @@ class AssessmentList extends Component
 			>
 				<Animated.View style = {[containerStyle.assessmentCard, pressedBackground]}>
 					<View style = {containerStyle.assessmentCardTitle}>
-						<Animated.Text style = {[textStyle.regular(20), pressedText]}>{this.props.assessments[assessmentID].name}</Animated.Text>
+						<Animated.Text style = {[textStyle.regular(20), pressedText, hiddenText]}>{this.props.assessments[assessmentID].name}</Animated.Text>
 					</View>
 					<View style = {{flexDirection: 'row'}}>
 						<View style = {containerStyle.assessmentGradeBar}>
@@ -100,7 +102,7 @@ class AssessmentList extends Component
 							/>
 						</View>
 						<View style = {containerStyle.assessmentGradePercent}>
-							<Animated.Text style = {[textStyle.regular(22), pressedText]}>{(Math.round(this.props.assessments[assessmentID].grade*1000)/10) + "%"}</Animated.Text>
+							<Animated.Text style = {[textStyle.regular(22), pressedText, hiddenText]}>{(Math.round(this.props.assessments[assessmentID].grade*1000)/10) + "%"}</Animated.Text>
 						</View>
 					</View>
 				</Animated.View>
