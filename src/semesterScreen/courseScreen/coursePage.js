@@ -6,7 +6,7 @@ import {ScrollView, Text, View} from 'react-native';
 import {connect} from 'react-redux';
 
 // Custom imports
-import {ActionBar, Button, IconButton, ProgressCircle, Tile} from 'gradeAid/src/common';
+import {ActionBar, Button, IconButton, ProgressBar, ProgressCircle, Tile} from 'gradeAid/src/common';
 import {colors, containerStyle, textStyle} from 'gradeAid/src/common/appStyles';
 import AssessmentList from './_components/assessmentList';
 
@@ -78,6 +78,19 @@ class CoursePage extends Component
 								percentage = {this.props.course.average}
 								active = {true}
 								animationDelay = {0}
+							/>
+						</View>
+					}
+				/>
+				<Tile
+					title = {"Class Completion - " + (this.props.course.completion * 100) + "%"}
+					content = 
+					{
+						<View style = {{alignSelf: 'stretch', paddingHorizontal: 25}}>
+							<ProgressBar
+								percentage = {this.props.course.completion}
+								listOrder = {0}
+								animationDelay = {300}
 							/>
 						</View>
 					}

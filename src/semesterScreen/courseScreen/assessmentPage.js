@@ -63,8 +63,22 @@ class AssessmentPage extends Component
 						{
 							<View>
 								<Text style = {textStyle.regular(150, 'center')}>
+									<Text style = {textStyle.regular(75, 'center', colors.spaceColor)}>%</Text>
 									{Math.round(this.props.assessment.grade * 1000) / 10}
 									<Text style = {textStyle.regular(75)}>%</Text>
+								</Text>
+							</View>
+						}
+					/>
+					<Tile
+						title = "Weight"
+						content =
+						{
+							<View>
+								<Text style = {textStyle.regular(50, 'center')}>
+									<Text style = {textStyle.regular(25, 'center', colors.spaceColor)}>%</Text>
+									{Math.round(this.props.assessment.weight * 1000) / 10}
+									<Text style = {textStyle.regular(25)}>%</Text>
 								</Text>
 							</View>
 						}

@@ -51,55 +51,6 @@ const calculateCourseAverage = (store, next, courseID) =>
 		}
 	}
 
-	// var componentAverage = [];
-	// var numOfComponentsUsedSoFar = 0;
-	// for (i in Assessment.types)
-	// {
-	// 	componentAverage.push(-1);
-	// 	var componentSum = 0;
-	// 	var assessCount = 0;
-	// 	var componentUsed = false;
-	// 	for (id in assessList)
-	// 	{
-	// 		if (assessList[id].type == i && assessList[id].courseID == courseID)
-	// 		{
-	// 			componentUsed = true;
-	// 			componentSum += assessList[id].grade;
-	// 			assessCount++;
-	// 		}
-	// 	}
-
-	// 	if (componentUsed)
-	// 		numOfComponentsUsedSoFar++;
-
-	// 	if (assessCount != 0)
-	// 		componentAverage[i] = componentSum / assessCount;
-	// }
-
-	// var courseAverage = 0;
-	// var normalizer = 0;
-	// var normalize = false;
-	// for (i in componentAverage)
-	// {
-	// 	if (componentAverage[i] != -1)
-	// 	{
-	// 		normalizer += courseObject.breakdown[i];
-
-	// 		if (numOfComponentsUsedSoFar == 1)
-	// 		{
-	// 			courseAverage = componentAverage[i];
-	// 			break;
-	// 		}
-	// 		else
-	// 			courseAverage += (componentAverage[i] * courseObject.breakdown[i]);
-	// 	}
-	// }
-
-	// if (numOfComponentsUsedSoFar == 0)
-	// 	courseAverage = -1;
-	// else if (numOfComponentsUsedSoFar != 1)
-	// 	courseAverage /= normalizer;
-
 	next(editCourse(courseID, {average: completion == 0 ? -1 : average / completion, completion}));
 	calculateSemesterAverage(store, next, courseObject.semesterID);
 }

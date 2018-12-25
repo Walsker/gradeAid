@@ -114,7 +114,7 @@ class AssessmentList extends Component
 			this.refresh();
 
 		var assessmentComponents = [];
-		var animationCounter = 0;
+		var animationCounter = 1;
 		for (id in this.props.assessments)
 		{
 			assessmentComponents.push(
