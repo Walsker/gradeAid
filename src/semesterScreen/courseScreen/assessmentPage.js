@@ -62,72 +62,47 @@ class AssessmentPage extends Component
 					title = {this.props.assessment.name}
 				/>
 				<ScrollView style = {containerStyle.tileList}>
-					<Tile
-						title = "Grade"
-						content =
-						{
-							<View>
-								<Text style = {textStyle.regular(150, 'center')}>
-									<Text style = {textStyle.regular(75, 'center', colors.spaceColor)}>%</Text>
-									{Math.round(this.props.assessment.grade * 1000) / 10}
-									<Text style = {textStyle.regular(75)}>%</Text>
-								</Text>
-							</View>
-						}
-					/>
-					<Tile
-						title = "Weight"
-						content =
-						{
-							<View>
-								<Text style = {textStyle.regular(50, 'center')}>
-									<Text style = {textStyle.regular(25, 'center', colors.spaceColor)}>%</Text>
-									{Math.round(this.props.assessment.weight * 1000) / 10}
-									<Text style = {textStyle.regular(25)}>%</Text>
-								</Text>
-							</View>
-						}
-					/>
-					<Tile
-						title = "Made a mistake?"
-						content =
-						{
-							<Button
-								label = "Edit Assessment"
-								color = {colors.primaryColor}
-								inverted = {false}
-								action = {() => this.props.navigation.navigate("EditAssessmentPage")}
-							/>
-						}
-					/>
-					<Tile
-						title = "Hide Assessment"
-						content =
-						{
-							<View>
-								<CheckList
-									style = {{alignSelf: 'center', paddingVertical: 0}}
-									color = {colors.accentColor}
-									fontSize = {16}
-									labels = {["Pretend like this assessment never existed."]}
-									values = {[this.props.assessment.hidden]}
-									onItemToggle = {id => this.hideAssessment()}
-								/>
-							</View>
-						}
-					/>
-					<Tile
-						title = "Delete Assessment"
-						content =
-						{
-							<Button
-								label = "Delete Assessment"
-								color = {'red'}
-								inverted = {false}
-								action = {() => this.showAlert("Delete Assessment")}
-							/>
-						}
-					/>
+					<Tile title = "Grade">
+						<Text style = {textStyle.regular(150, 'center')}>
+							<Text style = {textStyle.regular(75, 'center', colors.spaceColor)}>%</Text>
+							{Math.round(this.props.assessment.grade * 1000) / 10}
+							<Text style = {textStyle.regular(75)}>%</Text>
+						</Text>
+					</Tile>
+					<Tile title = "Weight">
+						<Text style = {textStyle.regular(50, 'center')}>
+							<Text style = {textStyle.regular(25, 'center', colors.spaceColor)}>%</Text>
+							{Math.round(this.props.assessment.weight * 1000) / 10}
+							<Text style = {textStyle.regular(25)}>%</Text>
+						</Text>
+					</Tile>
+					<Tile title = "Made a mistake?">
+						<Button
+							label = "Edit Assessment"
+							color = {colors.primaryColor}
+							inverted = {false}
+							action = {() => this.props.navigation.navigate("EditAssessmentPage")}
+						/>
+					</Tile>
+					<Tile title = "Hide Assessment">
+						<CheckList
+							style = {{alignSelf: 'center', paddingVertical: 0}}
+							color = {colors.accentColor}
+							fontSize = {16}
+							labels = {["Pretend like this assessment never existed."]}
+							values = {[this.props.assessment.hidden]}
+							onItemToggle = {id => this.hideAssessment()}
+						/>
+					</Tile>
+					<Tile title = "Delete Assessment">
+						<Button
+							label = "Delete Assessment"
+							color = {'red'}
+							inverted = {false}
+							action = {() => this.showAlert("Delete Assessment")}
+						/>
+					</Tile>
+					<View style = {{height: 10}}/>
 				</ScrollView>
 			</View>
 		);

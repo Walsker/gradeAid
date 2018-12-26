@@ -68,76 +68,54 @@ class CoursePage extends Component
 				onScrollBeginDrag = {() => this.setState({dragging: true})}
 				onScrollEndDrag = {() => this.setState({dragging: false})}
 			>
-				<Tile title = "Average"
-					content =
-					{
-						<View>
-							<ProgressCircle
-								diameter = {275}
-								borderWidth = {15}
-								ringColor = {colors.accentColor}
-								emptyRingColor = {colors.darkPrimaryColor}
-								backgroundColor = {colors.spaceColor}
-								percentage = {this.props.course.average}
-								active = {this.props.course.average != -1}
-								animationDelay = {0}
-							/>
-						</View>
-					}
-				/>
-				<Tile
-					title = {"Class Completion - " + (Math.round(this.props.course.completion * 1000) / 10) + "%"}
-					content = 
-					{
-						<View style = {{alignSelf: 'stretch', paddingHorizontal: 25}}>
-							<ProgressBar
-								percentage = {this.props.course.completion}
-								listOrder = {0}
-								animationDelay = {300}
-							/>
-						</View>
-					}
-				/>
-				<Tile
-					title = "New Assessment?"
-					content = 
-					{
-						<Button
-							label = "Input Grade"
-							color = {colors.primaryColor}
-							inverted = {false}
-							action = {this.inputGrade.bind(this)}
+				<Tile title = "Average">
+					<ProgressCircle
+						diameter = {275}
+						borderWidth = {15}
+						ringColor = {colors.accentColor}
+						emptyRingColor = {colors.darkPrimaryColor}
+						backgroundColor = {colors.spaceColor}
+						percentage = {this.props.course.average}
+						active = {this.props.course.average != -1}
+						animationDelay = {0}
+					/>
+				</Tile>
+				<Tile title = {"Class Completion - " + (Math.round(this.props.course.completion * 1000) / 10) + "%"}>
+					<View style = {{alignSelf: 'stretch', paddingHorizontal: 25}}>
+						<ProgressBar
+							percentage = {this.props.course.completion}
+							listOrder = {0}
+							animationDelay = {300}
 						/>
-					}
-				/>
-				<Tile
-					title = "Insights"
-					content = 
-					{
-						<View>
-							<Text style = {textStyle.regular(16, 'center', colors.secondaryTextColor)}>Highest achievable grade</Text>
-							<Text style = {[textStyle.regular(24, 'center'), {paddingTop: 10}]}>{maxGrade}%</Text>
-							<View style = {{marginVertical: 5}}/>
-							<Text style = {textStyle.regular(16, 'center', colors.secondaryTextColor)}>Lowest achievable grade</Text>
-							<Text style = {[textStyle.regular(24, 'center'), {paddingBottom: 10}]}>{minGrade}%</Text>
-							{/* <Button
-								label = "Explore"
-								color = {'green'}
-								inverted = {false}
-								action = {() => {}}
-							/> */}
-						</View>
-					}
-				/>
-				<Tile
-					title = "Overview"
-					content = {
+					</View>
+				</Tile>
+				<Tile title = "New Assessment?">
+					<Button
+						label = "Input Grade"
+						color = {colors.primaryColor}
+						inverted = {false}
+						action = {this.inputGrade.bind(this)}
+					/>
+				</Tile>
+				<Tile title = "Insights">
+					<Text style = {textStyle.regular(16, 'center', colors.secondaryTextColor)}>Highest achievable grade</Text>
+					<Text style = {[textStyle.regular(24, 'center'), {paddingTop: 10}]}>{maxGrade}%</Text>
+					<View style = {{marginVertical: 5}}/>
+					<Text style = {textStyle.regular(16, 'center', colors.secondaryTextColor)}>Lowest achievable grade</Text>
+					<Text style = {[textStyle.regular(24, 'center'), {paddingBottom: 10}]}>{minGrade}%</Text>
+					{/* <Button
+						label = "Explore"
+						color = {'green'}
+						inverted = {false}
+						action = {() => {}}
+					/> */}
+				</Tile>
+				<Tile title = "Overview">
 					<AssessmentList
 						navigation = {this.props.navigation}
 						active = {!this.state.dragging}
 					/>
-				}
-				/>
+				</Tile>
 				<View style = {{height: 10}}/>
 			</ScrollView>
 		);

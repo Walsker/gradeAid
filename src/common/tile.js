@@ -16,7 +16,7 @@ export default class Tile extends Component
 					<Text style = {textStyle.regular(18)}>{title}</Text>
 				</View>
 				<View style = {containerStyle.tileContent}>
-					{this.props.content}
+					{this.props.children}
 				</View>
 			</View>
 		);

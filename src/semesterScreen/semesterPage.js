@@ -65,26 +65,17 @@ class SemesterPage extends Component
 
 		return(
 			<ScrollView style = {containerStyle.tileList}>
-				<Tile title = "Semester Average"
-					content =
-					{
-						<View>
-							<View style = {{marginVertical: -25}}>
-								<Text style = {textStyle.bold(200)}>{averageString}</Text>
-							</View>
-						</View>
-					}
-				/>
-				<Tile
-					title = "Courses"
-					content =
-					{
-						<CourseList 
-							navigation = {this.props.navigation} 
-							newCourse = {this.newCourse.bind(this)}
-						/>
-					}
-				/>
+				<Tile title = "Semester Average">
+					<View style = {{marginVertical: -25}}>
+						<Text style = {textStyle.bold(200)}>{averageString}</Text>
+					</View>
+				</Tile>
+				<Tile title = "Courses">
+					<CourseList 
+						navigation = {this.props.navigation} 
+						newCourse = {this.newCourse.bind(this)}
+					/>
+				</Tile>
 				<View style = {{height: 10}}/>
 			</ScrollView>
 		);

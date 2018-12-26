@@ -41,14 +41,7 @@ class SettingsPage extends Component
 					color = {colors.primaryTextColor}
 					action = {() =>
 					{
-						Alert.alert(
-							"Edit Letter Grade System",
-							"WIP",
-							[
-								{text: 'OK', onPress: () => {}},
-							],
-							{cancelable: true}
-						);
+						this.props.navigation.navigate("GradeSystemPage");
 					}}
 				/>
 				<MenuItem
@@ -56,14 +49,7 @@ class SettingsPage extends Component
 					color = {colors.primaryTextColor}
 					action = {() =>
 					{
-						Alert.alert(
-							"Themes Page",
-							"WIP",
-							[
-								{text: 'OK', onPress: () => {}},
-							],
-							{cancelable: true}
-						);
+						this.props.navigation.navigate("ThemesPage");
 					}}
 				/>
 				<MenuItem
