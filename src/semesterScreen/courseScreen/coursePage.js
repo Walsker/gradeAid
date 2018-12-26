@@ -6,7 +6,7 @@ import {ScrollView, Text, View} from 'react-native';
 import {connect} from 'react-redux';
 
 // Custom imports
-import {ActionBar, Button, Divider, IconButton, ProgressBar, ProgressCircle, Tile} from 'gradeAid/src/common';
+import {ActionBar, Button, IconButton, ProgressBar, ProgressCircle, Tile} from 'gradeAid/src/common';
 import {colors, containerStyle, textStyle} from 'gradeAid/src/common/appStyles';
 import AssessmentList from './_components/assessmentList';
 
@@ -117,7 +117,7 @@ class CoursePage extends Component
 						<View>
 							<Text style = {textStyle.regular(16, 'center', colors.secondaryTextColor)}>Highest achievable grade</Text>
 							<Text style = {[textStyle.regular(24, 'center'), {paddingTop: 10}]}>{maxGrade}%</Text>
-							<Divider color = {colors.primaryTextColor} seperation = {0}/>
+							<View style = {{marginVertical: 5}}/>
 							<Text style = {textStyle.regular(16, 'center', colors.secondaryTextColor)}>Lowest achievable grade</Text>
 							<Text style = {[textStyle.regular(24, 'center'), {paddingBottom: 10}]}>{minGrade}%</Text>
 							{/* <Button

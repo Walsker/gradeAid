@@ -85,7 +85,7 @@ class AssessmentList extends Component
 
 		return(
 			<TouchableWithoutFeedback
-				key = {Date.now().toString()}
+				key = {assessmentID}
 				onPressIn = {() => this.onPressIn(assessmentID)}
 				onPressOut = {() => this.onRelease(assessmentID)}
 				delayPressOut = {50}
