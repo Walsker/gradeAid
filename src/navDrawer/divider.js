@@ -13,7 +13,7 @@ export default class Divider extends Component
 			<View style = {{
 				backgroundColor: colors.dividerColor,
 				marginVertical: 10,
-				height: 1
+				height: 1.2
 			}}/>
 		);
 	}

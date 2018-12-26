@@ -81,7 +81,7 @@ class NavDrawer extends Component
 							this.props.navigation.navigate("NewSemesterPage");
 						}}
 					/>
-					<Divider color = {colors.secondaryTextColor}/>
+					<Divider color = {colors.dividerColor}/>
 					<DrawerItem
 						title = "Settings"
 						active = {this.state.activeType == this.state.SETTINGS_PAGE}

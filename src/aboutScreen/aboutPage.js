@@ -4,7 +4,7 @@ import {Linking, Text, TouchableOpacity, View} from 'react-native';
 
 // Custom imports
 import {colors, containerStyle, textStyle} from 'gradeAid/src/common/appStyles';
-import {ActionBar, IconButton} from 'gradeAid/src/common';
+import {ActionBar, Divider, IconButton} from 'gradeAid/src/common';
 
 export default class AboutPage extends Component
 {
@@ -27,9 +27,12 @@ export default class AboutPage extends Component
 				<View style = {containerStyle.form}>
 					<View style = {containerStyle.formSection}>
 						<Text style = {textStyle.bold(75, 'center')}>Grade Aid</Text>
+						<Text style = {textStyle.regular(16, 'center', colors.secondaryTextColor)}>v1.1</Text>
+					</View>
+					<View style = {containerStyle.formSection}>
 						<Text style = {textStyle.regular(20, 'center')}>Created by Wal Wal</Text>
 					</View>
-					<View style = {{marginVertical: 10}}/>
+					<Divider color = {colors.dividerColor} separation = {10} style = {{marginTop: 0}}/>
 					<View style = {containerStyle.formSection}>
 						<Text style = {textStyle.light(20, 'center')}>Found a bug? Feedback? Feature Requests?</Text>
 						<View style = {{marginVertical: 5}}/>

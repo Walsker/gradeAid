@@ -37,14 +37,6 @@ class SettingsPage extends Component
 				/>
 				<View style = {{marginVertical: 5}}/>
 				<MenuItem
-					title = "Letter Grade System"
-					color = {colors.primaryTextColor}
-					action = {() =>
-					{
-						this.props.navigation.navigate("GradeSystemPage");
-					}}
-				/>
-				<MenuItem
 					title = "Themes"
 					color = {colors.primaryTextColor}
 					action = {() =>

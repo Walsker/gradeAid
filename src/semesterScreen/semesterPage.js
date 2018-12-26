@@ -34,25 +34,19 @@ class SemesterPage extends Component
 	{
 		return(
 			<View style = {containerStyle.tileList}>
-				<Tile
-					title = "No Courses"
-					content =
-					{
-						<View>
-							<View style = {{marginVertical: 5}}/>
-							<Text style = {textStyle.regular(16, 'center')}>
-								You have no courses in this semester!
-							</Text>
-							<View style = {{marginVertical: 5}}/>
-							<Button
-								label = "Add Course"
-								color = {colors.darkPrimaryColor}
-								inverted = {false}
-								action = {this.newCourse.bind(this)}
-							/>
-						</View>
-					}
-				/>
+				<Tile title = "No Courses">
+					<View style = {{marginVertical: 5}}/>
+					<Text style = {textStyle.regular(16, 'center')}>
+						You have no courses in this semester!
+					</Text>
+					<View style = {{marginVertical: 5}}/>
+					<Button
+						label = "Add Course"
+						color = {colors.darkPrimaryColor}
+						inverted = {false}
+						action = {this.newCourse.bind(this)}
+					/>
+				</Tile>
 			</View>
 		);
 	}

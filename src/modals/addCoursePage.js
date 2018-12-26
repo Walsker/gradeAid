@@ -179,7 +179,7 @@ class AddCoursePage extends Component
 				<View style = {containerStyle.formSection}>
 					<Text style = {textStyle.regular(22, 'center')}>What kind of assessments are in your course?{'\n\n'}Select all that apply.</Text>
 				</View>
-				<Divider color = {colors.dividerColor} space = {0}/>
+				<Divider color = {colors.dividerColor} seperation = {0}/>
 				<View style = {containerStyle.formSection}>
 					<CheckList
 						color = {colors.accentColor}

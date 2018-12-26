@@ -8,7 +8,7 @@ import {editCourse} from 'gradeAid/src/userData/actions';
 
 // Custom imports
 import {colors, containerStyle, textStyle} from 'gradeAid/src/common/appStyles';
-import {ActionBar, Button, IconButton} from 'gradeAid/src/common';
+import {ActionBar, Button, Divider, IconButton} from 'gradeAid/src/common';
 import * as Assessment from 'gradeAid/src/semesterScreen/assessmentTypes';
 
 class EditCoursePage extends Component
@@ -123,14 +123,35 @@ class EditCoursePage extends Component
 
 	courseTitle_SCENE()
 	{
+		const submit = () =>
+		{
+			var nameUsed = false;
+			for (id in this.props.courseList)
+			{
+				if (this.props.courseList[id].semesterID == this.props.selectedSemester &&
+					this.props.courseList[id].name == this.state.courseName.trim() &&
+					id != this.props.selectedCourse)
+					nameUsed = true;
+			}
+
+			if (this.state.courseName == "")
+				this.showAlert("Incomplete Course Name");
+			else if (nameUsed)
+				this.showAlert("Course Name Used");
+			else
+				this.next({courseName: this.state.courseName.trim()});
+		};
+
 		return(
 			<View style = {containerStyle.form}>
 				<View style = {containerStyle.formSection}>
 					<TextInput
+						autoFocus = {true}
 						autoCapitalize = 'characters'
 						maxLength = {15}
 						defaultValue = {this.state.courseName}
 						onChangeText = {(newText) => this.setState({courseName: newText})}
+						onSubmitEditing = {submit}
 						placeholder = "i.e. COMP 1405"
 						placeholderTextColor = 'rgba(0, 0, 0, 0.2)'
 						underlineColorAndroid = {colors.primaryTextColor}
@@ -145,24 +166,7 @@ class EditCoursePage extends Component
 						label = "Next"
 						color = {colors.primaryColor}
 						inverted = {false}
-						action = {() =>
-						{
-							var nameUsed = false;
-							for (id in this.props.courseList)
-							{
-								if (this.props.courseList[id].semesterID == this.props.selectedSemester &&
-									this.props.courseList[id].name == this.state.courseName.trim() &&
-									id != this.props.selectedCourse)
-									nameUsed = true;
-							}
-
-							if (this.state.courseName == "")
-								this.showAlert("Incomplete Course Name");
-							else if (nameUsed)
-								this.showAlert("Course Name Used");
-							else
-								this.next({courseName: this.state.courseName.trim()});
-						}}
+						action = {submit}
 					/>
 				</View>
 			</View>
@@ -185,12 +189,16 @@ class EditCoursePage extends Component
 			var input = "";
 			return (
 				<View
+					key = {type}
 					style =
 					{[
 						containerStyle.rowBox,
-						{alignItems: 'center', justifyContent: 'space-between', paddingHorizontal: 20}
+						{
+							alignItems: 'center',
+							justifyContent: 'space-between',
+							marginVertical: 0
+						}
 					]}
-					key = {type}
 				>
 					<Text style = {textStyle.regular(25, 'left')}>{Assessment.pluralTypes[type]}</Text>
 					<View style = {{flexDirection: 'row', alignItems: 'center'}}>
@@ -202,9 +210,9 @@ class EditCoursePage extends Component
 							underlineColorAndroid = {colors.primaryTextColor}
 							returnKeyType = 'done'
 							style = {[textStyle.regular(25, 'right'), {width: 75}]}
-							onChangeText = {(newInput) => input = newInput}
-							onEndEditing = {() =>
+							onChangeText = {(newInput) =>
 							{
+								input = (newInput == "" ? 0 : newInput);
 								var breakdown = this.state.markBreakdown;
 								var newPercentage = convertToPercentage(input, this.state.markBreakdown[type]);
 								breakdown[type] = newPercentage;
@@ -238,6 +246,7 @@ class EditCoursePage extends Component
 				<View style = {containerStyle.formSection}>
 					<Text style = {textStyle.regular(22, 'center')}>Specify the mark breakdown below.</Text>
 				</View>
+				<Divider color = {colors.dividerColor}/>
 				<View style = {containerStyle.formSection}>
 					{breakdownInput}
 				</View>

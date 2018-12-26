@@ -32,34 +32,28 @@ class CoursePage extends Component
 	{
 		return(
 			<View style = {containerStyle.tileList}>
-				<Tile
-					title = "No Assessments"
-					content =
-					{
-						<View>
-							<View style = {{marginVertical: 5}}/>
-							<Text style = {textStyle.regular(16, 'center')}>
-								You haven't completed any assessments yet.
-							</Text>
-							<View style = {{marginVertical: 5}}/>
-							<View style = {containerStyle.rowBox}>
-								<Button
-									label = "Input Grade"
-									color = {colors.primaryColor}
-									inverted = {false}
-									action = {this.inputGrade.bind(this)}
-								/>
-							</View>
-						</View>
-					}
-				/>
+				<Tile title = "No Assessments">
+					<View style = {{marginVertical: 5}}/>
+					<Text style = {textStyle.regular(16, 'center')}>
+						You haven't completed any assessments yet.
+					</Text>
+					<View style = {{marginVertical: 5}}/>
+					<View style = {containerStyle.rowBox}>
+						<Button
+							label = "Input Grade"
+							color = {colors.primaryColor}
+							inverted = {false}
+							action = {this.inputGrade.bind(this)}
+						/>
+					</View>
+				</Tile>
 			</View>
 		);
 	}
 
 	course_SCENE()
 	{
-		var maxGrade = ((this.props.course.average * this.props.course.completion) + (1 - this.props.course.completion)) * 100;
+		var maxGrade = Math.round(((this.props.course.average * this.props.course.completion) + (1 - this.props.course.completion)) * 1000) / 10;
 		var minGrade = Math.round(this.props.course.average * this.props.course.completion * 1000) / 10;
 
 		return(
@@ -98,10 +92,10 @@ class CoursePage extends Component
 					/>
 				</Tile>
 				<Tile title = "Insights">
-					<Text style = {textStyle.regular(16, 'center', colors.secondaryTextColor)}>Highest achievable grade</Text>
+					<Text style = {textStyle.regular(16, 'center', colors.secondaryTextColor)}>Highest achievable final grade</Text>
 					<Text style = {[textStyle.regular(24, 'center'), {paddingTop: 10}]}>{maxGrade}%</Text>
 					<View style = {{marginVertical: 5}}/>
-					<Text style = {textStyle.regular(16, 'center', colors.secondaryTextColor)}>Lowest achievable grade</Text>
+					<Text style = {textStyle.regular(16, 'center', colors.secondaryTextColor)}>Lowest achievable final grade</Text>
 					<Text style = {[textStyle.regular(24, 'center'), {paddingBottom: 10}]}>{minGrade}%</Text>
 					{/* <Button
 						label = "Explore"
