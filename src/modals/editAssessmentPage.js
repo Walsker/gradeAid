@@ -160,7 +160,7 @@ class EditAssessmentPage extends Component
 					blurOnSubmit = {false}
 					onSubmitEditing = {() => this.weightInput.focus()}
 					keyboardType = 'numeric'
-					defaultValue = {this.state.percentage == 0 ? "" : this.state.percentage.toString()}
+					defaultValue = {this.state.percentage}
 					returnKeyType = 'next'
 					onChangeText = {(newText) => {
 						this.setState({percentage: this.convertToPercentage(newText, this.state.percentage)});

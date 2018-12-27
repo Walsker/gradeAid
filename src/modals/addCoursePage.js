@@ -259,8 +259,6 @@ class AddCoursePage extends Component
 		const createTypeSpecificaiton = (type) =>
 		{
 			var input = "";
-			var defaultValue = this.state.markBreakdown[type] == 0 ? "" : (Math.round(this.state.markBreakdown[type] * 1000) / 1000).toString();
-
 			return (
 				<TextField
 					key = {type}
@@ -269,7 +267,7 @@ class AddCoursePage extends Component
 					textAlign = 'center'
 					color = {colors.primaryTextColor}
 					keyboardType = 'numeric'
-					defaultValue = {defaultValue}
+					defaultValue = {this.state.markBreakdown[type].toString()}
 					returnKeyType = 'done'
 					onChangeText = {(newInput) =>
 					{
