@@ -63,8 +63,7 @@ const styles = StyleSheet.create(
 		alignItems: 'flex-start',
 		flexDirection: 'row',
 		backgroundColor: colors.primaryColor,
-		height: 56,
-		// elevation: 10
+		height: 56
 	},
 	iBar:
 	{

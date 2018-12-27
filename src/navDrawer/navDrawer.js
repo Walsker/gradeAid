@@ -77,7 +77,7 @@ class NavDrawer extends Component
 						active = {false}
 						action = {() =>
 						{
-							this.props.navigation.closeDrawer();
+							// this.props.navigation.closeDrawer();
 							this.props.navigation.navigate("NewSemesterPage");
 						}}
 					/>

@@ -70,7 +70,6 @@ export default class Button extends Component
 							}),
 						paddingVertical: 5,
 						paddingHorizontal: 35,
-						elevation: 3,
 						borderRadius: 30,
 						borderWidth: 1.5,
 						borderColor: this.props.color
