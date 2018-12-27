@@ -49,7 +49,7 @@ class SettingsPage extends Component
 					}
 					title = {"Settings"}
 				/>
-				<View style = {{marginVertical: 5}}/>
+				<View style = {{marginBottom: 5}}/>
 				<MenuItem
 					title = "Dark Mode"
 					color = {colors.primaryTextColor}

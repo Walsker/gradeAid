@@ -302,54 +302,59 @@ class AddCoursePage extends Component
 		}
 
 		return(
-			<View style = {containerStyle.form}>
-				<View style = {containerStyle.formSection}>
-					<Text style = {textStyle.regular(22, 'center')}>Specify the mark breakdown below.</Text>
-				</View>
-				<Divider color = {colors.dividerColor}/>
-				<View style = {containerStyle.formSection}>
-					{breakdownInput}
-				</View>
-				<View style = {containerStyle.formSection}>
-					<Text style = {textStyle.regular(14, 'center', colors.secondaryTextColor)}>
-						Sum: {breakdownSum}%
-					</Text>
-				</View>
-				<View style = {containerStyle.rowBox}>
-					<Button
-						label = "Back"
-						color = {colors.primaryColor}
-						inverted = {true}
-						action = {this.back.bind(this)}
-					/>
-					<Button
-						label = "Next"
-						color = {colors.primaryColor}
-						inverted = {false}
-						action = {() =>
-						{
-							var noneLeftBlank = true;
-							var violator = "";
-							for (i in this.state.selectedTypes)
+			<ScrollView
+				keyboardShouldPersistTaps = 'handled'
+				onScroll = {this.scrollToggle.bind(this)}
+			>
+				<View style = {containerStyle.form}>
+					<View style = {containerStyle.formSection}>
+						<Text style = {textStyle.regular(22, 'center')}>Specify the mark breakdown below.</Text>
+					</View>
+					<Divider color = {colors.dividerColor}/>
+					<View style = {containerStyle.formSection}>
+						{breakdownInput}
+					</View>
+					<View style = {containerStyle.formSection}>
+						<Text style = {textStyle.regular(14, 'center', colors.secondaryTextColor)}>
+							Sum: {breakdownSum}%
+						</Text>
+					</View>
+					<View style = {containerStyle.rowBox}>
+						<Button
+							label = "Back"
+							color = {colors.primaryColor}
+							inverted = {true}
+							action = {this.back.bind(this)}
+						/>
+						<Button
+							label = "Next"
+							color = {colors.primaryColor}
+							inverted = {false}
+							action = {() =>
 							{
-								if (this.state.selectedTypes[i] && this.state.markBreakdown[i] == 0)
+								var noneLeftBlank = true;
+								var violator = "";
+								for (i in this.state.selectedTypes)
 								{
-									noneLeftBlank = false;
-									violator = Assessment.pluralTypes[i];
-									break;
+									if (this.state.selectedTypes[i] && this.state.markBreakdown[i] == 0)
+									{
+										noneLeftBlank = false;
+										violator = Assessment.pluralTypes[i];
+										break;
+									}
 								}
-							}
 
-							if (!noneLeftBlank)
-								this.showAlert("Breakdown Contains a 0", violator);
-							else if (breakdownSum != 100)
-								this.showAlert("Breakdown Sum Invalid");
-							else
-								this.next();
-						}}
-					/>
+								if (!noneLeftBlank)
+									this.showAlert("Breakdown Contains a 0", violator);
+								else if (breakdownSum != 100)
+									this.showAlert("Breakdown Sum Invalid");
+								else
+									this.next();
+							}}
+						/>
+					</View>
 				</View>
-			</View>
+			</ScrollView>
 		);
 	}
 

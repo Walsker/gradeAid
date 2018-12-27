@@ -4,6 +4,7 @@ import {Animated, Switch, Text, TouchableWithoutFeedback, View} from 'react-nati
 
 // Custom imports
 import {colors, textStyle} from 'gradeAid/src/common/appStyles';
+import {Divider} from 'gradeAid/src/common';
 
 export default class MenuItem extends Component
 {
@@ -47,7 +48,7 @@ export default class MenuItem extends Component
 			return (
 				<View style = {{
 						paddingHorizontal: 35,
-						paddingVertical: 10,
+						paddingVertical: 15,
 						flexDirection: 'row',
 						justifyContent: 'space-between',
 						alignItems: 'center',
@@ -59,6 +60,7 @@ export default class MenuItem extends Component
 					</Text>
 					<Switch
 						style = {{marginVertical: -55}}
+						tintColor = {colors.lightPrimaryColor}
 						onTintColor = {colors.accentColor}
 						thumbTintColor = {colors.primaryColor}
 						onValueChange = {this.props.action}
@@ -73,7 +75,7 @@ export default class MenuItem extends Component
 				<TouchableWithoutFeedback onPressIn = {this.onPressIn.bind(this)} onPressOut = {this.onRelease.bind(this)}>
 					<Animated.View style = {{
 							paddingHorizontal: 35,
-							paddingVertical: 10,
+							paddingVertical: 15,
 							flexDirection: 'row',
 							justifyContent: 'space-between',
 							alignItems: 'center',
@@ -97,11 +99,7 @@ export default class MenuItem extends Component
 		return (
 			<View>
 				{this.itemContent()}
-				<View style = {{
-					backgroundColor: colors.dividerColor,
-					marginVertical: 5,
-					height: 1.2
-				}}/>
+				<Divider color = {colors.dividerColor} seperation = {0} padding = {0}/>
 			</View>
 		);
 	}
