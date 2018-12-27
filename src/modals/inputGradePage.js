@@ -265,10 +265,10 @@ class InputGradePage extends Component
 			{
 				return (
 					<TextField
-						color = {colors.primaryTextColor}
 						fontSize = {24}
 						label = "Grade (%)"
 						textAlign = 'center'
+						textColor = {colors.primaryTextColor}
 						blurOnSubmit = {false}
 						onSubmitEditing = {() => this.weightInput.focus()}
 						keyboardType = 'numeric'
@@ -331,10 +331,10 @@ class InputGradePage extends Component
 					</Text>
 					<TextField
 						ref = {input => this.weightInput = input}
-						color = {colors.primaryTextColor}
 						fontSize = {24}
 						label = "Weight (%)"
 						textAlign = 'center'
+						textColor = {colors.primaryTextColor}
 						blurOnSubmit = {false}
 						defaultValue = {this.state.weight == 0 ? "" : this.state.weight.toString()}
 						keyboardType = 'numeric'
@@ -351,10 +351,10 @@ class InputGradePage extends Component
 				<View style = {containerStyle.formSection}>
 					<TextField
 						ref = {input => this.nameInput = input}
-						color = {colors.primaryTextColor}
 						fontSize = {24}
 						label = {Assessment.types[selectedType] + " Name"}
 						textAlign = 'center'
+						textColor = {colors.primaryTextColor}
 						clearTextOnFocus = {true}
 						defaultValue = {this.state.name}
 						maxLength = {25}

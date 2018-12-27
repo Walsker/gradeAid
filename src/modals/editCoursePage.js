@@ -163,6 +163,7 @@ class EditCoursePage extends Component
 						fontSize = {24}
 						label = "Course Name"
 						textAlign = 'center'
+						textColor = {colors.primaryTextColor}
 						autoFocus = {true}
 						autoCapitalize = 'characters'
 						maxLength = {15}
@@ -170,8 +171,6 @@ class EditCoursePage extends Component
 						onChangeText = {(newText) => this.setState({courseName: newText})}
 						onSubmitEditing = {submit}
 						placeholder = "i.e. COMP 1405"
-						placeholderTextColor = 'rgba(0, 0, 0, 0.2)'
-						underlineColorAndroid = {colors.primaryTextColor}
 					/>
 				</View>
 				<View style = {containerStyle.rowBox}>
@@ -206,7 +205,7 @@ class EditCoursePage extends Component
 					fontSize = {24}
 					label = {Assessment.pluralTypes[type] + " (%)"}
 					textAlign = 'center'
-					color = {colors.primaryTextColor}
+					textColor = {colors.primaryTextColor}
 					keyboardType = 'numeric'
 					defaultValue = {this.state.markBreakdown[type].toString()}
 					returnKeyType = 'done'

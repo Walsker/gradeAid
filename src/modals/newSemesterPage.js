@@ -121,10 +121,10 @@ class NewSemesterPage extends Component
 					</View>
 					<View style = {containerStyle.formSection}>
 						<TextField
-							color = {colors.primaryTextColor}
 							fontSize = {24}
 							label = "Semester Name"
 							textAlign = 'center'
+							textColor = {colors.primaryTextColor}
 							autoFocus = {true}
 							placeholder = "i.e. Fall 2018"
 							onChangeText = {(newText) => this.setState({_semesterName: newText})}

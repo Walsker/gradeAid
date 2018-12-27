@@ -162,7 +162,7 @@ class AddCoursePage extends Component
 						fontSize = {24}
 						label = "Course Name"
 						textAlign = 'center'
-						color = {colors.primaryTextColor}
+						textColor = {colors.primaryTextColor}
 						autoFocus = {true}
 						autoCapitalize = 'characters'
 						maxLength = {15}
@@ -265,7 +265,7 @@ class AddCoursePage extends Component
 					fontSize = {24}
 					label = {Assessment.pluralTypes[type] + " (%)"}
 					textAlign = 'center'
-					color = {colors.primaryTextColor}
+					textColor = {colors.primaryTextColor}
 					keyboardType = 'numeric'
 					defaultValue = {this.state.markBreakdown[type].toString()}
 					returnKeyType = 'done'

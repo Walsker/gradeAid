@@ -165,10 +165,10 @@ class EditSemesterPage extends Component
 					</View>
 					<View style = {containerStyle.formSection}>
 						<TextField
-							color = {colors.primaryTextColor}
 							fontSize = {24}
 							label = "Semester Name"
 							textAlign = 'center'
+							textColor = {colors.primaryTextColor}
 							autoFocus = {true}
 							defaultValue = {this.state.semesterName}
 							onChangeText = {(newText) => this.setState({_newSemesterName: newText})}
