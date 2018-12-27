@@ -32,6 +32,7 @@ export default class CheckList extends Component
 				</View>
 				<View style = {styles.subItem}>
 					<Text style = {{
+						textAlign: 'center',
 						fontSize: this.props.fontSize,
 						fontFamily: 'Lato-Regular',
 						color: colors.primaryTextColor
