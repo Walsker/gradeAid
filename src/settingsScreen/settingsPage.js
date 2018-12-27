@@ -50,13 +50,13 @@ class SettingsPage extends Component
 					title = {"Settings"}
 				/>
 				<View style = {{marginBottom: 5}}/>
-				<MenuItem
+				{/* <MenuItem
 					title = "Dark Mode"
 					color = {colors.primaryTextColor}
 					switchable = {true}
 					switchValue = {this.state.darkMode}
 					action = {this.toggleDarkMode.bind(this)}
-				/>
+				/> */}
 				<MenuItem
 					title = "Erase App Data"
 					color = 'red'
