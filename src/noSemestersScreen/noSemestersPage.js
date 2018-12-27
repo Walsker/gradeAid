@@ -1,6 +1,6 @@
 // React Native imports
 import React, {Component} from 'react';
-import {Text, TouchableOpacity, View} from 'react-native';
+import {Text, View} from 'react-native';
 
 // Redux imports
 import {connect} from 'react-redux';
@@ -53,7 +53,7 @@ class NoSemestersPage extends Component
 						<View style = {{marginVertical: 20}}/>
 						<Button
 							label = "Start Semester"
-							color = {colors.darkPrimaryColor}
+							color = {colors.primaryColor}
 							inverted = {false}
 							action = {() => this.props.navigation.navigate("NewSemesterPage")}
 						/>

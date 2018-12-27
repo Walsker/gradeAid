@@ -207,7 +207,7 @@ class EditCoursePage extends Component
 					textAlign = 'center'
 					textColor = {colors.primaryTextColor}
 					keyboardType = 'numeric'
-					defaultValue = {this.state.markBreakdown[type].toString()}
+					defaultValue = {this.state.markBreakdown[type] == 0 ? "" : this.state.markBreakdown[type].toString()}
 					returnKeyType = 'done'
 					onChangeText = {(newInput) =>
 					{

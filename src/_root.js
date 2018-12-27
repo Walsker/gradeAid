@@ -36,7 +36,7 @@ export default class App extends Component
 					<PersistGate loading = {<View style = {{backgroundColor: 'red'}}/>} persistor = {persistor}>
 						<View style = {containerStyle.default}>
 							<StatusBar
-								animated
+								animated = {true}
 								barStyle = 'light-content'
 								backgroundColor = {colors.primaryColor}
 							/>

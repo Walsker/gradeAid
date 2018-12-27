@@ -1,6 +1,6 @@
 // React Native imports
 import React, {Component} from 'react';
-import {Animated, Text, TouchableWithoutFeedback} from 'react-native';
+import {Animated, Platform, Text, TouchableNativeFeedback, TouchableWithoutFeedback, View} from 'react-native';
 
 // Custom imports
 import {colors} from 'gradeAid/src/common/appStyles';
@@ -13,6 +13,7 @@ export default class DrawerItem extends Component
 
 		this.state =
 		{
+			backgroundColor: props.active ? colors.accentColor : colors.spaceColor, 
 			pressValue: new Animated.Value(0),
 			INACTIVE_VALUE: 0,
 			ACTIVE_VALUE: 1,
@@ -40,32 +41,59 @@ export default class DrawerItem extends Component
 		this.props.action()
 	}
 
-	render()
+	renderAndroid()
 	{
-		var bkgColor = this.props.active ? colors.accentColor : colors.spaceColor;
+		return(
+			<TouchableNativeFeedback
+				background = {TouchableNativeFeedback.Ripple(colors.lightPrimaryColor, false)}
+				onPress = {this.props.action}
+			>
+				<View style = {{
+					paddingBottom: 1,
+					backgroundColor: this.state.backgroundColor
+				}}>
+					<Text style = {{
+						paddingLeft: 35,
+						paddingVertical: 15,
+						fontFamily: 'Lato-Regular',
+						fontSize: 18
+					}}>
+						{this.props.title}
+					</Text>
+				</View>
+			</TouchableNativeFeedback>
+		);
+	}
 
+	renderiOS()
+	{
 		return(
 			<TouchableWithoutFeedback onPressIn = {this.onPressIn.bind(this)} onPressOut = {this.onRelease.bind(this)}>
-				<Animated.View
-					style = {{
-						paddingBottom: 1,
-						backgroundColor: this.state.pressValue.interpolate({
-							inputRange: [this.state.INACTIVE_VALUE, this.state.ACTIVE_VALUE],
-							outputRange: [bkgColor, colors.lightPrimaryColor]
-						})
-					}}
-				>
-					<Text
-						style = {{
-							paddingLeft: 35,
-							paddingVertical: 15,
-							fontFamily: 'Lato-Regular',
-							fontSize: 18
-						}}
-					>
-					{this.props.title}</Text>
+				<Animated.View style = {{
+					paddingBottom: 1,
+					backgroundColor: this.state.pressValue.interpolate({
+						inputRange: [this.state.INACTIVE_VALUE, this.state.ACTIVE_VALUE],
+						outputRange: [this.state.backgroundColor, colors.lightPrimaryColor]
+					})
+				}}>
+					<Text style = {{
+						paddingLeft: 35,
+						paddingVertical: 15,
+						fontFamily: 'Lato-Regular',
+						fontSize: 18
+					}}>
+						{this.props.title}
+					</Text>
 				</Animated.View>
 			</TouchableWithoutFeedback>
 		);
+	}
+
+	render()
+	{
+		if (Platform.OS === 'ios')
+			return this.renderiOS();
+		else
+			return this.renderAndroid();
 	}
 }

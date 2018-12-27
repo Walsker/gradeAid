@@ -1,6 +1,6 @@
 // React Native imports
 import React, {Component} from 'react';
-import {Animated, Switch, Text, TouchableWithoutFeedback, View} from 'react-native';
+import {Animated, Platform, Switch, Text, TouchableNativeFeedback, TouchableWithoutFeedback, View} from 'react-native';
 
 // Custom imports
 import {colors, textStyle} from 'gradeAid/src/common/appStyles';
@@ -41,6 +41,53 @@ export default class MenuItem extends Component
 		this.props.action();
 	}
 
+	androidContent()
+	{
+		return (
+			<TouchableNativeFeedback
+				background = {TouchableNativeFeedback.Ripple(colors.lightPrimaryColor, false)}
+				onPress = {this.props.action}
+			>
+				<View style = {{
+					paddingHorizontal: 35,
+					paddingVertical: 15,
+					flexDirection: 'row',
+					justifyContent: 'space-between',
+					alignItems: 'center',
+					backgroundColor: colors.spaceColor
+				}}>
+					<Text style = {textStyle.regular(18, 'left', this.props.color)}>
+						{this.props.title}
+					</Text>
+				</View>
+			</TouchableNativeFeedback>
+		);
+	}
+
+	iOSContent()
+	{
+		return (
+			<TouchableWithoutFeedback onPressIn = {this.onPressIn.bind(this)} onPressOut = {this.onRelease.bind(this)}>
+				<Animated.View style = {{
+						paddingHorizontal: 35,
+						paddingVertical: 15,
+						flexDirection: 'row',
+						justifyContent: 'space-between',
+						alignItems: 'center',
+						backgroundColor: this.state.pressValue.interpolate({
+							inputRange: [this.state.INACTIVE_VALUE, this.state.ACTIVE_VALUE],
+							outputRange: [colors.spaceColor, colors.lightPrimaryColor]
+						})
+					}}
+				>
+					<Text style = {textStyle.regular(18, 'left', this.props.color)}>
+						{this.props.title}
+					</Text>
+				</Animated.View>
+			</TouchableWithoutFeedback>
+		);	
+	}
+
 	itemContent()
 	{
 		if (this.props.switchable)
@@ -71,26 +118,10 @@ export default class MenuItem extends Component
 		}
 		else
 		{
-			return (
-				<TouchableWithoutFeedback onPressIn = {this.onPressIn.bind(this)} onPressOut = {this.onRelease.bind(this)}>
-					<Animated.View style = {{
-							paddingHorizontal: 35,
-							paddingVertical: 15,
-							flexDirection: 'row',
-							justifyContent: 'space-between',
-							alignItems: 'center',
-							backgroundColor: this.state.pressValue.interpolate({
-								inputRange: [this.state.INACTIVE_VALUE, this.state.ACTIVE_VALUE],
-								outputRange: [colors.spaceColor, colors.lightPrimaryColor]
-							})
-						}}
-					>
-						<Text style = {textStyle.regular(18, 'left', this.props.color)}>
-							{this.props.title}
-						</Text>
-					</Animated.View>
-				</TouchableWithoutFeedback>
-			);
+			if (Platform.OS === 'ios')
+				return this.iOSContent()
+			else
+				return this.androidContent();
 		}
 	}
 

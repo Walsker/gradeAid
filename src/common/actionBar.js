@@ -5,21 +5,6 @@ import {StyleSheet, Text, View} from 'react-native';
 // Custom imports
 import {colors} from './appStyles';
 
-import {Platform, StatusBar} from 'react-native';
-class AndroidBar extends Component
-{
-	render()
-	{
-		return(
-			<View style =
-			{{
-				backgroundColor: colors.primaryColor,
-				height: Platform.OS === 'ios' ? 0 : StatusBar.currentHeight
-			}}/>
-		);
-	}
-}
-
 export default class ActionBar extends Component
 {
 	render()
@@ -39,7 +24,6 @@ export default class ActionBar extends Component
 
 		return(
 			<View>
-				{/* <AndroidBar/> */}
 				<View style = {barStyle}>
 					<View>
 						{this.props.leftButton}
