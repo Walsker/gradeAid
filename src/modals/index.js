@@ -5,7 +5,6 @@ import EditCoursePage from './editCoursePage';
 import EditSemesterPage from './editSemesterPage';
 import InputGradePage from './inputGradePage';
 import NewSemesterPage from './newSemesterPage';
-import ThemesPage from './themesPage';
 
 export 
 {
@@ -15,6 +14,5 @@ export
     EditCoursePage,
     EditSemesterPage,
     InputGradePage,
-    NewSemesterPage,
-    ThemesPage
+    NewSemesterPage
 };
