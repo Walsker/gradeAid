@@ -9,7 +9,7 @@ export default class TextField extends Component
 {
     render()
     {
-        var screenWidth = Dimensions.get('window').width;
+        var numericFieldWidth = Dimensions.get('window').width / 3;
 
         var borderStyle;
         if (Platform.OS === 'ios')
@@ -21,13 +21,13 @@ export default class TextField extends Component
                 switch (this.props.textAlign)
                 {
                     case 'left':
-                        borderStyle = {width: Dimensions.get('window').width / 3, alignSelf: 'flex-start'};
+                        borderStyle = {width: numericFieldWidth, alignSelf: 'flex-start'};
                         break;
                     case 'right':
-                        borderStyle = {width: Dimensions.get('window').width / 3, alignSelf: 'flex-end'};
+                        borderStyle = {width: numericFieldWidth, alignSelf: 'flex-end'};
                         break;
                     default:
-                        borderStyle = {width: Dimensions.get('window').width / 3, alignSelf: 'center'};
+                        borderStyle = {width: numericFieldWidth, alignSelf: 'center'};
                 }
             }
         }

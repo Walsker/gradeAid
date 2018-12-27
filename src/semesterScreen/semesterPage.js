@@ -20,6 +20,11 @@ class SemesterPage extends Component
 		this.state = {_semesterName: ""};
 	}
 
+	componentDidUpdate()
+	{
+		this.props.navigation.closeDrawer();
+	}
+
 	newCourse()
 	{
 		this.props.navigation.navigate("AddCoursePage");
