@@ -58,7 +58,7 @@ export class AddCourseCard extends Component
 					}}>
 						<Icon
 							name = 'add'
-							size = {75}
+							size = {79}
 							color = {colors.accentColor}
 						/>
 					</View>
@@ -98,7 +98,7 @@ export class AddCourseCard extends Component
                         }}>
                             <Icon
                                 name = 'add'
-                                size = {75}
+                                size = {79}
                                 color = {colors.accentColor}
                             />
                         </View>
