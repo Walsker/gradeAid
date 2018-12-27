@@ -35,7 +35,7 @@ class SettingsPage extends Component
 
 	render()
 	{
-		return(
+		return (
 			<View style = {containerStyle.default}>
 				<ActionBar
 					leftButton =

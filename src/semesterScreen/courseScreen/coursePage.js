@@ -30,7 +30,7 @@ class CoursePage extends Component
 
 	newCourse_SCENE()
 	{
-		return(
+		return (
 			<View style = {containerStyle.tileList}>
 				<Tile title = "No Assessments">
 					<View style = {{marginVertical: 5}}/>
@@ -56,7 +56,7 @@ class CoursePage extends Component
 		var maxGrade = Math.round(((this.props.course.average * this.props.course.completion) + (1 - this.props.course.completion)) * 1000) / 10;
 		var minGrade = Math.round(this.props.course.average * this.props.course.completion * 1000) / 10;
 
-		return(
+		return (
 			<ScrollView 
 				style = {containerStyle.tileList}
 				onScrollBeginDrag = {() => this.setState({dragging: true})}
@@ -120,7 +120,7 @@ class CoursePage extends Component
 		if (!this.props.course)
 			return <View/>;
 		
-		return(
+		return (
 			<View style = {containerStyle.default}>
 				<ActionBar
 					leftButton =

@@ -30,7 +30,7 @@ export default class App extends Component
 		const store = createStore(persistedReducer, applyMiddleware(averageCalculator, listCleaner));
 		const persistor = persistStore(store);
 		// persistor.purge();
-		return(
+		return (
 			<SafeAreaView style = {{flex: 1, backgroundColor: colors.primaryColor}}>
 				<Provider store = {store}>
 					<PersistGate loading = {<View style = {{backgroundColor: 'red'}}/>} persistor = {persistor}>

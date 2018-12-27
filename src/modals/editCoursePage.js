@@ -123,7 +123,7 @@ class EditCoursePage extends Component
 	{
 		this.setState(prevState =>
 		{
-			return({currentScene: prevState.currentScene - 1});
+			return ({currentScene: prevState.currentScene - 1});
 		});
 	}
 
@@ -131,7 +131,7 @@ class EditCoursePage extends Component
 	{
 		this.setState(prevState =>
 		{
-			return({currentScene: prevState.currentScene + 1, ...extraState});
+			return ({currentScene: prevState.currentScene + 1, ...extraState});
 		});
 	}
 
@@ -156,7 +156,7 @@ class EditCoursePage extends Component
 				this.next({courseName: this.state.courseName.trim()});
 		};
 
-		return(
+		return (
 			<View style = {containerStyle.form}>
 				<View style = {containerStyle.formSection}>
 					<TextField
@@ -237,7 +237,7 @@ class EditCoursePage extends Component
 			}
 		}
 
-		return(
+		return (
 			<ScrollView
 				keyboardShouldPersistTaps = 'handled'
 				onScroll = {this.scrollToggle.bind(this)}
@@ -313,7 +313,7 @@ class EditCoursePage extends Component
 			}
 		}
 
-		return(
+		return (
 			<View style = {containerStyle.form}>
 				<View style = {containerStyle.formSection}>
 					<Text style = {textStyle.regular(22, 'center')}>Verify your course information below.</Text>

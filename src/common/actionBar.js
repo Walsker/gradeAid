@@ -22,7 +22,7 @@ export default class ActionBar extends Component
 			titleStyle = styles.iTitleText;
 		}
 
-		return(
+		return (
 			<View>
 				<View style = {barStyle}>
 					<View>

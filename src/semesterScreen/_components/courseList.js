@@ -53,7 +53,7 @@ class CourseList extends Component
 			<AddCourseCard key = "Add Course Card" action = {this.props.newCourse}/>
 		);
 
-		return(
+		return (
 			<View style = {{
 				flex: 1,
 				flexDirection: 'row',

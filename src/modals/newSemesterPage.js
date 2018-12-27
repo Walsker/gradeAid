@@ -100,7 +100,7 @@ class NewSemesterPage extends Component
 
 	render()
 	{
-		return(
+		return (
 			<View style = {containerStyle.page}>
 				<ActionBar
 					inverted = {true}

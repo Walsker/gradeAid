@@ -83,7 +83,7 @@ class AssessmentList extends Component
 
 		var hiddenText = this.props.assessments[assessmentID].hidden ? {textDecorationLine: 'line-through'} : {};
 
-		return(
+		return (
 			<TouchableWithoutFeedback
 				key = {assessmentID}
 				onPressIn = {() => this.onPressIn(assessmentID)}
@@ -126,7 +126,7 @@ class AssessmentList extends Component
 			animationCounter++;
 		}
 
-		return(
+		return (
 			<View style = {containerStyle.assessmentList}>
 				{assessmentComponents}
 			</View>

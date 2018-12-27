@@ -120,7 +120,7 @@ class InputGradePage extends Component
 	{
 		this.setState(prevState =>
 		{
-			return({currentScene: prevState.currentScene - 1});
+			return ({currentScene: prevState.currentScene - 1});
 		});
 	}
 
@@ -128,7 +128,7 @@ class InputGradePage extends Component
 	{
 		this.setState(prevState =>
 		{
-			return({currentScene: prevState.currentScene + 1});
+			return ({currentScene: prevState.currentScene + 1});
 		});
 	}
 
@@ -170,7 +170,7 @@ class InputGradePage extends Component
 
 	selectAssessType_SCENE()
 	{
-		return(
+		return (
 			<View style = {containerStyle.form}>
 				<View style = {containerStyle.formSection}>
 					<Text style = {textStyle.regular(22, 'center')}>Select the type of assessment you have completed.</Text>
@@ -303,7 +303,7 @@ class InputGradePage extends Component
 			}
 		}
 
-		return(
+		return (
 			<View style = {containerStyle.form}>
 				<View style = {containerStyle.formSection}>
 					<Text style = {textStyle.regular(24, 'center')}>Enter the grade you received for {the}{selectedTypeNameSng} below.</Text>
@@ -454,7 +454,7 @@ class InputGradePage extends Component
 			}
 		}
 
-		return(
+		return (
 			<View style = {containerStyle.default}>
 				<ActionBar
 					inverted = {true}

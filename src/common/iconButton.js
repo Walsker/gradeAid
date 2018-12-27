@@ -39,7 +39,7 @@ export default class IconButton extends Component
 
 	renderAndroid()
 	{
-		return(
+		return (
 			<TouchableNativeFeedback
 				background = {TouchableNativeFeedback.Ripple(this.props.color, true)}
 				onPress = {this.props.action}
@@ -59,7 +59,7 @@ export default class IconButton extends Component
 
 	renderiOS()
 	{
-		return(
+		return (
 			<Animated.View style = {{transform: [{scale: 
 				this.state.pressValue.interpolate({
 					inputRange: [this.state.INACTIVE_VALUE, this.state.ACTIVE_VALUE],

@@ -123,7 +123,7 @@ class AddCoursePage extends Component
 	{
 		this.setState(prevState =>
 		{
-			return({currentScene: prevState.currentScene - 1});
+			return {currentScene: prevState.currentScene - 1};
 		});
 	}
 
@@ -131,7 +131,7 @@ class AddCoursePage extends Component
 	{
 		this.setState(prevState =>
 		{
-			return({currentScene: prevState.currentScene + 1, ...extraState});
+			return {currentScene: prevState.currentScene + 1, ...extraState};
 		});
 	}
 
@@ -155,7 +155,7 @@ class AddCoursePage extends Component
 				this.next({courseName: this.state.courseName.trim()});
 		};
 
-		return(
+		return (
 			<View style = {containerStyle.form}>
 				<View style = {containerStyle.formSection}>
 					<TextField
@@ -186,7 +186,7 @@ class AddCoursePage extends Component
 
 	assessmentTypes_SCENE()
 	{
-		return(
+		return (
 			<ScrollView
 				keyboardShouldPersistTaps = 'handled'
 				onScroll = {this.scrollToggle.bind(this)}
@@ -297,7 +297,7 @@ class AddCoursePage extends Component
 			}
 		}
 
-		return(
+		return (
 			<ScrollView
 				keyboardShouldPersistTaps = 'handled'
 				onScroll = {this.scrollToggle.bind(this)}
@@ -373,7 +373,7 @@ class AddCoursePage extends Component
 			}
 		}
 
-		return(
+		return (
 			<View style = {containerStyle.form}>
 				<View style = {containerStyle.formSection}>
 					<Text style = {textStyle.regular(22, 'center')}>Verify your course information below.</Text>
@@ -423,7 +423,7 @@ class AddCoursePage extends Component
 				this.showAlert("Cancel Creation");
 		}
 
-		return(
+		return (
 			<View style = {containerStyle.default}>
 				<ActionBar
 					inverted = {true}

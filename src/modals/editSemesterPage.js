@@ -140,7 +140,7 @@ class EditSemesterPage extends Component
 
 	render()
 	{
-		return(
+		return (
 			<View style = {containerStyle.default}>
 				<ActionBar
 					inverted = {true}

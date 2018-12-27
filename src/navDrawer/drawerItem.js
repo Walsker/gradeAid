@@ -43,7 +43,7 @@ export default class DrawerItem extends Component
 
 	renderAndroid()
 	{
-		return(
+		return (
 			<TouchableNativeFeedback
 				background = {TouchableNativeFeedback.Ripple(colors.lightPrimaryColor, false)}
 				onPress = {this.props.action}
@@ -67,7 +67,7 @@ export default class DrawerItem extends Component
 
 	renderiOS()
 	{
-		return(
+		return (
 			<TouchableWithoutFeedback onPressIn = {this.onPressIn.bind(this)} onPressOut = {this.onRelease.bind(this)}>
 				<Animated.View style = {{
 					paddingBottom: 1,

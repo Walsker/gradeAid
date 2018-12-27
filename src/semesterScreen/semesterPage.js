@@ -37,7 +37,7 @@ class SemesterPage extends Component
 
 	newSemester_SCENE()
 	{
-		return(
+		return (
 			<View style = {containerStyle.tileList}>
 				<Tile title = "No Courses">
 					<View style = {{marginVertical: 5}}/>
@@ -62,7 +62,7 @@ class SemesterPage extends Component
 		if (this.props.semester.average == 'X')
 			averageString = "N/A";
 
-		return(
+		return (
 			<ScrollView style = {containerStyle.tileList}>
 				<Tile title = "Semester Average">
 					<View style = {{marginVertical: -25}}>
@@ -82,7 +82,7 @@ class SemesterPage extends Component
 
 	render()
 	{
-		return(
+		return (
 			<View style = {containerStyle.default}>
 				<ActionBar
 					leftButton =

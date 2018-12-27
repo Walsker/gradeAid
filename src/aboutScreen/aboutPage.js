@@ -10,7 +10,7 @@ export default class AboutPage extends Component
 {
 	render()
 	{
-		return(
+		return (
 			<View style = {containerStyle.default}>
 				<ActionBar
 					leftButton =

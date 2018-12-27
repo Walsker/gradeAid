@@ -15,7 +15,7 @@ export default class CheckList extends Component
 
 	createItem(id)
 	{
-		return(
+		return (
 			<TouchableOpacity
 				key = {id}
 				style = {styles.listItem}
@@ -53,7 +53,7 @@ export default class CheckList extends Component
 			listComponents.push(this.createItem(i));
 		}
 
-		return(
+		return (
 			<View style = {[styles.list, this.props.style]}>
 				{listComponents}
 			</View>
@@ -65,7 +65,7 @@ class CheckCircle extends Component
 {
 	render()
 	{
-		return(
+		return (
 			<View
 				style = {{
 					width: this.props.size,

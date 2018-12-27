@@ -37,7 +37,7 @@ class ProgressBar extends Component
 		if (this.props.isFocused)
 			this.refresh();
 
-		return(
+		return (
 			<View
 				style = {styles.default}
 				onLayout = {event =>
