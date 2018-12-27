@@ -26,7 +26,7 @@ export default class AboutPage extends Component
 				/>
 				<View style = {containerStyle.form}>
 					<View style = {containerStyle.formSection}>
-						<Text style = {textStyle.bold(75, 'center')}>Grade Aid</Text>
+						<Text style = {textStyle.bold(70, 'center')}>Grade Aid</Text>
 						<Text style = {textStyle.regular(16, 'center', colors.secondaryTextColor)}>v1.1</Text>
 					</View>
 					<View style = {containerStyle.formSection}>
@@ -39,7 +39,7 @@ export default class AboutPage extends Component
 						<View style = {containerStyle.courseCard}>
 							<Text style = {textStyle.regular(24, 'center')}>Contact me at</Text>
 							<TouchableOpacity
-								onPress = {() => Linking.openURL('mailto:wal.gatlei@gmail.com?subject=[Grade Aid]').catch(err => console.error('Could not open mail app', err))}
+								onPress = {() => Linking.openURL('mailto:wal.gatlei@gmail.com?subject=[Grade Aid]').catch(err => console.log('Could not open mail app.', err))}
 							>
 								<View style = {{marginVertical: 10}}>
 									<Text style = {textStyle.regular(30, 'center', colors.primaryColor)}>wal.gatlei@gmail.com</Text>
@@ -49,7 +49,7 @@ export default class AboutPage extends Component
 						<View style = {containerStyle.courseCard}>
 							<Text style = {textStyle.regular(24, 'center')}>Github</Text>
 							<TouchableOpacity
-								onPress = {() => Linking.openURL('https://github.com/walsker').catch(err => console.error('Could not go to github', err))}
+								onPress = {() => Linking.openURL('https://github.com/walsker').catch(err => console.log('Could not open browser.', err))}
 							>
 								<View style = {{marginVertical: 10}}>
 									<Text style = {textStyle.regular(30, 'center', colors.primaryColor)}>github.com/walsker</Text>

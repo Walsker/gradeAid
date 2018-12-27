@@ -8,7 +8,7 @@ import {createCourse} from 'gradeAid/src/userData/actions';
 
 // Custom imports
 import {colors, containerStyle, textStyle} from 'gradeAid/src/common/appStyles';
-import {ActionBar, Button, CheckList, Divider, IconButton} from 'gradeAid/src/common';
+import {ActionBar, Button, CheckList, Divider, IconButton, TextField} from 'gradeAid/src/common';
 import * as Assessment from 'gradeAid/src/semesterScreen/assessmentTypes';
 
 class AddCoursePage extends Component
@@ -105,6 +105,20 @@ class AddCoursePage extends Component
 		}
 	}
 
+	scrollToggle(event)
+	{
+		if (event.nativeEvent.contentOffset.y != 0)
+		{
+			if (!this.state.scrolled)
+				this.setState({scrolled: true})					
+		}
+		else
+		{
+			if (this.state.scrolled)
+				this.setState({scrolled: false})
+		}
+	}
+
 	back()
 	{
 		this.setState(prevState =>
@@ -144,7 +158,10 @@ class AddCoursePage extends Component
 		return(
 			<View style = {containerStyle.form}>
 				<View style = {containerStyle.formSection}>
-					<TextInput
+					<TextField
+						fontSize = {24}
+						label = "Course Name"
+						textAlign = 'center'
 						autoFocus = {true}
 						autoCapitalize = 'characters'
 						maxLength = {15}
@@ -154,11 +171,7 @@ class AddCoursePage extends Component
 						placeholder = "i.e. COMP 1405"
 						placeholderTextColor = 'rgba(0, 0, 0, 0.2)'
 						underlineColorAndroid = {colors.primaryTextColor}
-						style = {textStyle.regular(24, 'center')}
 					/>
-					<Text style = {textStyle.regular(14, 'center')}>
-						Course Name
-					</Text>
 				</View>
 				<View style = {containerStyle.rowBox}>
 					<Button
@@ -175,56 +188,61 @@ class AddCoursePage extends Component
 	assessmentTypes_SCENE()
 	{
 		return(
-			<View style = {containerStyle.form}>
-				<View style = {containerStyle.formSection}>
-					<Text style = {textStyle.regular(22, 'center')}>What kind of assessments are in your course?{'\n\n'}Select all that apply.</Text>
-				</View>
-				<Divider color = {colors.dividerColor} seperation = {0}/>
-				<View style = {containerStyle.formSection}>
-					<CheckList
-						color = {colors.accentColor}
-						fontSize = {22}
-						labels = {Assessment.pluralTypes}
-						values = {this.state.selectedTypes}
-						onItemToggle = {(id) =>
-						{
-							var newArray = this.state.selectedTypes;
-							newArray[id] = !newArray[id];
-							this.setState({selectedTypes: newArray});
-						}}
-					/>
-				</View>
-				<View style = {[containerStyle.rowBox, {marginTop: -5}]}>
-					<Button
-						label = "Back"
-						color = {colors.primaryColor}
-						inverted = {true}
-						action = {this.back.bind(this)}
-					/>
-					<Button
-						label = "Next"
-						color = {colors.primaryColor}
-						inverted = {false}
-						action = {() =>
-						{
-							var atLeastOneSelected = false;
-							for (i in this.state.selectedTypes)
+			<ScrollView
+				keyboardShouldPersistTaps = 'handled'
+				onScroll = {this.scrollToggle.bind(this)}
+			>
+				<View style = {containerStyle.form}>
+					<View style = {containerStyle.formSection}>
+						<Text style = {textStyle.regular(22, 'center')}>What kind of assessments are in your course?{'\n\n'}Select all that apply.</Text>
+					</View>
+					<Divider color = {colors.dividerColor} seperation = {0}/>
+					<View style = {containerStyle.formSection}>
+						<CheckList
+							color = {colors.accentColor}
+							fontSize = {22}
+							labels = {Assessment.pluralTypes}
+							values = {this.state.selectedTypes}
+							onItemToggle = {(id) =>
 							{
-								if (this.state.selectedTypes[i])
+								var newArray = this.state.selectedTypes;
+								newArray[id] = !newArray[id];
+								this.setState({selectedTypes: newArray});
+							}}
+						/>
+					</View>
+					<View style = {[containerStyle.rowBox, {marginTop: -5}]}>
+						<Button
+							label = "Back"
+							color = {colors.primaryColor}
+							inverted = {true}
+							action = {this.back.bind(this)}
+						/>
+						<Button
+							label = "Next"
+							color = {colors.primaryColor}
+							inverted = {false}
+							action = {() =>
+							{
+								var atLeastOneSelected = false;
+								for (i in this.state.selectedTypes)
 								{
-									atLeastOneSelected = true;
-									break;
+									if (this.state.selectedTypes[i])
+									{
+										atLeastOneSelected = true;
+										break;
+									}
 								}
-							}
 
-							if (!atLeastOneSelected)
-								this.showAlert("No Type Selection Made");
-							else
-								this.next()
-						}}
-					/>
+								if (!atLeastOneSelected)
+									this.showAlert("No Type Selection Made");
+								else
+									this.next()
+							}}
+						/>
+					</View>
 				</View>
-			</View>
+			</ScrollView>
 		);
 	}
 
@@ -242,41 +260,28 @@ class AddCoursePage extends Component
 		const createTypeSpecificaiton = (type) =>
 		{
 			var input = "";
+			var defaultValue = this.state.markBreakdown[type] == 0 ? "" : (Math.round(this.state.markBreakdown[type] * 1000) / 1000).toString();
 			return (
-				<View
+				<TextField
 					key = {type}
-					style =
-					{[
-						containerStyle.rowBox,
-						{
-							alignItems: 'center',
-							justifyContent: 'space-between',
-							marginVertical: 0
-						}
-					]}
-				>
-					<Text style = {textStyle.regular(25, 'left')}>{Assessment.pluralTypes[type]}</Text>
-					<View style = {{flexDirection: 'row', alignItems: 'center'}}>
-						<TextInput
-							keyboardType = 'numeric'
-							clearTextOnFocus = {true}
-							defaultValue = {this.state.markBreakdown[type] == 0 ? "" : this.state.markBreakdown[type].toString()}
-							placeholderTextColor = 'rgba(0, 0, 0, 0.2)'
-							underlineColorAndroid = {colors.primaryTextColor}
-							returnKeyType = 'done'
-							style = {[textStyle.regular(25, 'right'), {width: 75}]}
-							onChangeText = {(newInput) =>
-							{
-								input = (newInput == "" ? 0 : newInput);
-								var breakdown = this.state.markBreakdown;
-								var newPercentage = convertToPercentage(input, this.state.markBreakdown[type]);
-								breakdown[type] = newPercentage;
-								this.setState({markBreakdown: breakdown});
-							}}
-						/>
-						<Text style = {textStyle.regular(18)}>%</Text>
-					</View>
-				</View>
+					fontSize = {24}
+					label = {Assessment.pluralTypes[type] + " (%)"}
+					textAlign = 'center'
+					keyboardType = 'numeric'
+					clearTextOnFocus = {true}
+					defaultValue = {defaultValue}
+					placeholderTextColor = {colors.primaryTextColor + '50'}
+					underlineColorAndroid = {colors.primaryTextColor}
+					returnKeyType = 'done'
+					onChangeText = {(newInput) =>
+					{
+						input = (newInput == "" ? 0 : newInput);
+						var breakdown = this.state.markBreakdown;
+						var newPercentage = convertToPercentage(input, this.state.markBreakdown[type]);
+						breakdown[type] = newPercentage;
+						this.setState({markBreakdown: breakdown});
+					}}
+				/>
 			);
 		};
 
@@ -415,20 +420,6 @@ class AddCoursePage extends Component
 				this.showAlert("Cancel Creation");
 		}
 
-		const scrollToggle = (event) =>
-		{
-			if (event.nativeEvent.contentOffset.y != 0)
-			{
-				if (!this.state.scrolled)
-					this.setState({scrolled: true})					
-			}
-			else
-			{
-				if (this.state.scrolled)
-					this.setState({scrolled: false})
-			}
-		}
-
 		return(
 			<View style = {containerStyle.default}>
 				<ActionBar
@@ -446,12 +437,12 @@ class AddCoursePage extends Component
 					title = "Add Course"
 				/>
 				<View style = {containerStyle.page}>
-					<ScrollView
+					{/* <ScrollView
 						keyboardShouldPersistTaps = 'handled'
 						onScroll = {scrollToggle}
-					>
+					> */}
 						{scenes[this.state.currentScene]}
-					</ScrollView>
+					{/* </ScrollView> */}
 				</View>
 			</View>
 		);

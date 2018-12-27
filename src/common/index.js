@@ -5,6 +5,7 @@ import Divider from './divider';
 import IconButton from './iconButton';
 import ProgressBar from './progressBar';
 import ProgressCircle from './progressCircle';
+import TextField from './textField';
 import Tile from './tile';
 
-export {ActionBar, Button, CheckList, Divider, IconButton, ProgressBar, ProgressCircle, Tile};
+export {ActionBar, Button, CheckList, Divider, IconButton, ProgressBar, ProgressCircle, TextField, Tile};
