@@ -9,7 +9,7 @@ import {selectSemester} from 'gradeAid/src/navDrawer/redux/actions';
 
 // Custom imports
 import {colors, containerStyle, textStyle} from 'gradeAid/src/common/appStyles';
-import {ActionBar, Button, IconButton} from 'gradeAid/src/common';
+import {ActionBar, Button, IconButton, TextField} from 'gradeAid/src/common';
 
 class EditSemesterPage extends Component
 {
@@ -56,7 +56,7 @@ class EditSemesterPage extends Component
 
 				Alert.alert(
 					"Delete Semester",
-					"Are you sure you would like delete this semester? This action cannot be undone.",
+					"Are you sure you would like delete this semester?\n\nThis action cannot be undone.",
 					[
 						{
 							text: 'Yes',
@@ -164,17 +164,16 @@ class EditSemesterPage extends Component
 						</Text>
 					</View>
 					<View style = {containerStyle.formSection}>
-						<TextInput
+						<TextField
+							color = {colors.primaryTextColor}
+							fontSize = {24}
+							label = "Semester Name"
+							textAlign = 'center'
 							autoFocus = {true}
 							defaultValue = {this.state.semesterName}
-							underlineColorAndroid = {colors.primaryTextColor}
-							style = {textStyle.regular(24, 'center')}
 							onChangeText = {(newText) => this.setState({_newSemesterName: newText})}
 							onSubmitEditing = {this.onSubmit.bind(this)}
 						/>
-						<Text style = {textStyle.regular(14, 'center')}>
-							Semester Name
-						</Text>
 						<Button
 							label = "Submit"
 							color = {colors.accentColor}

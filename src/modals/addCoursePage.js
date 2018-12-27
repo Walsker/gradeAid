@@ -1,6 +1,6 @@
 // React Native imports
 import React, {Component} from 'react';
-import {Alert, ScrollView, Text, TextInput, View} from 'react-native';
+import {Alert, KeyboardAvoidingView, ScrollView, Text, View} from 'react-native';
 
 // Redux imports
 import {connect} from 'react-redux';
@@ -162,6 +162,7 @@ class AddCoursePage extends Component
 						fontSize = {24}
 						label = "Course Name"
 						textAlign = 'center'
+						color = {colors.primaryTextColor}
 						autoFocus = {true}
 						autoCapitalize = 'characters'
 						maxLength = {15}
@@ -169,8 +170,6 @@ class AddCoursePage extends Component
 						onChangeText = {(newText) => this.setState({courseName: newText})}
 						onSubmitEditing = {submit}
 						placeholder = "i.e. COMP 1405"
-						placeholderTextColor = 'rgba(0, 0, 0, 0.2)'
-						underlineColorAndroid = {colors.primaryTextColor}
 					/>
 				</View>
 				<View style = {containerStyle.rowBox}>
@@ -261,17 +260,16 @@ class AddCoursePage extends Component
 		{
 			var input = "";
 			var defaultValue = this.state.markBreakdown[type] == 0 ? "" : (Math.round(this.state.markBreakdown[type] * 1000) / 1000).toString();
+
 			return (
 				<TextField
 					key = {type}
 					fontSize = {24}
 					label = {Assessment.pluralTypes[type] + " (%)"}
 					textAlign = 'center'
+					color = {colors.primaryTextColor}
 					keyboardType = 'numeric'
-					clearTextOnFocus = {true}
 					defaultValue = {defaultValue}
-					placeholderTextColor = {colors.primaryTextColor + '50'}
-					underlineColorAndroid = {colors.primaryTextColor}
 					returnKeyType = 'done'
 					onChangeText = {(newInput) =>
 					{
@@ -306,54 +304,56 @@ class AddCoursePage extends Component
 				keyboardShouldPersistTaps = 'handled'
 				onScroll = {this.scrollToggle.bind(this)}
 			>
-				<View style = {containerStyle.form}>
-					<View style = {containerStyle.formSection}>
-						<Text style = {textStyle.regular(22, 'center')}>Specify the mark breakdown below.</Text>
-					</View>
-					<Divider color = {colors.dividerColor}/>
-					<View style = {containerStyle.formSection}>
-						{breakdownInput}
-					</View>
-					<View style = {containerStyle.formSection}>
-						<Text style = {textStyle.regular(14, 'center', colors.secondaryTextColor)}>
-							Sum: {breakdownSum}%
-						</Text>
-					</View>
-					<View style = {containerStyle.rowBox}>
-						<Button
-							label = "Back"
-							color = {colors.primaryColor}
-							inverted = {true}
-							action = {this.back.bind(this)}
-						/>
-						<Button
-							label = "Next"
-							color = {colors.primaryColor}
-							inverted = {false}
-							action = {() =>
-							{
-								var noneLeftBlank = true;
-								var violator = "";
-								for (i in this.state.selectedTypes)
+				<KeyboardAvoidingView behavior = 'position'>
+					<View style = {containerStyle.form}>
+						<View style = {containerStyle.formSection}>
+							<Text style = {textStyle.regular(22, 'center')}>Specify the mark breakdown below.</Text>
+						</View>
+						<Divider color = {colors.dividerColor}/>
+						<View style = {containerStyle.formSection}>
+							{breakdownInput}
+						</View>
+						<View style = {containerStyle.formSection}>
+							<Text style = {textStyle.regular(14, 'center', colors.secondaryTextColor)}>
+								Sum: {breakdownSum}%
+							</Text>
+						</View>
+						<View style = {containerStyle.rowBox}>
+							<Button
+								label = "Back"
+								color = {colors.primaryColor}
+								inverted = {true}
+								action = {this.back.bind(this)}
+							/>
+							<Button
+								label = "Next"
+								color = {colors.primaryColor}
+								inverted = {false}
+								action = {() =>
 								{
-									if (this.state.selectedTypes[i] && this.state.markBreakdown[i] == 0)
+									var noneLeftBlank = true;
+									var violator = "";
+									for (i in this.state.selectedTypes)
 									{
-										noneLeftBlank = false;
-										violator = Assessment.pluralTypes[i];
-										break;
+										if (this.state.selectedTypes[i] && this.state.markBreakdown[i] == 0)
+										{
+											noneLeftBlank = false;
+											violator = Assessment.pluralTypes[i];
+											break;
+										}
 									}
-								}
 
-								if (!noneLeftBlank)
-									this.showAlert("Breakdown Contains a 0", violator);
-								else if (breakdownSum != 100)
-									this.showAlert("Breakdown Sum Invalid");
-								else
-									this.next();
-							}}
-						/>
+									if (!noneLeftBlank)
+										this.showAlert("Breakdown Contains a 0", violator);
+									else if (breakdownSum != 100)
+										this.showAlert("Breakdown Sum Invalid");
+									else
+										this.next();
+								}}
+							/>
+						</View>
 					</View>
-				</View>
+				</KeyboardAvoidingView>
 			</ScrollView>
 		);
 	}
@@ -442,12 +442,7 @@ class AddCoursePage extends Component
 					title = "Add Course"
 				/>
 				<View style = {containerStyle.page}>
-					{/* <ScrollView
-						keyboardShouldPersistTaps = 'handled'
-						onScroll = {scrollToggle}
-					> */}
-						{scenes[this.state.currentScene]}
-					{/* </ScrollView> */}
+					{scenes[this.state.currentScene]}
 				</View>
 			</View>
 		);

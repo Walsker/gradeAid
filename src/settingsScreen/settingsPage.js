@@ -64,7 +64,7 @@ class SettingsPage extends Component
 					{
 						Alert.alert(
 							"Erase App Data",
-							"Are you sure you would like erase all your data? This action cannot be undone.",
+							"Are you sure you would like erase all your data?\n\nThis action cannot be undone.",
 							[
 								{
 									text: 'Yes',

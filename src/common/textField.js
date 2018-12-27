@@ -36,11 +36,14 @@ export default class TextField extends Component
             <View>
                 <View style = {borderStyle}>
                     <TextInput
+                        blurOnSubmit = {false}
+                        placeholderTextColor = {this.props.color + '20'}
+                        style = {textStyle.regular(this.props.fontSize, this.props.textAlign, this.props.color)}
+                        underlineColorAndroid = {this.props.color}
                         {...this.props}
-                        style = {textStyle.regular(this.props.fontSize, this.props.textAlign)}
                     />
                 </View>
-                <Text style = {textStyle.regular(this.props.fontSize / 1.7, this.props.textAlign)}>
+                <Text style = {textStyle.regular(this.props.fontSize / 1.7, this.props.textAlign, this.props.color)}>
                     {this.props.label}
                 </Text>
             </View>

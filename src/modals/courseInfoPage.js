@@ -21,7 +21,7 @@ class CourseInfoPage extends Component
 
 				Alert.alert(
 					"Drop Course",
-					"Are you sure you would like to drop this course?\nThis action cannot be undone.",
+					"Are you sure you would like to drop this course?\n\nThis action cannot be undone.",
 					[
 						{text: 'Yes', onPress: this.dropCourse.bind(this), style: 'cancel'},
 						{text: 'No', onPress: () => {}},

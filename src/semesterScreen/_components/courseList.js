@@ -9,7 +9,7 @@ import {selectCourse} from 'gradeAid/src/navDrawer/redux/actions';
 
 // Custom imports
 import {colors, containerStyle} from 'gradeAid/src/common/appStyles';
-import {ProgressCircle} from 'gradeAid/src/common';
+import {Button, ProgressCircle} from 'gradeAid/src/common';
 
 class CourseList extends Component
 {
@@ -22,6 +22,14 @@ class CourseList extends Component
 	createCourseCard(courseID, animationID)
 	{
 		var courseObject = this.props.courseObjects[courseID];
+		return (
+			<Button
+				key = {courseID}
+				label = {courseObject.name}
+				color = {colors.primaryColor}
+				action = {() => this.toCourseScreen(courseID)}
+			/>
+		);
 		return(
 			<TouchableNativeFeedback
 				key = {courseID}

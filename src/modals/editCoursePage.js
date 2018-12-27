@@ -1,6 +1,6 @@
 // React Native imports
 import React, {Component} from 'react';
-import {Alert, ScrollView, Text, TextInput, View} from 'react-native';
+import {Alert, KeyboardAvoidingView, ScrollView, Text, View} from 'react-native';
 
 // Redux imports
 import {connect} from 'react-redux';
@@ -8,7 +8,7 @@ import {editCourse} from 'gradeAid/src/userData/actions';
 
 // Custom imports
 import {colors, containerStyle, textStyle} from 'gradeAid/src/common/appStyles';
-import {ActionBar, Button, Divider, IconButton} from 'gradeAid/src/common';
+import {ActionBar, Button, Divider, IconButton, TextField} from 'gradeAid/src/common';
 import * as Assessment from 'gradeAid/src/semesterScreen/assessmentTypes';
 
 class EditCoursePage extends Component
@@ -105,6 +105,20 @@ class EditCoursePage extends Component
 		}
 	}
 
+	scrollToggle(event)
+	{
+		if (event.nativeEvent.contentOffset.y != 0)
+		{
+			if (!this.state.scrolled)
+				this.setState({scrolled: true})					
+		}
+		else
+		{
+			if (this.state.scrolled)
+				this.setState({scrolled: false})
+		}
+	}
+
 	back()
 	{
 		this.setState(prevState =>
@@ -145,7 +159,10 @@ class EditCoursePage extends Component
 		return(
 			<View style = {containerStyle.form}>
 				<View style = {containerStyle.formSection}>
-					<TextInput
+					<TextField
+						fontSize = {24}
+						label = "Course Name"
+						textAlign = 'center'
 						autoFocus = {true}
 						autoCapitalize = 'characters'
 						maxLength = {15}
@@ -155,11 +172,7 @@ class EditCoursePage extends Component
 						placeholder = "i.e. COMP 1405"
 						placeholderTextColor = 'rgba(0, 0, 0, 0.2)'
 						underlineColorAndroid = {colors.primaryTextColor}
-						style = {textStyle.regular(24, 'center')}
 					/>
-					<Text style = {textStyle.regular(14, 'center')}>
-						Course Name
-					</Text>
 				</View>
 				<View style = {containerStyle.rowBox}>
 					<Button
@@ -187,41 +200,27 @@ class EditCoursePage extends Component
 		const createTypeSpecificaiton = (type) =>
 		{
 			var input = "";
+			var defaultValue = this.state.markBreakdown[type] == 0 ? "" : (Math.round(this.state.markBreakdown[type] * 1000) / 1000).toString();
+
 			return (
-				<View
+				<TextField
 					key = {type}
-					style =
-					{[
-						containerStyle.rowBox,
-						{
-							alignItems: 'center',
-							justifyContent: 'space-between',
-							marginVertical: 0
-						}
-					]}
-				>
-					<Text style = {textStyle.regular(25, 'left')}>{Assessment.pluralTypes[type]}</Text>
-					<View style = {{flexDirection: 'row', alignItems: 'center'}}>
-						<TextInput
-							keyboardType = 'numeric'
-							clearTextOnFocus = {true}
-							defaultValue = {this.state.markBreakdown[type] == 0 ? "" : this.state.markBreakdown[type].toString()}
-							placeholderTextColor = 'rgba(0, 0, 0, 0.2)'
-							underlineColorAndroid = {colors.primaryTextColor}
-							returnKeyType = 'done'
-							style = {[textStyle.regular(25, 'right'), {width: 75}]}
-							onChangeText = {(newInput) =>
-							{
-								input = (newInput == "" ? 0 : newInput);
-								var breakdown = this.state.markBreakdown;
-								var newPercentage = convertToPercentage(input, this.state.markBreakdown[type]);
-								breakdown[type] = newPercentage;
-								this.setState({markBreakdown: breakdown});
-							}}
-						/>
-						<Text style = {textStyle.regular(18)}>%</Text>
-					</View>
-				</View>
+					fontSize = {24}
+					label = {Assessment.pluralTypes[type] + " (%)"}
+					textAlign = 'center'
+					color = {colors.primaryTextColor}
+					keyboardType = 'numeric'
+					defaultValue = {defaultValue}
+					returnKeyType = 'done'
+					onChangeText = {(newInput) =>
+					{
+						input = (newInput == "" ? 0 : newInput);
+						var breakdown = this.state.markBreakdown;
+						var newPercentage = convertToPercentage(input, this.state.markBreakdown[type]);
+						breakdown[type] = newPercentage;
+						this.setState({markBreakdown: breakdown});
+					}}
+				/>
 			);
 		};
 
@@ -242,54 +241,61 @@ class EditCoursePage extends Component
 		}
 
 		return(
-			<View style = {containerStyle.form}>
-				<View style = {containerStyle.formSection}>
-					<Text style = {textStyle.regular(22, 'center')}>Specify the mark breakdown below.</Text>
-				</View>
-				<Divider color = {colors.dividerColor}/>
-				<View style = {containerStyle.formSection}>
-					{breakdownInput}
-				</View>
-				<View style = {containerStyle.formSection}>
-					<Text style = {textStyle.regular(14, 'center', colors.secondaryTextColor)}>
-						Sum: {breakdownSum}%
-					</Text>
-				</View>
-				<View style = {containerStyle.rowBox}>
-					<Button
-						label = "Back"
-						color = {colors.primaryColor}
-						inverted = {true}
-						action = {this.back.bind(this)}
-					/>
-					<Button
-						label = "Next"
-						color = {colors.primaryColor}
-						inverted = {false}
-						action = {() =>
-						{
-							var noneLeftBlank = true;
-							var violator = "";
-							for (i in this.state.selectedTypes)
-							{
-								if (this.state.selectedTypes[i] && this.state.markBreakdown[i] == 0)
+			<ScrollView
+				keyboardShouldPersistTaps = 'handled'
+				onScroll = {this.scrollToggle.bind(this)}
+			>
+				<KeyboardAvoidingView behavior = 'position'> 
+					<View style = {containerStyle.form}>
+						<View style = {containerStyle.formSection}>
+							<Text style = {textStyle.regular(22, 'center')}>Specify the mark breakdown below.</Text>
+						</View>
+						<Divider color = {colors.dividerColor}/>
+						<View style = {containerStyle.formSection}>
+							{breakdownInput}
+						</View>
+						<View style = {containerStyle.formSection}>
+							<Text style = {textStyle.regular(14, 'center', colors.secondaryTextColor)}>
+								Sum: {breakdownSum}%
+							</Text>
+						</View>
+						<View style = {containerStyle.rowBox}>
+							<Button
+								label = "Back"
+								color = {colors.primaryColor}
+								inverted = {true}
+								action = {this.back.bind(this)}
+							/>
+							<Button
+								label = "Next"
+								color = {colors.primaryColor}
+								inverted = {false}
+								action = {() =>
 								{
-									noneLeftBlank = false;
-									violator = Assessment.pluralTypes[i];
-									break;
-								}
-							}
+									var noneLeftBlank = true;
+									var violator = "";
+									for (i in this.state.selectedTypes)
+									{
+										if (this.state.selectedTypes[i] && this.state.markBreakdown[i] == 0)
+										{
+											noneLeftBlank = false;
+											violator = Assessment.pluralTypes[i];
+											break;
+										}
+									}
 
-							if (!noneLeftBlank)
-								this.showAlert("Breakdown Contains a 0", violator);
-							else if (breakdownSum != 100)
-								this.showAlert("Breakdown Sum Invalid");
-							else
-								this.next();
-						}}
-					/>
-				</View>
-			</View>
+									if (!noneLeftBlank)
+										this.showAlert("Breakdown Contains a 0", violator);
+									else if (breakdownSum != 100)
+										this.showAlert("Breakdown Sum Invalid");
+									else
+										this.next();
+								}}
+							/>
+						</View>
+					</View>
+				</KeyboardAvoidingView>
+			</ScrollView>
 		);
 	}
 
@@ -361,20 +367,6 @@ class EditCoursePage extends Component
 	{
 		const scenes = [this.courseTitle_SCENE(), this.markBreakdown_SCENE(), this.confirmCourse_SCENE()];
 
-		const scrollToggle = (event) =>
-		{
-			if (event.nativeEvent.contentOffset.y != 0)
-			{
-				if (!this.state.scrolled)
-					this.setState({scrolled: true})	
-			}
-			else
-			{
-				if (this.state.scrolled)
-					this.setState({scrolled: false})
-			}
-		}
-
 		return (
 			<View style = {containerStyle.default}>
 				<ActionBar
@@ -391,12 +383,7 @@ class EditCoursePage extends Component
 					title = "Edit Course"
 				/>
 				<View style = {containerStyle.default}>
-					<ScrollView
-						keyboardShouldPersistTaps = 'handled'
-						onScroll = {scrollToggle}
-					>
-						{scenes[this.state.currentScene]}
-					</ScrollView>
+					{scenes[this.state.currentScene]}
 				</View>
 			</View>
 		);
