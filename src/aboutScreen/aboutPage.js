@@ -36,7 +36,7 @@ export default class AboutPage extends Component
 					<View style = {containerStyle.formSection}>
 						<Text style = {textStyle.light(20, 'center')}>Found a bug? Feedback? Feature Requests?</Text>
 						<View style = {{marginVertical: 5}}/>
-						<View style = {containerStyle.courseCard}>
+						<View style = {containerStyle.roundedBox}>
 							<Text style = {textStyle.regular(24, 'center')}>Contact me at</Text>
 							<TouchableOpacity
 								onPress = {() => Linking.openURL('mailto:wal.gatlei@gmail.com?subject=[Grade Aid]').catch(err => console.log('Could not open mail app.', err))}
@@ -46,7 +46,7 @@ export default class AboutPage extends Component
 								</View>
 							</TouchableOpacity>
 						</View>
-						<View style = {containerStyle.courseCard}>
+						<View style = {containerStyle.roundedBox}>
 							<Text style = {textStyle.regular(24, 'center')}>Github</Text>
 							<TouchableOpacity
 								onPress = {() => Linking.openURL('https://github.com/walsker').catch(err => console.log('Could not open browser.', err))}

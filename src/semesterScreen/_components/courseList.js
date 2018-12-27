@@ -28,7 +28,7 @@ class CourseList extends Component
 				background = {TouchableNativeFeedback.Ripple(colors.lightPrimaryColor, false)}
 				onPress = {() => this.toCourseScreen(courseID)}
 			>
-				<View style = {containerStyle.courseCard}>
+				<View style = {containerStyle.roundedBox}>
 					<ProgressCircle
 						diameter = {100}
 						borderWidth = {10}
@@ -79,7 +79,7 @@ class CourseList extends Component
 				background = {TouchableNativeFeedback.Ripple(colors.lightPrimaryColor, false)}
 				onPress = {this.props.newCourse}
 			>
-				<View style = {containerStyle.courseCard}>
+				<View style = {containerStyle.roundedBox}>
 					<View style = {{
 						alignItems: 'center',
 						alignSelf: 'center',

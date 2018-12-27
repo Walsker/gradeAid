@@ -387,7 +387,7 @@ class AddCoursePage extends Component
 					</View>
 				</View>
 				<View style = {containerStyle.formSection}>
-					<View style = {containerStyle.courseCard}>
+					<View style = {containerStyle.roundedBox}>
 						{breakdownComponents}
 					</View>
 				</View>

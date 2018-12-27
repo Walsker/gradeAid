@@ -1,6 +1,6 @@
 // React Native imports
 import React, {Component} from 'react';
-import {Platform, Text, TextInput, View} from 'react-native';
+import {Dimensions, Platform, Text, TextInput, View} from 'react-native';
 
 // Custom imports
 import {containerStyle, textStyle} from 'gradeAid/src/common/appStyles';
@@ -9,7 +9,29 @@ export default class TextField extends Component
 {
     render()
     {
-        var borderStyle = Platform.OS === 'ios' ? containerStyle.courseCard : {};
+        var screenWidth = Dimensions.get('window').width;
+
+        var borderStyle;
+        if (Platform.OS === 'ios')
+            borderStyle = containerStyle.roundedBox;
+        else
+        {
+            if (this.props.keyboardType == 'numeric')
+            {
+                switch (this.props.textAlign)
+                {
+                    case 'left':
+                        borderStyle = {width: Dimensions.get('window').width / 3, alignSelf: 'flex-start'};
+                        break;
+                    case 'right':
+                        borderStyle = {width: Dimensions.get('window').width / 3, alignSelf: 'flex-end'};
+                        break;
+                    default:
+                        borderStyle = {width: Dimensions.get('window').width / 3, alignSelf: 'center'};
+                }
+            }
+        }
+
         return (
             <View>
                 <View style = {borderStyle}>
