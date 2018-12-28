@@ -28,7 +28,7 @@ export default class AboutPage extends Component
 					<View style = {containerStyle.form}>
 						<View style = {containerStyle.formSection}>
 							<Text style = {textStyle.bold(70, 'center')}>Grade Aid</Text>
-							<Text style = {textStyle.regular(15, 'center', colors.secondaryTextColor)}>v1.1</Text>
+							<Text style = {textStyle.regular(15, 'center', colors.secondaryTextColor)}>v1.1.1</Text>
 						</View>
 						<View style = {containerStyle.formSection}>
 							<Text style = {textStyle.regular(21, 'center')}>Created by Wal Wal</Text>
