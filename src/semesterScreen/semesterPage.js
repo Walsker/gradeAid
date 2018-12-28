@@ -59,14 +59,18 @@ class SemesterPage extends Component
 	semester_SCENE()
 	{
 		averageString = this.props.semester.average;
+		var fontSize = 200;
 		if (this.props.semester.average == 'X')
+		{
 			averageString = "N/A";
+			fontSize = 175;
+		}
 
 		return (
 			<ScrollView style = {containerStyle.tileList}>
 				<Tile title = "Semester Average">
 					<View style = {{marginVertical: -25}}>
-						<Text style = {textStyle.bold(200)}>{averageString}</Text>
+						<Text style = {textStyle.bold(fontSize, 'center')}>{averageString}</Text>
 					</View>
 				</Tile>
 				<Tile title = "Courses">

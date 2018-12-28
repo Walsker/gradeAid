@@ -43,6 +43,7 @@ export default class IconButton extends Component
 			<TouchableNativeFeedback
 				background = {TouchableNativeFeedback.Ripple(this.props.color, true)}
 				onPress = {this.props.action}
+				hitSlop = {{top: 12, bottom: 12, right: 12, left: 12}}
 			>
 				<View style = {{
 					margin: 12
@@ -71,12 +72,13 @@ export default class IconButton extends Component
 					onPressOut = {this.onRelease.bind(this)}
 				>
 					<View style = {{
-						margin: 12
+						margin: 12,
+						backgroundColor: 'red'
 					}}>
 						<Icon
 							name = {this.props.type}
 							size = {this.props.size}
-							color = {this.props.color}
+							color = {'red'}
 						/>
 					</View>
 				</TouchableWithoutFeedback>

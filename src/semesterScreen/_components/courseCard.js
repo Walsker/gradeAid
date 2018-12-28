@@ -58,13 +58,13 @@ export class AddCourseCard extends Component
 					}}>
 						<Icon
 							name = 'add'
-							size = {79}
+							size = {95}
 							color = {colors.accentColor}
 						/>
 					</View>
 					<View style = {{flex: 1, paddingTop: 20}}>
                         <Text 
-                            style = {[textStyle.bold(18, 'center', colors.primaryColor), {maxWidth: 100, textAlignVertical: 'center'}]}
+                            style = {[textStyle.bold(17, 'center', colors.primaryColor), {width: 100, textAlignVertical: 'center'}]}
                             numberOfLines = {2}
                         >
 							ADD COURSE
@@ -104,7 +104,7 @@ export class AddCourseCard extends Component
                         </View>
                         <View style = {{flex: 1, paddingTop: 20}}>
                             <Text 
-                                style = {[textStyle.bold(18, 'center', colors.primaryColor), {width: 100, textAlignVertical: 'center'}]}
+                                style = {[textStyle.bold(17, 'center', colors.primaryColor), {width: 100, textAlignVertical: 'center'}]}
                                 numberOfLines = {2}
                             >
                                 ADD COURSE
@@ -179,8 +179,8 @@ export class CourseCard extends Component
 					/>
 					<View style = {{flex: 1, paddingTop: 20}}>
                         <Text 
-                            style = {[textStyle.bold(18, 'center', colors.primaryColor), {maxWidth: 100, textAlignVertical: 'center'}]}
-                            numberOfLines = {1}
+                            style = {[textStyle.bold(17, 'center', colors.primaryColor), {maxWidth: 100, textAlignVertical: 'center'}]}
+                            numberOfLines = {2}
                         >
 							{this.props.courseObject.name}
 						</Text>
@@ -216,8 +216,8 @@ export class CourseCard extends Component
                         />
                         <View style = {{flex: 1, paddingTop: 20}}>
                             <Text 
-                                style = {[textStyle.bold(18, 'center', colors.primaryColor), {maxWidth: 100, textAlignVertical: 'center'}]}
-                                numberOfLines = {1}
+                                style = {[textStyle.bold(17, 'center', colors.primaryColor), {maxWidth: 100, textAlignVertical: 'center'}]}
+                                numberOfLines = {2}
                             >
                                 {this.props.courseObject.name}
                             </Text>

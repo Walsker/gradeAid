@@ -272,7 +272,7 @@ class InputGradePage extends Component
 						blurOnSubmit = {false}
 						onSubmitEditing = {() => this.weightInput.focus()}
 						keyboardType = 'numeric'
-						defaultValue = {this.state.percentage}
+						defaultValue = {this.state.percentage == 0 ? "" : this.state.percentage.toString()}
 						returnKeyType = 'next'
 						onChangeText = {(newText) => {
 							this.setState({percentage: convertToPercentage(newText, this.state.percentage)});
