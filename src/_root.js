@@ -1,6 +1,7 @@
 // React Native imports
 import React, {Component} from 'react';
 import {SafeAreaView, StatusBar, View} from 'react-native';
+import SplashScreen from 'react-native-splash-screen'
 
 // Redux imports
 import {Provider} from 'react-redux';
@@ -19,6 +20,11 @@ import {colors, containerStyle} from 'gradeAid/src/common/appStyles';
 
 export default class App extends Component
 {
+	componentDidMount()
+	{
+		SplashScreen.hide();
+	}
+
 	render()
 	{
 		const persistConfig = {
