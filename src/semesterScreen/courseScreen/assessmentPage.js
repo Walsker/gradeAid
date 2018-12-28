@@ -63,10 +63,10 @@ class AssessmentPage extends Component
 				/>
 				<ScrollView style = {containerStyle.tileList}>
 					<Tile title = "Grade">
-						<Text style = {textStyle.regular(150, 'center')}>
-							<Text style = {textStyle.regular(75, 'center', colors.spaceColor)}>%</Text>
+						<Text style = {textStyle.regular(130, 'center')}>
+							<Text style = {textStyle.regular(65, 'center', colors.spaceColor)}>%</Text>
 							{Math.round(this.props.assessment.grade * 1000) / 10}
-							<Text style = {textStyle.regular(75)}>%</Text>
+							<Text style = {textStyle.regular(65)}>%</Text>
 						</Text>
 					</Tile>
 					<Tile title = "Weight">

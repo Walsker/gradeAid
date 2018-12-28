@@ -104,7 +104,7 @@ export class AddCourseCard extends Component
                         </View>
                         <View style = {{flex: 1, paddingTop: 20}}>
                             <Text 
-                                style = {[textStyle.bold(18, 'center', colors.primaryColor), {maxWidth: 100, textAlignVertical: 'center'}]}
+                                style = {[textStyle.bold(18, 'center', colors.primaryColor), {maxWidth: 95, textAlignVertical: 'center'}]}
                                 numberOfLines = {2}
                             >
                                 ADD COURSE
