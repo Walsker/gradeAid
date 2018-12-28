@@ -59,11 +59,10 @@ export const containerStyle = StyleSheet.create(
 	},
 	drawerHeader:
 	{
-		// flex: 0.25,
+		flex: 0.3,
 		backgroundColor: colors.primaryColor,
-		justifyContent: 'center',
-		paddingVertical: 10,
-		paddingLeft: 10
+		paddingVertical: 25,
+		paddingLeft: 25
 	},
 	form:
 	{

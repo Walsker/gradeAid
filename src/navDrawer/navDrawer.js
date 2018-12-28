@@ -1,13 +1,13 @@
 // React Native imports
 import React, {Component} from 'react';
-import {Text, View} from 'react-native';
+import {Image, View} from 'react-native';
 
 // Redux imports
 import {connect} from 'react-redux';
 import {selectSemester} from './redux/actions';
 
 // Custom imports
-import {colors, containerStyle, textStyle} from 'gradeAid/src/common/appStyles';
+import {colors, containerStyle} from 'gradeAid/src/common/appStyles';
 import Divider from './divider';
 import DrawerItem from './drawerItem';
 
@@ -65,9 +65,19 @@ class NavDrawer extends Component
 		return (
 			<View style = {containerStyle.default}>
 				<View style = {containerStyle.drawerHeader}>
-					<View style = {containerStyle.drawerHeader}>
-						<Text style = {textStyle.bold(64, 'left', 'white')}>Grade Aid</Text>
-					</View>
+					<Image 
+						source = {require('gradeAid/assets/graphics/drawerLogo.png')}
+						fadeDuration = {0}
+						resizeMethod = 'scale'
+						style =
+						{{
+							flex: 1,
+							width: undefined,
+							height: undefined,
+							resizeMode: 'center',
+							marginRight: 25
+						}}
+					/>
 				</View>
 				<View style = {containerStyle.default}>
 					<View style = {{marginVertical: 5}}/>
