@@ -10,7 +10,7 @@ export default class Tile extends Component
 	render()
 	{
 		var title = this.props.title.toUpperCase();
-		return(
+		return (
 			<View style = {containerStyle.tile}>
 				<View style = {containerStyle.tileTitle}>
 					<Text style = {textStyle.regular(18)}>{title}</Text>

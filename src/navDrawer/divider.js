@@ -9,7 +9,7 @@ export default class Divider extends Component
 {
 	render()
 	{
-		return(
+		return (
 			<View style = {{
 				backgroundColor: colors.dividerColor,
 				marginVertical: 10,

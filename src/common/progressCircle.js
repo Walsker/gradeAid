@@ -34,7 +34,7 @@ class ProgressCircle extends Component {
 	}
 
 	renderSemiCircle(color, diameter, radius) {
-		return(
+		return (
 			<View style = {{flexDirection: 'row'}}>
 				<View style = {[
 					styles.semiCircle,
@@ -61,7 +61,7 @@ class ProgressCircle extends Component {
 	}
 
 	renderRightHalf(diameter, radius) {
-		return(
+		return (
 			<Animated.View style = {{
 				transform: [{
 					rotate: this.state.percentage.interpolate({
@@ -77,7 +77,7 @@ class ProgressCircle extends Component {
 	}
 
 	renderLeftHalf(diameter, radius) {
-		return(
+		return (
 			<Animated.View style = {{
 				transform: [{
 					rotate: this.state.percentage.interpolate({
@@ -93,7 +93,7 @@ class ProgressCircle extends Component {
 	}
 
 	renderEmptyLeftHalf(diameter, radius) {
-		return(
+		return (
 			<Animated.View style = {{
 				opacity: this.state.percentage.interpolate({
 					inputRange: [0, .5, .5, 1],
@@ -133,7 +133,7 @@ class ProgressCircle extends Component {
 			</Text>
 		;
 
-		return(
+		return (
 			<View style = {[
 				styles.circle,
 				{

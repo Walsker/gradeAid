@@ -13,6 +13,20 @@ import MenuItem from './_components/menuItem';
 
 class SettingsPage extends Component
 {
+	constructor(props)
+	{
+		super(props);
+		this.state = 
+		{
+			darkMode: false
+		}
+	}
+
+	toggleDarkMode()
+	{
+		this.setState(prevState => {return {darkMode: !prevState.darkMode};});
+	}
+
 	eraseData()
 	{
 		this.props.eraseAppData();
@@ -21,7 +35,7 @@ class SettingsPage extends Component
 
 	render()
 	{
-		return(
+		return (
 			<View style = {containerStyle.default}>
 				<ActionBar
 					leftButton =
@@ -35,15 +49,14 @@ class SettingsPage extends Component
 					}
 					title = {"Settings"}
 				/>
-				<View style = {{marginVertical: 5}}/>
-				<MenuItem
-					title = "Themes"
+				<View style = {{marginBottom: 5}}/>
+				{/* <MenuItem
+					title = "Dark Mode"
 					color = {colors.primaryTextColor}
-					action = {() =>
-					{
-						this.props.navigation.navigate("ThemesPage");
-					}}
-				/>
+					switchable = {true}
+					switchValue = {this.state.darkMode}
+					action = {this.toggleDarkMode.bind(this)}
+				/> */}
 				<MenuItem
 					title = "Erase App Data"
 					color = 'red'
@@ -51,7 +64,7 @@ class SettingsPage extends Component
 					{
 						Alert.alert(
 							"Erase App Data",
-							"Are you sure you would like erase all your data? This action cannot be undone.",
+							"Are you sure you would like erase all your data?\n\nThis action cannot be undone.",
 							[
 								{
 									text: 'Yes',

@@ -9,7 +9,7 @@ import {selectSemester, upOrderID} from 'gradeAid/src/navDrawer/redux/actions';
 
 // Custom Imports
 import {colors, containerStyle, textStyle} from 'gradeAid/src/common/appStyles';
-import {ActionBar, Button, IconButton} from 'gradeAid/src/common';
+import {ActionBar, Button, IconButton, TextField} from 'gradeAid/src/common';
 
 class NewSemesterPage extends Component
 {
@@ -100,7 +100,7 @@ class NewSemesterPage extends Component
 
 	render()
 	{
-		return(
+		return (
 			<View style = {containerStyle.page}>
 				<ActionBar
 					inverted = {true}
@@ -120,18 +120,16 @@ class NewSemesterPage extends Component
 						<Text style = {textStyle.regular(22, 'center')}>What would you like this semester to be named?</Text>
 					</View>
 					<View style = {containerStyle.formSection}>
-						<TextInput
+						<TextField
+							fontSize = {24}
+							label = "Semester Name"
+							textAlign = 'center'
+							textColor = {colors.primaryTextColor}
 							autoFocus = {true}
 							placeholder = "i.e. Fall 2018"
-							placeholderTextColor = 'rgba(0, 0, 0, 0.2)'
-							underlineColorAndroid = {colors.primaryTextColor}
-							style = {textStyle.regular(24, 'center')}
 							onChangeText = {(newText) => this.setState({_semesterName: newText})}
 							onSubmitEditing = {this.onSubmit.bind(this)}
 						/>
-						<Text style = {textStyle.regular(14, 'center')}>
-							Semester Name
-						</Text>
 					</View>
 					<View style = {containerStyle.formSection}>
 						<Button

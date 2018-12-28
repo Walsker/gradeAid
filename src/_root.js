@@ -1,6 +1,6 @@
 // React Native imports
 import React, {Component} from 'react';
-import {StatusBar, View} from 'react-native';
+import {SafeAreaView, StatusBar, View} from 'react-native';
 
 // Redux imports
 import {Provider} from 'react-redux';
@@ -30,18 +30,21 @@ export default class App extends Component
 		const store = createStore(persistedReducer, applyMiddleware(averageCalculator, listCleaner));
 		const persistor = persistStore(store);
 		// persistor.purge();
-		return(
-			<Provider store = {store}>
-				<PersistGate loading = {<View style = {{backgroundColor: 'red'}}/>} persistor = {persistor}>
-					<View style = {containerStyle.default}>
-						<StatusBar
-							animated
-							backgroundColor = {colors.primaryColor}
-						/>
-						<RootNavigator/>
-					</View>
-				</PersistGate>
-			</Provider>
+		return (
+			<SafeAreaView style = {{flex: 1, backgroundColor: colors.primaryColor}}>
+				<Provider store = {store}>
+					<PersistGate loading = {<View style = {{backgroundColor: 'red'}}/>} persistor = {persistor}>
+						<View style = {containerStyle.default}>
+							<StatusBar
+								animated = {true}
+								barStyle = 'light-content'
+								backgroundColor = {colors.primaryColor}
+							/>
+							<RootNavigator/>
+						</View>
+					</PersistGate>
+				</Provider>
+			</SafeAreaView>
 		);
 	}
 }

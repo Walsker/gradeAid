@@ -5,21 +5,6 @@ import {StyleSheet, Text, View} from 'react-native';
 // Custom imports
 import {colors} from './appStyles';
 
-import {Platform, StatusBar} from 'react-native';
-class AndroidBar extends Component
-{
-	render()
-	{
-		return(
-			<View style =
-			{{
-				backgroundColor: colors.primaryColor,
-				height: Platform.OS === 'ios' ? 0 : StatusBar.currentHeight
-			}}/>
-		);
-	}
-}
-
 export default class ActionBar extends Component
 {
 	render()
@@ -37,9 +22,8 @@ export default class ActionBar extends Component
 			titleStyle = styles.iTitleText;
 		}
 
-		return(
+		return (
 			<View>
-				{/* <AndroidBar/> */}
 				<View style = {barStyle}>
 					<View>
 						{this.props.leftButton}
@@ -63,8 +47,7 @@ const styles = StyleSheet.create(
 		alignItems: 'flex-start',
 		flexDirection: 'row',
 		backgroundColor: colors.primaryColor,
-		height: 56,
-		// elevation: 10
+		height: 56
 	},
 	iBar:
 	{

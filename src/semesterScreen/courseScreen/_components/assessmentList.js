@@ -83,7 +83,7 @@ class AssessmentList extends Component
 
 		var hiddenText = this.props.assessments[assessmentID].hidden ? {textDecorationLine: 'line-through'} : {};
 
-		return(
+		return (
 			<TouchableWithoutFeedback
 				key = {assessmentID}
 				onPressIn = {() => this.onPressIn(assessmentID)}
@@ -103,7 +103,7 @@ class AssessmentList extends Component
 							/>
 						</View>
 						<View style = {containerStyle.assessmentGradePercent}>
-							<Animated.Text style = {[textStyle.regular(22), pressedText, hiddenText]}>{(Math.round(this.props.assessments[assessmentID].grade*1000)/10) + "%"}</Animated.Text>
+							<Animated.Text style = {[textStyle.regular(20), pressedText, hiddenText]}>{(Math.round(this.props.assessments[assessmentID].grade*1000)/10) + "%"}</Animated.Text>
 						</View>
 					</View>
 				</Animated.View>
@@ -126,7 +126,7 @@ class AssessmentList extends Component
 			animationCounter++;
 		}
 
-		return(
+		return (
 			<View style = {containerStyle.assessmentList}>
 				{assessmentComponents}
 			</View>

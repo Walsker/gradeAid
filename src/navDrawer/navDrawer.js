@@ -31,7 +31,7 @@ class NavDrawer extends Component
 
 		if (semesterObject)
 		{
-			return(
+			return (
 				<DrawerItem
 					key = {semesterObject.name}
 					title = {semesterObject.name}
@@ -62,7 +62,7 @@ class NavDrawer extends Component
 			semesterPageLinks.push(<Divider key = "Divider"/>);
 		}
 
-		return(
+		return (
 			<View style = {containerStyle.default}>
 				<View style = {containerStyle.drawerHeader}>
 					<View style = {containerStyle.drawerHeader}>
@@ -77,7 +77,7 @@ class NavDrawer extends Component
 						active = {false}
 						action = {() =>
 						{
-							this.props.navigation.closeDrawer();
+							// this.props.navigation.closeDrawer();
 							this.props.navigation.navigate("NewSemesterPage");
 						}}
 					/>

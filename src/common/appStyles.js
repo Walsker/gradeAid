@@ -61,14 +61,6 @@ export const containerStyle = StyleSheet.create(
 		alignSelf: 'stretch',
 		marginVertical: 5
 	},
-	courseCard:
-	{
-		padding: 10,
-		margin: 5,
-		borderRadius: 5,
-		borderColor: colors.dividerColor,
-		borderWidth: 1
-	},
 	drawerHeader:
 	{
 		// flex: 0.25,
@@ -93,6 +85,14 @@ export const containerStyle = StyleSheet.create(
 		flex: 1,
 		backgroundColor: colors.spaceColor,
 		paddingHorizontal: 5
+	},
+	roundedBox:
+	{
+		padding: 10,
+		margin: 5,
+		borderRadius: 5,
+		borderColor: colors.dividerColor,
+		borderWidth: 1
 	},
 	rowBox:
 	{

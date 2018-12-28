@@ -8,7 +8,7 @@ import {createAssessment} from 'gradeAid/src/userData/actions';
 
 // Custom imports
 import {colors, containerStyle, textStyle} from 'gradeAid/src/common/appStyles';
-import {ActionBar, Button, CheckList, IconButton} from 'gradeAid/src/common';
+import {ActionBar, Button, CheckList, FractionInput, IconButton, TextField} from 'gradeAid/src/common';
 import * as Assessment from 'gradeAid/src/semesterScreen/assessmentTypes';
 
 class InputGradePage extends Component
@@ -120,7 +120,7 @@ class InputGradePage extends Component
 	{
 		this.setState(prevState =>
 		{
-			return({currentScene: prevState.currentScene - 1});
+			return ({currentScene: prevState.currentScene - 1});
 		});
 	}
 
@@ -128,7 +128,7 @@ class InputGradePage extends Component
 	{
 		this.setState(prevState =>
 		{
-			return({currentScene: prevState.currentScene + 1});
+			return ({currentScene: prevState.currentScene + 1});
 		});
 	}
 
@@ -170,7 +170,7 @@ class InputGradePage extends Component
 
 	selectAssessType_SCENE()
 	{
-		return(
+		return (
 			<View style = {containerStyle.form}>
 				<View style = {containerStyle.formSection}>
 					<Text style = {textStyle.regular(22, 'center')}>Select the type of assessment you have completed.</Text>
@@ -242,62 +242,42 @@ class InputGradePage extends Component
 		{
 			if (this.state.useFraction)
 			{
-				return(
-					<View style = {{flexDirection: 'row', alignItems: 'center', alignSelf: 'center'}}>
-						<TextInput
-							blurOnSubmit = {false}
-							onSubmitEditing = {() => this.denomInput.focus()}
-							keyboardType = 'numeric'
-							clearTextOnFocus = {true}
-							defaultValue = {this.state.numerator == 0 ? "" : this.state.numerator.toString()}
-							placeholderTextColor = 'rgba(0, 0, 0, 0.2)'
-							underlineColorAndroid = {colors.primaryTextColor}
-							returnKeyType = 'next'
-							style = {[textStyle.regular(28, 'center'), {width: 75}]}
-							onChangeText = {(newText) => {
-								this.setState({numerator: convertToPercentage(newText, this.state.numerator)});
-							}}
-						/>
-						<Text style = {textStyle.regular(24)}>/</Text>
-						<TextInput
-							ref = {(input) => this.denomInput = input}
-							blurOnSubmit = {false}
-							onSubmitEditing = {() => this.weightInput.focus()}
-							keyboardType = 'numeric'
-							clearTextOnFocus = {true}
-							defaultValue = {this.state.denominator == 0 ? "" : this.state.denominator.toString()}
-							placeholderTextColor = 'rgba(0, 0, 0, 0.2)'
-							underlineColorAndroid = {colors.primaryTextColor}
-							returnKeyType = 'next'
-							style = {[textStyle.regular(28, 'center'), {width: 75}]}
-							onChangeText = {(newText) => {
-								this.setState({denominator: convertToPercentage(newText, this.state.denominator)});
-							}}
-						/>
-					</View>
+				return (
+					<FractionInput
+						color = {colors.primaryTextColor}
+						fontSize = {24}
+						label = "Grade"
+						blurOnSubmit = {false}
+						defaultNumValue = {this.state.numerator == 0 ? "" : this.state.numerator.toString()}
+						defaultDenomValue = {this.state.denominator == 0 ? "" : this.state.denominator.toString()}
+						onNumChange = {(newText) => {
+							this.setState({numerator: convertToPercentage(newText, this.state.numerator)});
+						}}
+						onDenomChange = {(newText) => {
+							this.setState({denominator: convertToPercentage(newText, this.state.denominator)});
+						}}
+						onSubmitEditing = {() => this.weightInput.focus()}
+						submitKeyType = 'next'
+					/>
 				);
 			}
 			else
 			{
-				return(
-					<View style = {{flexDirection: 'row', alignItems: 'center', alignSelf: 'center'}}>
-						<Text style = {textStyle.regular(24, 'left', colors.spaceColor)}>%</Text>
-						<TextInput
-							blurOnSubmit = {false}
-							onSubmitEditing = {() => this.weightInput.focus()}
-							keyboardType = 'numeric'
-							clearTextOnFocus = {true}
-							defaultValue = {this.state.percentage == 0 ? "" : this.state.percentage.toString()}
-							placeholderTextColor = 'rgba(0, 0, 0, 0.2)'
-							underlineColorAndroid = {colors.primaryTextColor}
-							returnKeyType = 'next'
-							style = {[textStyle.regular(28, 'center'), {width: 125}]}
-							onChangeText = {(newText) => {
-								this.setState({percentage: convertToPercentage(newText, this.state.percentage)});
-							}}
-						/>
-						<Text style = {textStyle.regular(24)}>%</Text>
-					</View>
+				return (
+					<TextField
+						fontSize = {24}
+						label = "Grade (%)"
+						textAlign = 'center'
+						textColor = {colors.primaryTextColor}
+						blurOnSubmit = {false}
+						onSubmitEditing = {() => this.weightInput.focus()}
+						keyboardType = 'numeric'
+						defaultValue = {this.state.percentage}
+						returnKeyType = 'next'
+						onChangeText = {(newText) => {
+							this.setState({percentage: convertToPercentage(newText, this.state.percentage)});
+						}}
+					/>
 				);
 			}
 		}
@@ -321,19 +301,15 @@ class InputGradePage extends Component
 
 				break;
 			}
-
 		}
 
-		return(
+		return (
 			<View style = {containerStyle.form}>
 				<View style = {containerStyle.formSection}>
 					<Text style = {textStyle.regular(24, 'center')}>Enter the grade you received for {the}{selectedTypeNameSng} below.</Text>
 				</View>
 				<View style = {containerStyle.formSection}>
 					{renderGradeInput()}
-					<Text style = {[textStyle.regular(14, 'center'), {paddingLeft: 3.5}]}>
-						Grade
-					</Text>
 					<CheckList
 						style = {{alignSelf: 'center', paddingVertical: 10, paddingRight: 40}}
 						color = {colors.accentColor}
@@ -353,44 +329,37 @@ class InputGradePage extends Component
 					<Text style = {textStyle.italic(12, 'center', colors.secondaryTextColor)}>
 						The total weight of your {selectedTypeNamePlr} should be {this.props.courseBreakdown[selectedType] * 100}%
 					</Text>
-					<View style = {{flexDirection: 'row', alignItems: 'center', alignSelf: 'center'}}>
-						<Text style = {textStyle.regular(24, 'left', colors.spaceColor)}>%</Text>
-						<TextInput
-							ref = {input => this.weightInput = input}
-							blurOnSubmit = {false}
-							onSubmitEditing = {() => this.nameInput.focus()}
-							keyboardType = 'numeric'
-							clearTextOnFocus = {true}
-							defaultValue = {this.state.weight == 0 ? "" : this.state.weight.toString()}
-							placeholderTextColor = 'rgba(0, 0, 0, 0.2)'
-							underlineColorAndroid = {colors.primaryTextColor}
-							returnKeyType = 'next'
-							style = {[textStyle.regular(28, 'center'), {width: 125}]}
-							onChangeText = {(newText) => {
-								this.setState({weight: convertToPercentage(newText, this.state.weight)});
-							}}
-						/>
-						<Text style = {textStyle.regular(24)}>%</Text>
-					</View>
-					<Text style = {[textStyle.regular(14, 'center'), {paddingLeft: 3.5}]}>
-						Weight
-					</Text>
+					<TextField
+						ref = {input => this.weightInput = input}
+						fontSize = {24}
+						label = "Weight (%)"
+						textAlign = 'center'
+						textColor = {colors.primaryTextColor}
+						blurOnSubmit = {false}
+						defaultValue = {this.state.weight == 0 ? "" : this.state.weight.toString()}
+						keyboardType = 'numeric'
+						onChangeText = {(newText) => {
+							this.setState({weight: convertToPercentage(newText, this.state.weight)});
+						}}
+						onSubmitEditing = {() => this.nameInput.focus()}
+						returnKeyType = 'next'
+					/>
 				</View>
 				<View style = {containerStyle.formSection}>
 					<Text style = {textStyle.regular(24, 'center')}>(Optional) Provide a name for your {selectedTypeNameSng}.</Text>
 				</View>
 				<View style = {containerStyle.formSection}>
-					<TextInput
+					<TextField
 						ref = {input => this.nameInput = input}
-						maxLength = {25}
+						fontSize = {24}
+						label = {Assessment.types[selectedType] + " Name"}
+						textAlign = 'center'
+						textColor = {colors.primaryTextColor}
+						clearTextOnFocus = {true}
 						defaultValue = {this.state.name}
+						maxLength = {25}
 						onChangeText = {(newText) => this.setState({name: newText})}
-						underlineColorAndroid = {colors.primaryTextColor}
-						style = {textStyle.regular(24, 'center')}
 					/>
-					<Text style = {[textStyle.regular(14, 'center'), {paddingLeft: 3.5}]}>
-						{Assessment.types[selectedType]} Name
-					</Text>
 				</View>
 				<View style = {containerStyle.formSection}>
 					<Button
@@ -399,7 +368,6 @@ class InputGradePage extends Component
 						inverted = {false}
 						action = {() =>
 						{
-
 							if (this.state.useFraction)
 							{
 								if (this.state.numerator === "" || this.state.denominator === "")
@@ -486,7 +454,7 @@ class InputGradePage extends Component
 			}
 		}
 
-		return(
+		return (
 			<View style = {containerStyle.default}>
 				<ActionBar
 					inverted = {true}
