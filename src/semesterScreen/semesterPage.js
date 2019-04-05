@@ -116,21 +116,18 @@ class SemesterPage extends Component
 
 const mapStateToProps = (state) =>
 {
-	var newSemester = true;
+	// Pulling the state values I need
+	let {selectedSemester, semesterList, courseList} = state;
 
-	for (id in state.courseList)
-	{
-		if (state.courseList[id].semesterID == state.selectedSemester)
-		{
-			newSemester = false;
-			break;
-		}
-	}
+	// Finding out if semester has any courses
+	let emptySemester = (semesterList[selectedSemester].courses.length == 0);
 
+	let semester = semesterList[state.selectedSemester];
+	
 	return {
-		semester: state.semesterList[state.selectedSemester],
-		courseList: state.courseList,
-		newSemester
+		semester,
+		courseList: courseList,
+		emptySemester 
 	};
 }
 

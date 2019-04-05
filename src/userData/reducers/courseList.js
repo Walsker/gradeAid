@@ -52,7 +52,7 @@ export default (prevState = {}, action) =>
 
 			return {
 				...prevState,
-				[newID]: action.payload
+				[newID]: {_id: newID, ...action.payload},
 			};
 
 		// ------------------------------------------------------------------------------
