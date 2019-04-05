@@ -22,17 +22,14 @@ export const EDIT_ASSESSMENT = "editAssessment";
 // --------------------------------------------------------------------------------------
 // An action creator for creating a semeseter and adding it to the app
 // semesterName: the name of the new semester
-// listID: an ID that allows for chronological comparisons with other semesters
 // --------------------------------------------------------------------------------------
-export const createSemester = (semesterName, listID) =>
+export const createSemester = (semesterName) =>
 ({
 	type: CREATE_SEMESTER,
 	payload: 
 	{
 		name: semesterName,
-		average: -1,
 		courses: []
-		// listID
 	}
 });
 
@@ -96,8 +93,6 @@ export const createCourse = (name, markBreakdown) =>
 	payload:
 	{
 		name,
-		completion: 0.0,
-		average: -1,
 		breakdown: markBreakdown,
 		assessments: []
 	}
