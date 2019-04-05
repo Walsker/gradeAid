@@ -9,7 +9,7 @@
 // --------------------------------------------------------------------------------------
 // React Native imports
 import React, {Component} from 'react';
-import {Animated, Platform, TouchableNativeFeedback, TouchableWithoutFeedback, Text, View} from 'react-native';
+import {Animated, Platform, StyleSheet, TouchableNativeFeedback, TouchableWithoutFeedback, Text, View} from 'react-native';
 
 // Custom imports
 import {containerStyle, textStyle, colors} from './appStyles';
@@ -71,8 +71,7 @@ export default class Button extends Component
 			TouchableNativeFeedback.Ripple(this.props.color, true) : TouchableNativeFeedback.Ripple(colors.spaceColor, true);
 
 		return (
-			<View style = {containerStyle.rowBox}>
-				<View style = {{borderRadius: 30}}>
+			<View style = {styles.container}>
 					<TouchableNativeFeedback
 						background = {rippleColor}
 						onPress = {this.props.action}
@@ -83,7 +82,6 @@ export default class Button extends Component
 							</Text>
 						</View>
 					</TouchableNativeFeedback>
-				</View>
 			</View>
 		);
 	}
@@ -91,7 +89,7 @@ export default class Button extends Component
 	renderiOS()
 	{
 		return (
-			<View style = {containerStyle.rowBox}>
+			<View style = {styles.container}>
 				<Animated.View style = {{transform: [{scale: 
 					this.state.pressValue.interpolate({
 						inputRange: [this.state.INACTIVE_VALUE, this.state.ACTIVE_VALUE],
@@ -116,9 +114,19 @@ export default class Button extends Component
 
 	render()
 	{
-		if (Platform.OS === 'ios')
-			return this.renderiOS();
-		else
+		// if (Platform.OS === 'ios')
+		// 	return this.renderiOS();
+		// else
 			return this.renderAndroid();
 	}
 }
+
+const styles = StyleSheet.create(
+{
+	container:
+	{
+		margin: 10,
+		flexDirection: 'row',
+		justifyContent: 'space-evenly'
+	}
+});

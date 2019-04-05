@@ -9,7 +9,7 @@ import {eraseAppData} from './redux/actions';
 // Custom imports
 import {colors, containerStyle} from 'gradeAid/src/common/appStyles';
 import {ActionBar, IconButton} from 'gradeAid/src/common';
-import MenuItem from './_components/menuItem';
+import MenuItem from './components/menuItem';
 
 class SettingsPage extends Component
 {

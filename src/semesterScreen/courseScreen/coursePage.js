@@ -8,7 +8,7 @@ import {connect} from 'react-redux';
 // Custom imports
 import {ActionBar, Button, IconButton, ProgressBar, ProgressCircle, Tile} from 'gradeAid/src/common';
 import {colors, containerStyle, textStyle} from 'gradeAid/src/common/appStyles';
-import AssessmentList from './_components/assessmentList';
+import AssessmentList from './components/assessmentList';
 
 class CoursePage extends Component
 {

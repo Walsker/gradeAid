@@ -5,45 +5,45 @@
 // Below is the structure for this portion of the state
 // assessmentList:
 // {
-//      [id]: {type: int, name: string, courseID: int, grade: float, weight: float, hidden: bool}
+//		[id]: {type: int, name: string, grade: float, hidden: bool}
 //		...
 // }
 // --------------------------------------------------------------------------------------
 
-import {CLEAN_ASSESS_LIST, CREATE_ASSESSMENT, DELETE_ASSESSMENT, EDIT_ASSESSMENT} from '../actionTypes';
+import {CLEAN_ASSESS_LIST, CREATE_ASSESSMENT, DELETE_ASSESSMENT, EDIT_ASSESSMENT} from '../actions';
 
 export default (prevState = {}, action) =>
 {
 	switch (action.type)
 	{
 		// ------------------------------------------------------------------------------
+		// TODO: REDO
 		// CASE: the assessment list is being purged of all assessments whose parent
 		//      course no longer exists
 		// PAYLOAD: a list of all the assessment IDs for assessments that no longer
 		//			belong to a course
 		// ------------------------------------------------------------------------------
-		case CLEAN_ASSESS_LIST:
+		// case CLEAN_ASSESS_LIST:
 
-			var newAssessList = {};
-			for (id in prevState)
-			{
-				if (!(id in action.payload))
-				{
-					newAssessList = Object.assign(newAssessList, {[id]: prevState[id]});
-				}
-			}
+		// 	var newAssessList = {};
+		// 	for (id in prevState)
+		// 	{
+		// 		if (!(id in action.payload))
+		// 		{
+		// 			newAssessList = Object.assign(newAssessList, {[id]: prevState[id]});
+		// 		}
+		// 	}
 
-			return newAssessList;
+		// 	return newAssessList;
 
 		// ------------------------------------------------------------------------------
 		// CASE: a new assessment is being created
-		// PAYLOAD: an assessment object in the form
-		//      {type: int, name: string, courseID: int, grade: float, weight: float, hidden: bool}
+		// PAYLOAD: {type: int, name: string, grade: float, hidden: bool}
 		// ------------------------------------------------------------------------------
 		case CREATE_ASSESSMENT:
 
 			// Finding an unused ID
-			var newID = 0;
+			let newID = 0;
 			while (true)
 			{
 				if (prevState[newID] == undefined)
@@ -56,6 +56,26 @@ export default (prevState = {}, action) =>
 				...prevState,
 				[newID]: action.payload,
 			};
+
+		// ------------------------------------------------------------------------------
+		// CASE: an existing assessment is being modified
+		// PAYLOAD: {id, newProps}
+		//      id: the unique id of the assessment to be modified
+		//      newProps: an object of the new values of the properties being changed
+		// ------------------------------------------------------------------------------
+		case EDIT_ASSESSMENT:
+			let {id, newProps} = action.payload;
+
+			// Making the changes to the assessment object
+			var modifiedAssessment = Object.assign({}, prevState[id], newProps);
+
+			return {
+				...prevState,
+				[id]: modifiedAssessment
+			};
+
+		default:
+			return prevState;
 
 		// ------------------------------------------------------------------------------
 		// CASE: an assessment is being deleted from the app
@@ -71,29 +91,5 @@ export default (prevState = {}, action) =>
 			}
 
 			return assessList;
-
-		// ------------------------------------------------------------------------------
-		// CASE: an existing assessment is being modified
-		// PAYLOAD: an object in the form
-		//      {id, newProps}
-		//      id: the unique id of the assessment to be modified
-		//      newProps: an object of the new values of the properties being changed
-		// ------------------------------------------------------------------------------
-		case EDIT_ASSESSMENT:
-
-			// Copying the previous list of assessments as to not modify it
-			var assessList = {...prevState};
-			var oldAssessment = assessList[action.payload.id];
-
-			// Making the changes to the assessment object
-			var modifiedAssessment = Object.assign({}, oldAssessment, action.payload.newProps);
-
-			return {
-				...prevState,
-				[action.payload.id]: modifiedAssessment
-			};
-
-		default:
-			return prevState
 	}
 };
