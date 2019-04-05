@@ -67,7 +67,7 @@ export default (prevState = {}, action) =>
 			let {id, newProps} = action.payload;
 
 			// Making the changes to the assessment object
-			var modifiedAssessment = Object.assign({}, prevState[id], newProps);
+			let modifiedAssessment = Object.assign({}, prevState[id], newProps);
 
 			return {
 				...prevState,
@@ -83,7 +83,7 @@ export default (prevState = {}, action) =>
 		// ------------------------------------------------------------------------------
 		case DELETE_ASSESSMENT:
 
-			var assessList = {};
+			let assessList = {};
 			for (id in prevState)
 			{
 				if (id != action.payload)

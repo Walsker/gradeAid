@@ -25,7 +25,7 @@ export const EDIT_ASSESSMENT = "editAssessment";
 // listID: an ID that allows for chronological comparisons with other semesters
 // --------------------------------------------------------------------------------------
 export const createSemester = (semesterName, listID) =>
-{
+({
 	type: CREATE_SEMESTER,
 	payload: 
 	{
@@ -34,7 +34,7 @@ export const createSemester = (semesterName, listID) =>
 		courses: []
 		// listID
 	}
-};
+});
 
 // --------------------------------------------------------------------------------------
 // An action creator for editing an existing semester
@@ -42,20 +42,20 @@ export const createSemester = (semesterName, listID) =>
 // newProps: an object containing only the modified properties
 // --------------------------------------------------------------------------------------
 export const editSemester = (id, newProps) =>
-{
+({
 	type: EDIT_SEMESTER,
 	payload: {id, newProps}
-};
+});
 
 // --------------------------------------------------------------------------------------
 // An action creator for deleting a semester from the app
 // id: unique integer value of the semester to be deleted
 // --------------------------------------------------------------------------------------
 export const deleteSemester = (id) =>
-{
+({
 	type: DELETE_SEMESTER,
 	payload: id
-};
+});
 
 // --------------------------------------------------------------------------------------
 // An action creator for adding an existing course a semester
@@ -63,10 +63,10 @@ export const deleteSemester = (id) =>
 // courseID: the id of the course to add the semester of interest
 // --------------------------------------------------------------------------------------
 export const addCourse = (semesterID, courseID) =>
-{
+({
 	type: ADD_COURSE,
 	payload: {semesterID, courseID}
-};
+});
 
 // --------------------------------------------------------------------------------------
 // An action creator for dropping a course from a semester
@@ -74,10 +74,10 @@ export const addCourse = (semesterID, courseID) =>
 // courseID: the id of the course to add the semester of interest
 // --------------------------------------------------------------------------------------
 export const dropCourse = (semesterID, courseID) =>
-{
+({
 	type: DROP_COURSE,
 	payload: {semesterID, courseID}
-};
+});
 
 // --------------------------------------------------------------------------------------
 // COURSE ACTION CREATORS
@@ -91,7 +91,7 @@ export const dropCourse = (semesterID, courseID) =>
 //                  in assessmentTypes.js.
 // --------------------------------------------------------------------------------------
 export const createCourse = (name, markBreakdown) =>
-{
+({
 	type: CREATE_COURSE,
 	payload:
 	{
@@ -101,7 +101,7 @@ export const createCourse = (name, markBreakdown) =>
 		breakdown: markBreakdown,
 		assessments: []
 	}
-};
+});
 
 // --------------------------------------------------------------------------------------
 // An action creator for editing an existing course
@@ -109,20 +109,20 @@ export const createCourse = (name, markBreakdown) =>
 // newProps: an object containing only the modified properties
 // --------------------------------------------------------------------------------------
 export const editCourse = (id, newProps) =>
-{
+({
 	type: EDIT_COURSE,
 	payload: {id, newProps}
-};
+});
 
 // --------------------------------------------------------------------------------------
 // An action creator for deleting a course from the app
 // id: unique integer value of the course to be deleted
 // --------------------------------------------------------------------------------------
 export const deleteCourse = (id) =>
-{
+({
 	type: DELETE_COURSE,
 	payload: id
-};
+});
 
 // --------------------------------------------------------------------------------------
 // An action creator that adds an assessment to this course
@@ -130,10 +130,10 @@ export const deleteCourse = (id) =>
 // assessmentID: the id of the assessment to add to the course of interest
 // --------------------------------------------------------------------------------------
 export const addAssessment = (courseID, assessmentID) =>
-{
+({
 	type: ADD_ASSESSMENT,
 	payload: {courseID, assessmentID}
-};
+});
 
 // --------------------------------------------------------------------------------------
 // An action creator that removes an assessment from this course
@@ -141,10 +141,10 @@ export const addAssessment = (courseID, assessmentID) =>
 // assessmentID: the id of the assessment to add to the course of interest
 // --------------------------------------------------------------------------------------
 export const removeAssessment = (courseID, assessmentID) =>
-{
+({
 	type: REMOVE_ASSESSMENT,
 	payload: {courseID, assessmentID}
-};
+});
 
 // --------------------------------------------------------------------------------------
 // ASSESSMENT ACTION CREATORS
@@ -158,7 +158,7 @@ export const removeAssessment = (courseID, assessmentID) =>
 // grade: a float for the grade inputted by the user
 // --------------------------------------------------------------------------------------
 export const createAssessment = (type, name, grade) =>
-{
+({
 	type: CREATE_ASSESSMENT,
 	payload: 
 	{
@@ -167,7 +167,7 @@ export const createAssessment = (type, name, grade) =>
 		grade,
 		hidden: false
 	}
-};
+});
 
 // --------------------------------------------------------------------------------------
 // An action creator for editing an existing assessment (and in turn inputting a grade)
@@ -175,17 +175,17 @@ export const createAssessment = (type, name, grade) =>
 // newProps: an object containing only the modified properties
 // --------------------------------------------------------------------------------------
 export const editAssessment = (id, newProps) =>
-{
+({
 	type: actionTypes.EDIT_ASSESSMENT,
 	payload: {id, newProps}
-};
+});
 
 // --------------------------------------------------------------------------------------
 // An action creator for deleting an assessment from the app
 // id: the unique ID of the course being deleted
 // --------------------------------------------------------------------------------------
 export const deleteAssessment = (id) =>
-{
+({
 	type: actionTypes.DELETE_ASSESSMENT,
 	payload: id
-};
+});
