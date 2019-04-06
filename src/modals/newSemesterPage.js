@@ -1,11 +1,11 @@
 // React Native imports
 import React, {Component} from 'react';
-import {Alert, Text, TextInput, View} from 'react-native';
+import {Alert, Text, View} from 'react-native';
 
 // Redux imports
 import {connect} from 'react-redux';
 import {createSemester} from 'gradeAid/src/userData/actions';
-import {selectSemester, upOrderID} from 'gradeAid/src/navDrawer/redux/actions';
+import {selectSemester} from 'gradeAid/src/navDrawer/actions';
 
 // Custom Imports
 import {colors, containerStyle, textStyle} from 'gradeAid/src/common/appStyles';
@@ -90,9 +90,8 @@ class NewSemesterPage extends Component
 					newID++;
 			}
 
-			this.props.createSemester(semesterName, this.props.orderID);
+			this.props.createSemester(semesterName);
 			this.setSelectedSemester();
-			this.props.upOrderID();
 
 			this.props.navigation.navigate("Semester Screen");
 		}
@@ -148,8 +147,7 @@ class NewSemesterPage extends Component
 const mapStateToProps = (state) =>
 {
 	return {
-		semesterList: state.semesterList,
-		orderID: state.orderID
+		semesterList: state.semesterList
 	};
 }
-export default connect(mapStateToProps, {createSemester, selectSemester, upOrderID})(NewSemesterPage);
+export default connect(mapStateToProps, {createSemester, selectSemester})(NewSemesterPage);

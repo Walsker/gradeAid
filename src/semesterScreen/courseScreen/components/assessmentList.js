@@ -7,7 +7,7 @@ import {withNavigationFocus} from 'react-navigation';
 
 // Redux imports
 import {connect} from 'react-redux';
-import {selectAssessment} from 'gradeAid/src/navDrawer/redux/actions';
+import {selectAssessment} from 'gradeAid/src/navDrawer/actions';
 
 // Custom Imports
 import {colors, containerStyle, textStyle} from 'gradeAid/src/common/appStyles';

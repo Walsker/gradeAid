@@ -44,21 +44,26 @@ const _completeCourse = (courseObject, assessmentList) =>
 
 const assembleSemester = (semesterObject, courses) =>
 {
-	// Finding out if all the courses don't have assessments
-	let allCoursesEmpty = courses.reduce((allEmpty, targetCourse) => targetCourse.emptyCourse && allEmpty, true);
-
-	// Calculating the semester average
-	let average = courses.reduce((sum, targetCourse) => sum + targetCourse.average);
-	average /= courses.length;
+	let average = 0;
+	let emptySemester = true;
+	if (courses.length != 0)
+	{
+		// Finding out if all the courses don't have assessments
+		emptySemester = courses.reduce((allEmpty, targetCourse) => targetCourse.emptyCourse && allEmpty, true);
+		
+		// Calculating the semester average
+		average = courses.reduce((sum, targetCourse) => sum + targetCourse.average);
+		average /= courses.length;
+	}
 
 	return {
 		...semesterObject,
 		average,
-		emptySemester: (semesterObject.courses.lengh == 0 || allCoursesEmpty)
+		emptySemester
 	};
 };
 
 export const getSemester = createSelector(
-	[getSemester, getCourses],
+	[getSemesterObject, getCourses],
 	assembleSemester
 );

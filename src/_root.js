@@ -5,9 +5,8 @@ import SplashScreen from 'react-native-splash-screen'
 
 // Redux imports
 import {Provider} from 'react-redux';
-import {createStore, applyMiddleware} from 'redux';
+import {createStore} from 'redux';
 import reducers from './_rootReducer';
-import {averageCalculator, listCleaner} from 'gradeAid/src/userData/middleware';
 
 // Redux Persist imports
 import {persistStore, persistReducer} from 'redux-persist';
@@ -33,7 +32,7 @@ export default class App extends Component
 		};
 		const persistedReducer = persistReducer(persistConfig, reducers);
 
-		const store = createStore(persistedReducer, applyMiddleware(averageCalculator, listCleaner));
+		const store = createStore(persistedReducer);
 		const persistor = persistStore(store);
 		// persistor.purge();
 		return (
@@ -54,9 +53,3 @@ export default class App extends Component
 		);
 	}
 }
-
-// This is to get rid of the warning caused while mounting screens with React-navigation.
-// There's a possibility that this warning is a false-positive.
-// Check if this is fixed in the next React Native update.
-// import { YellowBox } from 'react-native'
-// YellowBox.ignoreWarnings(['Warning: isMounted(...) is deprecated'])

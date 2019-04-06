@@ -104,7 +104,7 @@ export default (prevState = {}, action) =>
 		//			semesterID: the semester that's losing a course
 		//			courseID: the course being removed from the semester
 		// ------------------------------------------------------------------------------
-		case DROP_COURSE:
+		case DROP_COURSE: {
 			let {semesterID, courseID} = action.payload;
 
 			// Getting the target semester
@@ -117,7 +117,8 @@ export default (prevState = {}, action) =>
 				...prevState,
 				[semesterID]: targetSemester
 			};
-			
+		}
+		
 		default:
 			return prevState;
 	}

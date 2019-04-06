@@ -5,7 +5,7 @@ import {Alert, Text, TextInput, View} from 'react-native';
 // Redux imports
 import {connect} from 'react-redux';
 import {editSemester, deleteSemester} from 'gradeAid/src/userData/actions';
-import {selectSemester} from 'gradeAid/src/navDrawer/redux/actions';
+import {selectSemester} from 'gradeAid/src/navDrawer/actions';
 
 // Custom imports
 import {colors, containerStyle, textStyle} from 'gradeAid/src/common/appStyles';

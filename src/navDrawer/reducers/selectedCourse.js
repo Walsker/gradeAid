@@ -1,4 +1,4 @@
-import {SELECT_COURSE} from '../actionTypes';
+import {SELECT_COURSE} from '../actions';
 
 export default (prevState = 0, action) =>
 {

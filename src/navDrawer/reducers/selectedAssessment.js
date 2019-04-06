@@ -1,4 +1,4 @@
-import {SELECT_ASSESSMENT} from '../actionTypes';
+import {SELECT_ASSESSMENT} from '../actions';
 
 export default (prevState = 0, action) =>
 {

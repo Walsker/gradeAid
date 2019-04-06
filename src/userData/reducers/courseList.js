@@ -71,9 +71,6 @@ export default (prevState = {}, action) =>
 				...prevState,
 				[id]: modifiedCourse
 			};
-
-		default:
-			return prevState;
 		
 		// ------------------------------------------------------------------------------
 		// CASE: a course is being removed from the app
@@ -116,8 +113,8 @@ export default (prevState = {}, action) =>
 		//			courseID: the course that's losing an assessment
 		//			assessmentID: the assessment being removed from the course
 		// ------------------------------------------------------------------------------
-		case REMOVE_ASSESSMENT:
-		let {courseID, assessmentID} = action.payload;
+		case REMOVE_ASSESSMENT: {
+			let {courseID, assessmentID} = action.payload;
 
 			// Getting the target course
 			let targetCourse = {...prevState[courseID]};
@@ -129,7 +126,8 @@ export default (prevState = {}, action) =>
 				...prevState,
 				[courseID]: targetCourse
 			};
-			
+		}
+
 		default:
 			return prevState;
 	}

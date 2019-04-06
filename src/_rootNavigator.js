@@ -60,7 +60,7 @@ class RootNavigator extends Component
 		var drawerRoutes =
 		{
 			"About": {screen: AboutPage},
-			// "Settings": {screen: SettingsPage},
+			"Settings": {screen: SettingsPage},
 			"No Semesters": {screen: NoSemestersPage},
 			"Semester Screen": semesterScreen
 		};

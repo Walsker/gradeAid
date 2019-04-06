@@ -4,6 +4,7 @@ import {ScrollView, Text, View} from 'react-native';
 
 // Redux imports
 import {connect} from 'react-redux';
+import {getCourse} from './selector';
 
 // Custom imports
 import {ActionBar, Button, IconButton, ProgressBar, ProgressCircle, Tile} from 'gradeAid/src/common';
@@ -70,7 +71,7 @@ class CoursePage extends Component
 						emptyRingColor = {colors.darkPrimaryColor}
 						backgroundColor = {colors.spaceColor}
 						percentage = {this.props.course.average}
-						active = {this.props.course.average != -1}
+						active = {!this.props.course.emptyCourse}
 						animationDelay = {0}
 					/>
 				</Tile>
@@ -97,12 +98,6 @@ class CoursePage extends Component
 					<View style = {{marginVertical: 5}}/>
 					<Text style = {textStyle.regular(16, 'center', colors.secondaryTextColor)}>Lowest achievable final grade</Text>
 					<Text style = {[textStyle.regular(24, 'center'), {paddingBottom: 10}]}>{minGrade}%</Text>
-					{/* <Button
-						label = "Explore"
-						color = {'green'}
-						inverted = {false}
-						action = {() => {}}
-					/> */}
 				</Tile>
 				<Tile title = "Overview">
 					<AssessmentList
@@ -143,28 +138,12 @@ class CoursePage extends Component
 						/>
 					}
 				/>
-				{this.props.newCourse ? this.newCourse_SCENE() : this.course_SCENE()}
+				{this.props.course.emptyCourse ? this.newCourse_SCENE() : this.course_SCENE()}
 			</View>
 		);
 	}
 }
 
-const mapStateToProps = (state) =>
-{
-	var newCourse = true;
+const mapStateToProps = (state) => ({course: getCourse(state)});
 
-	for (id in state.assessmentList)
-	{
-		if (state.assessmentList[id].courseID == state.selectedCourse)
-		{
-			newCourse = false;
-			break;
-		}
-	}
-
-	return {
-		course: state.courseList[state.selectedCourse],
-		newCourse
-	};
-}
 export default connect(mapStateToProps)(CoursePage);

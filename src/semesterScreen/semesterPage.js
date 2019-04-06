@@ -4,6 +4,7 @@ import {ScrollView, Text, View} from 'react-native';
 
 // Redux imports
 import {connect} from 'react-redux';
+import {getSemester} from './selector';
 
 // Custom imports
 import {colors, containerStyle, textStyle} from 'gradeAid/src/common/appStyles';
@@ -12,14 +13,6 @@ import CourseList from './components/courseList';
 
 class SemesterPage extends Component
 {
-	constructor(props)
-	{
-		super(props);
-
-		// Keeping track of the tentative semester name
-		this.state = {_semesterName: ""};
-	}
-
 	componentDidUpdate()
 	{
 		this.props.navigation.closeDrawer();
@@ -58,19 +51,13 @@ class SemesterPage extends Component
 
 	semester_SCENE()
 	{
-		averageString = this.props.semester.average;
-		var fontSize = 200;
-		if (this.props.semester.average == 'X')
-		{
-			averageString = "N/A";
-			fontSize = 175;
-		}
+		let averageString = this.props.semester.average ? this.props.semester.average : "~";
 
 		return (
 			<ScrollView style = {containerStyle.tileList}>
 				<Tile title = "Semester Average">
 					<View style = {{marginVertical: -25}}>
-						<Text style = {textStyle.bold(fontSize, 'center')}>{averageString}</Text>
+						<Text style = {textStyle.bold(150, 'center')}>{averageString}</Text>
 					</View>
 				</Tile>
 				<Tile title = "Courses">
@@ -108,27 +95,12 @@ class SemesterPage extends Component
 						/>
 					}
 				/>
-				{this.props.newSemester ? this.newSemester_SCENE() : this.semester_SCENE()}
+				{this.props.emptySemester ? this.newSemester_SCENE() : this.semester_SCENE()}
 			</View>
 		);
 	}
 }
 
-const mapStateToProps = (state) =>
-{
-	// Pulling the state values I need
-	let {selectedSemester, semesterList, courseList} = state;
-
-	// Finding out if semester has any courses
-	let emptySemester = (semesterList[selectedSemester].courses.length == 0);
-
-	let semester = semesterList[state.selectedSemester];
-	
-	return {
-		semester,
-		courseList: courseList,
-		emptySemester 
-	};
-}
+const mapStateToProps = (state) => ({semester: getSemester(state)});
 
 export default connect(mapStateToProps)(SemesterPage);

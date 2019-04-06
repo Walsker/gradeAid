@@ -1,4 +1,4 @@
-import {SELECT_SEMESTER} from '../actionTypes';
+import {SELECT_SEMESTER} from '../actions';
 
 export default (prevState = 0, action) =>
 {

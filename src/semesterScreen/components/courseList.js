@@ -5,7 +5,7 @@ import Icon from 'react-native-vector-icons/MaterialIcons';
 
 // Redux imports
 import {connect} from 'react-redux';
-import {selectCourse} from 'gradeAid/src/navDrawer/redux/actions';
+import {selectCourse} from 'gradeAid/src/navDrawer/actions';
 
 // Custom imports
 import {colors, containerStyle} from 'gradeAid/src/common/appStyles';
