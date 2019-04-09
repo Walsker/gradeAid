@@ -11,7 +11,7 @@ import {colors, containerStyle, textStyle} from 'gradeAid/src/common/appStyles';
 import {ActionBar, Button, Divider, IconButton, TextField} from 'gradeAid/src/common';
 import * as Assessment from 'gradeAid/src/semesterScreen/assessmentTypes';
 
-class EditCoursePage extends Component
+class EditCourseForm extends Component
 {
 	constructor(props)
 	{
@@ -345,8 +345,8 @@ class EditCoursePage extends Component
 									breakdown.push(0.0);
 							}
 							
-							this.props.editCourse(this.props.selectedCourse, {name: this.state.courseName, breakdown});
 							this.props.navigation.navigate("Course");
+							this.props.editCourse(this.props.selectedCourse, {name: this.state.courseName, breakdown});
 						}}
 					/>
 					<Button
@@ -371,7 +371,7 @@ class EditCoursePage extends Component
 					leftButton =
 					{
 						<IconButton
-							type = 'arrow-back'
+							type = 'close'
 							size = {30}
 							color = {colors.primaryColor}
 							action = {() => this.showAlert("Cancel Editing")}
@@ -395,4 +395,4 @@ const mapStateToProps = (state) =>
 		selectedCourse: state.selectedCourse
 	};
 }
-export default connect(mapStateToProps, {editCourse})(EditCoursePage)
+export default connect(mapStateToProps, {editCourse})(EditCourseForm)

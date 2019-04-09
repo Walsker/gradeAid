@@ -11,11 +11,15 @@ import {selectSemester} from 'gradeAid/src/navDrawer/actions';
 import {colors, containerStyle, textStyle} from 'gradeAid/src/common/appStyles';
 import {ActionBar, Button, IconButton, TextField} from 'gradeAid/src/common';
 
-class EditSemesterPage extends Component
+class EditSemesterForm extends Component
 {
 	constructor(props)
 	{
 		super(props);
+		this.showAlert = this.showAlert.bind(this);
+		this.onDelete = this.onDelete.bind(this);
+		this.onSubmit = this.onSubmit.bind(this);
+
 		this.state =
 		{
 			// The tentative new semester name
@@ -60,7 +64,7 @@ class EditSemesterPage extends Component
 					[
 						{
 							text: 'Yes',
-							onPress: this.onDelete.bind(this),
+							onPress: this.onDelete,
 							style: 'cancel'
 						},
 						{text: 'No', onPress: () => {}},
@@ -73,25 +77,17 @@ class EditSemesterPage extends Component
 
 	onDelete()
 	{
-		var semesterToBeDeleted = this.props.selectedSemester;
-		var prevSemester = -1;
+		let semesterToBeDeleted = this.props.selectedSemester;
+		let prevSemester = -1;
 		for (id in this.props.semesterList)
 		{
 			if (id != this.props.selectedSemester)
 				prevSemester = id;
 		}
-
-		if (prevSemester == -1)
-		{
-			this.props.navigation.navigate("No Semesters");
-			this.props.deleteSemester(semesterToBeDeleted);
-		}
-		else
-		{
-			this.props.selectSemester(prevSemester);
-			this.props.deleteSemester(semesterToBeDeleted);
-			this.props.navigation.navigate("Semester Screen");
-		}
+		
+		this.props.navigation.navigate("Semesters");
+		this.props.selectSemester(prevSemester == -1 ? 0 : prevSemester);
+		this.props.deleteSemester(semesterToBeDeleted);
 	}
 
 	onSubmit()
@@ -147,7 +143,7 @@ class EditSemesterPage extends Component
 					leftButton =
 					{
 						<IconButton
-							type = 'arrow-back'
+							type = 'close'
 							size = {30}
 							color = {colors.primaryColor}
 							action = {() => this.props.navigation.pop()}
@@ -172,13 +168,13 @@ class EditSemesterPage extends Component
 							autoFocus = {true}
 							defaultValue = {this.state.semesterName}
 							onChangeText = {(newText) => this.setState({_newSemesterName: newText})}
-							onSubmitEditing = {this.onSubmit.bind(this)}
+							onSubmitEditing = {this.onSubmit}
 						/>
 						<Button
 							label = "Submit"
 							color = {colors.accentColor}
 							inverted = {false}
-							action = {this.onSubmit.bind(this)}
+							action = {this.onSubmit}
 						/>
 					</View>
 					<View style = {containerStyle.formSection}>
@@ -209,4 +205,4 @@ const mapStateToProps = (state) =>
 		selectedSemester: state.selectedSemester
 	};
 }
-export default connect(mapStateToProps, {editSemester, deleteSemester, selectSemester})(EditSemesterPage);
+export default connect(mapStateToProps, {editSemester, deleteSemester, selectSemester})(EditSemesterForm);

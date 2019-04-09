@@ -11,7 +11,7 @@ import {colors, containerStyle, textStyle} from 'gradeAid/src/common/appStyles';
 import {ActionBar, Button, CheckList, FractionInput, IconButton, TextField} from 'gradeAid/src/common';
 import * as Assessment from 'gradeAid/src/semesterScreen/assessmentTypes';
 
-class InputGradePage extends Component
+class InputGradeForm extends Component
 {
 	constructor(props)
 	{
@@ -462,7 +462,7 @@ class InputGradePage extends Component
 					leftButton =
 					{
 						<IconButton
-							type = 'arrow-back'
+							type = 'close'
 							size = {30}
 							color = {colors.primaryColor}
 							action = {() => this.props.navigation.pop()}
@@ -507,4 +507,4 @@ const mapStateToProps = (state) =>
 		courseBreakdown: state.courseList[state.selectedCourse].breakdown
 	};
 };
-export default connect(mapStateToProps, {createAssessment})(InputGradePage);
+export default connect(mapStateToProps, {createAssessment})(InputGradeForm);

@@ -34,7 +34,7 @@ export default class App extends Component
 
 		const store = createStore(persistedReducer);
 		const persistor = persistStore(store);
-		// persistor.purge();
+		persistor.purge();
 		return (
 			<SafeAreaView style = {{flex: 1, backgroundColor: colors.primaryColor}}>
 				<Provider store = {store}>

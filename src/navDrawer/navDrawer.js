@@ -21,19 +21,21 @@ class NavDrawer extends Component
 	{
 		let semesterObject = this.props.semesterList[semesterID];
 
+		console.log(semesterID, semesterID == this.props.selectedSemester, this.props.selectedPage == SEMESTER_SCREEN);
 		if (semesterObject)
 		{
 			return (
 				<DrawerItem
 					key = {semesterObject.name}
 					title = {semesterObject.name}
-					active = {(semesterID == this.props.selectedSemester) && (this.props.selectedPage == SEMESTER_SCREEN)}
+					active = {false}
+					// active = {(semesterID == this.props.selectedSemester) && (this.props.selectedPage == SEMESTER_SCREEN)}
 					action = {() =>
 					{
 						this.props.selectPage(SEMESTER_SCREEN);
 						this.props.selectSemester(semesterID);
 						this.props.navigation.closeDrawer();
-						this.props.navigation.navigate("Semester");
+						this.props.navigation.navigate("Semesters");
 					}}
 				/>
 			);
@@ -44,10 +46,9 @@ class NavDrawer extends Component
 
 	render()
 	{
-		console.log(this.props.selectedPage);
 		let semesterIDs = Object.keys(this.props.semesterList);
 		semesterIDs.sort((a, b) => this.props.semesterList[a].name - this.props.semesterList[b].name);
-		let semesterPageLinks = semesterIDs.map(semesterID => this.createSemesterLink(semesterID));
+		let semesterPageLinks = semesterIDs.map(semesterID => this.createSemesterLink(parseInt(semesterID)));
 
 		if (Object.keys(this.props.semesterList).length != 0)
 			semesterPageLinks.push(<Divider key = "Divider"/>);
@@ -77,8 +78,7 @@ class NavDrawer extends Component
 						active = {false}
 						action = {() =>
 						{
-							// this.props.navigation.closeDrawer();
-							this.props.navigation.navigate("NewSemesterPage");
+							this.props.navigation.navigate("NewSemesterForm");
 						}}
 					/>
 					<Divider color = {colors.dividerColor}/>
@@ -108,7 +108,6 @@ class NavDrawer extends Component
 
 const mapStateToProps = (state) =>
 {
-	console.log("SELECTED PAGE: ", state.selectedPage);
 	return {
 		semesterList: state.semesterList,
 		selectedSemester: state.selectedSemester,

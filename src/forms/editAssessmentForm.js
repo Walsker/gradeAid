@@ -11,7 +11,7 @@ import {colors, containerStyle, textStyle} from 'gradeAid/src/common/appStyles';
 import {ActionBar, Button, CheckList, FractionInput, IconButton, TextField} from 'gradeAid/src/common';
 import * as Assessment from 'gradeAid/src/semesterScreen/assessmentTypes';
 
-class EditAssessmentPage extends Component
+class EditAssessmentForm extends Component
 {
 	constructor(props)
 	{
@@ -113,8 +113,8 @@ class EditAssessmentPage extends Component
 		else
 			trueGrade = (this.state.percentage / 100);
 
-		this.props.editAssessment(this.props.selectedAssessment, {name: this.state.name, grade: trueGrade, weight: trueWeight});
 		this.props.navigation.navigate("Course");
+		this.props.editAssessment(this.props.selectedAssessment, {name: this.state.name, grade: trueGrade, weight: trueWeight});
 	}
 
 	convertToPercentage(string, fallback)
@@ -196,7 +196,7 @@ class EditAssessmentPage extends Component
 					leftButton =
 					{
 						<IconButton
-							type = 'arrow-back'
+							type = 'close'
 							size = {30}
 							color = {colors.primaryColor}
 							action = {() => this.props.navigation.pop()}
@@ -363,4 +363,4 @@ const mapStateToProps = (state) =>
 		assessmentTypeWeight: state.courseList[assessmentObject.courseID].breakdown[assessmentObject.type],
 	};
 }
-export default connect(mapStateToProps, {editAssessment})(EditAssessmentPage);
+export default connect(mapStateToProps, {editAssessment})(EditAssessmentForm);

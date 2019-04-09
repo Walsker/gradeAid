@@ -18,8 +18,8 @@ class CourseList extends Component
 	{
 		return () => 
 		{
-			this.props.selectCourse(courseID);
 			this.props.navigation.navigate("Course");
+			this.props.selectCourse(courseID);
 		}
 	}
 

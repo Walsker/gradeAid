@@ -58,8 +58,8 @@ class AssessmentList extends Component
 
 		if (this.props.active)
 		{
-			this.props.selectAssessment(id);
 			this.props.navigation.navigate("Assessment");
+			this.props.selectAssessment(id);
 		}
 	}
 

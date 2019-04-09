@@ -144,6 +144,39 @@ class CoursePage extends Component
 	}
 }
 
-const mapStateToProps = (state) => ({course: getCourse(state)});
+// const mapStateToProps = (state) => ({course: getCourse(state)});
+const mapStateToProps = (state) =>
+{
+	// Finding the course object in the store
+	let courseObject = state.courseList[state.selectedCourse];
 
+	// Getting the assessment objects that belong to this course
+	let assessments = [];
+	for (x of courseObject.assessments)
+		assessments.push(state.assessmentList[x])
+
+	// Completing the course object
+	let preAverage = 0;
+	let completion = 0;
+
+	for (x of assessments)
+	{
+		if (assessments[i].hidden) continue;
+		let weight = courseObject.breakdown[assessments[i].type];
+
+		completion += weight;
+		preAverage += assessments[i].grade * weight;
+	}
+
+	// Returning the complete course
+	return {
+		course:
+		{
+			...courseObject,
+			completion,
+			average: preAverage / completion,
+			emptyCourse: (courseObject.assessments.length == 0 || completion == 0)
+		}
+	};
+};
 export default connect(mapStateToProps)(CoursePage);

@@ -11,7 +11,7 @@ import {colors, containerStyle, textStyle} from 'gradeAid/src/common/appStyles';
 import {ActionBar, Button, CheckList, Divider, IconButton, TextField} from 'gradeAid/src/common';
 import * as Assessment from 'gradeAid/src/semesterScreen/assessmentTypes';
 
-class AddCoursePage extends Component
+class AddCourseForm extends Component
 {
 	constructor(props)
 	{
@@ -396,8 +396,8 @@ class AddCoursePage extends Component
 						inverted = {false}
 						action = {() =>
 						{
-							this.props.createCourse(this.state.courseName, this.props.selectedSemester, this.state.markBreakdown.map((x) => x / 100));
 							this.props.navigation.navigate("Semester Screen");
+							this.props.createCourse(this.state.courseName, this.props.selectedSemester, this.state.markBreakdown.map((x) => x / 100));
 						}}
 					/>
 					<Button
@@ -431,7 +431,7 @@ class AddCoursePage extends Component
 					leftButton =
 					{
 						<IconButton
-							type = 'arrow-back'
+							type = 'close'
 							size = {30}
 							color = {colors.primaryColor}
 							action = {backButton}
@@ -454,4 +454,4 @@ const mapStateToProps = (state) =>
 		courseList: state.courseList
 	};
 }
-export default connect(mapStateToProps, {createCourse})(AddCoursePage);
+export default connect(mapStateToProps, {createCourse})(AddCourseForm);

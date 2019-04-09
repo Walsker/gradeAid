@@ -11,12 +11,15 @@ import {selectSemester} from 'gradeAid/src/navDrawer/actions';
 import {colors, containerStyle, textStyle} from 'gradeAid/src/common/appStyles';
 import {ActionBar, Button, IconButton, TextField} from 'gradeAid/src/common';
 
-class NewSemesterPage extends Component
+class NewSemesterForm extends Component
 {
 	constructor(props)
 	{
 		super(props);
 		this.state = {_semesterName: ""};
+
+		this.showAlert = this.showAlert.bind(this);
+		this.onSubmit = this.onSubmit.bind(this);
 	}
 	
 	showAlert(alertType)
@@ -51,7 +54,7 @@ class NewSemesterPage extends Component
 	
 	setSelectedSemester()
 	{
-		var newID = 0;
+		let newID = 0;
 		while (true)
 		{
 			if (this.props.semesterList[newID] == undefined)
@@ -64,7 +67,7 @@ class NewSemesterPage extends Component
 
 	onSubmit()
 	{
-		var semesterName = this.state._semesterName.trim();
+		let semesterName = this.state._semesterName.trim();
 
 		if (semesterName == "")
 		{
@@ -81,7 +84,7 @@ class NewSemesterPage extends Component
 				}
 			}
 
-			var newID = 0;
+			let newID = 0;
 			while (true)
 			{
 				if (this.props.semesterList[newID] == undefined)
@@ -90,10 +93,9 @@ class NewSemesterPage extends Component
 					newID++;
 			}
 
+			this.props.navigation.navigate("Semesters");
 			this.props.createSemester(semesterName);
 			this.setSelectedSemester();
-
-			this.props.navigation.navigate("Semester Screen");
 		}
 	}
 
@@ -106,7 +108,7 @@ class NewSemesterPage extends Component
 					leftButton =
 					{
 						<IconButton
-							type = 'arrow-back'
+							type = 'close'
 							size = {30}
 							color = {colors.primaryColor}
 							action = {() => this.props.navigation.pop()}
@@ -150,4 +152,4 @@ const mapStateToProps = (state) =>
 		semesterList: state.semesterList
 	};
 }
-export default connect(mapStateToProps, {createSemester, selectSemester})(NewSemesterPage);
+export default connect(mapStateToProps, {createSemester, selectSemester})(NewSemesterForm);
