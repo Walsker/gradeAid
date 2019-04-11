@@ -21,7 +21,6 @@ class NavDrawer extends Component
 	{
 		let semesterObject = this.props.semesterList[semesterID];
 
-		console.log(semesterID, semesterID == this.props.selectedSemester, this.props.selectedPage == SEMESTER_SCREEN);
 		if (semesterObject)
 		{
 			return (
@@ -46,11 +45,12 @@ class NavDrawer extends Component
 
 	render()
 	{
-		let semesterIDs = Object.keys(this.props.semesterList);
+		let semesterIDs = Object.keys({...this.props.semesterList}).filter(id => id != "-1");
 		semesterIDs.sort((a, b) => this.props.semesterList[a].name - this.props.semesterList[b].name);
+		
 		let semesterPageLinks = semesterIDs.map(semesterID => this.createSemesterLink(parseInt(semesterID)));
 
-		if (Object.keys(this.props.semesterList).length != 0)
+		if (semesterIDs.length >= 1)
 			semesterPageLinks.push(<Divider key = "Divider"/>);
 
 		return (

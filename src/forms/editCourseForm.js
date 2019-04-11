@@ -46,7 +46,7 @@ class EditCourseForm extends Component
 					"Cancel",
 					"Are you sure you would like to cancel? Your changes will not be saved.",
 					[
-						{text: 'Yes', onPress: () => this.props.navigation.goBack(), style: 'cancel'},
+						{text: 'Yes', onPress: () => this.props.navigation.pop(), style: 'cancel'},
 						{text: 'No', onPress: () => {}},
 					],
 					{cancelable: true}

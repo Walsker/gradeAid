@@ -4,7 +4,6 @@ import {ScrollView, Text, View} from 'react-native';
 
 // Redux imports
 import {connect} from 'react-redux';
-import {getCourse} from './selector';
 
 // Custom imports
 import {ActionBar, Button, IconButton, ProgressBar, ProgressCircle, Tile} from 'gradeAid/src/common';

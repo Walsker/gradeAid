@@ -12,7 +12,17 @@
 
 import {ERASE_APP_DATA, CREATE_SEMESTER, DELETE_SEMESTER, EDIT_SEMESTER, ADD_COURSE, DROP_COURSE} from '../actions';
 
-export default (prevState = {}, action) =>
+const initialState = 
+{
+	"-1":
+	{
+		_id: "-1",
+		name: " ",
+		courses: []
+	}
+};
+
+export default (prevState = initialState, action) =>
 {
 	switch (action.type)
 	{

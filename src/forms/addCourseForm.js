@@ -46,7 +46,7 @@ class AddCourseForm extends Component
 					"Cancel",
 					"Are you sure you would like to cancel the course creation?",
 					[
-						{text: 'Yes', onPress: () => this.props.navigation.goBack(), style: 'cancel'},
+						{text: 'Yes', onPress: () => this.props.navigation.pop(), style: 'cancel'},
 						{text: 'No', onPress: () => {}},
 					],
 					{cancelable: false}
@@ -418,7 +418,7 @@ class AddCourseForm extends Component
 		const backButton = () =>
 		{
 			if (this.state.courseName == "")
-				this.props.navigation.goBack()
+				this.props.navigation.pop()
 			else
 				this.showAlert("Cancel Creation");
 		}

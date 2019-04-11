@@ -4,7 +4,6 @@ import {ScrollView, Text, View} from 'react-native';
 
 // Redux imports
 import {connect} from 'react-redux';
-import {getSemester} from './selector';
 
 // Custom imports
 import {colors, containerStyle, textStyle} from 'gradeAid/src/common/appStyles';
@@ -181,7 +180,7 @@ const mapStateToProps = (state) =>
 	console.log("App Store: ", state);
 
 	// Checking if there are any semesters to display
-	if (Object.keys(state.semesterList).length == 0) return {semester: {}};
+	if (state.selectedSemester == -1) return {semester: {}};
 
 	// Finding the semester object in the store
 	let semesterObject = state.semesterList[state.selectedSemester];

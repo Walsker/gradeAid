@@ -1,6 +1,6 @@
 import {SELECT_SEMESTER} from '../actions';
 
-export default (prevState = 0, action) =>
+export default (prevState = -1, action) =>
 {
 	switch(action.type)
 	{

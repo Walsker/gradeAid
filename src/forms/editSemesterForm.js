@@ -81,23 +81,22 @@ class EditSemesterForm extends Component
 		let prevSemester = -1;
 		for (id in this.props.semesterList)
 		{
-			if (id != this.props.selectedSemester)
+			if (id != semesterToBeDeleted)
 				prevSemester = id;
 		}
 		
-		this.props.navigation.navigate("Semesters");
-		this.props.selectSemester(prevSemester == -1 ? 0 : prevSemester);
+		// this.props.navigation.navigate("Semesters");
+		this.props.navigation.pop();
+		this.props.selectSemester(prevSemester);
 		this.props.deleteSemester(semesterToBeDeleted);
 	}
 
 	onSubmit()
 	{
-		var newSemesterName = this.state._newSemesterName.trim();
+		let newSemesterName = this.state._newSemesterName.trim();
 
 		if (newSemesterName == "")
-		{
 			this.showAlert("Unnamed Semester");
-		}
 		else
 		{
 			if (this.state.semesterName == newSemesterName)
@@ -123,8 +122,8 @@ class EditSemesterForm extends Component
 						text: 'Yes',
 						onPress: () =>
 						{
-							this.props.editSemester(this.props.selectedSemester, {name: newSemesterName});
 							this.props.navigation.pop();
+							this.props.editSemester(this.props.selectedSemester, {name: newSemesterName});
 						},
 						style: 'cancel'
 					},
