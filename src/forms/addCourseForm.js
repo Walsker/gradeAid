@@ -4,7 +4,7 @@ import {Alert, KeyboardAvoidingView, ScrollView, Text, View} from 'react-native'
 
 // Redux imports
 import {connect} from 'react-redux';
-import {createCourse} from 'gradeAid/src/userData/actions';
+import {addCourse, createCourse} from 'gradeAid/src/userData/actions';
 
 // Custom imports
 import {colors, containerStyle, textStyle} from 'gradeAid/src/common/appStyles';
@@ -17,8 +17,8 @@ class AddCourseForm extends Component
 	{
 		super(props);
 
-		var selectedTypes = [];
-		var markBreakdown = [];
+		let selectedTypes = [];
+		let markBreakdown = [];
 
 		for (i in Assessment.types)
 		{
@@ -139,7 +139,7 @@ class AddCourseForm extends Component
 	{
 		const submit = () =>
 		{
-			var nameUsed = false;
+			let nameUsed = false;
 			for (id in this.props.courseList)
 			{
 				if (this.props.courseList[id].semesterID == this.props.selectedSemester &&
@@ -204,7 +204,7 @@ class AddCourseForm extends Component
 							values = {this.state.selectedTypes}
 							onItemToggle = {(id) =>
 							{
-								var newArray = this.state.selectedTypes;
+								let newArray = this.state.selectedTypes;
 								newArray[id] = !newArray[id];
 								this.setState({selectedTypes: newArray});
 							}}
@@ -223,7 +223,7 @@ class AddCourseForm extends Component
 							inverted = {false}
 							action = {() =>
 							{
-								var atLeastOneSelected = false;
+								let atLeastOneSelected = false;
 								for (i in this.state.selectedTypes)
 								{
 									if (this.state.selectedTypes[i])
@@ -249,7 +249,7 @@ class AddCourseForm extends Component
 	{
 		const convertToPercentage = (string, fallback) =>
 		{
-			var attempt = parseFloat(string);
+			let attempt = parseFloat(string);
 			if (Number(attempt) === attempt)
 				return (attempt <= 0 ? 0 : attempt);
 			else
@@ -258,7 +258,7 @@ class AddCourseForm extends Component
 
 		const createTypeSpecificaiton = (type) =>
 		{
-			var input = "";
+			let input = "";
 			return (
 				<TextField
 					key = {type}
@@ -272,8 +272,8 @@ class AddCourseForm extends Component
 					onChangeText = {(newInput) =>
 					{
 						input = (newInput == "" ? 0 : newInput);
-						var breakdown = this.state.markBreakdown;
-						var newPercentage = convertToPercentage(input, this.state.markBreakdown[type]);
+						let breakdown = this.state.markBreakdown;
+						let newPercentage = convertToPercentage(input, this.state.markBreakdown[type]);
 						breakdown[type] = newPercentage;
 						this.setState({markBreakdown: breakdown});
 					}}
@@ -281,14 +281,14 @@ class AddCourseForm extends Component
 			);
 		};
 
-		var breakdownInput = [];
+		let breakdownInput = [];
 		for (i in this.state.selectedTypes)
 		{
 			if (this.state.selectedTypes[i])
 				breakdownInput.push(createTypeSpecificaiton(i));
 		}
 
-		var breakdownSum = 0;
+		let breakdownSum = 0;
 		for (i in this.state.markBreakdown)
 		{
 			if (this.state.selectedTypes[i])
@@ -302,7 +302,7 @@ class AddCourseForm extends Component
 				keyboardShouldPersistTaps = 'handled'
 				onScroll = {this.scrollToggle.bind(this)}
 			>
-				<KeyboardAvoidingView behavior = 'position'>
+				<KeyboardAvoidingView>
 					<View style = {containerStyle.form}>
 						<View style = {containerStyle.formSection}>
 							<Text style = {textStyle.regular(22, 'center')}>Specify the mark breakdown below.</Text>
@@ -329,8 +329,8 @@ class AddCourseForm extends Component
 								inverted = {false}
 								action = {() =>
 								{
-									var noneLeftBlank = true;
-									var violator = "";
+									let noneLeftBlank = true;
+									let violator = "";
 									for (i in this.state.selectedTypes)
 									{
 										if (this.state.selectedTypes[i] && this.state.markBreakdown[i] == 0)
@@ -358,7 +358,7 @@ class AddCourseForm extends Component
 
 	confirmCourse_SCENE()
 	{
-		var breakdownComponents = [];
+		let breakdownComponents = [];
 		for (i in this.state.selectedTypes)
 		{
 			if (this.state.selectedTypes[i])
@@ -396,7 +396,7 @@ class AddCourseForm extends Component
 						inverted = {false}
 						action = {() =>
 						{
-							this.props.navigation.navigate("Semester Screen");
+							this.props.navigation.pop();
 							this.props.createCourse(this.state.courseName, this.props.selectedSemester, this.state.markBreakdown.map((x) => x / 100));
 						}}
 					/>
@@ -454,4 +454,4 @@ const mapStateToProps = (state) =>
 		courseList: state.courseList
 	};
 }
-export default connect(mapStateToProps, {createCourse})(AddCourseForm);
+export default connect(mapStateToProps, {addCourse, createCourse})(AddCourseForm);

@@ -5,7 +5,8 @@ import SplashScreen from 'react-native-splash-screen'
 
 // Redux imports
 import {Provider} from 'react-redux';
-import {createStore} from 'redux';
+import {createStore, applyMiddleware} from 'redux';
+import thunk from 'redux-thunk';
 import reducers from './_rootReducer';
 
 // Redux Persist imports
@@ -32,9 +33,9 @@ export default class App extends Component
 		};
 		const persistedReducer = persistReducer(persistConfig, reducers);
 
-		const store = createStore(persistedReducer);
+		const store = createStore(persistedReducer, applyMiddleware(thunk));
 		const persistor = persistStore(store);
-		persistor.purge();
+		// persistor.purge();
 		return (
 			<SafeAreaView style = {{flex: 1, backgroundColor: colors.primaryColor}}>
 				<Provider store = {store}>

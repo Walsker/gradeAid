@@ -15,7 +15,7 @@ class SemesterPage extends Component
 	constructor(props)
 	{
 		super(props);
-		this.newCourse = this.newCourse.bind(this);
+		this.createCourse = this.createCourse.bind(this);
 		this.editSemester = this.editSemester.bind(this);
 		this.noSemester_SCENE = this.noSemester_SCENE.bind(this);
 		this.newSemester_SCENE = this.newSemester_SCENE.bind(this);
@@ -27,7 +27,7 @@ class SemesterPage extends Component
 		this.props.navigation.closeDrawer();
 	}
 
-	newCourse()
+	createCourse()
 	{
 		this.props.navigation.navigate("AddCourseForm");
 	}
@@ -85,7 +85,7 @@ class SemesterPage extends Component
 						label = "Add Course"
 						color = {colors.darkPrimaryColor}
 						inverted = {false}
-						action = {this.newCourse}
+						action = {this.createCourse}
 					/>
 				</Tile>
 			</View>
@@ -105,8 +105,15 @@ class SemesterPage extends Component
 				</Tile>
 				<Tile title = "Courses">
 					<CourseList 
-						navigation = {this.props.navigation} 
-						newCourse = {this.newCourse}
+						navigation = {this.props.navigation}
+						courses = {this.props.semester.courses}
+						createCourse = {this.createCourse}
+					/>
+					<Button
+						label = "Add Course"
+						color = {colors.darkPrimaryColor}
+						inverted = {true}
+						action = {this.createCourse}
 					/>
 				</Tile>
 				<View style = {{height: 10}}/>
@@ -116,7 +123,7 @@ class SemesterPage extends Component
 
 	render()
 	{
-		if (Object.keys(this.props.semester) == 0)
+		if (Object.keys(this.props.semester) == 0) // semester === {}
 			return this.noSemester_SCENE();
 		else
 		{
@@ -149,32 +156,6 @@ class SemesterPage extends Component
 	}
 }
 
-// const mapStateToProps = (state) => ({semester: getSemester(state)});
-const completeCourseObject = (courseObject, assessmentList) =>
-{
-	let preAverage = 0;
-	let completion = 0;
-	let {assessments} = courseObject;
-
-	// Going through all the course's assessments
-	for (i of assessments)
-	{
-		if (assessmentList[i].hidden) continue;
-
-		// Getting the weight of this assignment
-		let weight = courseObject.breakdown[assessmentList[i].type];
-		
-		completion += weight;
-		preAverage += assessmentList[i].grade * weight;
-	}
-
-	// Returning the complete course
-	return {
-		...courseObject,
-		average: preAverage / completion,
-		emptyCourse: (courseObject.assessments.length == 0 || completion == 0)
-	};
-};
 const mapStateToProps = (state) =>
 {
 	console.log("App Store: ", state);
@@ -186,30 +167,15 @@ const mapStateToProps = (state) =>
 	let semesterObject = state.semesterList[state.selectedSemester];
 
 	// Getting the course objects related to this semester
-	let courses = [];
-	for (x of semesterObject.courses)
-		courses.push(completeCourseObject(state.courseList[x], state.assessmentList));
-
-	// Completing the semester object
-	let average = 0;
-	let emptySemester = true;
-	if (courses.length != 0)
-	{
-		// Finding out if all the courses don't have assessments
-		emptySemester = courses.reduce((allEmpty, targetCourse) => targetCourse.emptyCourse && allEmpty, true);
-		
-		// Calculating the semester average
-		average = courses.reduce((sum, targetCourse) => sum + targetCourse.average);
-		average /= courses.length;
-	}
-
+	let courses = semesterObject.courses.map(id => state.courseList[id]);
+	
 	return {
 		semester:
 		{
 			...semesterObject,
-			average,
-			emptySemester
-		}
+			courses			
+		},
+		emptySemester: semesterObject.average == -1
 	};
 };
 export default connect(mapStateToProps)(SemesterPage);

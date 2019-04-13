@@ -5,7 +5,7 @@
 // Below is the structure for this portion of the state
 // courseList:
 // {
-//		[id]: {name: string, completion: float, average: float, breakdown: [float], assessments: [int]}
+//		[id]: {_id: int, name: string, breakdown: [float], assessments: [int], completion: float, average: float}
 //		...
 // }
 // --------------------------------------------------------------------------------------
@@ -36,23 +36,12 @@ export default (prevState = {}, action) =>
 
 		// ------------------------------------------------------------------------------
 		// CASE: a course is being added to the app
-		// PAYLOAD: {name: string, completion: float, average: float, breakdown: [float], assessments: [int]}
+		// PAYLOAD: {_id: int, name: string, completion: float, average: float, breakdown: [float], assessments: [int]}
 		// ------------------------------------------------------------------------------
 		case CREATE_COURSE:
-
-			// Finding an unused ID
-			let newID = 0;
-			while (true)
-			{
-				if (prevState[newID] == undefined)
-					break;
-				else
-					newID++;
-			}
-
 			return {
 				...prevState,
-				[newID]: {_id: newID, ...action.payload},
+				[action.payload._id]: action.payload,
 			};
 
 		// ------------------------------------------------------------------------------

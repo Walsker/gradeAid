@@ -5,7 +5,7 @@
 // Below is the structure for this portion of the state
 // assessmentList:
 // {
-//		[id]: {type: int, name: string, grade: float, hidden: bool}
+//		[id]: {_id: int, name: string, grade: float, weight: int, hidden: bool}
 //		...
 // }
 // --------------------------------------------------------------------------------------
@@ -41,20 +41,9 @@ export default (prevState = {}, action) =>
 		// PAYLOAD: {type: int, name: string, grade: float, hidden: bool}
 		// ------------------------------------------------------------------------------
 		case CREATE_ASSESSMENT:
-
-			// Finding an unused ID
-			let newID = 0;
-			while (true)
-			{
-				if (prevState[newID] == undefined)
-					break;
-				else
-					newID++;
-			}
-
 			return {
 				...prevState,
-				[newID]: {_id: newID, ...action.payload},
+				[action.payload._id]: action.payload,
 			};
 
 		// ------------------------------------------------------------------------------

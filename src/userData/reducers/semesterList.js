@@ -5,7 +5,7 @@
 // Below is the structure for this portion of the state
 // semesterList:
 // {
-//		[id]: {name: string, average: float, courses: [int]},
+//		[id]: {_id: int, name: string, courses: [int], average: float},
 //		...
 // }
 // --------------------------------------------------------------------------------------
@@ -14,11 +14,12 @@ import {ERASE_APP_DATA, CREATE_SEMESTER, DELETE_SEMESTER, EDIT_SEMESTER, ADD_COU
 
 const initialState = 
 {
-	"-1":
+	[-1]:
 	{
-		_id: "-1",
+		_id: -1,
 		name: " ",
-		courses: []
+		courses: [],
+		average: -1
 	}
 };
 
@@ -37,23 +38,13 @@ export default (prevState = initialState, action) =>
 		
 		// ------------------------------------------------------------------------------
 		// CASE: a new semester is being created
-		// PAYLOAD: {name: string, average: int, courses: [int]}
+		// PAYLOAD: {name: string, courses: [int]}
 		// ------------------------------------------------------------------------------
 		case CREATE_SEMESTER:
 
-			// Finding an unused ID
-			let newID = 0;
-			while (true)
-			{
-				if (prevState[newID] == undefined)
-					break;
-				else
-					newID++;
-			}
-
 			return {
 				...prevState,
-				[newID]: {_id: newID, ...action.payload},
+				[action.payload._id]: action.payload,
 			};
 
 		// ------------------------------------------------------------------------------
