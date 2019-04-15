@@ -226,7 +226,10 @@ export const createCourse = (name, markBreakdown) =>
 		// Adding the course to the semester
 		dispatch({
 			type: ADD_COURSE,
-			payload: {selectedSemester, newID}
+			payload: {
+				semesterID: selectedSemester,
+				courseID: newID
+			}
 		});
 	};
 };
@@ -273,7 +276,10 @@ export const deleteCourse = (id) =>
 		// Dropping this course from the semester
 		dispatch({
 			type: DROP_COURSE,
-			payload: {selectedSemester, id}
+			payload: {
+				semesterID: selectedSemester,
+				courseID: id
+			}
 		});
 	
 		// Recalculating the semester's average
@@ -325,7 +331,10 @@ export const createAssessment = (name, grade, weight) =>
 		// Adding the assessment to the course
 		dispatch({
 			type: ADD_ASSESSMENT,
-			payload: {selectedCourse, newID}
+			payload: {
+				courseID: selectedCourse,
+				assessmentID: newID
+			}
 		});
 
 		// Recalculating the averages that this assessment impacts
@@ -374,7 +383,10 @@ export const deleteAssessment = (id) =>
 		// Removing the assessment from the course
 		dispatch({
 			type: REMOVE_ASSESSMENT,
-			payload: {selectedCourse, id}
+			payload: {
+				courseID: selectedCourse,
+				assessmentID: id
+			}
 		});
 
 		// Recalculating the averages that this assessment impacts

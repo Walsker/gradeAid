@@ -242,7 +242,7 @@ class AddCourseForm extends Component
 							type = 'remove-circle-outline'
 							size = {30}
 							color = {colors.primaryColor}
-							action = {() => {deleteCategory(id); console.log(this.state.markBreakdown)}}
+							action = {() => deleteCategory(id)}
 						/>
 					</View>
 					<View style = {{flex: 4}}>
@@ -316,7 +316,7 @@ class AddCourseForm extends Component
 								label = "Add Category"
 								color = {colors.primaryColor}
 								inverted = {true}
-								action = {() => {createCategory(); console.log(this.state.markBreakdown)}}
+								action = {createCategory}
 							/>
 						</View>
 						<View style = {containerStyle.rowBox}>
@@ -415,8 +415,7 @@ class AddCourseForm extends Component
 									weight: this.state.markBreakdown[id].weight / 100
 								};
 							});
-
-							console.log("Breakdown", breakdown);
+							
 							this.props.navigation.pop();
 							this.props.createCourse(this.state.courseName, breakdown);
 						}}
