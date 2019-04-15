@@ -9,7 +9,7 @@ import {editCourse} from 'gradeAid/src/userData/actions';
 // Custom imports
 import {colors, containerStyle, textStyle} from 'gradeAid/src/common/appStyles';
 import {ActionBar, Button, Divider, IconButton, TextField} from 'gradeAid/src/common';
-import * as Assessment from 'gradeAid/src/semesterScreen/assessmentTypes';
+// import * as Assessment from 'gradeAid/src/semesterScreen/assessmentTypes';
 
 class EditCourseForm extends Component
 {

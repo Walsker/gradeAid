@@ -188,8 +188,9 @@ export const deleteSemester = (id) =>
 // --------------------------------------------------------------------------------------
 // An action creator for creating a course
 // name: the name of the new course
-// markBreakdown: A list of floats corresponding to the weight of each assessment type
-//                  in the course. This is optionally inputted by the user
+// markBreakdown: [{name: string, weight: float}]
+//								A list of floats corresponding to the weight of each assessment type
+//								in the course. This is optionally inputted by the user
 // --------------------------------------------------------------------------------------
 export const createCourse = (name, markBreakdown) =>
 {

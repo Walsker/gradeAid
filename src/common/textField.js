@@ -34,7 +34,7 @@ export default class TextField extends Component
 
 		return (
 			<View>
-				<View style = {borderStyle}>
+				<View>
 					<TextInput
 						blurOnSubmit = {false}
 						placeholderTextColor = {this.props.textColor + '20'}

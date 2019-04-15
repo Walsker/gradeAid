@@ -44,9 +44,11 @@ export default class IconButton extends Component
 				background = {TouchableNativeFeedback.Ripple(this.props.color, true)}
 				onPress = {this.props.action}
 				hitSlop = {{top: 12, bottom: 12, right: 12, left: 12}}
+				style = {{justifyContent: 'center', alignItems: 'center'}}
 			>
 				<View style = {{
-					margin: 12
+					margin: 12,
+					justifyContent: 'center', alignItems: 'center'
 				}}>
 					<Icon
 						name = {this.props.type}

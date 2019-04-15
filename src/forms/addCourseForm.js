@@ -8,8 +8,7 @@ import {addCourse, createCourse} from 'gradeAid/src/userData/actions';
 
 // Custom imports
 import {colors, containerStyle, textStyle} from 'gradeAid/src/common/appStyles';
-import {ActionBar, Button, CheckList, Divider, IconButton, TextField} from 'gradeAid/src/common';
-import * as Assessment from 'gradeAid/src/semesterScreen/assessmentTypes';
+import {ActionBar, Button, Divider, IconButton, TextField} from 'gradeAid/src/common';
 
 class AddCourseForm extends Component
 {
@@ -17,26 +16,24 @@ class AddCourseForm extends Component
 	{
 		super(props);
 
-		let selectedTypes = [];
-		let markBreakdown = [];
-
-		for (i in Assessment.types)
-		{
-			selectedTypes.push(false);
-			markBreakdown.push(0.0);
-		}
+		this.showAlert = this.showAlert.bind(this);
+		this.scrollToggle = this.scrollToggle.bind(this);
+		this.back = this.back.bind(this);
+		this.next = this.next.bind(this);
+		this.courseTitle_SCENE = this.courseTitle_SCENE.bind(this);
+		this.markBreakdown_SCENE = this.markBreakdown_SCENE.bind(this);
+		this.confirmCourse_SCENE = this.confirmCourse_SCENE.bind(this);
 
 		this.state =
 		{
 			currentScene: 0,
 			courseName: "",
-			selectedTypes,
-			markBreakdown,
+			markBreakdown: {},
 			scrolled: false
 		};
 	}
 
-	showAlert(alertType, customText)
+	showAlert(alertType)
 	{
 		switch (alertType)
 		{
@@ -73,21 +70,11 @@ class AddCourseForm extends Component
 				);
 				return;
 
-			case "No Type Selection Made":
-
-				Alert.alert(
-					"No Type Selection",
-					"Please be sure to select at least one assessment type.",
-					[{text: 'OK', onPress: () => {}}],
-					{cancelable: true}
-				);
-				return;
-
-			case "Breakdown Contains a 0":
+			case "Breakdown Incomplete":
 
 				Alert.alert(
 					"Breakdown Invalid",
-					"\"" + customText + "\" has a percentage of 0.",
+					"Please be sure to give names to all your categories.",
 					[{text: 'OK', onPress: () => {}}],
 					{cancelable: true}
 				);
@@ -160,7 +147,7 @@ class AddCourseForm extends Component
 				<View style = {containerStyle.formSection}>
 					<TextField
 						fontSize = {24}
-						label = "Course Name"
+						label = "Course Code"
 						textAlign = 'center'
 						textColor = {colors.primaryTextColor}
 						autoFocus = {true}
@@ -184,69 +171,13 @@ class AddCourseForm extends Component
 		);
 	}
 
-	assessmentTypes_SCENE()
-	{
-		return (
-			<ScrollView
-				keyboardShouldPersistTaps = 'handled'
-				onScroll = {this.scrollToggle.bind(this)}
-			>
-				<View style = {containerStyle.form}>
-					<View style = {containerStyle.formSection}>
-						<Text style = {textStyle.regular(22, 'center')}>What kind of assessments are in your course?{'\n\n'}Select all that apply.</Text>
-					</View>
-					<Divider color = {colors.dividerColor} seperation = {0}/>
-					<View style = {containerStyle.formSection}>
-						<CheckList
-							color = {colors.accentColor}
-							fontSize = {22}
-							labels = {Assessment.pluralTypes}
-							values = {this.state.selectedTypes}
-							onItemToggle = {(id) =>
-							{
-								let newArray = this.state.selectedTypes;
-								newArray[id] = !newArray[id];
-								this.setState({selectedTypes: newArray});
-							}}
-						/>
-					</View>
-					<View style = {[containerStyle.rowBox, {marginTop: -5}]}>
-						<Button
-							label = "Back"
-							color = {colors.primaryColor}
-							inverted = {true}
-							action = {this.back.bind(this)}
-						/>
-						<Button
-							label = "Next"
-							color = {colors.primaryColor}
-							inverted = {false}
-							action = {() =>
-							{
-								let atLeastOneSelected = false;
-								for (i in this.state.selectedTypes)
-								{
-									if (this.state.selectedTypes[i])
-									{
-										atLeastOneSelected = true;
-										break;
-									}
-								}
-
-								if (!atLeastOneSelected)
-									this.showAlert("No Type Selection Made");
-								else
-									this.next()
-							}}
-						/>
-					</View>
-				</View>
-			</ScrollView>
-		);
-	}
-
 	markBreakdown_SCENE()
 	{
+		let categoryExamples = ["Assignments", "Midterm", "Final Exam"];
+		let weightExamples = [30, 20, 50];
+		let breakdownSum = Object.keys(this.state.markBreakdown).reduce((sum, id) => sum + this.state.markBreakdown[id].weight, 0);
+
+		// A function that converts text input into a percentage
 		const convertToPercentage = (string, fallback) =>
 		{
 			let attempt = parseFloat(string);
@@ -256,72 +187,144 @@ class AddCourseForm extends Component
 				return fallback;
 		};
 
-		const createTypeSpecificaiton = (type) =>
+		// A function that creates a slot for the mark breakdown
+		const createCategory = () =>
 		{
-			let input = "";
-			return (
-				<TextField
-					key = {type}
-					fontSize = {24}
-					label = {Assessment.pluralTypes[type] + " (%)"}
-					textAlign = 'center'
-					textColor = {colors.primaryTextColor}
-					keyboardType = 'numeric'
-					defaultValue = {this.state.markBreakdown[type] == 0 ? "" : this.state.markBreakdown[type].toString()}
-					returnKeyType = 'done'
-					onChangeText = {(newInput) =>
-					{
-						input = (newInput == "" ? 0 : newInput);
-						let breakdown = this.state.markBreakdown;
-						let newPercentage = convertToPercentage(input, this.state.markBreakdown[type]);
-						breakdown[type] = newPercentage;
-						this.setState({markBreakdown: breakdown});
-					}}
-				/>
-			);
+			// Finding an ID that's a larger number than all the others
+			let IDs = Object.keys(this.state.markBreakdown);
+			let nextID = IDs.reduce((a, b) => b > a ? b : a, 0);
+			if (IDs.length != 0) nextID++;
+
+			// Creating a slot in state for this input
+			this.setState(prevState =>
+			{
+				return {
+					markBreakdown: {
+						...prevState.markBreakdown,
+						[nextID]: {
+							name: "",
+							weight: 0
+						}
+					}
+				};
+			});
 		};
 
-		let breakdownInput = [];
-		for (i in this.state.selectedTypes)
+		// A function that deletes a slot in the mark breakdown
+		const deleteCategory = (id) =>
 		{
-			if (this.state.selectedTypes[i])
-				breakdownInput.push(createTypeSpecificaiton(i));
-		}
-
-		let breakdownSum = 0;
-		for (i in this.state.markBreakdown)
-		{
-			if (this.state.selectedTypes[i])
+			this.setState(prevState =>
 			{
-				breakdownSum += this.state.markBreakdown[i];
-			}
-		}
+				let newBreakdown = {};
+				Object.keys(prevState.markBreakdown).forEach(slot =>
+				{
+					if (slot != id)
+						newBreakdown[slot] = prevState.markBreakdown[slot];
+				});
+				return {markBreakdown: newBreakdown};
+			});
+		};
+
+		// A function that creates a component to edit a section of the mark breakdown
+		const createInputComponent = (id) =>
+		{
+			return (
+				<View
+					key = {id}
+					style = {{
+						flex: 1,
+						flexDirection: 'row',
+						marginLeft: -10
+					}}
+				>
+					<View style = {{flex: 1}}>
+						<IconButton
+							type = 'remove-circle-outline'
+							size = {30}
+							color = {colors.primaryColor}
+							action = {() => {deleteCategory(id); console.log(this.state.markBreakdown)}}
+						/>
+					</View>
+					<View style = {{flex: 4}}>
+						<TextField
+							defaultValue = {this.state.markBreakdown[id] ? this.state.markBreakdown[id].name : ""}
+							fontSize = {24}
+							label = "Category"
+							maxLength = {20}
+							onChangeText = {(newText) => 
+							{
+								let breakdown = this.state.markBreakdown;
+								breakdown[id].name = newText;
+								this.setState({markBreakdown: breakdown})
+							}}
+							placeholder = {categoryExamples[id] ? "i.e. " + categoryExamples[id] : ""}
+							returnKeyType = 'next'
+							textAlign = 'center'
+							textColor = {colors.primaryTextColor}
+						/>
+					</View>
+					<View style = {{flex: 2}}>
+						<TextField
+							defaultValue = {this.state.markBreakdown[id].weight == 0 ? "" : this.state.markBreakdown[id].weight.toString()}
+							fontSize = {24}
+							keyboardType = 'numeric'
+							label = "Weight (%)"
+							onChangeText = {(newInput) =>
+							{
+								input = (newInput == "" ? "0" : newInput);
+								let breakdown = this.state.markBreakdown;
+								let percentage = convertToPercentage(input, this.state.markBreakdown[id].weight);
+								breakdown[id].weight = percentage;
+								this.setState({markBreakdown: breakdown});
+							}}
+							placeholder = {weightExamples[id] ? weightExamples[id].toString() : ""}
+							returnKeyType = 'done'
+							textAlign = 'center'
+							textColor = {colors.primaryTextColor} 
+						/>
+					</View>
+				</View>
+			);
+		};
 
 		return (
 			<ScrollView
 				keyboardShouldPersistTaps = 'handled'
-				onScroll = {this.scrollToggle.bind(this)}
+				onScroll = {this.scrollToggle}
 			>
-				<KeyboardAvoidingView>
+				<KeyboardAvoidingView style = {{flex: 1}}>
 					<View style = {containerStyle.form}>
 						<View style = {containerStyle.formSection}>
-							<Text style = {textStyle.regular(22, 'center')}>Specify the mark breakdown below.</Text>
+							<Text style = {textStyle.regular(22, 'center')}>(Optional){'\n'}Specify the mark breakdown below.</Text>
 						</View>
 						<Divider color = {colors.dividerColor}/>
 						<View style = {containerStyle.formSection}>
-							{breakdownInput}
+							{Object.keys(this.state.markBreakdown).map(id => createInputComponent(id))}
 						</View>
 						<View style = {containerStyle.formSection}>
-							<Text style = {textStyle.regular(14, 'center', colors.secondaryTextColor)}>
-								Sum: {breakdownSum}%
-							</Text>
+							{
+								Object.keys(this.state.markBreakdown).length != 0 ? 
+									<View style = {containerStyle.formSection}>
+										<Text style = {textStyle.regular(14, 'center', colors.secondaryTextColor)}>
+											Sum: {breakdownSum}%
+										</Text>
+									</View>
+								: 
+									<View/>
+							}
+							<Button
+								label = "Add Category"
+								color = {colors.primaryColor}
+								inverted = {true}
+								action = {() => {createCategory(); console.log(this.state.markBreakdown)}}
+							/>
 						</View>
 						<View style = {containerStyle.rowBox}>
 							<Button
 								label = "Back"
 								color = {colors.primaryColor}
 								inverted = {true}
-								action = {this.back.bind(this)}
+								action = {this.back}
 							/>
 							<Button
 								label = "Next"
@@ -329,20 +332,24 @@ class AddCourseForm extends Component
 								inverted = {false}
 								action = {() =>
 								{
-									let noneLeftBlank = true;
-									let violator = "";
-									for (i in this.state.selectedTypes)
+									if (Object.keys(this.state.markBreakdown).length == 0)
 									{
-										if (this.state.selectedTypes[i] && this.state.markBreakdown[i] == 0)
+										this.next();
+										return;
+									}
+
+									let properCategories = true;
+									for (id in this.state.markBreakdown)
+									{
+										if (this.state.markBreakdown[id].name == "")
 										{
-											noneLeftBlank = false;
-											violator = Assessment.pluralTypes[i];
+											properCategories = false;
 											break;
 										}
 									}
 
-									if (!noneLeftBlank)
-										this.showAlert("Breakdown Contains a 0", violator);
+									if (!properCategories)
+										this.showAlert("Breakdown Incomplete");
 									else if (breakdownSum != 100)
 										this.showAlert("Breakdown Sum Invalid");
 									else
@@ -358,20 +365,20 @@ class AddCourseForm extends Component
 
 	confirmCourse_SCENE()
 	{
-		let breakdownComponents = [];
-		for (i in this.state.selectedTypes)
+		let breakdownComponents = Object.keys(this.state.markBreakdown).map(id =>
 		{
-			if (this.state.selectedTypes[i])
-			{
-				breakdownComponents.push(
-					<View key = {i} style = {{marginVertical: 5}}>
-						<Text style = {textStyle.regular(24, 'center')}>
-							{Assessment.pluralTypes[i] + " - " + this.state.markBreakdown[i] + "%"}
-						</Text>
-					</View>
-				);
-			}
-		}
+			let component = this.state.markBreakdown[id];
+			return (
+				<View
+					key = {id}
+					style = {{marginVertical: 5}}
+				>
+					<Text style = {textStyle.regular(24, 'center')}>
+						{component.name} - {component.weight.toString()}%
+					</Text>
+				</View>
+			);
+		});
 
 		return (
 			<View style = {containerStyle.form}>
@@ -379,16 +386,22 @@ class AddCourseForm extends Component
 					<Text style = {textStyle.regular(22, 'center')}>Verify your course information below.</Text>
 				</View>
 				<View style = {containerStyle.formSection}>
-					<Text style = {textStyle.bold(42, 'center', colors.primaryColor)}>{this.state.courseName}</Text>
 					<View style = {{paddingVertical: 10}}>
-						<Text style = {textStyle.light(24, 'center', colors.darkPrimaryColor)}>Mark Breakdown</Text>
+						<Text style = {textStyle.light(22, 'center', colors.darkPrimaryColor)}>Course Code</Text>
 					</View>
+					<Text style = {textStyle.bold(42, 'center', colors.primaryColor)}>{this.state.courseName}</Text>
 				</View>
-				<View style = {containerStyle.formSection}>
-					<View style = {containerStyle.roundedBox}>
-						{breakdownComponents}
+				{
+					breakdownComponents.length == 0 ? <View/> :
+					<View style = {containerStyle.formSection}>
+						<View style = {{paddingVertical: 10}}>
+							<Text style = {textStyle.light(24, 'center', colors.darkPrimaryColor)}>Mark Breakdown</Text>
+						</View>
+						<View style = {containerStyle.roundedBox}>
+							{breakdownComponents}
+						</View>
 					</View>
-				</View>
+				}
 				<View style = {containerStyle.formSection}>
 					<Button
 						label = "Create Course"
@@ -396,15 +409,23 @@ class AddCourseForm extends Component
 						inverted = {false}
 						action = {() =>
 						{
+							let breakdown = Object.keys(this.state.markBreakdown).map(id => {
+								return {
+									name: this.state.markBreakdown[id].name,
+									weight: this.state.markBreakdown[id].weight / 100
+								};
+							});
+
+							console.log("Breakdown", breakdown);
 							this.props.navigation.pop();
-							this.props.createCourse(this.state.courseName, this.props.selectedSemester, this.state.markBreakdown.map((x) => x / 100));
+							this.props.createCourse(this.state.courseName, breakdown);
 						}}
 					/>
 					<Button
 						label = "Back"
-						color = {colors.accentColor}
-						inverted = {true}
-						action = {this.back.bind(this)}
+						color = {colors.primaryColor}
+						inverted = {false}
+						action = {this.back}
 					/>
 				</View>
 			</View>
@@ -413,7 +434,7 @@ class AddCourseForm extends Component
 
 	render()
 	{
-		const scenes = [this.courseTitle_SCENE(), this.assessmentTypes_SCENE(), this.markBreakdown_SCENE(), this.confirmCourse_SCENE()];
+		const scenes = [this.courseTitle_SCENE(), this.markBreakdown_SCENE(), this.confirmCourse_SCENE()];
 
 		const backButton = () =>
 		{
