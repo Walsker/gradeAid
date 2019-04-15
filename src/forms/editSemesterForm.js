@@ -81,11 +81,10 @@ class EditSemesterForm extends Component
 		let prevSemester = -1;
 		for (id in this.props.semesterList)
 		{
-			if (id != semesterToBeDeleted)
+			if (id != semesterToBeDeleted && id != -1)
 				prevSemester = id;
 		}
 		
-		// this.props.navigation.navigate("Semesters");
 		this.props.navigation.pop();
 		this.props.selectSemester(prevSemester);
 		this.props.deleteSemester(semesterToBeDeleted);

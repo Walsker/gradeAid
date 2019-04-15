@@ -7,7 +7,7 @@ import {connect} from 'react-redux';
 import {selectCourse} from 'gradeAid/src/navDrawer/actions';
 
 // Custom imports
-import {CourseCard} from './courseCard';
+import CourseCard from './courseCard';
 
 class CourseList extends Component
 {
@@ -32,9 +32,9 @@ class CourseList extends Component
 			courseTiles.push(
 				<CourseCard 
 					key = {course._id}
-					course = {course}
-					animationID = {animationID}
 					action = {this.toCourseScreen(course._id)}
+					animationID = {animationID}
+					course = {course}
 				/>
 			);
 

@@ -34,10 +34,10 @@ let drawerNav = createDrawerNavigator(
 {
 	"About": {screen: AboutPage},
 	"Settings": {screen: SettingsPage},
-	"Semesters": semesterStack
+	"Main": semesterStack
 }, 
 {
-	initialRouteName: "Semesters",
+	initialRouteName: "Main",
 	contentComponent: ({navigation}) => <NavDrawer navigation = {navigation}/>
 });
 

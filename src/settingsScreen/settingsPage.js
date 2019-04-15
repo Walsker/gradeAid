@@ -29,7 +29,7 @@ class SettingsPage extends Component
 
 	eraseData()
 	{
-		this.props.navigation.navigate("Semesters");
+		this.props.navigation.navigate("Semester");
 		this.props.eraseAppData();
 	}
 

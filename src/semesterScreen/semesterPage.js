@@ -94,20 +94,23 @@ class SemesterPage extends Component
 
 	semester_SCENE()
 	{
-		let averageString = this.props.semester.average ? this.props.semester.average : "~";
+		let averageTile = 
+		(
+			this.props.semester.average == -1 ? <View/> : 
+			<Tile title = "Semester Average">
+				<View style = {{marginVertical: -25}}>
+					<Text style = {textStyle.bold(150, 'center')}>{averageString}</Text>
+				</View>
+			</Tile>
+		);
 
 		return (
 			<ScrollView style = {containerStyle.tileList}>
-				<Tile title = "Semester Average">
-					<View style = {{marginVertical: -25}}>
-						<Text style = {textStyle.bold(150, 'center')}>{averageString}</Text>
-					</View>
-				</Tile>
+				{averageTile}
 				<Tile title = "Courses">
 					<CourseList 
 						navigation = {this.props.navigation}
 						courses = {this.props.semester.courses}
-						createCourse = {this.createCourse}
 					/>
 					<Button
 						label = "Add Course"
@@ -168,14 +171,14 @@ const mapStateToProps = (state) =>
 
 	// Getting the course objects related to this semester
 	let courses = semesterObject.courses.map(id => state.courseList[id]);
-	
+
 	return {
 		semester:
 		{
 			...semesterObject,
 			courses			
 		},
-		emptySemester: semesterObject.average == -1
+		emptySemester: courses.length == 0
 	};
 };
 export default connect(mapStateToProps)(SemesterPage);

@@ -126,17 +126,9 @@ class AddCourseForm extends Component
 	{
 		const submit = () =>
 		{
-			let nameUsed = false;
-			for (id in this.props.courseList)
-			{
-				if (this.props.courseList[id].semesterID == this.props.selectedSemester &&
-					this.props.courseList[id].name == this.state.courseName.trim())
-					nameUsed = true;
-			}
-
 			if (this.state.courseName == "")
 				this.showAlert("Incomplete Course Name");
-			else if (nameUsed)
+			else if (this.props.usedCourseNames.includes(this.state.courseName))
 				this.showAlert("Course Name Used");
 			else
 				this.next({courseName: this.state.courseName.trim()});
@@ -469,9 +461,11 @@ class AddCourseForm extends Component
 
 const mapStateToProps = (state) =>
 {
-	return {
-		selectedSemester: state.selectedSemester,
-		courseList: state.courseList
-	};
+	// Getting all the course names used in this semester
+	let {semesterList, selectedSemester, courseList} = state;
+	let usedCourseNames = semesterList[selectedSemester].courses.map(id => courseList[id].name);
+
+	console.log(usedCourseNames);
+	return {usedCourseNames};
 }
 export default connect(mapStateToProps, {addCourse, createCourse})(AddCourseForm);

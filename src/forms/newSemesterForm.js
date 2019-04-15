@@ -93,7 +93,7 @@ class NewSemesterForm extends Component
 					newID++;
 			}
 
-			this.props.navigation.navigate("Semesters");
+			this.props.navigation.navigate("Semester");
 			this.props.createSemester(semesterName);
 			this.setSelectedSemester();
 		}

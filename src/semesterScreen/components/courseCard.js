@@ -43,21 +43,21 @@ class CourseCard extends Component
 	renderAndroid()
 	{
 		return (
-		<TouchableNativeFeedback
-			background = {TouchableNativeFeedback.Ripple(colors.lightPrimaryColor, false)}
-			onPress = {this.props.action}
-		>
-			<View style = {containerStyle.roundedBox}>
-				<ProgressCircle
-					diameter = {100}
-					borderWidth = {10}
-					ringColor = {colors.accentColor}
-					emptyRingColor = {colors.darkPrimaryColor}
-					backgroundColor = {colors.spaceColor}
-					percentage = {this.props.course.average}
-					active = {this.props.course.average != -1}
-					animationDelay = {500 + (parseInt(this.props.animationID) * 750)}
-				/>
+			<TouchableNativeFeedback
+				background = {TouchableNativeFeedback.Ripple(colors.lightPrimaryColor, false)}
+				onPress = {this.props.action}
+			>
+				<View style = {containerStyle.roundedBox}>
+					<ProgressCircle
+						diameter = {100}
+						borderWidth = {10}
+						ringColor = {colors.accentColor}
+						emptyRingColor = {colors.darkPrimaryColor}
+						backgroundColor = {colors.spaceColor}
+						percentage = {this.props.course.average}
+						active = {this.props.course.average != -1}
+						animationDelay = {500 + (parseInt(this.props.animationID) * 750)}
+					/>
 					<View style = {{flex: 1, paddingTop: 20}}>
 						<Text 
 							style = {[textStyle.bold(17, 'center', colors.primaryColor), {maxWidth: 100, textAlignVertical: 'center'}]}
@@ -114,7 +114,7 @@ class CourseCard extends Component
 		// if (Platform.OS === 'ios')
 		// 	return this.renderiOS();
 		// else
-			return this.renderAndroid();
+		return this.renderAndroid();
 	}
 }
 

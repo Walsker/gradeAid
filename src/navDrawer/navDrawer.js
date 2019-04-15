@@ -34,7 +34,7 @@ class NavDrawer extends Component
 						this.props.selectPage(SEMESTER_SCREEN);
 						this.props.selectSemester(semesterID);
 						this.props.navigation.closeDrawer();
-						this.props.navigation.navigate("Semesters");
+						this.props.navigation.navigate("Semester");
 					}}
 				/>
 			);
