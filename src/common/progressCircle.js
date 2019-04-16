@@ -120,7 +120,7 @@ class ProgressCircle extends Component {
 				color: colors.primaryTextColor,
 				fontFamily: 'Lato-Regular'
 			}}>
-				{(this.props.percentage * 100).toFixed(0)}
+				{(this.props.percentage * 100).toFixed()}
 				<Text style = {{fontSize: this.props.diameter / 5}}>%</Text>
 			</Text>
 			:

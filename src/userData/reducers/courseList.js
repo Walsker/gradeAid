@@ -89,7 +89,7 @@ export default (prevState = {}, action) =>
 			let targetCourse = {...prevState[courseID]};
 			
 			// Adding the course
-			targetCourse.courses.push(assessmentID);
+			targetCourse.assessments.push(assessmentID);
 
 			return {
 				...prevState,

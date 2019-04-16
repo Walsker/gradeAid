@@ -187,7 +187,7 @@ class EditCourseForm extends Component
 
 	markBreakdown_SCENE()
 	{
-		const convertToPercentage = (string, fallback) =>
+		const toNumber = (string, fallback) =>
 		{
 			var attempt = parseFloat(string);
 			if (Number(attempt) === attempt)
@@ -213,7 +213,7 @@ class EditCourseForm extends Component
 					{
 						input = (newInput == "" ? 0 : newInput);
 						var breakdown = this.state.markBreakdown;
-						var newPercentage = convertToPercentage(input, this.state.markBreakdown[type]);
+						var newPercentage = toNumber(input, this.state.markBreakdown[type]);
 						breakdown[type] = newPercentage;
 						this.setState({markBreakdown: breakdown});
 					}}

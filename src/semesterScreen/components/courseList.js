@@ -33,6 +33,7 @@ class CourseList extends Component
 				<CourseCard 
 					key = {course._id}
 					action = {this.toCourseScreen(course._id)}
+					longAction = {() => alert("HI")}
 					animationID = {animationID}
 					course = {course}
 				/>

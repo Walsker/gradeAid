@@ -36,6 +36,7 @@ export default class TextField extends Component
 			<View>
 				<View>
 					<TextInput
+						ref = {input => this.props.setRef ? this.props.setRef(input) : {}}
 						blurOnSubmit = {false}
 						placeholderTextColor = {this.props.textColor + '20'}
 						style = {textStyle.regular(this.props.fontSize, this.props.textAlign, this.props.textColor)}

@@ -17,6 +17,7 @@ export default class FractionInput extends Component
 					<View style = {{flexDirection: 'row', alignItems: 'center', alignSelf: 'center'}}>
 						<TextInput
 							{...this.props}
+							ref = {input => this.props.setRef(input)}
 							blurOnSubmit = {false}
 							defaultValue = {this.props.defaultNumValue}
 							keyboardType = 'numeric'
@@ -30,10 +31,10 @@ export default class FractionInput extends Component
 						<Text style = {textStyle.regular(this.props.fontSize * 0.9, 'center', this.props.color)}>/</Text>
 						<TextInput
 							{...this.props}
+							ref = {input => this.denomInput = input}
 							defaultValue = {this.props.defaultDenomValue}
 							keyboardType = 'numeric'
 							onChangeText = {this.props.onDenomChange}
-							onSubmitEditing = {this.props.onSubmitEditing}
 							placeholderTextColor = {this.props.color + '20'}
 							returnKeyType = {this.props.submitKeyType}
 							style = {[textStyle.regular(this.props.fontSize, 'center', this.props.color), {width: this.props.fontSize * 3}]}

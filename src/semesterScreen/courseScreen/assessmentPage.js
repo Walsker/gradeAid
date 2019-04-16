@@ -31,11 +31,6 @@ class AssessmentPage extends Component
 		}
 	}
 
-	hideAssessment()
-	{
-		this.props.editAssessment(this.props.selectedAssessment, {hidden: !this.props.assessment.hidden});
-	}
-
 	deleteAssessment()
 	{
 		this.props.navigation.navigate("Course");
@@ -82,16 +77,6 @@ class AssessmentPage extends Component
 							color = {colors.primaryColor}
 							inverted = {false}
 							action = {() => this.props.navigation.navigate("EditAssessmentPage")}
-						/>
-					</Tile>
-					<Tile title = "Hide Assessment">
-						<CheckList
-							style = {{alignSelf: 'center', paddingVertical: 0}}
-							color = {colors.accentColor}
-							fontSize = {16}
-							labels = {["Pretend like this assessment never existed."]}
-							values = {[this.props.assessment.hidden]}
-							onItemToggle = {id => this.hideAssessment()}
 						/>
 					</Tile>
 					<Tile title = "Delete Assessment">

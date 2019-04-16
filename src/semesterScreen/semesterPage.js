@@ -94,12 +94,13 @@ class SemesterPage extends Component
 
 	semester_SCENE()
 	{
+		let averageString = ((this.props.semester.average * 100).toFixed()).toString();
 		let averageTile = 
 		(
 			this.props.semester.average == -1 ? <View/> : 
 			<Tile title = "Semester Average">
 				<View style = {{marginVertical: -25}}>
-					<Text style = {textStyle.bold(150, 'center')}>{averageString}</Text>
+					<Text style = {textStyle.bold(150, 'center')}>{averageString}%</Text>
 				</View>
 			</Tile>
 		);

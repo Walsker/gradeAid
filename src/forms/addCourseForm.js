@@ -170,7 +170,7 @@ class AddCourseForm extends Component
 		let breakdownSum = Object.keys(this.state.markBreakdown).reduce((sum, id) => sum + this.state.markBreakdown[id].weight, 0);
 
 		// A function that converts text input into a percentage
-		const convertToPercentage = (string, fallback) =>
+		const toNumber = (string, fallback) =>
 		{
 			let attempt = parseFloat(string);
 			if (Number(attempt) === attempt)
@@ -265,7 +265,7 @@ class AddCourseForm extends Component
 							{
 								input = (newInput == "" ? "0" : newInput);
 								let breakdown = this.state.markBreakdown;
-								let percentage = convertToPercentage(input, this.state.markBreakdown[id].weight);
+								let percentage = toNumber(input, this.state.markBreakdown[id].weight);
 								breakdown[id].weight = percentage;
 								this.setState({markBreakdown: breakdown});
 							}}
@@ -465,7 +465,6 @@ const mapStateToProps = (state) =>
 	let {semesterList, selectedSemester, courseList} = state;
 	let usedCourseNames = semesterList[selectedSemester].courses.map(id => courseList[id].name);
 
-	console.log(usedCourseNames);
 	return {usedCourseNames};
 }
 export default connect(mapStateToProps, {addCourse, createCourse})(AddCourseForm);

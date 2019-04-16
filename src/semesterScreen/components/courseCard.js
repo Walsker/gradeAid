@@ -46,6 +46,7 @@ class CourseCard extends Component
 			<TouchableNativeFeedback
 				background = {TouchableNativeFeedback.Ripple(colors.lightPrimaryColor, false)}
 				onPress = {this.props.action}
+				onLongPress = {this.props.longAction}
 			>
 				<View style = {containerStyle.roundedBox}>
 					<ProgressCircle

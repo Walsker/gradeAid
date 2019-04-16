@@ -18,14 +18,9 @@ class CoursePage extends Component
 		this.state = {dragging: false}
 	}
 
-	viewCourseInfo()
-	{
-		this.props.navigation.navigate("CourseInfoPage");
-	}
-
 	inputGrade()
 	{
-		this.props.navigation.navigate("InputGradePage");
+		this.props.navigation.navigate("InputGradeForm");
 	}
 
 	newCourse_SCENE()
@@ -53,8 +48,58 @@ class CoursePage extends Component
 
 	course_SCENE()
 	{
-		var maxGrade = Math.round(((this.props.course.average * this.props.course.completion) + (1 - this.props.course.completion)) * 1000) / 10;
-		var minGrade = Math.round(this.props.course.average * this.props.course.completion * 1000) / 10;
+		// Calculating the highest and lowest grade
+		let maxGrade = Math.round(((this.props.course.average * this.props.course.completion) + (1 - this.props.course.completion)) * 1000) / 10;
+		let minGrade = Math.round(this.props.course.average * this.props.course.completion * 1000) / 10;
+
+		let averageTile = 
+		(
+			this.props.course.completion == 0 ? <View/> :
+			<Tile title = "Average">
+				<ProgressCircle
+					diameter = {275}
+					borderWidth = {15}
+					ringColor = {colors.accentColor}
+					emptyRingColor = {colors.darkPrimaryColor}
+					backgroundColor = {colors.spaceColor}
+					percentage = {this.props.course.average}
+					active = {!this.props.emptyCourse}
+					animationDelay = {0}
+				/>
+			</Tile>
+		);
+
+		let breakdownComponents = this.props.course.breakdown.map((component, i) =>
+		{
+			return (
+				<View
+					key = {i}
+					style = {{marginVertical: 2}}
+				>
+					<Text style = {textStyle.regular(22, 'center')}>
+						{component.name} - {(component.weight * 100).toString()}%
+					</Text>
+				</View>
+			);
+		});
+
+		let breakdownTile =
+		(
+			this.props.course.breakdown.length == 0 ? 
+			// <Tile title = "Breakdown">
+			// 	<Button
+			// 		label = "Specify Breakdown"
+			// 		color = {colors.primaryColor}
+			// 		inverted = {false}
+			// 		action = {() => {}}
+			// 	/>
+			// </Tile>
+			<View/>
+			:
+			<Tile title = "Breakdown">
+				{breakdownComponents}
+			</Tile>
+		);
 
 		return (
 			<ScrollView 
@@ -62,16 +107,13 @@ class CoursePage extends Component
 				onScrollBeginDrag = {() => this.setState({dragging: true})}
 				onScrollEndDrag = {() => this.setState({dragging: false})}
 			>
-				<Tile title = "Average">
-					<ProgressCircle
-						diameter = {275}
-						borderWidth = {15}
-						ringColor = {colors.accentColor}
-						emptyRingColor = {colors.darkPrimaryColor}
-						backgroundColor = {colors.spaceColor}
-						percentage = {this.props.course.average}
-						active = {!this.props.course.emptyCourse}
-						animationDelay = {0}
+				{averageTile}
+				<Tile title = "New Assessment?">
+					<Button
+						label = "Input Grade"
+						color = {colors.primaryColor}
+						inverted = {false}
+						action = {this.inputGrade.bind(this)}
 					/>
 				</Tile>
 				<Tile title = {"Class Completion - " + (Math.round(this.props.course.completion * 1000) / 10) + "%"}>
@@ -83,27 +125,20 @@ class CoursePage extends Component
 						/>
 					</View>
 				</Tile>
-				<Tile title = "New Assessment?">
-					<Button
-						label = "Input Grade"
-						color = {colors.primaryColor}
-						inverted = {false}
-						action = {this.inputGrade.bind(this)}
+				<Tile title = "Overview">
+					<AssessmentList
+						assessments = {this.props.course.assessments}
+						active = {!this.state.dragging}
 					/>
 				</Tile>
-				<Tile title = "Insights">
+				{breakdownTile}
+				{/* <Tile title = "Insights">
 					<Text style = {textStyle.regular(16, 'center', colors.secondaryTextColor)}>Highest achievable final grade</Text>
 					<Text style = {[textStyle.regular(24, 'center'), {paddingTop: 10}]}>{maxGrade}%</Text>
 					<View style = {{marginVertical: 5}}/>
 					<Text style = {textStyle.regular(16, 'center', colors.secondaryTextColor)}>Lowest achievable final grade</Text>
 					<Text style = {[textStyle.regular(24, 'center'), {paddingBottom: 10}]}>{minGrade}%</Text>
-				</Tile>
-				<Tile title = "Overview">
-					<AssessmentList
-						navigation = {this.props.navigation}
-						active = {!this.state.dragging}
-					/>
-				</Tile>
+				</Tile> */}
 				<View style = {{height: 10}}/>
 			</ScrollView>
 		);
@@ -130,52 +165,35 @@ class CoursePage extends Component
 					rightButton =
 					{
 						<IconButton
-							type = 'info-outline'
+							type = 'edit'
 							size = {30}
 							color = {colors.titleAndIconColor}
-							action = {this.viewCourseInfo.bind(this)}
+							action = {() => {}}
 						/>
 					}
 				/>
-				{this.props.course.emptyCourse ? this.newCourse_SCENE() : this.course_SCENE()}
+				{this.props.emptyCourse ? this.newCourse_SCENE() : this.course_SCENE()}
 			</View>
 		);
 	}
 }
 
-// const mapStateToProps = (state) => ({course: getCourse(state)});
 const mapStateToProps = (state) =>
 {
 	// Finding the course object in the store
 	let courseObject = state.courseList[state.selectedCourse];
 
 	// Getting the assessment objects that belong to this course
-	let assessments = [];
-	for (x of courseObject.assessments)
-		assessments.push(state.assessmentList[x])
-
-	// Completing the course object
-	let preAverage = 0;
-	let completion = 0;
-
-	for (x of assessments)
-	{
-		if (assessments[i].hidden) continue;
-		let weight = courseObject.breakdown[assessments[i].type];
-
-		completion += weight;
-		preAverage += assessments[i].grade * weight;
-	}
+	let assessments = courseObject.assessments.map(id => state.assessmentList[id]);
 
 	// Returning the complete course
 	return {
 		course:
 		{
 			...courseObject,
-			completion,
-			average: preAverage / completion,
-			emptyCourse: (courseObject.assessments.length == 0 || completion == 0)
-		}
+			assessments
+		},
+		emptyCourse: courseObject.assessments.length == 0
 	};
 };
 export default connect(mapStateToProps)(CoursePage);

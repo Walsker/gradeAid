@@ -33,7 +33,7 @@ const recalculateCourse = (dispatch, getState) =>
 	let {assessments} = courseList[selectedCourse];
 	let newProps =
 	{
-		average: -1,
+		average: 0,
 		completion: 0
 	};
 
@@ -41,16 +41,14 @@ const recalculateCourse = (dispatch, getState) =>
 	{
 		assessments.forEach(id =>
 		{
-			if (!assessmentList[id].hidden)
-			{
-				newProps.completion += assessmentList[id].weight;
-				newProps.average += assessmentList[id].weight * assessmentList[id].grade;
-			}
+			newProps.completion += assessmentList[id].weight;
+			newProps.average += assessmentList[id].weight * assessmentList[id].grade;
 		});
+		newProps.average /= newProps.completion;
 	}
 
 	// Dispatching the changes
-	dispatch(editCourse(selectedCourse, newCourseProps));
+	dispatch(editCourse(selectedCourse, newProps));
 
 	// Recalculating the average of the semester this course belongs to
 	recalculateSemester(dispatch, getState);
@@ -74,9 +72,10 @@ const recalculateSemester = (dispatch, getState) =>
 	{
 		let sum = 0;
 		let count = 0;
+
 		courses.forEach(id =>
 		{
-			if (courseList[id].average != -1)
+			if (courseList[id].completion != 0)
 			{
 				sum += courseList[id].average;
 				count++;
@@ -88,7 +87,7 @@ const recalculateSemester = (dispatch, getState) =>
 	}
 
 	// Dispatching the changes
-	dispatch(editSemester(selectedSemester, newSemesterProps));
+	dispatch(editSemester(selectedSemester, newProps));
 };
 
 // --------------------------------------------------------------------------------------
@@ -323,8 +322,7 @@ export const createAssessment = (name, grade, weight) =>
 				_id: newID,
 				name,
 				grade,
-				weight,
-				hidden: false
+				weight
 			}
 		});
 
@@ -344,7 +342,7 @@ export const createAssessment = (name, grade, weight) =>
 
 // --------------------------------------------------------------------------------------
 // An action creator for editing an existing assessment (and in turn inputting a grade)
-// Amendable properties: name, grade, weight, hidden
+// Amendable properties: name, grade, weight
 // id: unique integer value of the assessment to be modified
 // newProps: an object containing only the modified properties
 // --------------------------------------------------------------------------------------

@@ -117,7 +117,7 @@ class EditAssessmentForm extends Component
 		this.props.editAssessment(this.props.selectedAssessment, {name: this.state.name, grade: trueGrade, weight: trueWeight});
 	}
 
-	convertToPercentage(string, fallback)
+	toNumber(string, fallback)
 	{
 		var attempt = parseFloat(string);
 		if (Number(attempt) === attempt)
@@ -139,10 +139,10 @@ class EditAssessmentForm extends Component
 					defaultNumValue = {this.state.numerator == 0 ? "" : this.state.numerator.toString()}
 					defaultDenomValue = {this.state.denominator == 0 ? "" : this.state.denominator.toString()}
 					onNumChange = {(newText) => {
-						this.setState({numerator: this.convertToPercentage(newText, this.state.numerator)});
+						this.setState({numerator: this.toNumber(newText, this.state.numerator)});
 					}}
 					onDenomChange = {(newText) => {
-						this.setState({denominator: this.convertToPercentage(newText, this.state.denominator)});
+						this.setState({denominator: this.toNumber(newText, this.state.denominator)});
 					}}
 					onSubmitEditing = {() => this.weightInput.focus()}
 					submitKeyType = 'next'
@@ -163,7 +163,7 @@ class EditAssessmentForm extends Component
 					defaultValue = {this.state.percentage == 0 ? "" : this.state.percentage.toString()}
 					returnKeyType = 'next'
 					onChangeText = {(newText) => {
-						this.setState({percentage: this.convertToPercentage(newText, this.state.percentage)});
+						this.setState({percentage: this.toNumber(newText, this.state.percentage)});
 					}}
 				/>
 			);
@@ -244,7 +244,7 @@ class EditAssessmentForm extends Component
 									defaultValue = {this.state.weight == 0 ? "" : this.state.weight.toString()}
 									keyboardType = 'numeric'
 									onChangeText = {(newText) => {
-										this.setState({weight: this.convertToPercentage(newText, this.state.weight)});
+										this.setState({weight: this.toNumber(newText, this.state.weight)});
 									}}
 									onSubmitEditing = {() => this.nameInput.focus()}
 									returnKeyType = 'next'
