@@ -84,7 +84,7 @@ export const containerStyle = StyleSheet.create(
 	roundedBox:
 	{
 		padding: 10,
-		margin: 5,
+		margin: 8,
 		borderRadius: 5,
 		borderColor: colors.dividerColor,
 		borderWidth: 1

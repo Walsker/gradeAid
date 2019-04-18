@@ -114,6 +114,7 @@ export default (prevState = initialState, action) =>
 			// Adding the course
 			targetSemester.courses = targetSemester.courses.filter(course => course != courseID);
 
+			console.log("NEW:", targetSemester, courseID);
 			return {
 				...prevState,
 				[semesterID]: targetSemester

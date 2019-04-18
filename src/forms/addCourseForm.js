@@ -463,7 +463,8 @@ const mapStateToProps = (state) =>
 {
 	// Getting all the course names used in this semester
 	let {semesterList, selectedSemester, courseList} = state;
-	let usedCourseNames = semesterList[selectedSemester].courses.map(id => courseList[id].name);
+	console.log("LIST:", courseList);
+	let usedCourseNames = semesterList[selectedSemester].courses.map(id => {console.log("ID:", id); courseList[id].name});
 
 	return {usedCourseNames};
 }

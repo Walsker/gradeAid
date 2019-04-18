@@ -1,9 +1,10 @@
 // React Native imports
 import React, {Component} from 'react';
-import {View} from 'react-native';
+import {Alert, View} from 'react-native';
 
 // Redux imports
 import {connect} from 'react-redux';
+import {deleteCourse} from 'gradeAid/src/userData/actions';
 import {selectCourse} from 'gradeAid/src/navDrawer/actions';
 
 // Custom imports
@@ -20,6 +21,21 @@ class CourseList extends Component
 		}
 	}
 
+	deleteCourse(courseID)
+	{
+		return () =>
+		{
+			Alert.alert(
+				"Drop Course",
+				"Are you sure you would like to drop this course?",
+				[
+					{text: 'Yes', onPress: () => this.props.deleteCourse(courseID), style: 'cancel'},
+					{text: 'No', onPress: () => {}},
+				]
+			);
+		}
+	}
+
 	render()
 	{
 		let courseTiles = [];
@@ -29,13 +45,16 @@ class CourseList extends Component
 
 		for (course of this.props.courses)
 		{
+			if (!course) continue;
+
 			courseTiles.push(
 				<CourseCard 
 					key = {course._id}
 					action = {this.toCourseScreen(course._id)}
-					longAction = {() => alert("HI")}
 					animationID = {animationID}
 					course = {course}
+					editable = {this.props.editable}
+					onDelete = {this.deleteCourse(course._id)}
 				/>
 			);
 
@@ -60,4 +79,4 @@ class CourseList extends Component
 	}
 }
 
-export default connect(null, {selectCourse})(CourseList);
+export default connect(null, {deleteCourse, selectCourse})(CourseList);

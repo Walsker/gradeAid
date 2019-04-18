@@ -15,11 +15,17 @@ class SemesterPage extends Component
 	constructor(props)
 	{
 		super(props);
+
 		this.createCourse = this.createCourse.bind(this);
 		this.editSemester = this.editSemester.bind(this);
 		this.noSemester_SCENE = this.noSemester_SCENE.bind(this);
 		this.newSemester_SCENE = this.newSemester_SCENE.bind(this);
 		this.semester_SCENE = this.semester_SCENE.bind(this);
+
+		this.state =
+		{
+			editable: false
+		};
 	}
 
 	componentDidUpdate()
@@ -112,6 +118,7 @@ class SemesterPage extends Component
 					<CourseList 
 						navigation = {this.props.navigation}
 						courses = {this.props.semester.courses}
+						editable = {this.state.editable}
 					/>
 					<Button
 						label = "Add Course"
@@ -146,10 +153,10 @@ class SemesterPage extends Component
 						title = {this.props.semester.name}
 						rightButton = {
 							<IconButton
-								type = 'edit'
+								type = {this.state.editable ? 'done' : 'edit'}
 								size = {30}
 								color = {colors.titleAndIconColor}
-								action = {this.editSemester}
+								action = {() => this.setState(prevState => {return {editable: !prevState.editable};})}
 							/>
 						}
 					/>

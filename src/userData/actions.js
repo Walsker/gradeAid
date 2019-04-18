@@ -266,12 +266,6 @@ export const deleteCourse = (id) =>
 			});
 		});
 	
-		// Deleting the course
-		dispatch({
-			type: DELETE_COURSE,
-			payload: id
-		});
-	
 		// Dropping this course from the semester
 		dispatch({
 			type: DROP_COURSE,
@@ -279,6 +273,12 @@ export const deleteCourse = (id) =>
 				semesterID: selectedSemester,
 				courseID: id
 			}
+		});
+
+		// Deleting the course
+		dispatch({
+			type: DELETE_COURSE,
+			payload: id
 		});
 	
 		// Recalculating the semester's average

@@ -4,7 +4,7 @@ import {Animated, Platform, Text, TouchableNativeFeedback, TouchableWithoutFeedb
 
 // Custom imports
 import {colors, containerStyle, textStyle} from 'gradeAid/src/common/appStyles';
-import {ProgressCircle} from 'gradeAid/src/common';
+import {IconButton, ProgressCircle} from 'gradeAid/src/common';
 
 class CourseCard extends Component
 {
@@ -42,33 +42,56 @@ class CourseCard extends Component
 	
 	renderAndroid()
 	{
-		return (
-			<TouchableNativeFeedback
-				background = {TouchableNativeFeedback.Ripple(colors.lightPrimaryColor, false)}
-				onPress = {this.props.action}
-				onLongPress = {this.props.longAction}
+		let deleteButton = 
+		(
+			!this.props.editable ? <View/> :
+			<View style =
+				{{
+					position: 'absolute',
+					alignSelf: 'flex-end',
+					top: -18,
+					right: -18
+				}}
 			>
-				<View style = {containerStyle.roundedBox}>
-					<ProgressCircle
-						diameter = {100}
-						borderWidth = {10}
-						ringColor = {colors.accentColor}
-						emptyRingColor = {colors.darkPrimaryColor}
-						backgroundColor = {colors.spaceColor}
-						percentage = {this.props.course.average}
-						active = {this.props.course.average != -1}
-						animationDelay = {500 + (parseInt(this.props.animationID) * 750)}
-					/>
-					<View style = {{flex: 1, paddingTop: 20}}>
-						<Text 
-							style = {[textStyle.bold(17, 'center', colors.primaryColor), {maxWidth: 100, textAlignVertical: 'center'}]}
-							numberOfLines = {2}
-						>
-							{this.props.course.name}
-						</Text>
+				<IconButton
+					type = 'remove-circle'
+					size = {30}
+					color = {'red'}
+					action = {this.props.onDelete}
+				/>
+			</View>
+		);
+
+		return (
+			<View>
+				<TouchableNativeFeedback
+					background = {TouchableNativeFeedback.Ripple(colors.lightPrimaryColor, false)}
+					onPress = {this.props.action}
+					onLongPress = {this.props.longAction}
+				>
+					<View style = {containerStyle.roundedBox}>
+						<ProgressCircle
+							diameter = {100}
+							borderWidth = {10}
+							ringColor = {colors.accentColor}
+							emptyRingColor = {colors.darkPrimaryColor}
+							backgroundColor = {colors.spaceColor}
+							percentage = {this.props.course.average}
+							active = {this.props.course.average != -1}
+							animationDelay = {500 + (parseInt(this.props.animationID) * 750)}
+						/>
+						<View style = {{flex: 1, paddingTop: 20}}>
+							<Text 
+								style = {[textStyle.bold(17, 'center', colors.primaryColor), {maxWidth: 100, textAlignVertical: 'center'}]}
+								numberOfLines = {2}
+							>
+								{this.props.course.name}
+							</Text>
+						</View>
 					</View>
-				</View>
-			</TouchableNativeFeedback>
+				</TouchableNativeFeedback>
+				{deleteButton}
+			</View>
 		);
 	}
 
