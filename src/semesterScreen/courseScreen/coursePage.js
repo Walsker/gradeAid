@@ -76,7 +76,7 @@ class CoursePage extends Component
 					key = {i}
 					style = {{marginVertical: 2}}
 				>
-					<Text style = {textStyle.regular(22, 'center')}>
+					<Text style = {textStyle.regular(18, 'center')}>
 						{component.name} - {(component.weight * 100).toString()}%
 					</Text>
 				</View>
@@ -108,13 +108,15 @@ class CoursePage extends Component
 				onScrollEndDrag = {() => this.setState({dragging: false})}
 			>
 				{averageTile}
-				<Tile title = "New Assessment?">
-					<Button
-						label = "Input Grade"
-						color = {colors.primaryColor}
-						inverted = {false}
-						action = {this.inputGrade.bind(this)}
-					/>
+				<Tile title = "">
+					<View style = {{flex: 1, marginTop: -15}}>
+						<Button
+							label = "Input Grade"
+							color = {colors.primaryColor}
+							inverted = {false}
+							action = {this.inputGrade.bind(this)}
+						/>
+					</View>
 				</Tile>
 				<Tile title = {"Class Completion - " + (Math.round(this.props.course.completion * 1000) / 10) + "%"}>
 					<View style = {{alignSelf: 'stretch', paddingHorizontal: 25}}>
