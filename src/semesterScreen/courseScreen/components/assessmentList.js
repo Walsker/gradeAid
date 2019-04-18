@@ -11,7 +11,6 @@ import {selectAssessment} from 'gradeAid/src/navDrawer/actions';
 
 // Custom Imports
 import {colors, containerStyle, textStyle} from 'gradeAid/src/common/appStyles';
-import {ProgressBar} from 'gradeAid/src/common';
 
 class AssessmentList extends Component
 {
@@ -27,14 +26,13 @@ class AssessmentList extends Component
 		return (
 			<TouchableNativeFeedback
 				key = {animationID}
-				background = {TouchableNativeFeedback.Ripple(colors.primaryColor, false)}
+				background = {TouchableNativeFeedback.Ripple(colors.darkPrimaryColor, false)}
 				onPress = {() => {}}
 			>
 				<View style = 
 				{{
 					flex: 1,
 					flexDirection: 'row',
-					// backgroundColor: colors.lightPrimaryColor,
 					justifyContent: 'space-between',
 					paddingHorizontal: 25,
 					paddingVertical: 15

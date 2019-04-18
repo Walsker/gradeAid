@@ -113,8 +113,7 @@ class InputGradeForm extends Component
 		if (this.state.useFraction)
 			grade = this.state.numerator / this.state.denominator;
 		else
-			grade = this.state.percentage;	
-		grade /= 100;
+			grade = this.state.percentage / 100;	
 
 		this.props.createAssessment(this.state.name, grade, this.state.weight / 100);
 		this.props.navigation.pop();
@@ -149,7 +148,6 @@ class InputGradeForm extends Component
 
 		const renderGradeInput = () =>
 		{
-			let that = this;
 			if (this.state.useFraction)
 			{
 				return (
@@ -280,6 +278,7 @@ class InputGradeForm extends Component
 									inverted = {false}
 									action = {() =>
 									{
+										// Checking if a valid grade was inputted
 										if (this.state.useFraction)
 										{
 											if (this.state.numerator === "" || this.state.denominator === "")
@@ -312,6 +311,7 @@ class InputGradeForm extends Component
 											}
 										}
 
+										// Checking if a valid weight was inputted
 										if (this.state.weight === "")
 										{
 											this.showAlert("No Weight Provided");
@@ -322,6 +322,8 @@ class InputGradeForm extends Component
 											this.showAlert("Negative Values");
 											return;
 										}
+
+										// Checking if a valid name was inputted
 
 										if (this.state.name == "")
 										{

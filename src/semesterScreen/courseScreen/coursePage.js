@@ -77,7 +77,7 @@ class CoursePage extends Component
 					style = {{marginVertical: 2}}
 				>
 					<Text style = {textStyle.regular(18, 'center')}>
-						{component.name} - {(component.weight * 100).toString()}%
+						{component.name} - {(Math.round(component.weight * 1000) / 10).toString()}%
 					</Text>
 				</View>
 			);
@@ -127,13 +127,13 @@ class CoursePage extends Component
 						/>
 					</View>
 				</Tile>
+				{breakdownTile}
 				<Tile title = "Overview">
 					<AssessmentList
 						assessments = {this.props.course.assessments}
 						active = {!this.state.dragging}
 					/>
 				</Tile>
-				{breakdownTile}
 				{/* <Tile title = "Insights">
 					<Text style = {textStyle.regular(16, 'center', colors.secondaryTextColor)}>Highest achievable final grade</Text>
 					<Text style = {[textStyle.regular(24, 'center'), {paddingTop: 10}]}>{maxGrade}%</Text>
