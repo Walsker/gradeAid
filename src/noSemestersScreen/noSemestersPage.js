@@ -34,7 +34,7 @@ class NoSemestersPage extends Component
 		return (
 			<View style = {containerStyle.default}>
 				<ActionBar
-					inverted = {true}
+					color = {colors.primaryColor}
 					leftButton =
 					{
 						<IconButton

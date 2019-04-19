@@ -438,7 +438,6 @@ class AddCourseForm extends Component
 		return (
 			<View style = {containerStyle.default}>
 				<ActionBar
-					inverted = {true}
 					lifted = {this.state.scrolled}
 					leftButton =
 					{
@@ -449,8 +448,9 @@ class AddCourseForm extends Component
 							action = {backButton}
 						/>
 					}
-					title = "Add Course"
-				/>
+				>
+					<Text style = {textStyle.thick(24, 'left', colors.primaryColor)}>Add Course</Text>
+				</ActionBar>
 				<View style = {containerStyle.page}>
 					{scenes[this.state.currentScene]}
 				</View>
@@ -463,8 +463,9 @@ const mapStateToProps = (state) =>
 {
 	// Getting all the course names used in this semester
 	let {semesterList, selectedSemester, courseList} = state;
-	console.log("LIST:", courseList);
-	let usedCourseNames = semesterList[selectedSemester].courses.map(id => {console.log("ID:", id); courseList[id].name});
+	
+	// Findind out which course names have been used
+	let usedCourseNames = semesterList[selectedSemester].courses.map(id => courseList[id].name);
 
 	return {usedCourseNames};
 }

@@ -147,8 +147,9 @@ class EditSemesterForm extends Component
 							action = {() => this.props.navigation.pop()}
 						/>
 					}
-					title = "Edit Semester"
-				/>
+				>
+					<Text style = {textStyle.thick(24, 'left', colors.primaryColor)}>Edit Semester</Text>
+				</ActionBar>
 				<View style = {containerStyle.form}>
 					<View style = {containerStyle.formSection}>
 						<Text style = {textStyle.regular(22, 'center')}>

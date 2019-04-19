@@ -1,37 +1,14 @@
 // React Native imports
 import React, {Component} from 'react';
-import {Dimensions, Platform, Text, TextInput, View} from 'react-native';
+import {Text, TextInput, View} from 'react-native';
 
 // Custom imports
 import {containerStyle, textStyle} from 'gradeAid/src/common/appStyles';
 
 export default class TextField extends Component
 {
-	render()
+	renderField()
 	{
-		var numericFieldWidth = Dimensions.get('window').width / 3;
-
-		var borderStyle;
-		if (Platform.OS === 'ios')
-			borderStyle = containerStyle.roundedBox;
-		else
-		{
-			if (this.props.keyboardType == 'numeric')
-			{
-				switch (this.props.textAlign)
-				{
-					case 'left':
-						borderStyle = {width: numericFieldWidth, alignSelf: 'flex-start'};
-						break;
-					case 'right':
-						borderStyle = {width: numericFieldWidth, alignSelf: 'flex-end'};
-						break;
-					default:
-						borderStyle = {width: numericFieldWidth, alignSelf: 'center'};
-				}
-			}
-		}
-
 		return (
 			<View>
 				<View>
@@ -49,5 +26,28 @@ export default class TextField extends Component
 				</Text>
 			</View>
 		);
+	}
+
+	renderText()
+	{
+		return (
+			<View style =
+			{{
+				flex: 1,
+				marginHorizontal: 12,
+				marginTop: 14,
+				marginBottom: 10,
+				justifyContent: 'center'
+			}}>
+				<Text style = {textStyle.thick(24, 'left', this.props.textColor)}>
+					{this.props.title}
+				</Text>
+			</View>
+		);
+	}
+
+	render()
+	{
+		return this.renderField();
 	}
 }

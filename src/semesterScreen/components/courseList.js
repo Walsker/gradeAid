@@ -29,7 +29,7 @@ class CourseList extends Component
 				"Drop Course",
 				"Are you sure you would like to drop this course?",
 				[
-					{text: 'Yes', onPress: () => this.props.deleteCourse(courseID), style: 'cancel'},
+					{text: 'Yes', onPress: () => {this.props.deleteCourse(courseID); this.props.stopEditing()}, style: 'cancel'},
 					{text: 'No', onPress: () => {}},
 				]
 			);

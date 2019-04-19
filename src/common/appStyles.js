@@ -151,6 +151,10 @@ export const textStyle =
 	{
 		return Object.assign({fontFamily: 'Lato-Regular'}, createFont(size, alignment, color));
 	},
+	thick: (size, alignment, color) =>
+	{
+		return Object.assign({fontFamily: 'Lato-Bold'}, createFont(size, alignment, color));
+	},
 	bold: (size, alignment, color) =>
 	{
 		return Object.assign({fontFamily: 'Lato-Black'}, createFont(size, alignment, color));
@@ -159,4 +163,4 @@ export const textStyle =
 	{
 		return Object.assign({fontFamily: 'Lato-Italic'}, createFont(size, alignment, color));
 	}
-}
+};

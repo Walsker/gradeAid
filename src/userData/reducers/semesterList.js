@@ -57,8 +57,8 @@ export default (prevState = initialState, action) =>
 			let {id, newProps} = action.payload;
 
 			// Making the changes to the semester object
+			console.log("NEW CHANGES:", prevState[id], newProps);
 			let modifiedSemester = Object.assign({}, prevState[id], newProps);
-
 			return {
 				...prevState,
 				[id]: modifiedSemester

@@ -13,6 +13,7 @@ export default class AboutPage extends Component
 		return (
 			<View style = {containerStyle.default}>
 				<ActionBar
+					color = {colors.primaryColor}
 					leftButton =
 					{
 						<IconButton
@@ -22,8 +23,9 @@ export default class AboutPage extends Component
 							action = {this.props.navigation.openDrawer}
 						/>
 					}
-					title = {"About"}
-				/>
+				>
+					<Text style = {textStyle.thick(24, 'left', 'white')}>About</Text>
+				</ActionBar>
 				<ScrollView>
 					<View style = {containerStyle.form}>
 						<View style = {containerStyle.formSection}>

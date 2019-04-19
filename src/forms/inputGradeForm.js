@@ -196,7 +196,6 @@ class InputGradeForm extends Component
 		return (
 			<View style = {containerStyle.default}>
 				<ActionBar
-					inverted = {true}
 					lifted = {this.state.scrolled}
 					leftButton =
 					{
@@ -207,8 +206,9 @@ class InputGradeForm extends Component
 							action = {() => this.props.navigation.pop()}
 						/>
 					}
-					title = "Input Grade"
-				/>
+				>
+					<Text style = {textStyle.thick(24, 'left', colors.primaryColor)}>Input Grade</Text>
+				</ActionBar>
 				<ScrollView
 					keyboardShouldPersistTaps = 'handled'
 					onScroll = {scrollToggle}

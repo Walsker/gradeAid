@@ -1,9 +1,10 @@
 // React Native imports
 import React, {Component} from 'react';
-import {ScrollView, Text, View} from 'react-native';
+import {Alert, ScrollView, Text, TextInput, View} from 'react-native';
 
 // Redux imports
 import {connect} from 'react-redux';
+import {editCourse} from 'gradeAid/src/userData/actions';
 
 // Custom imports
 import {ActionBar, Button, IconButton, ProgressBar, ProgressCircle, Tile} from 'gradeAid/src/common';
@@ -15,12 +16,68 @@ class CoursePage extends Component
 	constructor(props)
 	{
 		super(props);
-		this.state = {dragging: false}
+
+		this.changeCourseName = this.changeCourseName.bind(this);
+
+		this.state =
+		{
+			dragging: false,
+			editable: false,
+			newCourseName: props.course.name
+		};
 	}
 
 	inputGrade()
 	{
 		this.props.navigation.navigate("InputGradeForm");
+	}
+
+	showAlert(alertType)
+	{
+		switch (alertType)
+		{
+			case "Unnamed Course":
+
+				Alert.alert(
+					"Incomplete",
+					"Please be sure to give the course a code.",
+					[
+						{text: 'OK', onPress: () => {}},
+					],
+					{cancelable: true}
+				);
+				break;
+
+			case "Course already exists":
+
+				Alert.alert(
+					"Course Code Taken",
+					"Please give the course a different code.",
+					[
+						{text: 'OK', onPress: () => {}},
+					],
+					{cancelable: true}
+				);
+				break;
+		}
+	}
+
+	changeCourseName()
+	{
+		let courseName = this.state.newCourseName.trim();
+
+		console.log("T:", this.props.usedCourseNames, courseName);
+		if (courseName == this.props.course.name)
+			this.setState({editable: false});
+		else if (courseName == "")
+			this.showAlert("Unnamed Course");
+		else if (this.props.usedCourseNames.includes(courseName))
+			this.showAlert("Course already exists");
+		else
+		{
+			this.props.editCourse(this.props.course._id, {name: courseName});
+			this.setState({editable: false, newCourseName: courseName});
+		}
 	}
 
 	newCourse_SCENE()
@@ -48,10 +105,6 @@ class CoursePage extends Component
 
 	course_SCENE()
 	{
-		// Calculating the highest and lowest grade
-		let maxGrade = Math.round(((this.props.course.average * this.props.course.completion) + (1 - this.props.course.completion)) * 1000) / 10;
-		let minGrade = Math.round(this.props.course.average * this.props.course.completion * 1000) / 10;
-
 		let averageTile = 
 		(
 			this.props.course.completion == 0 ? <View/> :
@@ -86,14 +139,6 @@ class CoursePage extends Component
 		let breakdownTile =
 		(
 			this.props.course.breakdown.length == 0 ? 
-			// <Tile title = "Breakdown">
-			// 	<Button
-			// 		label = "Specify Breakdown"
-			// 		color = {colors.primaryColor}
-			// 		inverted = {false}
-			// 		action = {() => {}}
-			// 	/>
-			// </Tile>
 			<View/>
 			:
 			<Tile title = "Breakdown">
@@ -134,13 +179,6 @@ class CoursePage extends Component
 						active = {!this.state.dragging}
 					/>
 				</Tile>
-				{/* <Tile title = "Insights">
-					<Text style = {textStyle.regular(16, 'center', colors.secondaryTextColor)}>Highest achievable final grade</Text>
-					<Text style = {[textStyle.regular(24, 'center'), {paddingTop: 10}]}>{maxGrade}%</Text>
-					<View style = {{marginVertical: 5}}/>
-					<Text style = {textStyle.regular(16, 'center', colors.secondaryTextColor)}>Lowest achievable final grade</Text>
-					<Text style = {[textStyle.regular(24, 'center'), {paddingBottom: 10}]}>{minGrade}%</Text>
-				</Tile> */}
 				<View style = {{height: 10}}/>
 			</ScrollView>
 		);
@@ -148,12 +186,40 @@ class CoursePage extends Component
 
 	render()
 	{
+		let titleComponent = 
+		(
+			this.state.editable ?
+				<View style = 
+				{{
+					marginLeft: -4,
+					marginBottom: -5
+				}}>
+					<TextInput
+						autoCapitalize = 'characters'
+						defaultValue = {this.props.course.name}
+						fontSize = {24}
+						textAlign = 'left'
+						textColor = '#FFFFFF'
+						maxLength = {25}
+						placeholder = "Course Code"
+						placeholderTextColor = '#FFFFFF20'
+						onChangeText = {(newText) => this.setState({newCourseName: newText})}
+						onSubmitEditing = {this.changeCourseName}
+						returnKeyType = 'done'
+						style = {textStyle.thick(24, 'left', '#FFFFFF')}
+						underlineColorAndroid = '#FFFFFF'
+					/>
+				</View>
+			: <Text style = {textStyle.thick(24, 'left', '#FFFFFF')}>{this.props.course.name}</Text>
+		);
+			
 		if (!this.props.course)
 			return <View/>;
 		
 		return (
 			<View style = {containerStyle.default}>
 				<ActionBar
+					color = {colors.primaryColor}
 					leftButton =
 					{
 						<IconButton
@@ -163,17 +229,27 @@ class CoursePage extends Component
 							action = {() => this.props.navigation.pop()}
 						/>
 					}
-					title = {this.props.course.name}
 					rightButton =
 					{
 						<IconButton
-							type = 'edit'
+							type = {this.state.editable ? 'done' : 'edit'}
 							size = {30}
 							color = {colors.titleAndIconColor}
-							action = {() => {}}
+							action = {() => 
+							{
+								if (this.state.editable)
+								{
+									this.changeCourseName();
+									this.setState({editable: false});
+								}
+								else
+									this.setState({editable: true});
+							}}
 						/>
 					}
-				/>
+				>
+					{titleComponent}
+				</ActionBar>
 				{this.props.emptyCourse ? this.newCourse_SCENE() : this.course_SCENE()}
 			</View>
 		);
@@ -182,11 +258,17 @@ class CoursePage extends Component
 
 const mapStateToProps = (state) =>
 {
+	let {semesterList, selectedSemester, courseList, selectedCourse, assessmentList} = state;
+	
 	// Finding the course object in the store
-	let courseObject = state.courseList[state.selectedCourse];
+	let courseObject = courseList[selectedCourse];
 
 	// Getting the assessment objects that belong to this course
-	let assessments = courseObject.assessments.map(id => state.assessmentList[id]);
+	let assessments = courseObject.assessments.map(id => assessmentList[id]);
+
+	// Findind out which course names have been used
+	console.log("HI:", semesterList[selectedSemester])
+	let usedCourseNames = semesterList[selectedSemester].courses.map(id => courseList[id].name);
 
 	// Returning the complete course
 	return {
@@ -195,7 +277,8 @@ const mapStateToProps = (state) =>
 			...courseObject,
 			assessments
 		},
-		emptyCourse: courseObject.assessments.length == 0
+		emptyCourse: courseObject.assessments.length == 0,
+		usedCourseNames
 	};
 };
-export default connect(mapStateToProps)(CoursePage);
+export default connect(mapStateToProps, {editCourse})(CoursePage);

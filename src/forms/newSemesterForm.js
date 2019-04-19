@@ -123,6 +123,7 @@ class NewSemesterForm extends Component
 					<View style = {containerStyle.formSection}>
 						<TextField
 							fontSize = {24}
+							maxLength = {25}
 							label = "Semester Name"
 							textAlign = 'center'
 							textColor = {colors.primaryTextColor}

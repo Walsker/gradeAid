@@ -51,11 +51,11 @@ class AssessmentList extends Component
 			return <View key = {id} style = {{backgroundColor: colors.dividerColor, height: 2}}/>;
 		}
 
-		let components = [divider(-1)];
+		let components = [divider(0)];
 		this.props.assessments.forEach((assessment, i) =>
 		{
-			components.push(this.createAssessment(assessment, i));
-			components.push(divider((i+1)*2));
+			components.push(this.createAssessment(assessment, i+1));
+			components.push(divider(-1*(i+1)));
 		});
 
 		return (

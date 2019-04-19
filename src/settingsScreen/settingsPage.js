@@ -48,7 +48,9 @@ class SettingsPage extends Component
 						/>
 					}
 					title = {"Settings"}
-				/>
+				>
+					<Text style = {textStyle.thick(24, 'left', 'white')}>Settings</Text>
+				</ActionBar>
 				<View style = {{marginBottom: 5}}/>
 				{/* <MenuItem
 					title = "Dark Mode"

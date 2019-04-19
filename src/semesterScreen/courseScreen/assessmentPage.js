@@ -45,6 +45,7 @@ class AssessmentPage extends Component
 		return (
 			<View style = {containerStyle.default}>
 				<ActionBar
+					color = {colors.primaryColor}
 					leftButton =
 					{
 						<IconButton

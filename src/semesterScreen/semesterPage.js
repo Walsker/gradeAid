@@ -1,13 +1,14 @@
 // React Native imports
-import React, {Component, PureComponent} from 'react';
-import {ScrollView, Text, View} from 'react-native';
+import React, {Component} from 'react';
+import {Alert, ScrollView, Text, TextInput, View} from 'react-native';
 
 // Redux imports
 import {connect} from 'react-redux';
+import {editSemester} from 'gradeAid/src/userData/actions';
 
 // Custom imports
 import {colors, containerStyle, textStyle} from 'gradeAid/src/common/appStyles';
-import {ActionBar, Button, IconButton, Tile} from 'gradeAid/src/common';
+import {ActionBar, Button, IconButton, TextField, Tile} from 'gradeAid/src/common';
 import CourseList from './components/courseList';
 
 class SemesterPage extends Component
@@ -16,6 +17,7 @@ class SemesterPage extends Component
 	{
 		super(props);
 
+		this.changeSemesterName = this.changeSemesterName.bind(this);
 		this.createCourse = this.createCourse.bind(this);
 		this.editSemester = this.editSemester.bind(this);
 		this.noSemester_SCENE = this.noSemester_SCENE.bind(this);
@@ -24,8 +26,39 @@ class SemesterPage extends Component
 
 		this.state =
 		{
-			editable: false
+			editable: false,
+			newSemesterName: props.semester.name
 		};
+	}
+
+	showAlert(alertType)
+	{
+		switch (alertType)
+		{
+			case "Unnamed Semester":
+
+				Alert.alert(
+					"Incomplete",
+					"Please be sure to give the semester a name.",
+					[
+						{text: 'OK', onPress: () => {}},
+					],
+					{cancelable: true}
+				);
+				break;
+
+			case "Semester already exists":
+
+				Alert.alert(
+					"Semester Name Taken",
+					"Please give the semester a different name.",
+					[
+						{text: 'OK', onPress: () => {}},
+					],
+					{cancelable: true}
+				);
+				break;
+		}
 	}
 
 	componentDidUpdate()
@@ -43,12 +76,29 @@ class SemesterPage extends Component
 		this.props.navigation.navigate("EditSemesterForm");
 	}
 
+	changeSemesterName()
+	{
+		let semesterName = this.state.newSemesterName.trim();
+
+		if (semesterName == this.props.semester.name)
+			this.setState({editable: false});
+		else if (semesterName == "")
+			this.showAlert("Unnamed Semester");
+		else if (this.props.isNameUsed(semesterName))
+			this.showAlert("Semester already exists");
+		else
+		{
+			this.props.editSemester(this.props.semester._id, {name: semesterName});
+			this.setState({editable: false, newSemesterName: semesterName});
+		}
+	}
+
 	noSemester_SCENE()
 	{
 		return (
 			<View style = {containerStyle.default}>
 				<ActionBar
-					inverted = {true}
+					color = {colors.primaryColor}
 					leftButton =
 					{
 						<IconButton
@@ -119,6 +169,7 @@ class SemesterPage extends Component
 						navigation = {this.props.navigation}
 						courses = {this.props.semester.courses}
 						editable = {this.state.editable}
+						stopEditing = {() => this.setState({editable: false})}
 					/>
 					<Button
 						label = "Add Course"
@@ -134,6 +185,32 @@ class SemesterPage extends Component
 
 	render()
 	{
+		let titleComponent = 
+		(
+			this.state.editable ?
+				<View style = 
+				{{
+					marginLeft: -4,
+					marginBottom: -5
+				}}>
+					<TextInput
+						defaultValue = {this.props.semester.name}
+						fontSize = {24}
+						textAlign = 'left'
+						textColor = '#FFFFFF'
+						maxLength = {25}
+						placeholder = "Semester Name"
+						placeholderTextColor = '#FFFFFF20'
+						onChangeText = {(newText) => this.setState({newSemesterName: newText})}
+						onSubmitEditing = {this.changeSemesterName}
+						returnKeyType = 'done'
+						style = {textStyle.thick(24, 'left', '#FFFFFF')}
+						underlineColorAndroid = '#FFFFFF'
+					/>
+				</View>
+			: <Text style = {textStyle.thick(24, 'left', '#FFFFFF')}>{this.props.semester.name}</Text>
+		);
+
 		if (Object.keys(this.props.semester) == 0) // semester === {}
 			return this.noSemester_SCENE();
 		else
@@ -141,6 +218,7 @@ class SemesterPage extends Component
 			return (
 				<View style = {containerStyle.default}>
 					<ActionBar
+						color = {colors.primaryColor}
 						leftButton =
 						{
 							<IconButton
@@ -150,16 +228,26 @@ class SemesterPage extends Component
 								action = {this.props.navigation.openDrawer}
 							/>
 						}
-						title = {this.props.semester.name}
 						rightButton = {
 							<IconButton
 								type = {this.state.editable ? 'done' : 'edit'}
 								size = {30}
 								color = {colors.titleAndIconColor}
-								action = {() => this.setState(prevState => {return {editable: !prevState.editable};})}
+								action = {() => 
+								{
+									if (this.state.editable)
+									{
+										this.changeSemesterName();
+										this.setState({editable: false});
+									}
+									else
+										this.setState({editable: true});
+								}}
 							/>
 						}
-					/>
+					>
+						{titleComponent}
+					</ActionBar>
 					{this.props.emptySemester ? this.newSemester_SCENE() : this.semester_SCENE()}
 				</View>
 			);
@@ -180,13 +268,25 @@ const mapStateToProps = (state) =>
 	// Getting the course objects related to this semester
 	let courses = semesterObject.courses.map(id => state.courseList[id]);
 
+	// Creating a closure that checks if a given semester name is used
+	let isNameUsed = (newName) =>
+	{
+		for (id in state.semesterList)
+		{
+			if (state.semesterList[id].name == newName)
+				return true;
+		}
+		return false;
+	};
+
 	return {
 		semester:
 		{
 			...semesterObject,
 			courses			
 		},
-		emptySemester: courses.length == 0
+		emptySemester: courses.length == 0,
+		isNameUsed
 	};
 };
-export default connect(mapStateToProps)(SemesterPage);
+export default connect(mapStateToProps, {editSemester})(SemesterPage);
