@@ -19,7 +19,6 @@ class SemesterPage extends Component
 
 		this.changeSemesterName = this.changeSemesterName.bind(this);
 		this.createCourse = this.createCourse.bind(this);
-		this.editSemester = this.editSemester.bind(this);
 		this.noSemester_SCENE = this.noSemester_SCENE.bind(this);
 		this.newSemester_SCENE = this.newSemester_SCENE.bind(this);
 		this.semester_SCENE = this.semester_SCENE.bind(this);
@@ -68,12 +67,8 @@ class SemesterPage extends Component
 
 	createCourse()
 	{
+		this.setState({editable: false});
 		this.props.navigation.navigate("AddCourseForm");
-	}
-
-	editSemester()
-	{
-		this.props.navigation.navigate("EditSemesterForm");
 	}
 
 	changeSemesterName()

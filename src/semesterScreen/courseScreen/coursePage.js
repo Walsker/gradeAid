@@ -29,6 +29,7 @@ class CoursePage extends Component
 
 	inputGrade()
 	{
+		this.setState({editable: false});
 		this.props.navigation.navigate("InputGradeForm");
 	}
 

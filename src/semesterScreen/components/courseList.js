@@ -16,6 +16,7 @@ class CourseList extends Component
 	{
 		return () => 
 		{
+			this.props.stopEditing();
 			this.props.navigation.navigate("Course");
 			this.props.selectCourse(courseID);
 		}

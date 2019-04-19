@@ -104,7 +104,7 @@ class NewSemesterForm extends Component
 		return (
 			<View style = {containerStyle.page}>
 				<ActionBar
-					inverted = {true}
+					color = {colors.spaceColor}
 					leftButton =
 					{
 						<IconButton
@@ -114,8 +114,9 @@ class NewSemesterForm extends Component
 							action = {() => this.props.navigation.pop()}
 						/>
 					}
-					title = "New Semester"
-				/>
+				>
+					<Text style = {textStyle.thick(24, 'left', colors.primaryColor)}>New Semester</Text>
+				</ActionBar>
 				<View style = {containerStyle.form}>
 					<View style = {containerStyle.formSection}>
 						<Text style = {textStyle.regular(22, 'center')}>What would you like this semester to be named?</Text>

@@ -34,7 +34,7 @@ class NoSemestersPage extends Component
 		return (
 			<View style = {containerStyle.default}>
 				<ActionBar
-					color = {colors.primaryColor}
+					color = {colors.spaceColor}
 					leftButton =
 					{
 						<IconButton
