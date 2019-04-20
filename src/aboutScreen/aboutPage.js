@@ -28,7 +28,7 @@ class AboutPage extends Component
 					"Erase All Data",
 					"Are you sure you would like to do this?\nThis cannot be undone.",
 					[
-						{text: 'Yes', onPress: this.props.eraseUserData, style: 'cancel'},
+						{text: 'Yes', onPress: () => {this.props.navigation.navigate("Semester"); this.props.eraseUserData}, style: 'cancel'},
 						{text: 'No', onPress: () => {}},
 					],
 				);

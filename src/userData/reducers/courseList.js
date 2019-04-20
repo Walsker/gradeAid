@@ -12,7 +12,9 @@
 
 import {ERASE_USER_DATA, CREATE_COURSE, DELETE_COURSE, EDIT_COURSE, ADD_ASSESSMENT, REMOVE_ASSESSMENT} from '../actions';
 
-export default (prevState = {}, action) =>
+const INITIAL_STATE = {};
+
+export default (prevState = INITIAL_STATE, action) =>
 {
 	switch (action.type)
 	{
@@ -21,7 +23,7 @@ export default (prevState = {}, action) =>
 		// PAYLOAD: none.
 		// --------------------------------------------------------------------------------------
 		case ERASE_USER_DATA:
-			return {};
+			return INITIAL_STATE;
 
 		// ------------------------------------------------------------------------------
 		// CASE: a course is being added to the app

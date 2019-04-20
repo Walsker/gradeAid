@@ -12,7 +12,7 @@
 
 import {ERASE_USER_DATA, CREATE_SEMESTER, DELETE_SEMESTER, EDIT_SEMESTER, ADD_COURSE, DROP_COURSE} from '../actions';
 
-const initialState = 
+const INITIAL_STATE = 
 {
 	[-1]:
 	{
@@ -23,7 +23,7 @@ const initialState =
 	}
 };
 
-export default (prevState = initialState, action) =>
+export default (prevState = INITIAL_STATE, action) =>
 {
 	switch (action.type)
 	{
@@ -32,7 +32,7 @@ export default (prevState = initialState, action) =>
 		// PAYLOAD: none.
 		// --------------------------------------------------------------------------------------
 		case ERASE_USER_DATA:
-			return initialState;
+			return INITIAL_STATE;
 		
 		// ------------------------------------------------------------------------------
 		// CASE: a new semester is being created

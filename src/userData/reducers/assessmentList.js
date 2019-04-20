@@ -12,7 +12,9 @@
 
 import {ERASE_USER_DATA, CREATE_ASSESSMENT, DELETE_ASSESSMENT, EDIT_ASSESSMENT} from '../actions';
 
-export default (prevState = {}, action) =>
+const INITIAL_STATE = {};
+
+export default (prevState = INITIAL_STATE, action) =>
 {
 	switch (action.type)
 	{
@@ -21,7 +23,7 @@ export default (prevState = {}, action) =>
 		// PAYLOAD: none.
 		// --------------------------------------------------------------------------------------
 		case ERASE_USER_DATA:
-			return {};
+			return INITIAL_STATE;
 
 		// ------------------------------------------------------------------------------
 		// CASE: a new assessment is being created
