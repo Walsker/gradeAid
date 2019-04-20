@@ -37,7 +37,7 @@ class AssessmentList extends Component
 		};
 	}
 
-	showAlert(alertType)
+	showAlert(alertType, value)
 	{
 		switch (alertType)
 		{
@@ -79,6 +79,16 @@ class AssessmentList extends Component
 					"Weight Exceeds 100%",
 					"Please enter a valid weight.",
 					[{text: 'OK', onPress: () => {}}]
+				);
+				return;
+			
+			case "Weight Too Large":
+
+				Alert.alert(
+					"Weight too Large",
+					"You only have " + Math.round(value*100).toString() + "% remaining in the course.",
+					[{text: 'OK', onPress: () => {}}],
+					{cancelable: true}
 				);
 				return;
 
@@ -130,6 +140,9 @@ class AssessmentList extends Component
 			return;
 		}
 
+		// Calculating the remaining weight
+		let remainingWeight = (1 - this.props.assessments.reduce((sum, assess) => sum + assess.weight, 0)) + this.state.selected.weight;
+
 		// Checking if a valid weight was inputted
 		if (this.state.newWeight == "")
 		{
@@ -139,6 +152,11 @@ class AssessmentList extends Component
 		else if (this.state.newWeight > 1)
 		{
 			this.showAlert("Weight Exceeds 100%");
+			return;
+		}
+		else if (this.state.newWeight > remainingWeight)
+		{
+			this.showAlert("Weight Too Large", remainingWeight);
 			return;
 		}
 		else

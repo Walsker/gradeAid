@@ -123,6 +123,21 @@ class CoursePage extends Component
 			</Tile>
 		);
 
+		let inputGradeTile = 
+		(
+			this.props.course.completion == 1 ? <View/> :
+			<Tile title = "">
+				<View style = {{flex: 1, marginTop: -15}}>
+					<Button
+						label = "Input Grade"
+						color = {colors.primaryColor}
+						inverted = {false}
+						action = {this.inputGrade.bind(this)}
+					/>
+				</View>
+			</Tile>
+		);
+
 		let breakdownComponents = this.props.course.breakdown.map((component, i) =>
 		{
 			return (
@@ -154,16 +169,7 @@ class CoursePage extends Component
 				onScrollEndDrag = {() => this.setState({dragging: false})}
 			>
 				{averageTile}
-				<Tile title = "">
-					<View style = {{flex: 1, marginTop: -15}}>
-						<Button
-							label = "Input Grade"
-							color = {colors.primaryColor}
-							inverted = {false}
-							action = {this.inputGrade.bind(this)}
-						/>
-					</View>
-				</Tile>
+				{inputGradeTile}
 				<Tile title = {"Class Completion - " + (Math.round(this.props.course.completion * 1000) / 10) + "%"}>
 					<View style = {{alignSelf: 'stretch', paddingHorizontal: 25}}>
 						<ProgressBar

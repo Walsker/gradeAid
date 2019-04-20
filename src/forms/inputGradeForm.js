@@ -64,6 +64,16 @@ class InputGradeForm extends Component
 					{cancelable: true}
 				);
 				return;
+			
+			case "Weight Too Large":
+
+				Alert.alert(
+					"Weight too Large",
+					"You only have " + Math.round(this.props.remainingWeight*100).toString() + "% remaining in the course.",
+					[{text: 'OK', onPress: () => {}}],
+					{cancelable: true}
+				);
+				return;
 
 			case "No Name":
 
@@ -79,7 +89,7 @@ class InputGradeForm extends Component
 
 				Alert.alert(
 					"Invalid Fraction",
-					"The denominator cannot be 0.",
+					"The denominator cannot be zero.",
 					[{text: 'OK', onPress: () => {}}],
 					{cancelable: true}
 				);
@@ -322,6 +332,11 @@ class InputGradeForm extends Component
 											this.showAlert("Negative Values");
 											return;
 										}
+										else if ((this.state.weight / 100) > this.props.remainingWeight)
+										{
+											this.showAlert("Weight Too Large");
+											return;
+										}
 
 										// Checking if a valid name was inputted
 
@@ -352,8 +367,13 @@ const mapStateToProps = (state) =>
 {
 	// Getting all the names used in this course
 	let {courseList, selectedCourse, assessmentList} = state;
+	
+	// Finding out which names have been used
 	let usedNames = courseList[selectedCourse].assessments.map(id => assessmentList[id].name);
 
-	return {usedNames};
+	// Finding out the maximum this assignment could be weighted
+	let remainingWeight = 1 - courseList[selectedCourse].completion;
+
+	return {usedNames, remainingWeight};
 };
 export default connect(mapStateToProps, {createAssessment})(InputGradeForm);
