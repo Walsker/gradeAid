@@ -1,4 +1,6 @@
-// Redux imports
+// Action types
+export const ERASE_USER_DATA = "eraseUserData";
+
 export const CREATE_SEMESTER = "createSemester";
 export const DELETE_SEMESTER = "deleteSemester";
 export const EDIT_SEMESTER = "editSemester";
@@ -89,6 +91,15 @@ const recalculateSemester = (dispatch, getState) =>
 	// Dispatching the changes
 	dispatch(editSemester(selectedSemester, newProps));
 };
+
+// --------------------------------------------------------------------------------------
+// SETTINGS ACTION CREATORS
+// --------------------------------------------------------------------------------------
+
+// --------------------------------------------------------------------------------------
+// An action creator for erasing all user data
+// --------------------------------------------------------------------------------------
+export const eraseUserData = () => ({type: ERASE_USER_DATA});
 
 // --------------------------------------------------------------------------------------
 // SEMESTER ACTION CREATORS

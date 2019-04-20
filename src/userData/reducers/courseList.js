@@ -10,29 +10,18 @@
 // }
 // --------------------------------------------------------------------------------------
 
-import {CLEAN_COURSE_LIST, CREATE_COURSE, DELETE_COURSE, EDIT_COURSE, ADD_ASSESSMENT, REMOVE_ASSESSMENT} from '../actions';
+import {ERASE_USER_DATA, CREATE_COURSE, DELETE_COURSE, EDIT_COURSE, ADD_ASSESSMENT, REMOVE_ASSESSMENT} from '../actions';
 
 export default (prevState = {}, action) =>
 {
 	switch (action.type)
 	{
-		// ------------------------------------------------------------------------------
-		// TODO: REDO
-		// CASE: the course list is being purged of all courses whose parent semester
-		//      no longer exists
-		// PAYLOAD: a list of all the course IDs for courses that no longer
-		//			belong to a semester
-		// ------------------------------------------------------------------------------
-		// case CLEAN_COURSE_LIST:
-
-		// 	let newCourseList = {};
-		// 	for (id in prevState)
-		// 	{
-		// 		if (!(id in action.payload))
-		// 			newCourseList = Object.assign(newCourseList, {[id]: prevState[id]});
-		// 	}
-
-		// 	return newCourseList;
+		// --------------------------------------------------------------------------------------
+		// CASE: User data is being purged
+		// PAYLOAD: none.
+		// --------------------------------------------------------------------------------------
+		case ERASE_USER_DATA:
+			return {};
 
 		// ------------------------------------------------------------------------------
 		// CASE: a course is being added to the app

@@ -10,7 +10,7 @@
 // }
 // --------------------------------------------------------------------------------------
 
-import {ERASE_APP_DATA, CREATE_SEMESTER, DELETE_SEMESTER, EDIT_SEMESTER, ADD_COURSE, DROP_COURSE} from '../actions';
+import {ERASE_USER_DATA, CREATE_SEMESTER, DELETE_SEMESTER, EDIT_SEMESTER, ADD_COURSE, DROP_COURSE} from '../actions';
 
 const initialState = 
 {
@@ -28,13 +28,11 @@ export default (prevState = initialState, action) =>
 	switch (action.type)
 	{
 		// --------------------------------------------------------------------------------------
-		// TODO: REDO
-		// CASE: app data is being erased
-		// PAYLOAD: an empty object
+		// CASE: User data is being purged
+		// PAYLOAD: none.
 		// --------------------------------------------------------------------------------------
-		// case ERASE_APP_DATA:
-		
-		// 	return action.payload;
+		case ERASE_USER_DATA:
+			return initialState;
 		
 		// ------------------------------------------------------------------------------
 		// CASE: a new semester is being created

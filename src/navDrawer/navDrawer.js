@@ -81,7 +81,7 @@ class NavDrawer extends Component
 						}}
 					/>
 					<Divider color = {colors.dividerColor}/>
-					<DrawerItem
+					{/* <DrawerItem
 						title = "Settings"
 						active = {false}
 						action = {() =>
@@ -89,7 +89,7 @@ class NavDrawer extends Component
 							// this.props.selectPage(SETTINGS_SCREEN);
 							// this.props.navigation.navigate("Settings");
 						}}
-					/>
+					/> */}
 					<DrawerItem
 						title = "About"
 						active = {false}

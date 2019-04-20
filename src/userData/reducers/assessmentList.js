@@ -10,31 +10,18 @@
 // }
 // --------------------------------------------------------------------------------------
 
-import {CLEAN_ASSESS_LIST, CREATE_ASSESSMENT, DELETE_ASSESSMENT, EDIT_ASSESSMENT} from '../actions';
+import {ERASE_USER_DATA, CREATE_ASSESSMENT, DELETE_ASSESSMENT, EDIT_ASSESSMENT} from '../actions';
 
 export default (prevState = {}, action) =>
 {
 	switch (action.type)
 	{
-		// ------------------------------------------------------------------------------
-		// TODO: REDO
-		// CASE: the assessment list is being purged of all assessments whose parent
-		//      course no longer exists
-		// PAYLOAD: a list of all the assessment IDs for assessments that no longer
-		//			belong to a course
-		// ------------------------------------------------------------------------------
-		// case CLEAN_ASSESS_LIST:
-
-		// 	var newAssessList = {};
-		// 	for (id in prevState)
-		// 	{
-		// 		if (!(id in action.payload))
-		// 		{
-		// 			newAssessList = Object.assign(newAssessList, {[id]: prevState[id]});
-		// 		}
-		// 	}
-
-		// 	return newAssessList;
+		// --------------------------------------------------------------------------------------
+		// CASE: User data is being purged
+		// PAYLOAD: none.
+		// --------------------------------------------------------------------------------------
+		case ERASE_USER_DATA:
+			return {};
 
 		// ------------------------------------------------------------------------------
 		// CASE: a new assessment is being created
