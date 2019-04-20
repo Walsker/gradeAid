@@ -58,7 +58,7 @@ class InputGradeForm extends Component
 			case "No Weight Provided":
 
 				Alert.alert(
-					"No Weight Entered",
+					"Invalid Weight",
 					"Please enter a valid weight.",
 					[{text: 'OK', onPress: () => this.weightInput.focus()}],
 					{cancelable: true}
@@ -312,7 +312,7 @@ class InputGradeForm extends Component
 										}
 
 										// Checking if a valid weight was inputted
-										if (this.state.weight === "")
+										if (this.state.weight == "")
 										{
 											this.showAlert("No Weight Provided");
 											return;

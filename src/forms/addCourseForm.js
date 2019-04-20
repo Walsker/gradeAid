@@ -89,6 +89,16 @@ class AddCourseForm extends Component
 					{cancelable: true}
 				);
 				return;
+
+			case "Weight of Zero":
+
+				Alert.alert(
+					"Weight of Zero",
+					"All weights must be greater than zero.",
+					[{text: 'OK', onPress: () => {}}],
+					{cancelable: true}
+				);
+				return;
 		}
 	}
 
@@ -331,6 +341,7 @@ class AddCourseForm extends Component
 									}
 
 									let properCategories = true;
+									let properWeights = true;
 									for (id in this.state.markBreakdown)
 									{
 										if (this.state.markBreakdown[id].name == "")
@@ -338,10 +349,17 @@ class AddCourseForm extends Component
 											properCategories = false;
 											break;
 										}
+										if (this.state.markBreakdown[id].weight == 0)
+										{
+											properWeights = false;
+											break;
+										}
 									}
 
 									if (!properCategories)
 										this.showAlert("Breakdown Incomplete");
+									else if (!properWeights)
+										this.showAlert("Weight of Zero");
 									else if (breakdownSum != 100)
 										this.showAlert("Breakdown Sum Invalid");
 									else

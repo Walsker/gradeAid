@@ -66,7 +66,7 @@ class AssessmentList extends Component
 			case "No Weight Provided":
 
 				Alert.alert(
-					"No Weight Entered",
+					"Invalid Weight",
 					"Please enter a valid weight.",
 					[{text: 'OK', onPress: () => this.weightInput.focus()}],
 					{cancelable: true}
@@ -124,9 +124,14 @@ class AssessmentList extends Component
 			this.showAlert("No Grade Provided");
 			return;
 		}
+		else if (this.state.newGrade < 0)
+		{
+			this.showAlert("Negative Values");
+			return;
+		}
 
 		// Checking if a valid weight was inputted
-		if (this.state.newWeight === "")
+		if (this.state.newWeight == "")
 		{
 			this.showAlert("No Weight Provided");
 			return;
