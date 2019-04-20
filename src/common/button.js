@@ -26,22 +26,22 @@ export default class Button extends Component
 			INACTIVE_VALUE: 0,
 			ACTIVE_VALUE: 1,
 			duration: 75,
-			buttonStyle: this.props.inverted ? 
-			{
-				backgroundColor: colors.spaceColor,
-				borderColor: this.props.color,
-				borderRadius: 30,
-				borderWidth: 1.5,
-				paddingVertical: 5,
-				paddingHorizontal: 35
-			}
-			:
-			{
-				backgroundColor: this.props.color,
-				borderRadius: 30,
-				paddingVertical: 5,
-				paddingHorizontal: 35
-			}
+			// buttonStyle: this.props.inverted ? 
+			// {
+			// 	backgroundColor: colors.spaceColor,
+			// 	borderColor: props.color,
+			// 	borderRadius: 30,
+			// 	borderWidth: 1.5,
+			// 	paddingVertical: 5,
+			// 	paddingHorizontal: 35
+			// }
+			// :
+			// {
+			// 	backgroundColor: props.color,
+			// 	borderRadius: 30,
+			// 	paddingVertical: 5,
+			// 	paddingHorizontal: 35
+			// }
 		};
 	}
 
@@ -67,21 +67,38 @@ export default class Button extends Component
 
 	renderAndroid()
 	{
-		var rippleColor = this.props.inverted ?
+		let buttonStyle = this.props.inverted ? 
+		{
+			backgroundColor: colors.spaceColor,
+			borderColor: this.props.color,
+			borderRadius: 30,
+			borderWidth: 1.5,
+			paddingVertical: 5,
+			paddingHorizontal: 35
+		}
+		:
+		{
+			backgroundColor: this.props.color,
+			borderRadius: 30,
+			paddingVertical: 5,
+			paddingHorizontal: 35
+		}
+		
+		let rippleColor = this.props.inverted ?
 			TouchableNativeFeedback.Ripple(this.props.color, false) : TouchableNativeFeedback.Ripple(colors.spaceColor, false);
 
 		return (
 			<View style = {styles.container}>
-					<TouchableNativeFeedback
-						background = {rippleColor}
-						onPress = {this.props.action}
-					>
-						<View style = {this.state.buttonStyle}>
-							<Text style = {textStyle.bold(20, 'center', this.props.inverted ? this.props.color : colors.spaceColor)}>
-								{this.props.label}
-							</Text>
-						</View>
-					</TouchableNativeFeedback>
+				<TouchableNativeFeedback
+					background = {rippleColor}
+					onPress = {this.props.action}
+				>
+					<View style = {buttonStyle}>
+						<Text style = {textStyle.bold(20, 'center', this.props.inverted ? this.props.color : colors.spaceColor)}>
+							{this.props.label}
+						</Text>
+					</View>
+				</TouchableNativeFeedback>
 			</View>
 		);
 	}

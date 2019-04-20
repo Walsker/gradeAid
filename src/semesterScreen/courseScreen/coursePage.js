@@ -267,8 +267,7 @@ const mapStateToProps = (state) =>
 	// Getting the assessment objects that belong to this course
 	let assessments = courseObject.assessments.map(id => assessmentList[id]);
 
-	// Findind out which course names have been used
-	console.log("HI:", semesterList[selectedSemester])
+	// Finding out which course names have been used
 	let usedCourseNames = semesterList[selectedSemester].courses.map(id => courseList[id].name);
 
 	// Returning the complete course

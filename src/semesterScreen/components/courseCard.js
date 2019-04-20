@@ -1,6 +1,6 @@
 // React Native imports
 import React, {Component} from 'react';
-import {Animated, Platform, Text, TouchableNativeFeedback, TouchableWithoutFeedback, View} from 'react-native';
+import {Animated, Platform, Text, TouchableNativeFeedback, TouchableWithoutFeedback, Vibration, View} from 'react-native';
 
 // Custom imports
 import {colors, containerStyle, textStyle} from 'gradeAid/src/common/appStyles';
@@ -66,8 +66,7 @@ class CourseCard extends Component
 			<View>
 				<TouchableNativeFeedback
 					background = {TouchableNativeFeedback.Ripple(colors.lightPrimaryColor, false)}
-					onPress = {this.props.action}
-					onLongPress = {this.props.longAction}
+					onPress = {() => {Vibration.vibrate(50); this.props.action()}}
 				>
 					<View style = {containerStyle.roundedBox}>
 						<ProgressCircle
@@ -77,7 +76,7 @@ class CourseCard extends Component
 							emptyRingColor = {colors.darkPrimaryColor}
 							backgroundColor = {colors.spaceColor}
 							percentage = {this.props.course.average}
-							active = {this.props.course.average != -1}
+							active = {this.props.course.completion > 0}
 							animationDelay = {500 + (parseInt(this.props.animationID) * 750)}
 						/>
 						<View style = {{flex: 1, paddingTop: 20}}>

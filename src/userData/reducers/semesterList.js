@@ -57,7 +57,6 @@ export default (prevState = initialState, action) =>
 			let {id, newProps} = action.payload;
 
 			// Making the changes to the semester object
-			console.log("NEW CHANGES:", prevState[id], newProps);
 			let modifiedSemester = Object.assign({}, prevState[id], newProps);
 			return {
 				...prevState,
@@ -114,7 +113,6 @@ export default (prevState = initialState, action) =>
 			// Adding the course
 			targetSemester.courses = targetSemester.courses.filter(course => course != courseID);
 
-			console.log("NEW:", targetSemester, courseID);
 			return {
 				...prevState,
 				[semesterID]: targetSemester

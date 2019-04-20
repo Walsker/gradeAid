@@ -28,7 +28,6 @@ class NavDrawer extends Component
 					key = {semesterObject.name}
 					title = {semesterObject.name}
 					active = {false}
-					// active = {(semesterID == this.props.selectedSemester) && (this.props.selectedPage == SEMESTER_SCREEN)}
 					action = {() =>
 					{
 						this.props.selectPage(SEMESTER_SCREEN);
@@ -82,18 +81,18 @@ class NavDrawer extends Component
 						}}
 					/>
 					<Divider color = {colors.dividerColor}/>
-					{/* <DrawerItem
+					<DrawerItem
 						title = "Settings"
-						active = {this.props.selectedPage == SETTINGS_SCREEN}
+						active = {false}
 						action = {() =>
 						{
-							this.props.selectPage(SETTINGS_SCREEN);
-							this.props.navigation.navigate("Settings");
+							// this.props.selectPage(SETTINGS_SCREEN);
+							// this.props.navigation.navigate("Settings");
 						}}
-					/> */}
+					/>
 					<DrawerItem
 						title = "About"
-						active = {this.props.selectedPage == ABOUT_SCREEN}
+						active = {false}
 						action = {() =>
 						{
 							this.props.selectPage(ABOUT_SCREEN);

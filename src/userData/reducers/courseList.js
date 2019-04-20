@@ -109,7 +109,7 @@ export default (prevState = {}, action) =>
 			let targetCourse = {...prevState[courseID]};
 			
 			// Removing the assessment
-			targetCourse.courses = targetCourse.assessments.filter(assess => assess != assessmentID);
+			targetCourse.assessments = targetCourse.assessments.filter(assess => assess != assessmentID);
 
 			return {
 				...prevState,

@@ -67,7 +67,7 @@ class SemesterPage extends Component
 
 	createCourse()
 	{
-		this.setState({editable: false});
+		// this.setState({editable: false}); // TODO: Make this work without causing the form to backtrack
 		this.props.navigation.navigate("AddCourseForm");
 	}
 
