@@ -1,6 +1,6 @@
 // React Native imports
 import React, {Component} from 'react';
-import {Alert, KeyboardAvoidingView, ScrollView, Text, View} from 'react-native';
+import {Alert, Keyboard, KeyboardAvoidingView, ScrollView, Text, View} from 'react-native';
 
 // Redux imports
 import {connect} from 'react-redux';
@@ -9,6 +9,163 @@ import {addCourse, createCourse} from 'gradeAid/src/userData/actions';
 // Custom imports
 import {colors, containerStyle, textStyle} from 'gradeAid/src/common/appStyles';
 import {ActionBar, Button, Divider, IconButton, TextField} from 'gradeAid/src/common';
+
+// TODO: test breakdown list
+class BreakdownList extends Component
+{
+	constructor(props)
+	{
+		super(props);
+		this.weightInputs = {};
+	}
+
+	// A function that creates a slot for the mark breakdown
+	createCategory()
+	{
+		// Finding an ID that's a larger number than all the others
+		let IDs = Object.keys(this.state.markBreakdown);
+		let nextID = IDs.reduce((a, b) => b > a ? b : a, 0);
+		if (IDs.length != 0) nextID++;
+
+		// Creating a slot in state for this input
+		this.setState(prevState =>
+		{
+			return {
+				markBreakdown: {
+					...prevState.markBreakdown,
+					[nextID]: {
+						name: "",
+						weight: 0
+					}
+				}
+			};
+		});
+	};
+
+	// A function that deletes a slot in the mark breakdown
+	deleteCategory(id)
+	{
+		this.setState(prevState =>
+		{
+			let newBreakdown = {};
+			Object.keys(prevState.markBreakdown).forEach(slot =>
+			{
+				if (slot != id)
+					newBreakdown[slot] = prevState.markBreakdown[slot];
+			});
+			return {markBreakdown: newBreakdown};
+		});
+	};
+
+	// A function that creates a component to edit a section of the mark breakdown
+	createInputComponent(id)
+	{
+		let categoryExamples = ["Assignments", "Midterm", "Final Exam"];
+		let weightExamples = [30, 20, 50];
+		
+		// A function that converts text input into a percentage
+		const toNumber = (string, fallback) =>
+		{
+			let attempt = parseFloat(string);
+			if (Number(attempt) === attempt)
+				return (attempt <= 0 ? 0 : attempt);
+			else
+				return fallback;
+		};
+
+		return (
+			<View
+				key = {id}
+				style = {{
+					flex: 1,
+					flexDirection: 'row',
+					marginLeft: -10
+				}}
+			>
+				<View style = {{flex: 1}}>
+					<IconButton
+						type = 'remove-circle-outline'
+						size = {30}
+						color = {colors.primaryColor}
+						action = {() => this.props.deleteCategory(id)}
+					/>
+				</View>
+				<View style = {{flex: 4}}>
+					<TextField
+						defaultValue = {this.props.markBreakdown[id] ? this.props.markBreakdown[id].name : ""}
+						fontSize = {24}
+						label = "Category"
+						maxLength = {20}
+						onChangeText = {(newText) => 
+						{
+							let breakdown = this.props.markBreakdown;
+							breakdown[id].name = newText;
+							this.props.changeBreakdown(breakdown);
+						}}
+						onSubmitEditing = {() => this.weightInputs[id].focus()}
+						placeholder = {categoryExamples[id] ? "i.e. " + categoryExamples[id] : ""}
+						returnKeyType = 'next'
+						textAlign = 'center'
+						textColor = {colors.primaryTextColor}
+					/>
+				</View>
+				<View style = {{flex: 2}}>
+					<TextField
+						setRef = {input => this.weightInputs[id] = input}
+						defaultValue = {this.props.markBreakdown[id].weight == 0 ? "" : this.props.markBreakdown[id].weight.toString()}
+						fontSize = {24}
+						keyboardType = 'numeric'
+						label = "Weight (%)"
+						onChangeText = {(newInput) =>
+						{
+							input = (newInput == "" ? "0" : newInput);
+							let breakdown = this.props.markBreakdown;
+							let percentage = toNumber(input, this.props.markBreakdown[id].weight);
+							breakdown[id].weight = percentage;
+							this.props.changeBreakdown(breakdown);
+						}}
+						onSubmitEditing = {Keyboard.dismiss}
+						placeholder = {weightExamples[id] ? weightExamples[id].toString() : ""}
+						returnKeyType = 'done'
+						textAlign = 'center'
+						textColor = {colors.primaryTextColor} 
+					/>
+				</View>
+			</View>
+		);
+	};
+
+	render()
+	{
+		let breakdownSum = Object.keys(this.props.markBreakdown).reduce((sum, id) => sum + this.props.markBreakdown[id].weight, 0);
+
+		return (
+			<View>
+				<View style = {containerStyle.formSection}>
+					{Object.keys(this.props.markBreakdown).map(id => this.createInputComponent(id))}
+				</View>
+				<View style = {containerStyle.formSection}>
+					{
+						Object.keys(this.props.markBreakdown).length != 0 ? 
+							<View style = {containerStyle.formSection}>
+								<Text style = {textStyle.regular(14, 'center', colors.secondaryTextColor)}>
+									Sum: {breakdownSum}%
+								</Text>
+							</View>
+						: 
+							<View/>
+					}
+					<Button
+						label = "Add Category"
+						color = {colors.primaryColor}
+						inverted = {true}
+						action = {() => {this.props.createCategory()}}
+					/>
+				</View>
+			</View>
+		);	
+	}	
+}
 
 class AddCourseForm extends Component
 {
@@ -300,27 +457,12 @@ class AddCourseForm extends Component
 							<Text style = {textStyle.regular(22, 'center')}>(Optional){'\n'}Specify the mark breakdown below.</Text>
 						</View>
 						<Divider color = {colors.dividerColor}/>
-						<View style = {containerStyle.formSection}>
-							{Object.keys(this.state.markBreakdown).map(id => createInputComponent(id))}
-						</View>
-						<View style = {containerStyle.formSection}>
-							{
-								Object.keys(this.state.markBreakdown).length != 0 ? 
-									<View style = {containerStyle.formSection}>
-										<Text style = {textStyle.regular(14, 'center', colors.secondaryTextColor)}>
-											Sum: {breakdownSum}%
-										</Text>
-									</View>
-								: 
-									<View/>
-							}
-							<Button
-								label = "Add Category"
-								color = {colors.primaryColor}
-								inverted = {true}
-								action = {createCategory}
-							/>
-						</View>
+						<BreakdownList
+							markBreakdown = {this.state.markBreakdown}
+							changeBreakdown = {(breakdown) => this.setState({markBreakdown: breakdown})}
+							createCategory = {createCategory.bind(this)}
+							deleteCategory = {deleteCategory.bind(this)}
+						/>
 						<View style = {containerStyle.rowBox}>
 							<Button
 								label = "Back"
