@@ -151,7 +151,10 @@ class SemesterPage extends Component
 			this.props.semester.average == -1 ? <View/> : 
 			<Tile title = "Semester Average">
 				<View style = {{marginVertical: -25}}>
-					<Text style = {textStyle.bold(150, 'center')}>{averageString}%</Text>
+					<Text style = {textStyle.bold(150, 'center')}>
+						{averageString}
+						<Text style = {textStyle.bold(75, 'center')}>%</Text>
+					</Text>
 				</View>
 			</Tile>
 		);

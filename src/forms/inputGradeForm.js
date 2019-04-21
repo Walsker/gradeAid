@@ -255,10 +255,7 @@ class InputGradeForm extends Component
 									fontSize = {18}
 									labels = {["Use a fraction"]}
 									values = {[this.state.useFraction]}
-									onItemToggle = {(id) =>
-									{
-										this.setState({useFraction: !this.state.useFraction});
-									}}
+									onItemToggle = {(id) => this.setState({useFraction: !this.state.useFraction})}
 								/>
 							</View>
 							<View style = {containerStyle.formSection}>
